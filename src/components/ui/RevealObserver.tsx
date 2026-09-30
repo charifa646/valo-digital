@@ -2,27 +2,38 @@
 
 import { useEffect } from "react";
 
-/** One observer for the whole page: every [data-reveal] element eases in once. */
+/**
+ * One observer for the whole page: every [data-reveal] element eases in once,
+ * and the little animated visuals (.play-when-in) only run while on screen.
+ */
 export function RevealObserver() {
   useEffect(() => {
-    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const reveal = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const play = Array.from(document.querySelectorAll<HTMLElement>(".play-when-in"));
     if (!("IntersectionObserver" in window)) {
-      els.forEach((el) => el.classList.add("is-in"));
+      [...reveal, ...play].forEach((el) => el.classList.add("is-in"));
       return;
     }
-    const io = new IntersectionObserver(
+    const once = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) {
             e.target.classList.add("is-in");
-            io.unobserve(e.target);
+            once.unobserve(e.target);
           }
         }
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.1 },
     );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    const live = new IntersectionObserver((entries) => {
+      for (const e of entries) e.target.classList.toggle("is-in", e.isIntersecting);
+    });
+    reveal.forEach((el) => once.observe(el));
+    play.forEach((el) => live.observe(el));
+    return () => {
+      once.disconnect();
+      live.disconnect();
+    };
   }, []);
   return null;
 }

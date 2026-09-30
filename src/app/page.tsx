@@ -1,29 +1,34 @@
-import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
-import { Problem } from "@/components/Problem";
-import { Pillars } from "@/components/Pillars";
-import { Formations } from "@/components/Formations";
-import { Services } from "@/components/Services";
-import { Conseil } from "@/components/Conseil";
-import { Methode } from "@/components/Methode";
-import { Closing } from "@/components/Closing";
-import { Footer } from "@/components/Footer";
+import { ScrollProvider } from "@/components/site/Scroll";
+import { SheetProvider } from "@/components/site/Sheet";
+import { Header } from "@/components/site/Header";
+import { Hero } from "@/components/site/Hero";
+import { Needs } from "@/components/site/Needs";
+import { Prestations } from "@/components/site/Prestations";
+import { Formations } from "@/components/site/Formations";
+import { Solutions } from "@/components/site/Solutions";
+import { Methode } from "@/components/site/Methode";
+import { Pourquoi } from "@/components/site/Pourquoi";
+import { Fondateur } from "@/components/site/Fondateur";
+import { Final } from "@/components/site/Final";
 
-export default function Home() {
+/** One page, in the order of the brief: hero, needs, offers, trainings, solutions, method, why, founder, contact, footer. */
+export default function Page() {
   return (
-    <>
-      <Header />
-      <main className="pt-[var(--header)]">
-        <Hero />
-        <Problem />
-        <Pillars />
-        <Formations />
-        <Services />
-        <Conseil />
-        <Methode />
-        <Closing />
-      </main>
-      <Footer />
-    </>
+    <ScrollProvider>
+      <SheetProvider>
+        <Header />
+        <main id="contenu">
+          <Hero />
+          <Needs />
+          <Prestations />
+          <Formations />
+          <Solutions />
+          <Methode />
+          <Pourquoi />
+          <Fondateur />
+        </main>
+        <Final />
+      </SheetProvider>
+    </ScrollProvider>
   );
 }

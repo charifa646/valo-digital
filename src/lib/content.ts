@@ -1,17 +1,21 @@
 /**
- * The site's words. The facts (offers, contents, prices, contact) are the
- * catalogue's; the phrasing is the agency speaking to its clients. No figures,
- * testimonials or promises that the catalogue does not make.
+ * The site's words, exactly as in « VALO COPYWRITING + STRUCTURE » (the
+ * Copywriting part for the text, the Structure part for the order). The
+ * details behind « Découvrir les offres », « En savoir plus » and « Voir toutes
+ * les formations » come from the client's catalogue, accents restored.
+ * Nothing here is invented: no figures, testimonials or promises.
  */
 
-/** French typography: thin spaces before ? ! ; and inside « », no break inside prices. */
+/** French typography: narrow spaces before ? ! ; and inside « », no break inside prices. */
 const fr = (s: string) =>
   s
     .replace(/ ([?!;»])/g, " $1")
     .replace(/« /g, "« ")
     .replace(/ :/g, " :")
     .replace(/(\d) (\d{3})/g, "$1 $2")
-    .replace(/ F CFA/g, " F CFA");
+    .replace(/ F CFA/g, " F CFA")
+    .replace(/ \/ /g, " / ")
+    .replace(/(\d) ([a-zà-ÿ])/g, "$1 $2");
 
 function typeset<T>(v: T): T {
   if (typeof v === "string") return fr(v) as T;
@@ -22,7 +26,6 @@ function typeset<T>(v: T): T {
 
 export const contact = typeset({
   name: "Gueswendyam Valentin WAONGO",
-  role: "Consultant formateur aux métiers du digital, fondateur de VALO DIGITAL",
   phone: "+226 54 27 77 52",
   phoneHref: "tel:+22654277752",
   whatsapp: "22654277752",
@@ -31,174 +34,262 @@ export const contact = typeset({
   mapHref: "https://www.google.com/maps/search/?api=1&query=Wemtenga%2C%20Ouagadougou",
 });
 
+/** The menu: the names of the sections, then « Parlons de votre projet ». */
+export const nav = typeset([
+  { id: "besoin", label: "Une solution selon votre besoin", short: false },
+  { id: "prestations", label: "Prestations", short: true },
+  { id: "formations", label: "Formations", short: true },
+  { id: "solutions", label: "Solutions spécialisées", short: true },
+  { id: "methode", label: "Méthode VALO", short: true },
+  { id: "pourquoi", label: "Pourquoi VALO", short: true },
+  { id: "fondateur", label: "Fondateur", short: false },
+]);
+
 export const hero = typeset({
-  title: ["Votre croissance,", "maintenant."],
-  lead: "Nous aidons les entrepreneurs, les TPE et les PME de Ouagadougou à faire du digital une vraie source de clients. Vous voulez apprendre ? On vous forme. Vous manquez de temps ? On s’en occupe.",
-  primary: "Parler de mon projet",
-  secondary: "Voir les formations",
-  foot: "Agence de croissance digitale et centre de formation aux métiers du numérique",
+  title: ["Faites du digital un véritable", "levier de croissance."],
+  lead: "VALO DIGITAL accompagne les entrepreneurs et entreprises dans leur marketing, leur acquisition et leur développement.",
+  cta: "Parlons de votre projet",
+  tags: ["Marketing", "Publicité", "Vente", "Formation"],
 });
 
-export const problem = typeset({
-  title: ["Publier", "ne suffit pas."],
-  text: [
-    "Beaucoup d’entreprises postent tous les jours sans comprendre pourquoi les ventes ne suivent pas.",
-    "Le plus souvent, il manque une offre claire, un plan de contenu ou une publicité bien réglée. C’est ce que nous corrigeons avec vous.",
-  ],
-  audience: "Nous travaillons avec des entrepreneurs, des TPE, des PME, des équipes et des institutions.",
+export type Door = { id: string; name: string; text: string; target: string };
+
+export const needs = typeset({
+  label: "UNE SOLUTION SELON VOTRE BESOIN",
+  title: "De quoi avez-vous besoin aujourd’hui ?",
+  doors: [
+    { id: "apprendre", name: "APPRENDRE", text: "Développez vos compétences avec des formations pratiques.", target: "formations" },
+    { id: "comprendre", name: "COMPRENDRE", text: "Identifiez ce qui bloque et repartez avec un plan d’action.", target: "diagnostic" },
+    { id: "deleguer", name: "DÉLÉGUER", text: "Confiez votre marketing et votre présence digitale à une équipe.", target: "prestations" },
+    { id: "accelerer", name: "ACCÉLÉRER", text: "Structurez votre activité et faites avancer votre croissance.", target: "accompagnement" },
+  ] as Door[],
+  cta: "Découvrir nos solutions",
 });
 
-export const start = typeset({
-  title: "Par où commencer ?",
-  items: [
+export type SheetId = "reseaux" | "publicite" | "video" | "diagnostic" | "accompagnement" | "formations";
+
+export type Offer = {
+  id: string;
+  name: string;
+  text: string;
+  price: string;
+  note?: string;
+  link: string;
+  sheet?: SheetId;
+};
+
+export const prestations = typeset({
+  label: "PRESTATIONS",
+  title: "Vous préférez déléguer ?",
+  lead: "Des solutions digitales pensées pour développer votre visibilité, votre acquisition et vos ventes.",
+  offers: [
     {
-      need: "Vous voulez apprendre",
-      text: "Des formations pratiques pour monter en compétence et appliquer les méthodes tout de suite.",
-      href: "#formations",
-      link: "Les formations",
+      id: "reseaux",
+      name: "Gestion des réseaux sociaux",
+      text: "Une présence professionnelle, régulière et pensée pour votre activité.",
+      price: "À partir de 80 000 F CFA / mois",
+      link: "Découvrir les offres",
+      sheet: "reseaux",
     },
     {
-      need: "Vous ne savez pas ce qui bloque",
-      text: "Un diagnostic de votre présence digitale, et un plan d’action pour repartir sur de bonnes bases.",
-      href: "#diagnostic",
-      link: "Le diagnostic",
+      id: "publicite",
+      name: "Publicité Facebook & Instagram",
+      text: "Des campagnes conçues pour générer visibilité, prospects ou ventes.",
+      price: "À partir de 100 000 F CFA",
+      note: "Hors budget publicitaire",
+      link: "En savoir plus",
+      sheet: "publicite",
     },
     {
-      need: "Vous n’avez pas le temps",
-      text: "Nous prenons en main vos réseaux sociaux, vos vidéos et vos campagnes publicitaires.",
-      href: "#services",
-      link: "Nos services",
+      id: "video",
+      name: "Content vidéo",
+      text: "Transformez vos idées, votre expertise et vos offres en contenus vidéo adaptés aux réseaux sociaux.",
+      price: "À partir de 80 000 F CFA / 4 vidéos",
+      link: "Découvrir",
+      sheet: "video",
     },
     {
-      need: "Vous voulez structurer votre croissance",
-      text: "Un accompagnement de dirigeant pour travailler votre offre, vos canaux, vos ventes et vos indicateurs.",
-      href: "#accompagnement",
-      link: "L’accompagnement",
+      id: "direction",
+      name: "Direction marketing externalisée",
+      text: "Un pilotage marketing pour structurer, coordonner et accélérer votre croissance.",
+      price: "À partir de 750 000 F CFA",
+      link: "Parlons de votre projet",
     },
-  ],
+  ] as Offer[],
 });
 
-export const pillars = ["Publicité", "Marketing", "Vente", "Formations"];
-
-export type Formation = { id: string; title: string; format: string; price: string; text: string };
-export type Group = { id: string; name: string; text: string; items: Formation[] };
+export type Formation = { id: string; name: string; tag?: string; price: string; format: string; modules: string };
 
 export const formations = typeset({
-  title: ["Apprenez à le faire", "vous-même."],
-  lead: "Nos formations sont pratiques : vous apprenez une méthode et vous l’appliquez tout de suite.",
-  cta: "M’inscrire",
-  groups: [
+  label: "FORMATIONS",
+  title: ["Apprenez.", "Appliquez.", "Progressez."],
+  lead: "Des formations pratiques pour développer les compétences qui font avancer votre activité.",
+  items: [
     {
-      id: "publicite-vente",
-      name: "Publicité et vente en ligne",
-      text: "Pour attirer des clients et conclure la vente, sur les réseaux sociaux comme sur WhatsApp.",
-      items: [
-        {
-          id: "ads",
-          title: "Facebook et Instagram Ads avancé",
-          format: "Formation pratique",
-          price: "75 000 F CFA",
-          text: "Page Facebook, Meta Business Suite, Business Manager : vous apprenez à cibler, à lancer vos campagnes et à tenir votre budget, puis à analyser et optimiser les résultats.",
-        },
-        {
-          id: "vente",
-          title: "Vente en ligne",
-          format: "Formation pratique",
-          price: "65 000 F CFA",
-          text: "Vendre sur Facebook, TikTok et WhatsApp Business : trouver des clients, créer vos contenus, écrire vos messages de vente et monter votre tunnel WhatsApp.",
-        },
-      ],
+      id: "ads",
+      name: "Facebook & Instagram Ads",
+      price: "75 000 F CFA",
+      format: "Formation pratique",
+      modules: "Page Facebook, Meta Business Suite, Business Manager, ciblage, campagnes, budget, analyse et optimisation.",
     },
     {
-      id: "contenu-reseaux",
-      name: "Contenu et réseaux sociaux",
-      text: "Pour publier avec un plan et faire vivre vos pages au quotidien.",
-      items: [
-        {
-          id: "contenu",
-          title: "Création de contenu",
-          format: "Formation pratique",
-          price: "50 000 F CFA",
-          text: "Stratégie de contenu, idées, copywriting, visuels, vidéos et calendrier éditorial, pour produire du contenu qui vend.",
-        },
-        {
-          id: "cm",
-          title: "Community management",
-          format: "Formation pratique",
-          price: "Tarif selon format",
-          text: "Définir votre stratégie, créer, publier, animer et faire réagir votre communauté, avec Meta Business Suite et un reporting.",
-        },
-      ],
+      id: "vente",
+      name: "Vente en ligne",
+      price: "65 000 F CFA",
+      format: "Formation pratique",
+      modules: "Facebook, TikTok, WhatsApp Business, acquisition clients, contenus, messages de vente, tunnel WhatsApp.",
     },
     {
-      id: "strategie-outils",
-      name: "Stratégie et outils",
-      text: "Pour poser votre stratégie et gagner du temps avec l’intelligence artificielle.",
-      items: [
-        {
-          id: "marketing",
-          title: "Marketing digital",
-          format: "Formation ou accompagnement",
-          price: "65 000 F CFA",
-          text: "Positionnement, acquisition, contenu, réseaux sociaux et conversion : vous construisez votre stratégie digitale et vous repartez avec un plan d’action.",
-        },
-        {
-          id: "ia",
-          title: "Intelligence artificielle pour le business",
-          format: "Formation pratique",
-          price: "65 000 F CFA",
-          text: "Utiliser ChatGPT pour créer du contenu, faire vos recherches et écrire des prompts business, puis automatiser les tâches qui vous prennent du temps.",
-        },
-      ],
+      id: "marketing",
+      name: "Marketing digital",
+      price: "65 000 F CFA",
+      format: "Formation ou accompagnement",
+      modules: "Stratégie digitale, positionnement, acquisition, contenu, réseaux sociaux, conversion, plan d’action.",
     },
     {
-      id: "parcours",
-      name: "Parcours complets",
-      text: "Pour aller plus loin, en cohorte sur deux mois ou en individuel.",
-      items: [
-        {
-          id: "cohorte",
-          title: "Cohorte métiers du digital",
-          format: "2 mois",
-          price: "150 000 F CFA",
-          text: "Deux mois pour apprendre les métiers du digital : community management, création de contenu, Facebook Ads, Canva, IA et vente en ligne, avec de la mise en pratique.",
-        },
-        {
-          id: "prive",
-          title: "Accompagnement privé",
-          format: "Individuel",
-          price: "50 000 à 100 000 F CFA",
-          text: "Un accompagnement individuel, centré sur votre projet : diagnostic, stratégie, offre, acquisition, Facebook Ads, contenu, IA et plan d’action personnalisé.",
-        },
-      ],
+      id: "ia",
+      name: "Intelligence artificielle pour le business",
+      price: "65 000 F CFA",
+      format: "Formation pratique",
+      modules: "ChatGPT, création de contenus, recherche, productivité, prompts business, automatisation des tâches.",
     },
-  ] as Group[],
+    {
+      id: "contenu",
+      name: "Création de contenu",
+      price: "50 000 F CFA",
+      format: "Formation pratique",
+      modules: "Stratégie de contenu, idées, copywriting, visuels, vidéos, calendrier éditorial, contenu qui vend.",
+    },
+    {
+      id: "cm",
+      name: "Community management",
+      price: "Tarif selon format",
+      format: "Formation pratique",
+      modules: "Stratégie réseaux sociaux, création, publication, animation, engagement, Meta Business Suite, reporting.",
+    },
+    {
+      id: "cohorte",
+      name: "Cohorte métiers du digital",
+      tag: "2 mois",
+      price: "150 000 F CFA",
+      format: "2 mois",
+      modules: "Community management, création de contenu, Facebook Ads, Canva, IA, vente en ligne, mise en pratique.",
+    },
+    {
+      id: "prive",
+      name: "Accompagnement privé",
+      price: "50 000 à 100 000 F CFA",
+      format: "Individuel",
+      modules: "Diagnostic, stratégie, offre, acquisition, Facebook Ads, contenu, IA, plan d’action personnalisé.",
+    },
+  ] as Formation[],
+  cta: "Voir toutes les formations",
+  /** The catalogue's column names. */
+  columns: { format: "Format", modules: "Modules principaux", price: "Tarif" },
 });
 
-export type Plan = { id: string; name: string; for: string; pitch: string; points: string[]; price: string; per: string };
+export type Solution = { id: string; name: string; text: string; sheet: SheetId };
 
-export const services = typeset({
-  title: ["Pas le temps ?", "On s’en occupe."],
-  lead: "Nous prenons en main vos réseaux sociaux, vos vidéos et vos campagnes publicitaires, pendant que vous vous occupez de vos clients.",
-  social: {
-    name: "Gestion des réseaux sociaux",
-    text: "Trois formules, selon où en est votre entreprise.",
-    cta: "Demander cette formule",
-    plans: [
+export const solutions = typeset({
+  label: "SOLUTIONS SPÉCIALISÉES",
+  title: "Besoin d’un accompagnement plus ciblé ?",
+  items: [
+    {
+      id: "diagnostic",
+      name: "DIAGNOSTIC DIGITAL",
+      text: "Identifiez vos blocages et repartez avec des priorités claires et un plan d’action.",
+      sheet: "diagnostic",
+    },
+    {
+      id: "accompagnement",
+      name: "ACCOMPAGNEMENT BUSINESS & CROISSANCE",
+      text: "Structurez votre offre, votre acquisition, votre marketing et votre parcours de vente.",
+      sheet: "accompagnement",
+    },
+    {
+      id: "content-video",
+      name: "CONTENT VIDÉO",
+      text: "Des contenus pensés pour attirer l’attention et valoriser votre activité.",
+      sheet: "video",
+    },
+  ] as Solution[],
+  cta: "Discutons de votre besoin",
+});
+
+export const methode = typeset({
+  label: "MÉTHODE VALO",
+  title: ["Une méthode simple.", "Des actions concrètes."],
+  steps: [
+    { n: "01", name: "COMPRENDRE", text: "Partir de votre situation réelle." },
+    { n: "02", name: "STRUCTURER", text: "Identifier les priorités et construire une stratégie claire." },
+    { n: "03", name: "EXÉCUTER", text: "Mettre en œuvre les bonnes actions sur les bons canaux." },
+    { n: "04", name: "OPTIMISER", text: "Mesurer, améliorer et faire progresser les résultats." },
+  ],
+});
+
+export const pourquoi = typeset({
+  label: "POURQUOI VALO",
+  title: "Le digital ne se résume pas à être visible.",
+  lead: "Nous vous aidons à transformer votre présence digitale en véritable levier pour votre activité.",
+  pillars: [
+    { name: "STRATÉGIE", text: "Des priorités adaptées à vos objectifs." },
+    { name: "EXÉCUTION", text: "Des actions concrètes, pas seulement des recommandations." },
+    { name: "CROISSANCE", text: "Une approche pensée pour la visibilité, l’acquisition et le développement." },
+  ],
+});
+
+export const fondateur = typeset({
+  label: "FONDATEUR",
+  title: "Derrière VALO DIGITAL",
+  name: "Gueswendyam Valentin WAONGO",
+  roles: ["Consultant formateur aux métiers du digital", "Fondateur de VALO DIGITAL"],
+  text: "VALO DIGITAL accompagne entrepreneurs, TPE, PME, équipes et institutions dans la structuration de leur présence digitale, l’acquisition de prospects et le développement des ventes.",
+});
+
+export const final = typeset({
+  title: "Prêt à faire avancer votre activité ?",
+  text: "Parlez-nous de votre projet, de vos objectifs et de vos enjeux.",
+  cta: "Parlons de votre projet",
+});
+
+export const footer = typeset({
+  name: "VALO DIGITAL",
+  tagline: "Agence de croissance digitale",
+  tags: ["Marketing", "Publicité", "Vente", "Formation"],
+  copyright: "© VALO DIGITAL",
+});
+
+/* ---------------------------------------------------------------------------
+ * Details from the catalogue, opened in a panel so the page stays light.
+ * ------------------------------------------------------------------------- */
+
+export type Formule = { name: string; for: string; pitch: string; points: string[]; price: string };
+export type Detail = { title: string; for?: string; pitch?: string; points?: string[]; price?: string; formules?: Formule[] };
+
+export const detailLabels = typeset({ for: "Pour qui" });
+
+export const details: Record<Exclude<SheetId, "formations">, Detail> = typeset({
+  reseaux: {
+    title: "Gestion des réseaux sociaux",
+    formules: [
       {
-        id: "standard",
-        name: "Standard",
-        for: "Pour les entreprises qui veulent être régulières",
-        pitch: "Une présence professionnelle, tenue à un rythme régulier.",
-        points: ["Stratégie éditoriale de base", "Calendrier de contenu", "Publications régulières", "Création de visuels", "Animation et modération", "Suivi mensuel"],
-        price: "80 000 F CFA",
-        per: "par mois",
+        name: "Offre Standard",
+        for: "Entreprises souhaitant être régulières",
+        pitch: "Pour maintenir une présence professionnelle et régulière.",
+        points: [
+          "Stratégie éditoriale de base",
+          "Calendrier de contenu",
+          "Publications régulières",
+          "Création de visuels",
+          "Animation et modération",
+          "Suivi mensuel",
+        ],
+        price: "À partir de 80 000 F CFA / mois",
       },
       {
-        id: "business",
-        name: "Business",
-        for: "Pour les entreprises en développement",
-        pitch: "Vos réseaux deviennent un outil de communication et d’acquisition.",
+        name: "Offre Business",
+        for: "Entreprises en développement",
+        pitch: "Pour transformer les réseaux sociaux en outil de communication et d’acquisition.",
         points: [
           "Audit et stratégie digitale",
           "Calendrier éditorial",
@@ -207,14 +298,12 @@ export const services = typeset({
           "Programmation, animation et modération",
           "Reporting mensuel",
         ],
-        price: "150 000 F CFA",
-        per: "par mois",
+        price: "À partir de 150 000 F CFA / mois",
       },
       {
-        id: "premium",
-        name: "Premium Growth",
-        for: "Pour les entreprises ambitieuses",
-        pitch: "Une gestion complète, vidéo et publicité comprises, pour soutenir la croissance.",
+        name: "Offre Premium Growth",
+        for: "Entreprises ambitieuses",
+        pitch: "Pour soutenir la croissance avec une gestion complète et optimisée.",
         points: [
           "Stratégie digitale",
           "Gestion complète des réseaux sociaux",
@@ -223,90 +312,57 @@ export const services = typeset({
           "Publicité Facebook et Instagram",
           "Reporting stratégique et optimisation continue",
         ],
-        price: "300 000 F CFA",
-        per: "par mois",
+        price: "À partir de 300 000 F CFA / mois",
       },
-    ] as Plan[],
+    ],
   },
-  ads: {
-    id: "pub",
-    name: "Publicité Facebook et Instagram",
-    for: "Pour les entreprises qui veulent acquérir des clients",
-    pitch: "Des campagnes pilotées pour gagner en visibilité, en prospects ou en ventes.",
-    text: "Nous auditons votre compte publicitaire, fixons la stratégie et les objectifs, réglons le ciblage, puis créons et paramétrons les campagnes. Ensuite, nous les suivons et les optimisons, avec un reporting.",
-    price: "100 000 F CFA",
-    per: "hors budget publicitaire",
-    cta: "Lancer mes campagnes",
+  publicite: {
+    title: "Publicité Facebook & Instagram",
+    for: "Entreprises souhaitant acquérir",
+    pitch: "Générer plus de visibilité, de prospects ou de ventes avec des campagnes pilotées.",
+    points: [
+      "Audit du compte publicitaire",
+      "Stratégie publicitaire",
+      "Définition des objectifs",
+      "Ciblage",
+      "Création et paramétrage des campagnes",
+      "Suivi, optimisation et reporting",
+    ],
+    price: "À partir de 100 000 F CFA hors budget publicitaire",
   },
   video: {
-    id: "video",
-    name: "Content vidéo",
-    for: "Pour les marques, les experts et les entreprises",
-    pitch: "Votre expertise, vos produits et vos offres, en vidéos pensées pour les réseaux sociaux.",
-    text: "Nous cherchons les idées, posons la stratégie et écrivons les scripts. Viennent ensuite le tournage ou la production, le montage, le sous-titrage et l’adaptation à chaque plateforme.",
-    price: "80 000 F CFA",
-    per: "pour 4 vidéos",
-    cta: "Parler de mes vidéos",
+    title: "Content vidéo",
+    for: "Marques, experts, entreprises",
+    pitch: "Transformer l’expertise, les produits et les offres en vidéos adaptées aux réseaux sociaux.",
+    points: ["Recherche d’idées", "Stratégie de contenu", "Scripts", "Tournage ou production", "Montage et sous-titrage", "Adaptation aux plateformes"],
+    price: "À partir de 80 000 F CFA pour 4 vidéos",
   },
-});
-
-export const conseil = typeset({
-  title: ["Quelque chose bloque ?", "Commençons par le comprendre."],
   diagnostic: {
-    id: "diagnostic",
-    name: "Diagnostic digital et plan de croissance",
-    pitch: "Vous êtes présent en ligne, mais les résultats ne suivent pas.",
-    text: "Nous analysons votre positionnement, votre offre, vos réseaux sociaux et vos contenus, votre acquisition et votre parcours client. Vous repartez avec des recommandations prioritaires et un plan d’action personnalisé.",
-    for: "Pour les TPE, les PME et les entrepreneurs",
+    title: "Diagnostic digital",
+    for: "TPE, PME, entrepreneurs",
+    pitch: "Comprendre pourquoi la présence digitale ne produit pas suffisamment de résultats.",
+    points: [
+      "Analyse du positionnement",
+      "Analyse de l’offre",
+      "Audit des réseaux sociaux et contenus",
+      "Analyse de l’acquisition et du parcours client",
+      "Recommandations prioritaires",
+      "Plan d’action personnalisé",
+    ],
     price: "150 000 F CFA",
-    cta: "Demander un diagnostic",
   },
-  others: [
-    {
-      id: "accompagnement",
-      name: "Accompagnement business et croissance",
-      for: "Pour les dirigeants et les entrepreneurs",
-      text: "Nous construisons votre stratégie avec vous, puis nous la mettons en œuvre : offre et positionnement, acquisition, contenu et publicité, vente et parcours client, KPI et plan d’action, avec une optimisation continue.",
-      price: "À partir de 150 000 F CFA",
-      cta: "En parler",
-    },
-    {
-      id: "direction",
-      name: "Direction marketing externalisée",
-      for: "Pour les entreprises en croissance",
-      text: "Nous pilotons votre marketing depuis l’extérieur : coordination des actions, acquisition, suivi des KPI et reporting.",
-      price: "À partir de 750 000 F CFA",
-      cta: "En parler",
-    },
-  ],
+  accompagnement: {
+    title: "Accompagnement business & croissance",
+    for: "Dirigeants et entrepreneurs",
+    pitch: "Accompagner les dirigeants dans la construction et la mise en œuvre de leur stratégie.",
+    points: [
+      "Positionnement et offre",
+      "Acquisition et marketing",
+      "Contenu et publicité",
+      "Vente et parcours client",
+      "KPI et plan d’action",
+      "Optimisation continue",
+    ],
+    price: "À partir de 150 000 F CFA",
+  },
 });
-
-export const methode = typeset({
-  title: "Notre méthode",
-  lead: "Quatre étapes, toujours dans cet ordre. Rien ne se lance avant que nous ayons compris votre situation.",
-  steps: [
-    { name: "Comprendre", text: "Nous partons de votre situation réelle, pour voir clairement le contexte, vos forces et ce qui bloque." },
-    { name: "Structurer", text: "Nous fixons les priorités et construisons une stratégie : un cadre d’action simple, cohérent et applicable." },
-    { name: "Exécuter", text: "Nous mettons en œuvre les méthodes et les outils adaptés, avec des actions concrètes sur les bons canaux." },
-    { name: "Optimiser", text: "Nous mesurons les résultats et améliorons ce qui doit l’être, en continu." },
-  ],
-});
-
-export const closing = typeset({
-  title: ["Parlons de", "votre croissance."],
-  text: "Un message WhatsApp suffit pour démarrer. Dites-nous où vous en êtes : nous vous orientons vers la bonne formule.",
-  whatsapp: "Écrire sur WhatsApp",
-  call: "Appeler",
-});
-
-export const footer = typeset({
-  line: "Agence de croissance digitale et centre de formation aux métiers du numérique, à Ouagadougou.",
-});
-
-export const nav = [
-  { href: "#formations", label: "Formations" },
-  { href: "#services", label: "Services" },
-  { href: "#conseil", label: "Conseil" },
-  { href: "#methode", label: "Méthode" },
-  { href: "#contact", label: "Contact" },
-];

@@ -11,14 +11,17 @@ Claude Code lit ce fichier au début de chaque conversation sur ce dépôt. Il r
 ## Ce dépôt : VALO DIGITAL
 
 - Le site de VALO DIGITAL, agence de croissance digitale basée à Ouagadougou : formations, prestations, conseil. C'est un projet pour un client, pas pour Ghostdesignco.
-- Le site actuel est un site test, en `noindex` (`src/app/layout.tsx`). La refonte « site d'agence » est faite. Design, textes et maquettes vont être retravaillés : je t'enverrai les maquettes.
-- Les textes viennent du catalogue du client (« Catalogue des formations et solutions de croissance » et couverture 2026), qui n'est pas dans le dépôt. Ils sont dans `src/lib/content.ts`.
+- Site test en one-page, en `noindex` (`src/app/layout.tsx`).
+- Les textes viennent de mon document « VALO (COPYWRITING + STRUCTURE) » : la partie Copywriting donne les mots, à la lettre ; la partie Structure donne l'ordre et le rôle des sections. Tout est dans `src/lib/content.ts`.
+- N'ajoute un texte que s'il est vraiment utile, et toujours après mon accord.
+- Les tirets du document (« 01 — Comprendre », « Cohorte métiers du digital — 2 mois ») sont rendus par la mise en page : le numéro à part, « 2 mois » en étiquette. Les mots ne changent pas.
+- Les détails des offres et des formations (formules, contenu des formations, prix du diagnostic et de l'accompagnement) viennent du catalogue du client, accents restaurés. Ils s'ouvrent dans un panneau pour ne pas alourdir la page.
 - Rien n'est inventé : ni chiffres, ni témoignages, ni références clients, ni promesses de résultat.
-- Le site doit se lire comme un site d'agence, pas comme le catalogue recopié. Les formations sont rangées en quatre groupes : Publicité et vente en ligne, Contenu et réseaux sociaux, Stratégie et outils, Parcours complets.
-- Identité du client : bleu électrique `#0714D8`, jaune `#FDEC05`, navy `#071F78`, Montserrat, barre jaune et vagues entre les sections.
+- Direction visuelle, d'après mes maquettes (Payrot, AirLume, Fondo, Relink, Juniper, quso) : panneaux bleu nuit et bleu électrique, colonnes de lumière, verre, monogramme VD en 3D chromé, petites scènes animées en code.
+- Identité du client : bleu électrique `#0714D8`, jaune `#FDEC05`, navy `#071F78`, Montserrat.
 - Le logo (monogramme VD) est redessiné d'après la couverture. Il sera remplacé par le fichier officiel dès que le client le fournit (`src/components/brand/Logo.tsx`).
-- Les photos sont des photos d'illustration Unsplash, créditées dans le `README.md`. Elles ne représentent ni l'équipe ni les clients.
-- Les boutons ouvrent WhatsApp ou l'e-mail avec un message déjà écrit (`src/lib/links.ts`).
+- Les photos de Valentin viennent de moi. Elles sont détourées dans `public/images/v3/`.
+- Les boutons ouvrent WhatsApp avec un message déjà écrit, validé avec moi (`src/lib/links.ts`).
 
 ## Travailler avec moi
 

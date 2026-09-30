@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
-import { contact } from "@/lib/content";
+import { contact, fondateur, footer, hero } from "@/lib/content";
 import { RevealObserver } from "@/components/ui/RevealObserver";
 import "./globals.css";
 
@@ -10,16 +10,16 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
-const description =
-  "Agence de croissance digitale basée à Ouagadougou : formations pratiques, gestion des réseaux sociaux, publicité Facebook et Instagram, content vidéo, diagnostic digital et accompagnement business.";
+const plain = (s: string) => s.replace(/[  ]/g, " ");
+const description = plain(hero.lead);
 
 export const metadata: Metadata = {
-  title: "VALO DIGITAL · Agence de croissance digitale à Ouagadougou",
+  title: `VALO DIGITAL · ${plain(footer.tagline)}`,
   description,
   // a test site for the client: kept out of search engines until it is theirs
   robots: { index: false, follow: false },
   openGraph: {
-    title: "VALO DIGITAL · Votre croissance, maintenant.",
+    title: `VALO DIGITAL · ${plain(hero.title.join(" "))}`,
     description,
     locale: "fr_FR",
     type: "website",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0714D8",
+  themeColor: "#040B52",
   width: "device-width",
   initialScale: 1,
 };
@@ -40,7 +40,7 @@ const jsonLd = {
   telephone: contact.phone.replace(/\s/g, ""),
   email: contact.email,
   address: { "@type": "PostalAddress", streetAddress: "Wemtenga", addressLocality: "Ouagadougou", addressCountry: "BF" },
-  founder: { "@type": "Person", name: contact.name, jobTitle: "Consultant formateur aux métiers du digital" },
+  founder: { "@type": "Person", name: contact.name, jobTitle: plain(fondateur.roles[0]) },
   areaServed: "Ouagadougou",
 };
 
