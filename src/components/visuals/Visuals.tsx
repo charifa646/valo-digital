@@ -27,7 +27,7 @@ export function SocialGrid() {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden">
       <div className="dots absolute inset-0 opacity-70" />
-      <div className="absolute left-[7%] top-[11%] w-[min(290px,60%)] rotate-[-5deg] rounded-[24px] bg-white p-3 shadow-lift">
+      <div className="absolute left-[7%] top-[11%] w-[min(290px,60%)] rotate-[-5deg] rounded-[10px] bg-white p-3 shadow-lift">
         <div className="mb-3 flex items-center gap-2 px-1">
           <span className="h-7 w-7 rounded-full bg-gradient-to-br from-electric to-[#8fa3ff]" />
           <Bar className="w-20 bg-ink/15" />
@@ -52,7 +52,7 @@ export function SocialGrid() {
           </span>
         ))}
       </div>
-      <div className="glass absolute bottom-[12%] right-[8%] flex items-center gap-3 rounded-[18px] p-2.5 pr-4">
+      <div className="glass absolute bottom-[12%] right-[8%] flex items-center gap-3 rounded-[10px] p-2.5 pr-4">
         <span data-anim className="grid h-10 w-10 place-items-center rounded-full bg-electric/10 text-electric" style={anim("float 2.6s ease-in-out infinite")}>
           <Heart className="h-5 w-5" />
         </span>
@@ -71,14 +71,14 @@ export function AdTarget() {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden">
       <div className="dots absolute inset-0 opacity-70" />
-      <div className="absolute left-[8%] top-[9%] w-[54%] max-w-[230px] rotate-[-4deg] rounded-[22px] bg-white p-3 shadow-lift">
+      <div className="absolute left-[8%] top-[9%] w-[54%] max-w-[230px] rotate-[-4deg] rounded-[10px] bg-white p-3 shadow-lift">
         <div className="flex items-center gap-2 px-1 pb-2.5">
           <span className="grid h-6 w-6 place-items-center rounded-full bg-electric text-white">
             <Facebook className="h-3.5 w-3.5" />
           </span>
           <Bar className="w-16 bg-ink/15" />
         </div>
-        <div className="relative h-[86px] overflow-hidden rounded-[14px] bg-gradient-to-br from-electric via-azure to-[#8fa3ff]">
+        <div className="relative h-[86px] overflow-hidden rounded-[8px] bg-gradient-to-br from-electric via-azure to-[#8fa3ff]">
           <span className="absolute -right-5 -top-7 h-20 w-20 rounded-full bg-sun" />
           <span className="absolute bottom-3 left-3 h-2.5 w-16 rounded-full bg-white/75" />
         </div>
@@ -99,7 +99,7 @@ export function AdTarget() {
         <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-electric/25" />
         <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-electric/25" />
       </div>
-      <div className="glass absolute bottom-[10%] right-[8%] flex h-[92px] items-end gap-1.5 rounded-[18px] px-3.5 pb-3 pt-4">
+      <div className="glass absolute bottom-[10%] right-[8%] flex h-[92px] items-end gap-1.5 rounded-[10px] px-3.5 pb-3 pt-4">
         {bars.map((h, i) => (
           <span
             key={i}
@@ -120,7 +120,7 @@ export function VideoFour() {
     <div aria-hidden className="absolute inset-0 overflow-hidden">
       <div className="dots absolute inset-0 opacity-70" />
       <div className="absolute left-1/2 top-[7%] w-[30%] max-w-[132px] -translate-x-1/2 rotate-[3deg]">
-        <div className="relative aspect-[9/16] overflow-hidden rounded-[22px] border-[5px] border-white bg-night shadow-lift">
+        <div className="relative aspect-[9/16] overflow-hidden rounded-[10px] border-[5px] border-white bg-night shadow-lift">
           <div
             data-anim
             className="absolute inset-0 bg-[linear-gradient(120deg,#040b52,#0714d8,#3551ff,#8fa3ff,#0714d8)] bg-[length:300%_300%]"
@@ -135,10 +135,10 @@ export function VideoFour() {
           </span>
         </div>
       </div>
-      <div className="absolute bottom-[9%] left-1/2 flex -translate-x-1/2 gap-2 rounded-[18px] bg-white p-2 shadow-card">
+      <div className="absolute bottom-[9%] left-1/2 flex -translate-x-1/2 gap-2 rounded-[10px] bg-white p-2 shadow-card">
         {thumbs.map((t, i) => (
-          <span key={i} className={`relative block aspect-[9/16] w-8 rounded-[9px] bg-gradient-to-br ${t}`}>
-            <span data-anim className="absolute -inset-[3px] rounded-[11px] border-2 border-sun" style={anim("cycle 4s linear infinite", i, { opacity: 0 })} />
+          <span key={i} className={`relative block aspect-[9/16] w-8 rounded-[6px] bg-gradient-to-br ${t}`}>
+            <span data-anim className="absolute -inset-[3px] rounded-[7px] border-2 border-sun" style={anim("cycle 4s linear infinite", i, { opacity: 0 })} />
           </span>
         ))}
       </div>
@@ -154,7 +154,7 @@ export function PilotBoard() {
     <div aria-hidden className="absolute inset-0 overflow-hidden">
       <div className="dots-dark absolute inset-0 opacity-60" />
       <div className="absolute inset-x-0 bottom-0 h-2/3 bg-[radial-gradient(60%_80%_at_50%_100%,rgba(53,81,255,.45),transparent)]" />
-      <div className="glass-dark absolute left-[7%] right-[7%] top-[11%] rounded-[22px] p-4 sm:p-5">
+      <div className="glass-dark absolute left-[7%] right-[7%] top-[11%] rounded-[10px] p-4 sm:p-5">
         <div className="flex items-center justify-between">
           <Bar className="w-24 bg-white/30" />
           <span className="flex gap-1.5">
@@ -295,7 +295,7 @@ export function Timeline() {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden">
       <div className="dots absolute inset-0 opacity-70" />
-      <div className="absolute inset-x-[8%] top-1/2 -translate-y-1/2 rounded-[18px] bg-white p-3.5 shadow-card">
+      <div className="absolute inset-x-[8%] top-1/2 -translate-y-1/2 rounded-[10px] bg-white p-3.5 shadow-card">
         <div className="mb-3 flex items-center gap-2">
           <span className="grid h-7 w-7 place-items-center rounded-full bg-electric text-white">
             <Play className="ml-0.5 h-3.5 w-3.5" />

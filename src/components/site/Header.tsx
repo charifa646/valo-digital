@@ -78,7 +78,7 @@ export function Header() {
       <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-[calc(var(--frame)+6px)] pt-[calc(var(--frame)+6px)] sm:pt-[calc(var(--frame)+10px)]">
         <div
           className={`pointer-events-auto mx-auto flex h-[58px] max-w-[1200px] items-center justify-between gap-4 rounded-full pl-5 pr-2 transition-[background,box-shadow,color] duration-500 sm:h-[64px] sm:pl-6 ${
-            light ? "glass text-ink" : "glass-dark text-white"
+            light ? "glass blur-bar text-ink" : "glass-dark blur-bar text-white"
           }`}
         >
           <Anchor to="top" aria-label="VALO DIGITAL, retour en haut" className={`shrink-0 ${light ? "text-electric" : "text-white"}`}>

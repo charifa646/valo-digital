@@ -15,12 +15,11 @@ export function Final() {
   ];
 
   return (
-    <div className="px-[var(--frame)] pb-[var(--frame)] pt-24 lg:pt-28">
-      <div data-dark className="on-dark relative isolate overflow-hidden rounded-[30px] text-white sm:rounded-[44px]">
+    <div>
+      <div data-dark className="on-dark relative isolate overflow-hidden text-white">
         <div aria-hidden className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-[linear-gradient(180deg,#0714d8_0%,#0a17c9_45%,#040b52_82%,#02062e_100%)]" />
           <div className="curtain opacity-80 [-webkit-mask-image:radial-gradient(90%_70%_at_70%_40%,#000_20%,transparent_80%)] [mask-image:radial-gradient(90%_70%_at_70%_40%,#000_20%,transparent_80%)]" />
-          <div className="grain" />
         </div>
 
         <section
@@ -46,9 +45,9 @@ export function Final() {
                   <a
                     href={href}
                     {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="glass-dark group flex items-center gap-4 rounded-[18px] p-2 pr-5 transition hover:bg-white/15"
+                    className="glass-dark group flex items-center gap-4 rounded-[10px] p-2 pr-5 transition hover:bg-white/15"
                   >
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[13px] bg-white text-electric transition group-hover:bg-sun group-hover:text-navy">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[8px] bg-white text-electric transition group-hover:bg-sun group-hover:text-navy">
                       <Icon className="h-5 w-5" />
                     </span>
                     <span className="min-w-0 break-words text-[15.5px] font-bold tracking-[-0.01em]">{label}</span>

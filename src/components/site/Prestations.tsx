@@ -24,7 +24,7 @@ function OfferCard({ o, i }: { o: Offer; i: number }) {
     <article
       data-reveal
       style={{ ["--d" as string]: `${(i % 2) * 0.1}s` } as CSSProperties}
-      className={`play-when-in group relative flex flex-col overflow-hidden rounded-[32px] transition-transform duration-500 hover:-translate-y-1 ${dark ? "bg-night text-white shadow-lift" : "bg-white text-ink shadow-card"} ${spans[i]}`}
+      className={`play-when-in group relative flex flex-col overflow-hidden rounded-2xl transition-transform duration-500 hover:-translate-y-1 ${dark ? "bg-night text-white shadow-lift" : "bg-white text-ink shadow-card"} ${spans[i]}`}
     >
       <div className={`relative h-[230px] sm:h-[250px] lg:h-[270px] ${dark ? "" : "bg-gradient-to-b from-ice to-white"}`}>
         <Visual />
@@ -65,11 +65,11 @@ export function Prestations() {
         >
           {prestations.label}
         </p>
-        <div className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-[1.15fr_1fr] lg:items-end lg:gap-16">
+        <div className="mt-8 lg:mt-12">
           <h2 id="prestations-title" data-reveal className="h2 balance text-ink">
             {prestations.title}
           </h2>
-          <p data-reveal className="pretty max-w-[30rem] text-[17px] font-medium leading-relaxed text-body lg:justify-self-end lg:pb-2 lg:text-[18px]">
+          <p data-reveal className="pretty mt-5 max-w-[38rem] text-[17px] font-medium leading-relaxed text-body lg:text-[18px]">
             {prestations.lead}
           </p>
         </div>

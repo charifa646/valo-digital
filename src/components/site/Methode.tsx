@@ -53,8 +53,6 @@ export function Methode() {
                   strokeWidth="1.6"
                   strokeDasharray="4 6"
                   vectorEffect="non-scaling-stroke"
-                  data-anim
-                  style={{ animation: "dash 1.4s linear infinite" }}
                 />
               ))}
             </svg>
@@ -63,8 +61,8 @@ export function Methode() {
               className="absolute h-[210px] w-[210px] rounded-full border-[1.5px] border-dashed border-electric/25"
               style={{ animation: "spin 40s linear infinite" }}
             />
-            <span className="glass relative grid h-[150px] w-[150px] place-items-center rounded-[42px]">
-              <span className="absolute inset-3 rounded-[32px] bg-gradient-to-br from-electric to-night shadow-glow" />
+            <span className="glass relative grid h-[150px] w-[150px] place-items-center rounded-2xl">
+              <span className="absolute inset-3 rounded-[10px] bg-gradient-to-br from-electric to-night shadow-glow" />
               <Monogram className="relative h-11 w-auto text-white" />
             </span>
           </li>
@@ -74,22 +72,22 @@ export function Methode() {
               key={s.n}
               data-reveal
               style={{ ["--d" as string]: `${i * 0.1}s` } as CSSProperties}
-              className={`glass relative overflow-hidden rounded-[30px] p-6 sm:p-8 ${place[i]}`}
+              className={`glass relative overflow-hidden rounded-2xl p-6 sm:p-8 ${place[i]}`}
             >
               {/* the light passes from step to step */}
               <span
                 aria-hidden
                 data-anim
-                className="pointer-events-none absolute inset-0 rounded-[30px] opacity-0 shadow-[inset_0_0_0_2px_#3551ff,0_30px_60px_-30px_rgba(7,20,216,.55)]"
+                className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 shadow-[inset_0_0_0_2px_#3551ff,0_30px_60px_-30px_rgba(7,20,216,.55)]"
                 style={{ animation: "cycle 10s ease-in-out infinite", animationDelay: `${i * 2.5}s` }}
               />
               <div className="relative flex items-start gap-5">
-                <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-[18px] bg-frost text-[20px] font-extrabold tracking-[-0.03em] text-electric">
+                <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-[10px] bg-frost text-[20px] font-extrabold tracking-[-0.03em] text-electric">
                   {s.n}
                   <span
                     aria-hidden
                     data-anim
-                    className="absolute inset-0 grid place-items-center rounded-[18px] bg-electric text-white opacity-0 shadow-glow"
+                    className="absolute inset-0 grid place-items-center rounded-[10px] bg-electric text-white opacity-0 shadow-glow"
                     style={{ animation: "cycle 10s ease-in-out infinite", animationDelay: `${i * 2.5}s` }}
                   >
                     {s.n}

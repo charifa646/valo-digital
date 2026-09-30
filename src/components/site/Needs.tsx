@@ -28,8 +28,8 @@ export function Needs() {
 
   return (
     <section id="besoin" aria-labelledby="besoin-title" className="relative">
-      <div className="gutter mx-auto max-w-page pb-24 pt-14 sm:-mt-[52px] sm:pt-0 lg:pb-32">
-        <p className="label relative z-10 flex h-[52px] items-center justify-center text-center text-electric">
+      <div className="gutter mx-auto max-w-page pb-24 pt-20 lg:pb-32 lg:pt-24">
+        <p className="label relative z-10 flex items-center justify-center text-center text-electric">
           <span className="mr-3 inline-block h-[3px] w-6 rounded-full bg-sun" aria-hidden />
           {needs.label}
         </p>
@@ -41,7 +41,7 @@ export function Needs() {
           {/* the light that slides from door to door (computers) */}
           <div
             aria-hidden
-            className="absolute inset-y-0 left-0 z-0 hidden overflow-hidden rounded-[30px] bg-[linear-gradient(160deg,#3551ff_0%,#0714d8_45%,#040b52_120%)] shadow-glow transition-transform duration-700 lg:block"
+            className="absolute inset-y-0 left-0 z-0 hidden overflow-hidden rounded-2xl bg-[linear-gradient(160deg,#3551ff_0%,#0714d8_45%,#040b52_120%)] shadow-glow transition-transform duration-700 lg:block"
             style={{
               width: "calc((100% - 60px) / 4)",
               transform: `translateX(calc(${active} * (100% + 20px)))`,
@@ -66,22 +66,22 @@ export function Needs() {
                 style={{ ["--d" as string]: `${i * 0.08}s` } as CSSProperties}
                 onMouseEnter={() => setActive(i)}
                 onFocus={() => setActive(i)}
-                className={`group relative z-[1] flex min-h-[200px] flex-col rounded-[30px] p-6 transition-colors duration-500 sm:min-h-[250px] lg:min-h-[300px] lg:p-7 ${on ? "text-white" : "text-ink"}`}
+                className={`group relative z-[1] flex min-h-[200px] flex-col rounded-2xl p-6 transition-colors duration-500 sm:min-h-[250px] lg:min-h-[300px] lg:p-7 ${on ? "text-white" : "text-ink"}`}
               >
                 <span
                   aria-hidden
-                  className={`absolute inset-0 -z-[1] rounded-[30px] bg-white shadow-card transition-opacity duration-500 ${on ? "opacity-0" : "opacity-100"}`}
+                  className={`absolute inset-0 -z-[1] rounded-2xl bg-white shadow-card transition-opacity duration-500 ${on ? "opacity-0" : "opacity-100"}`}
                 />
                 <span
                   aria-hidden
-                  className={`absolute inset-0 -z-[2] overflow-hidden rounded-[30px] bg-[linear-gradient(160deg,#3551ff_0%,#0714d8_45%,#040b52_120%)] shadow-glow transition-opacity duration-500 lg:hidden ${on ? "opacity-100" : "opacity-0"}`}
+                  className={`absolute inset-0 -z-[2] overflow-hidden rounded-2xl bg-[linear-gradient(160deg,#3551ff_0%,#0714d8_45%,#040b52_120%)] shadow-glow transition-opacity duration-500 lg:hidden ${on ? "opacity-100" : "opacity-0"}`}
                 >
                   <span className="curtain opacity-60" />
                 </span>
 
                 <span className="flex items-start justify-between">
                   <span
-                    className={`grid h-12 w-12 place-items-center rounded-[16px] transition-colors duration-500 ${on ? "bg-white/15 text-white" : "bg-frost text-electric"}`}
+                    className={`grid h-12 w-12 place-items-center rounded-[10px] transition-colors duration-500 ${on ? "bg-white/15 text-white" : "bg-frost text-electric"}`}
                   >
                     <Icon className="h-6 w-6" />
                   </span>

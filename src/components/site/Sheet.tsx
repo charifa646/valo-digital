@@ -112,7 +112,7 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
         aria-modal="true"
         aria-labelledby="sheet-title"
         data-lenis-prevent
-        className="absolute inset-x-0 bottom-0 max-h-[90svh] overflow-y-auto overscroll-contain rounded-t-[28px] bg-ice shadow-[0_-30px_80px_-20px_rgba(2,6,46,.6)] md:inset-y-0 md:left-auto md:right-0 md:max-h-none md:w-[min(620px,94vw)] md:rounded-l-[34px] md:rounded-tr-none"
+        className="absolute inset-x-0 bottom-0 max-h-[90svh] overflow-y-auto overscroll-contain rounded-t-2xl bg-ice shadow-[0_-30px_80px_-20px_rgba(2,6,46,.6)] md:inset-y-0 md:left-auto md:right-0 md:max-h-none md:w-[min(620px,94vw)] md:rounded-l-2xl md:rounded-tr-none"
         initial={hidden}
         animate={shown}
         exit={hidden}
@@ -164,7 +164,7 @@ function DetailBody({ d, cta }: { d: Detail; cta: string }) {
         {d.formules.map((f, i) => {
           const featured = i === 1;
           return (
-            <article key={f.name} className={`rounded-[26px] p-6 sm:p-7 ${featured ? "bg-electric text-white shadow-glow" : "bg-white text-ink shadow-card"}`}>
+            <article key={f.name} className={`rounded-2xl p-6 sm:p-7 ${featured ? "bg-electric text-white shadow-glow" : "bg-white text-ink shadow-card"}`}>
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <h3 className="text-[21px] font-extrabold tracking-[-0.02em]">{f.name}</h3>
                 <p className={`text-[12.5px] font-semibold ${featured ? "text-white/75" : "text-body"}`}>
@@ -201,11 +201,11 @@ function DetailBody({ d, cta }: { d: Detail; cta: string }) {
         </p>
       )}
       {d.points && (
-        <div className="mt-6 rounded-[26px] bg-white p-6 shadow-card sm:p-7">
+        <div className="mt-6 rounded-2xl bg-white p-6 shadow-card sm:p-7">
           <Points points={d.points} className="" />
         </div>
       )}
-      <div className="mt-6 flex flex-col gap-5 rounded-[26px] bg-night p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-7">
+      <div className="mt-6 flex flex-col gap-5 rounded-2xl bg-night p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-7">
         {d.price && <p className="text-[20px] font-extrabold leading-tight tracking-[-0.02em]">{d.price}</p>}
         <a
           href={wa(ask(d.title, d.price))}
@@ -228,7 +228,7 @@ function FormationList({ focus }: { focus?: string }) {
         <article
           key={f.id}
           data-item={f.id}
-          className={`rounded-[24px] bg-white p-6 shadow-card transition-shadow ${focus === f.id ? "ring-2 ring-electric" : ""}`}
+          className={`rounded-2xl bg-white p-6 shadow-card transition-shadow ${focus === f.id ? "ring-2 ring-electric" : ""}`}
         >
           <h3 className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[19px] font-extrabold leading-tight tracking-[-0.02em] text-ink">
             {f.name}

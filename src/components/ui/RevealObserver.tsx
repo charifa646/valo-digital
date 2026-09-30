@@ -8,7 +8,7 @@ import { useEffect } from "react";
  */
 export function RevealObserver() {
   useEffect(() => {
-    const reveal = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const reveal = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal], [data-words]"));
     const play = Array.from(document.querySelectorAll<HTMLElement>(".play-when-in"));
     if (!("IntersectionObserver" in window)) {
       [...reveal, ...play].forEach((el) => el.classList.add("is-in"));

@@ -48,7 +48,7 @@ export function Solutions() {
                 data-pulse
                 data-reveal
                 style={{ ["--d" as string]: `${i * 0.1}s` } as CSSProperties}
-                className={`play-when-in group relative flex flex-col overflow-hidden rounded-[32px] p-2.5 transition-transform duration-500 hover:-translate-y-1 ${
+                className={`play-when-in group relative flex flex-col overflow-hidden rounded-2xl p-2.5 transition-transform duration-500 hover:-translate-y-1 ${
                   hot ? "bg-[linear-gradient(165deg,#3551ff_0%,#0714d8_45%,#040b52_110%)] text-white shadow-glow" : "bg-white text-ink shadow-card"
                 }`}
               >
@@ -58,7 +58,7 @@ export function Solutions() {
                       type="button"
                       onClick={() => open(s.sheet)}
                       aria-haspopup="dialog"
-                      className="text-left after:absolute after:inset-0 after:rounded-[32px]"
+                      className="text-left after:absolute after:inset-0 after:rounded-2xl"
                     >
                       {s.name}
                     </button>
@@ -71,7 +71,7 @@ export function Solutions() {
                   </span>
                 </div>
                 <p className={`pretty px-4 pt-3 text-[15px] font-medium leading-relaxed sm:px-5 ${hot ? "text-white/75" : "text-body"}`}>{s.text}</p>
-                <div className={`relative mt-6 min-h-[200px] flex-1 overflow-hidden rounded-[24px] sm:min-h-[220px] ${hot ? "bg-white/[0.07]" : "bg-ice"}`}>
+                <div className={`relative mt-6 min-h-[200px] flex-1 overflow-hidden rounded-[10px] sm:min-h-[220px] ${hot ? "bg-white/[0.07]" : "bg-ice"}`}>
                   <Visual dark={hot} />
                 </div>
               </article>

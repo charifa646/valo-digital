@@ -33,7 +33,7 @@ const config: Config = {
       boxShadow: {
         card: "0 1px 0 rgba(255,255,255,.9) inset, 0 30px 60px -32px rgba(7,20,216,.28), 0 2px 6px -2px rgba(11,18,51,.06)",
         lift: "0 40px 80px -30px rgba(7,20,216,.45)",
-        glow: "0 30px 70px -20px rgba(53,81,255,.75)",
+        glow: "0 18px 40px -22px rgba(7,20,216,.55)",
       },
     },
   },
