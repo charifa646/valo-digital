@@ -5,31 +5,29 @@ construit à partir du catalogue « Catalogue des formations et solutions de
 croissance » et de la couverture 2026.
 
 - **Contenu** : uniquement celui du catalogue (formations, prestations, offres,
-  solutions, méthode, contact), accents restaurés. Rien n'est inventé : pas de
-  chiffres, de témoignages ou de références clients.
-- **Identité** : couleurs, typographie et motifs de la couverture 2026 :
+  solutions, méthode, contact), accents restaurés, dans `src/lib/content.ts`.
+  Rien n'est inventé : pas de chiffres, de témoignages ou de références clients.
+- **Identité** : couleurs et typographie de la couverture 2026 :
   - bleu électrique, jaune et navy ;
   - Montserrat ;
-  - barre jaune, drapeau, carrés arrondis et icônes en cercles pointillés.
+  - barre jaune et vagues entre les sections.
 - **Logo** : le monogramme VD est redessiné en vectoriel d'après la couverture.
   Il est à remplacer par le fichier officiel dès que le client le fournit
   (`src/components/brand/Logo.tsx`).
-- **Ma sélection** : le visiteur ajoute des formations ou des offres, puis
-  envoie la liste par WhatsApp ou par e-mail. La sélection reste dans son
-  navigateur.
+- **Contact** : les boutons ouvrent WhatsApp ou l'e-mail avec un message déjà
+  écrit (`src/lib/links.ts`).
 - **Indexation** : le site est en `noindex` tant qu'il reste un site test
   (`src/app/layout.tsx`).
 
 ## Démarrer
 
 ```bash
-cd valo-digital
 npm install
 npm run dev
 ```
 
-Pour le déploiement sur Vercel, créer un projet avec `valo-digital` comme
-dossier racine (Root Directory).
+Pour le déploiement sur Vercel, importer ce dépôt : le site est à la racine,
+il n'y a pas de dossier racine à régler.
 
 ## Photos
 
