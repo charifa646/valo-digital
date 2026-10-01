@@ -28,7 +28,7 @@ export function Campagnes() {
           </span>
         </div>
         <div className="relative aspect-square bg-soft">
-          <Image src="/images/ui/ad-robe.webp" alt="" fill sizes="160px" className="object-cover" />
+          <Image src="/images/ui/ad-produit.webp" alt="" fill sizes="160px" className="object-cover" />
         </div>
         <div className="flex items-center justify-between gap-1 bg-soft px-2 py-1.5">
           <span className="text-[8px] font-bold leading-tight text-ink">Envoyer un message</span>

@@ -12,6 +12,18 @@ import { ArrowUpRight } from "@/components/ui/Icons";
  * each with a real photo, its format (from the catalogue) and its price. A card
  * opens the panel on that training.
  */
+/** One photo per training (file names change when a photo is replaced, so no cache can show the old one). */
+const photos: Record<string, string> = {
+  ads: "ads",
+  vente: "boutique",
+  marketing: "marketing",
+  ia: "ia",
+  contenu: "contenu",
+  cm: "cm",
+  cohorte: "cohorte",
+  prive: "prive",
+};
+
 export function Formations() {
   const { open } = useSheet();
 
@@ -49,7 +61,7 @@ export function Formations() {
               >
                 <span className="relative block aspect-[4/3] overflow-hidden bg-soft">
                   <Image
-                    src={`/images/formations/${f.id}.webp`}
+                    src={`/images/formations/${photos[f.id] ?? f.id}.webp`}
                     alt=""
                     fill
                     sizes="(min-width: 1024px) 290px, 46vw"
