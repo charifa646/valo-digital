@@ -121,7 +121,7 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
         <div className="sticky top-0 z-10 flex items-start justify-between gap-6 bg-ice/90 px-6 pb-5 pt-6 backdrop-blur-md sm:px-9 sm:pt-8">
           <div>
             <p className="label text-electric">{eyebrow}</p>
-            <h2 id="sheet-title" className="mt-3 text-[26px] font-extrabold leading-[1.08] tracking-[-0.03em] text-ink sm:text-[32px]">
+            <h2 id="sheet-title" className="mt-3 text-[26px] font-semibold leading-[1.08] tracking-[-0.025em] text-ink sm:text-[32px]">
               {title}
             </h2>
           </div>

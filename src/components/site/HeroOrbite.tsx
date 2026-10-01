@@ -187,7 +187,7 @@ export function HeroOrbite() {
           <div className="pop-in" style={{ ["--d" as string]: "0.05s" } as CSSProperties}>
             <Tile className="mx-auto h-14 w-14 sm:h-16 sm:w-16" />
           </div>
-          <h1 className="balance mx-auto mt-7 max-w-[20ch] text-[clamp(2.1rem,4.4vw,3.4rem)] font-bold leading-[1.06] tracking-[-0.045em] text-ink xl:max-w-none">
+          <h1 className="balance mx-auto mt-7 max-w-[20ch] text-[clamp(2.1rem,4.4vw,3.4rem)] font-semibold leading-[1.06] tracking-[-0.035em] text-ink xl:max-w-none">
             {hero.title.map((line, li) => (
               <span key={li} className="xl:block">
                 {line.split(" ").map((w, wi) => (

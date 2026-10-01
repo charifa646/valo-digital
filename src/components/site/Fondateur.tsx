@@ -34,7 +34,7 @@ export function Fondateur() {
           <h2 id="fondateur-title" data-reveal className="h2 balance mt-5 text-ink">
             {fondateur.title}
           </h2>
-          <p data-reveal className="mt-6 text-[clamp(1.35rem,2.4vw,1.75rem)] font-bold leading-[1.2] tracking-[-0.025em] text-electric">
+          <p data-reveal className="mt-6 text-[clamp(1.35rem,2.4vw,1.75rem)] font-semibold leading-[1.2] tracking-[-0.02em] text-electric">
             {fondateur.name}
           </p>
           <ul data-reveal className="mt-6 grid gap-3">

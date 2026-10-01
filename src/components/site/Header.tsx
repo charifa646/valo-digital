@@ -171,7 +171,7 @@ export function Header() {
                       <Anchor
                         to={n.id}
                         onClick={() => setOpen(false)}
-                        className="block border-b border-white/10 py-3.5 text-[clamp(1.35rem,6.4vw,1.9rem)] font-bold leading-tight tracking-[-0.03em]"
+                        className="block border-b border-white/10 py-3.5 text-[clamp(1.35rem,6.4vw,1.9rem)] font-semibold leading-tight tracking-[-0.025em]"
                       >
                         {n.label}
                       </Anchor>

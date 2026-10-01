@@ -153,9 +153,9 @@ main {
     backdrop-filter: blur(14px) saturate(1.3);
   }
 
-  /* section titles: bold, not shouting */
+  /* section titles: semibold, not shouting */
   .h2 {
-    @apply text-[clamp(2rem,1.35rem+2.2vw,3rem)] font-bold leading-[1.1] tracking-[-0.035em];
+    @apply text-[clamp(2rem,1.35rem+2.2vw,3rem)] font-semibold leading-[1.1] tracking-[-0.03em];
   }
   /* the section's name, in a small pill */
   .tag {
@@ -249,6 +249,31 @@ main {
   transform: translate3d(0, 10px, 0);
 }
 .js [data-in] .stair-text {
+  opacity: 1;
+  transform: none;
+}
+
+/* the growth curve over the stairs: it draws itself once the stairs are up, then its points appear */
+.js .curve-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.8s var(--ease) 1.1s;
+}
+.js [data-in] .curve-draw {
+  stroke-dashoffset: 0;
+}
+.curve-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.5s var(--ease),
+    transform 0.5s var(--ease);
+}
+.js .curve-dot {
+  opacity: 0;
+  transform: scale(0.4);
+}
+.js [data-in] .curve-dot {
   opacity: 1;
   transform: none;
 }
@@ -449,9 +474,14 @@ main {
     transition: none !important;
   }
   .js .stair,
-  .js .stair-text {
+  .js .stair-text,
+  .js .curve-dot {
     opacity: 1 !important;
     transform: none !important;
+    transition: none !important;
+  }
+  .js .curve-draw {
+    stroke-dashoffset: 0 !important;
     transition: none !important;
   }
   .logos-track,
