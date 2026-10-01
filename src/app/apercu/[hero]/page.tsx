@@ -37,7 +37,7 @@ export default function Apercu({ params }: { params: { hero: string } }) {
         <Header />
         <main id="contenu">
           <Hero />
-          <Confiance preview />
+          <Confiance />
           <Needs />
           <Prestations />
           <Formations />
