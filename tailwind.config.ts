@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import containerQueries from "@tailwindcss/container-queries";
 
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
@@ -23,6 +24,10 @@ const config: Config = {
         mist: "#F3F5FB",
         ice: "#F4F7FF",
         frost: "#E7EDFF",
+        // the small app windows that show each offer
+        hair: "#E6EAF3",
+        mute: "#8A93A6",
+        soft: "#F1F3F9",
       },
       fontFamily: {
         sans: ["var(--font-montserrat)", "system-ui", "sans-serif"],
@@ -34,10 +39,12 @@ const config: Config = {
         card: "0 1px 0 rgba(255,255,255,.9) inset, 0 30px 60px -32px rgba(7,20,216,.28), 0 2px 6px -2px rgba(11,18,51,.06)",
         lift: "0 40px 80px -30px rgba(7,20,216,.45)",
         glow: "0 18px 40px -22px rgba(7,20,216,.55)",
+        panel: "0 1px 2px rgba(11,18,51,.04), 0 16px 36px -16px rgba(11,18,51,.18)",
+        float: "0 2px 4px rgba(11,18,51,.05), 0 28px 50px -22px rgba(11,18,51,.32)",
       },
     },
   },
-  plugins: [],
+  plugins: [containerQueries],
 };
 
 export default config;

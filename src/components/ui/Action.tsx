@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { ArrowRight } from "./Icons";
 
-type Variant = "white" | "electric" | "line";
+type Variant = "white" | "electric" | "line" | "ghost";
 
 /** The pill button: the words, then the arrow in its circle (« Parlons de votre projet → »). */
 export function BtnInner({ children }: { children: ReactNode }) {
@@ -16,7 +16,7 @@ export function BtnInner({ children }: { children: ReactNode }) {
 }
 
 // written out in full so Tailwind keeps them
-const variants: Record<Variant, string> = { white: "btn-white", electric: "btn-electric", line: "btn-line" };
+const variants: Record<Variant, string> = { white: "btn-white", electric: "btn-electric", line: "btn-line", ghost: "btn-ghost" };
 export const btn = (v: Variant, extra = "") => `btn ${variants[v]} ${extra}`;
 
 /** A WhatsApp link that opens in a new tab. */
