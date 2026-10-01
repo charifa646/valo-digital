@@ -85,7 +85,7 @@ export function Header() {
             <Wordmark />
           </Anchor>
 
-          <nav aria-label="Navigation principale" className="hidden lg:block">
+          <nav aria-label="Navigation principale" className="hidden xl:block">
             <ul className="flex items-center gap-1">
               {nav
                 .filter((n) => n.short)
@@ -124,7 +124,7 @@ export function Header() {
               aria-expanded={open}
               aria-controls="menu"
               aria-label="Menu"
-              className={`grid h-[46px] w-[46px] place-items-center rounded-full transition lg:hidden ${light ? "bg-electric text-white" : "bg-white text-electric"}`}
+              className={`grid h-[46px] w-[46px] place-items-center rounded-full transition xl:hidden ${light ? "bg-electric text-white" : "bg-white text-electric"}`}
             >
               <Menu className="h-5 w-5" />
             </button>
