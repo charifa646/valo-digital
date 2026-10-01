@@ -42,12 +42,13 @@ export function Header() {
     return () => io.disconnect();
   }, []);
 
-  // the section on screen lights its name in the menu
+  // the section on screen lights the menu entry it belongs to; the hero and the needs light none
   useEffect(() => {
-    const sections = nav.map((n) => document.getElementById(n.id)).filter(Boolean) as HTMLElement[];
+    const owner = new Map(nav.flatMap((n) => n.sections.map((s) => [s, n.id] as const)));
+    const sections = [...owner.keys(), "top", "besoin"].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const io = new IntersectionObserver(
       (entries) => {
-        for (const e of entries) if (e.isIntersecting) setActive(e.target.id);
+        for (const e of entries) if (e.isIntersecting) setActive(owner.get(e.target.id) ?? null);
       },
       { rootMargin: "-45% 0px -50% 0px" },
     );
@@ -85,23 +86,21 @@ export function Header() {
             <Wordmark />
           </Anchor>
 
-          <nav aria-label="Navigation principale" className="hidden xl:block">
+          <nav aria-label="Navigation principale" className="hidden lg:block">
             <ul className="flex items-center gap-1">
-              {nav
-                .filter((n) => n.short)
-                .map((n) => (
-                  <li key={n.id}>
-                    <Anchor
-                      to={n.id}
-                      aria-current={active === n.id ? "true" : undefined}
-                      className={`relative block whitespace-nowrap rounded-full px-3.5 py-2 text-[14px] font-semibold transition ${ink} ${
-                        active === n.id ? (light ? "bg-frost text-electric" : "bg-white/12") : light ? "hover:text-electric" : "opacity-85 hover:opacity-100"
-                      }`}
-                    >
-                      {n.label}
-                    </Anchor>
-                  </li>
-                ))}
+              {nav.map((n) => (
+                <li key={n.id}>
+                  <Anchor
+                    to={n.id}
+                    aria-current={active === n.id ? "true" : undefined}
+                    className={`relative block whitespace-nowrap rounded-full px-3.5 py-2 text-[14px] font-semibold transition ${ink} ${
+                      active === n.id ? (light ? "bg-frost text-electric" : "bg-white/12") : light ? "hover:text-electric" : "opacity-85 hover:opacity-100"
+                    }`}
+                  >
+                    {n.label}
+                  </Anchor>
+                </li>
+              ))}
             </ul>
           </nav>
 
@@ -124,7 +123,7 @@ export function Header() {
               aria-expanded={open}
               aria-controls="menu"
               aria-label="Menu"
-              className={`grid h-[46px] w-[46px] place-items-center rounded-full transition xl:hidden ${light ? "bg-electric text-white" : "bg-white text-electric"}`}
+              className={`grid h-[46px] w-[46px] place-items-center rounded-full transition lg:hidden ${light ? "bg-electric text-white" : "bg-white text-electric"}`}
             >
               <Menu className="h-5 w-5" />
             </button>

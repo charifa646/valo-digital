@@ -19,7 +19,8 @@ export function Solutions() {
   const { open } = useSheet();
 
   return (
-    <section id="solutions" aria-labelledby="solutions-title" className="relative">
+    <section id="solutions" aria-labelledby="solutions-title" className="relative isolate">
+      <div aria-hidden className="light-lines" />
       <div className="gutter mx-auto grid max-w-page gap-10 py-24 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16 lg:py-32">
         <div className="lg:sticky lg:top-[calc(var(--header)+40px)] lg:self-start">
           <p className="tag">{solutions.label}</p>

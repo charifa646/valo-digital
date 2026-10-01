@@ -7,7 +7,8 @@ import { Edge } from "@/components/ui/Edge";
 /** Valentin, standing out of a light card, his name and his two titles beside him. */
 export function Fondateur() {
   return (
-    <section id="fondateur" aria-labelledby="fondateur-title" className="relative bg-white">
+    <section id="fondateur" aria-labelledby="fondateur-title" className="relative isolate bg-white">
+      <div aria-hidden className="light-lines" />
       <div className="gutter mx-auto grid max-w-page items-center gap-14 pb-24 pt-20 lg:grid-cols-[1fr_1.08fr] lg:gap-20 lg:pb-32 lg:pt-28">
         <figure data-reveal="scale" className="relative mx-auto w-full max-w-[440px] pt-[84px] sm:pt-[100px]">
           {/* the card, and Valentin coming out of its top edge */}

@@ -34,15 +34,15 @@ export const contact = typeset({
   mapHref: "https://www.google.com/maps/search/?api=1&query=Wemtenga%2C%20Ouagadougou",
 });
 
-/** The menu: the names of the sections, then « Parlons de votre projet ». */
+/**
+ * The menu: four plain entries, then « Parlons de votre projet ». Each entry
+ * lights up while one of its sections is on screen.
+ */
 export const nav = typeset([
-  { id: "besoin", label: "Une solution selon votre besoin", short: false },
-  { id: "prestations", label: "Prestations", short: true },
-  { id: "formations", label: "Formations", short: true },
-  { id: "solutions", label: "Solutions spécialisées", short: true },
-  { id: "methode", label: "Méthode VALO", short: true },
-  { id: "pourquoi", label: "Pourquoi VALO", short: true },
-  { id: "fondateur", label: "Fondateur", short: false },
+  { id: "prestations", label: "Services", sections: ["prestations", "solutions"] },
+  { id: "formations", label: "Formations", sections: ["formations"] },
+  { id: "methode", label: "À propos", sections: ["methode", "pourquoi", "fondateur"] },
+  { id: "contact", label: "Contact", sections: ["contact"] },
 ]);
 
 export const hero = typeset({
@@ -50,6 +50,16 @@ export const hero = typeset({
   lead: "VALO DIGITAL accompagne les entrepreneurs et entreprises dans leur marketing, leur acquisition et leur développement.",
   cta: "Parlons de votre projet",
   tags: ["Marketing", "Publicité", "Vente", "Formation"],
+});
+
+/**
+ * « Ils nous ont fait confiance »: the clients' logos, given by Charifa (files in
+ * public/images/clients/). The band stays hidden until there is at least one.
+ */
+export type ClientLogo = { name: string; src: string; width: number; height: number };
+export const confiance = typeset({
+  title: "Ils nous ont fait confiance",
+  logos: [] as ClientLogo[],
 });
 
 export type Door = { id: string; name: string; text: string; target: string };

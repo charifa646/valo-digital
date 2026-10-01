@@ -88,15 +88,13 @@ export function Final() {
           </div>
           <nav aria-label="Pied de page">
             <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-[14px] font-semibold text-white/80">
-              {nav
-                .filter((n) => n.short)
-                .map((n) => (
-                  <li key={n.id}>
-                    <Anchor to={n.id} className="transition hover:text-white">
-                      {n.label}
-                    </Anchor>
-                  </li>
-                ))}
+              {nav.map((n) => (
+                <li key={n.id}>
+                  <Anchor to={n.id} className="transition hover:text-white">
+                    {n.label}
+                  </Anchor>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>

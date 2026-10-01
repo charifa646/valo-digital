@@ -28,7 +28,8 @@ export function Needs() {
   }, []);
 
   return (
-    <section id="besoin" aria-labelledby="besoin-title" className="relative">
+    <section id="besoin" aria-labelledby="besoin-title" className="relative isolate">
+      <div aria-hidden className="light-lines" />
       <div className="gutter mx-auto max-w-page pb-20 pt-16 lg:pb-28 lg:pt-20">
         <div className="text-center">
           <p className="tag">{needs.label}</p>

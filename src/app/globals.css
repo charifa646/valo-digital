@@ -183,6 +183,51 @@ main {
   transform: none;
 }
 
+/* light lines: fine vertical lines, a few brighter ones, fading at the top and bottom (light sections only) */
+.light-lines {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent calc(14% - 1px), rgba(53, 81, 255, 0.26) 14%, transparent calc(14% + 1px)),
+    linear-gradient(90deg, transparent calc(32% - 1px), rgba(53, 81, 255, 0.16) 32%, transparent calc(32% + 1px)),
+    linear-gradient(90deg, transparent calc(68% - 1px), rgba(53, 81, 255, 0.16) 68%, transparent calc(68% + 1px)),
+    linear-gradient(90deg, transparent calc(86% - 1px), rgba(53, 81, 255, 0.26) 86%, transparent calc(86% + 1px)),
+    repeating-linear-gradient(90deg, rgba(7, 20, 216, 0) 0 47px, rgba(7, 20, 216, 0.07) 47px 48px);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 58%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 58%, transparent 100%);
+}
+
+/* the same lines, in white, for the blue panels */
+.light-lines-white {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent calc(14% - 1px), rgba(255, 255, 255, 0.24) 14%, transparent calc(14% + 1px)),
+    linear-gradient(90deg, transparent calc(32% - 1px), rgba(255, 255, 255, 0.14) 32%, transparent calc(32% + 1px)),
+    linear-gradient(90deg, transparent calc(68% - 1px), rgba(255, 255, 255, 0.14) 68%, transparent calc(68% + 1px)),
+    linear-gradient(90deg, transparent calc(86% - 1px), rgba(255, 255, 255, 0.24) 86%, transparent calc(86% + 1px)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0) 0 47px, rgba(255, 255, 255, 0.07) 47px 48px);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 60%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 60%, transparent 100%);
+}
+
+/* the clients' logos pass slowly, and stop under the hand */
+.logos-track {
+  animation: logos 42s linear infinite;
+}
+.logos-track:hover {
+  animation-play-state: paused;
+}
+@keyframes logos {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
 /* the method: the stairs rise one after the other, then the words step onto them */
 .stair {
   transform-origin: bottom center;
@@ -409,6 +454,7 @@ main {
     transform: none !important;
     transition: none !important;
   }
+  .logos-track,
   .rise,
   .fade-up,
   .pop-in,
