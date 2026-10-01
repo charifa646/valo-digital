@@ -155,8 +155,8 @@ function Tile({ className = "" }: { className?: string }) {
  * Proposal B, « l'orbite » (quso.ai): the VALO mark above the message, and
  * around it, on a dotted orbit, the four things the agency does, each shown as
  * a small piece of real work. The channels sit on the bottom of the orbit.
- * `blue` is Charifa's mix: the same orbit in the blue of proposal A, the woman
- * with the tablet melted into the background.
+ * `blue` is Charifa's mix: the same orbit in the blue of proposal A, with its
+ * light lines.
  */
 export function HeroOrbite({ blue = false }: { blue?: boolean }) {
   const sats = [
@@ -177,19 +177,7 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
         }`}
       >
         {blue ? (
-          <>
-            <div aria-hidden className="light-lines-white" />
-            {/* the woman, in the blue of the page, her head just under the VALO mark: present, never louder than the words */}
-            <Image
-              src="/images/v3/personne-tablette-bleu.webp"
-              alt=""
-              width={1097}
-              height={1089}
-              priority
-              sizes="(min-width: 1024px) 680px, 440px"
-              className="pointer-events-none absolute left-1/2 top-[166px] -z-10 w-[440px] max-w-none -translate-x-[31%] opacity-50 sm:top-[192px] [-webkit-mask-image:linear-gradient(180deg,#000_45%,transparent_92%)] [mask-image:linear-gradient(180deg,#000_45%,transparent_92%)] lg:bottom-0 lg:top-auto lg:w-[680px] lg:[-webkit-mask-image:linear-gradient(180deg,#000_55%,transparent_100%)] lg:[mask-image:linear-gradient(180deg,#000_55%,transparent_100%)]"
-            />
-          </>
+          <div aria-hidden className="light-lines-white" />
         ) : (
           <>
             {/* the dotted ground, stronger towards the edges */}

@@ -16,7 +16,7 @@ import { Fondateur } from "@/components/site/Fondateur";
 import { Final } from "@/components/site/Final";
 
 /** Local preview of the two hero proposals, with the trust band's empty slots. Removed before anything goes online. */
-/** Charifa's mix: the orbit in the blue of A, with the woman in the background. */
+/** Charifa's mix: the orbit in the blue of A. */
 function HeroOrbiteBleue() {
   return <HeroOrbite blue />;
 }
