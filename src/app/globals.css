@@ -183,42 +183,28 @@ main {
   transform: none;
 }
 
-/* the method: when the steps arrive, the line draws itself and the numbers light up in turn */
-.step-dot {
-  border-color: #0714d8;
-  background: #0714d8;
-  color: #fff;
-  transition:
-    background-color 0.5s var(--ease),
-    color 0.5s var(--ease),
-    border-color 0.5s var(--ease);
+/* the method: the stairs rise one after the other, then the words step onto them */
+.stair {
+  transform-origin: bottom center;
+  transition: transform 0.9s var(--ease);
 }
-.js .step-dot {
-  border-color: #e6eaf3;
-  background: #fff;
-  color: #0714d8;
-}
-.js [data-in] .step-dot {
-  border-color: #0714d8;
-  background: #0714d8;
-  color: #fff;
-}
-.step-line {
-  transform-origin: top center;
-  transition: transform 0.6s var(--ease);
-}
-.js .step-line {
+.js .stair {
   transform: scaleY(0);
 }
-@media (min-width: 1024px) {
-  .step-line {
-    transform-origin: left center;
-  }
-  .js .step-line {
-    transform: scaleX(0);
-  }
+.js [data-in] .stair {
+  transform: none;
 }
-.js [data-in] .step-line {
+.stair-text {
+  transition:
+    opacity 0.6s var(--ease),
+    transform 0.6s var(--ease);
+}
+.js .stair-text {
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+}
+.js [data-in] .stair-text {
+  opacity: 1;
   transform: none;
 }
 
@@ -417,14 +403,10 @@ main {
     transform: none !important;
     transition: none !important;
   }
-  .js .step-line {
+  .js .stair,
+  .js .stair-text {
+    opacity: 1 !important;
     transform: none !important;
-    transition: none !important;
-  }
-  .js .step-dot {
-    border-color: #0714d8 !important;
-    background: #0714d8 !important;
-    color: #fff !important;
     transition: none !important;
   }
   .rise,

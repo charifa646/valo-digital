@@ -1,16 +1,26 @@
 import type { CSSProperties } from "react";
 import { methode } from "@/lib/content";
+import { ArrowUpRight } from "@/components/ui/Icons";
+
+/** Each step is a stair, a little higher and a little bluer than the one before. */
+const stairs = [
+  { h: "h-[118px] md:h-[150px]", fill: "bg-frost", ink: "text-electric" },
+  { h: "h-[176px] md:h-[232px]", fill: "bg-[#C9D3FF]", ink: "text-electric" },
+  { h: "h-[234px] md:h-[314px]", fill: "bg-azure", ink: "text-white" },
+  { h: "h-[292px] md:h-[396px]", fill: "bg-electric", ink: "text-white" },
+];
 
 /**
- * « Une méthode simple. Des actions concrètes. »: the four steps on one line.
- * When the line arrives on screen it draws itself from step to step and each
- * number lights up in turn, the way the method is followed. Upright on phones.
+ * « Une méthode simple. Des actions concrètes. »: the four steps climb like a
+ * staircase, each verb standing on its own stair. When it comes on screen the
+ * stairs rise one after the other, then the words step onto them. On phones
+ * the staircase slides sideways under the finger.
  */
 export function Methode() {
   return (
     <section id="methode" aria-labelledby="methode-title" className="relative bg-white">
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
-        <div className="text-center">
+        <div className="max-w-[40rem]">
           <p className="tag">{methode.label}</p>
           <h2 id="methode-title" data-reveal className="h2 mt-5 text-ink">
             <span className="block">{methode.title[0]}</span>
@@ -18,30 +28,40 @@ export function Methode() {
           </h2>
         </div>
 
-        <ol data-reveal className="relative mx-auto mt-14 grid max-w-[1080px] gap-10 lg:mt-20 lg:grid-cols-4 lg:gap-6">
-          {methode.steps.map((s, i) => (
-            <li key={s.n} className="relative grid grid-cols-[48px_1fr] gap-5 lg:block">
-              {i < methode.steps.length - 1 && (
-                <span
-                  aria-hidden
-                  className="absolute bottom-[-28px] left-6 top-[60px] w-px bg-hair lg:bottom-auto lg:left-[60px] lg:right-[-12px] lg:top-6 lg:h-px lg:w-auto"
-                >
-                  <span className="step-line absolute inset-0 bg-electric" style={{ transitionDelay: `${0.45 + i * 0.55}s` } as CSSProperties} />
-                </span>
-              )}
-              <span
-                className="step-dot relative z-[1] grid h-12 w-12 place-items-center rounded-full border text-[15px] font-bold tracking-[-0.02em]"
-                style={{ transitionDelay: `${0.2 + i * 0.55}s` } as CSSProperties}
-              >
-                {s.n}
-              </span>
-              <div className="pt-2.5 lg:pt-6">
-                <h3 className="text-[15px] font-bold tracking-[0.06em] text-ink">{s.name}</h3>
-                <p className="pretty mt-2 max-w-[24rem] text-[15px] font-medium leading-relaxed text-body">{s.text}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+        <div className="-mx-[var(--gutter)] mt-12 snap-x snap-mandatory overflow-x-auto px-[var(--gutter)] [scroll-padding-inline:var(--gutter)] [scrollbar-width:none] md:mx-0 md:mt-16 md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden">
+          <ol data-reveal className="flex w-max items-end gap-2.5 md:grid md:w-auto md:grid-cols-4 md:gap-3">
+            {methode.steps.map((s, i) => (
+              <li key={s.n} className="flex w-[226px] shrink-0 snap-start flex-col md:w-auto">
+                <div className="stair-text pb-4 pr-4" style={{ transitionDelay: `${0.45 + i * 0.2}s` } as CSSProperties}>
+                  <h3 className="text-[15px] font-bold tracking-[0.06em] text-ink">{s.name}</h3>
+                  <p className="pretty mt-1.5 text-[14.5px] font-medium leading-relaxed text-body">{s.text}</p>
+                </div>
+                <div className={`relative flex items-end p-5 ${stairs[i].h}`}>
+                  <span
+                    aria-hidden
+                    className={`stair absolute inset-0 rounded-t-2xl ${stairs[i].fill}`}
+                    style={{ transitionDelay: `${i * 0.2}s` } as CSSProperties}
+                  />
+                  <span
+                    className={`stair-text relative text-[54px] font-bold leading-none tracking-[-0.05em] md:text-[68px] ${stairs[i].ink}`}
+                    style={{ transitionDelay: `${0.3 + i * 0.2}s` } as CSSProperties}
+                  >
+                    {s.n}
+                  </span>
+                  {i === stairs.length - 1 && (
+                    <span
+                      aria-hidden
+                      className="stair-text absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-sun text-navy"
+                      style={{ transitionDelay: `${0.4 + i * 0.2}s` } as CSSProperties}
+                    >
+                      <ArrowUpRight className="h-5 w-5" />
+                    </span>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   );
