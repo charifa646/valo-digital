@@ -198,7 +198,11 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
         )}
 
         {/* the orbits (large screens) */}
-        <div aria-hidden className="absolute inset-y-0 left-1/2 hidden w-full max-w-[1480px] -translate-x-1/2 lg:block">
+        <div
+          aria-hidden
+          className="grow-in absolute inset-y-0 left-1/2 hidden w-full max-w-[1480px] -translate-x-1/2 lg:block"
+          style={{ ["--d" as string]: "0.35s" } as CSSProperties}
+        >
           <span
             className={`absolute bottom-[14%] left-[8%] right-[8%] top-[18%] rounded-[50%] border-[1.5px] border-dotted ${blue ? "border-white/30" : "border-electric/30"}`}
           />
@@ -208,7 +212,7 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
         </div>
 
         <div className="relative px-5 pb-6 pt-[104px] text-center sm:pt-[120px] lg:px-0 lg:pb-0 lg:pt-[126px]">
-          <div className="pop-in" style={{ ["--d" as string]: "0.05s" } as CSSProperties}>
+          <div className="spin-in" style={{ ["--d" as string]: "0.05s" } as CSSProperties}>
             <Tile className="mx-auto h-14 w-14 sm:h-16 sm:w-16" />
           </div>
           <h1
@@ -218,13 +222,11 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
               <span key={li} className="xl:block">
                 {line.split(" ").map((w, wi) => (
                   <span key={wi}>
-                    <span className="inline-block overflow-hidden pb-[0.06em] align-bottom">
-                      <span
-                        className={`rise ${li ? (blue ? "text-sun" : "text-electric") : ""}`}
-                        style={{ ["--d" as string]: `${0.1 + (li * 5 + wi) * 0.05}s` } as CSSProperties}
-                      >
-                        {w}
-                      </span>
+                    <span
+                      className={`blur-in inline-block ${li ? (blue ? "text-sun" : "text-electric") : ""}`}
+                      style={{ ["--d" as string]: `${0.15 + (li * 5 + wi) * 0.07}s` } as CSSProperties}
+                    >
+                      {w}
                     </span>{" "}
                   </span>
                 ))}
@@ -232,12 +234,12 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
             ))}
           </h1>
           <p
-            className={`fade-up pretty mx-auto mt-5 max-w-[34rem] text-[16px] font-medium leading-relaxed sm:text-[17px] ${blue ? "text-white/85" : "text-body"}`}
-            style={{ ["--d" as string]: "0.5s" } as CSSProperties}
+            className={`fade-in pretty mx-auto mt-5 max-w-[34rem] text-[16px] font-medium leading-relaxed sm:text-[17px] ${blue ? "text-white/85" : "text-body"}`}
+            style={{ ["--d" as string]: "0.75s" } as CSSProperties}
           >
             {hero.lead}
           </p>
-          <div className="fade-up mt-8" style={{ ["--d" as string]: "0.65s" } as CSSProperties}>
+          <div className="bounce-in mt-8" style={{ ["--d" as string]: "0.9s" } as CSSProperties}>
             <a href={wa(hello)} target="_blank" rel="noopener noreferrer" className={btn(blue ? "white" : "electric")}>
               <BtnInner>{hero.cta}</BtnInner>
             </a>
@@ -245,14 +247,25 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
         </div>
 
         {/* the four around the orbit: placed on it on large screens, two by two below the message on small ones */}
-        <div className="relative mx-auto mt-4 grid max-w-[460px] grid-cols-2 items-start gap-x-3 gap-y-4 px-4 pb-16 lg:absolute lg:inset-y-0 lg:left-1/2 lg:mt-0 lg:block lg:w-full lg:max-w-[1480px] lg:-translate-x-1/2 lg:p-0">
+        <div className="relative mx-auto mt-4 grid max-w-[460px] grid-cols-2 items-start [--ox:44px] [--oy:16px] lg:[--ox:200px] lg:[--oy:70px] gap-x-3 gap-y-4 px-4 pb-16 lg:absolute lg:inset-y-0 lg:left-1/2 lg:mt-0 lg:block lg:w-full lg:max-w-[1480px] lg:-translate-x-1/2 lg:p-0">
           <span
             aria-hidden
-            className={`absolute inset-x-[6%] inset-y-[8%] -z-10 rounded-[50%] border-[1.5px] border-dotted lg:hidden ${blue ? "border-white/25" : "border-electric/25"}`}
+            className={`grow-in absolute inset-x-[6%] inset-y-[8%] -z-10 rounded-[50%] border-[1.5px] border-dotted lg:hidden ${blue ? "border-white/25" : "border-electric/25"}`}
+            style={{ ["--d" as string]: "1s" } as CSSProperties}
           />
           {sats.map((s, i) => (
             <div key={s.title} className={`lg:absolute lg:-translate-x-1/2 lg:-translate-y-1/2 ${s.spot} ${i % 2 ? "mt-6 lg:mt-0" : ""}`}>
-              <div className="pop-in" style={{ ["--d" as string]: `${0.8 + i * 0.1}s` } as CSSProperties}>
+              {/* each window comes out from the middle of the orbit and settles in its place */}
+              <div
+                className="orbit-in"
+                style={
+                  {
+                    ["--d" as string]: `${1 + i * 0.12}s`,
+                    ["--fx" as string]: `calc(var(--ox) * ${i % 2 ? -1 : 1})`,
+                    ["--fy" as string]: `calc(var(--oy) * ${i < 2 ? 1 : -1})`,
+                  } as CSSProperties
+                }
+              >
                 <div className={`float ${s.tilt}`}>
                   <Satellite icon={s.icon} title={s.title}>
                     {s.body}
@@ -266,7 +279,7 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
           <ul aria-hidden className="col-span-2 flex justify-center gap-3 pt-2 lg:contents">
             {channels.map(({ Icon, tone, spot }, i) => (
               <li key={i} className={`lg:absolute lg:-translate-x-1/2 ${spot}`}>
-                <div className="pop-in" style={{ ["--d" as string]: `${1.2 + i * 0.08}s` } as CSSProperties}>
+                <div className="drop-in" style={{ ["--d" as string]: `${1.5 + i * 0.1}s` } as CSSProperties}>
                   <span className={`float grid h-11 w-11 place-items-center rounded-[12px] border border-hair bg-white shadow-panel lg:h-12 lg:w-12 ${tone}`}>
                     <Icon className="h-5 w-5 lg:h-[22px] lg:w-[22px]" />
                   </span>

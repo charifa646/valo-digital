@@ -37,9 +37,16 @@ export function RevealObserver() {
     });
     reveal.forEach((el) => once.observe(el));
     play.forEach((el) => live.observe(el));
+    // the very last elements (the footer's name) may never reach the trigger line on short screens: show them at the end of the page
+    const atEnd = () => {
+      if (innerHeight + scrollY < document.documentElement.scrollHeight - 2) return;
+      for (const el of reveal) if (!el.hasAttribute("data-in") && el.getBoundingClientRect().top < innerHeight) el.setAttribute("data-in", "");
+    };
+    addEventListener("scroll", atEnd, { passive: true });
     return () => {
       once.disconnect();
       live.disconnect();
+      removeEventListener("scroll", atEnd);
     };
   }, []);
   return null;

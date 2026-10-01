@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import { details, solutions } from "@/lib/content";
 import { hello, wa } from "@/lib/links";
 import { useSheet } from "./Sheet";
+import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight, Compass, Scan, Video } from "@/components/ui/Icons";
 import { Price } from "@/components/ui/Price";
@@ -23,9 +24,11 @@ export function Solutions() {
       <div aria-hidden className="light-lines" />
       <div className="gutter mx-auto grid max-w-page gap-10 py-24 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16 lg:py-32">
         <div className="lg:sticky lg:top-[calc(var(--header)+40px)] lg:self-start">
-          <p className="tag">{solutions.label}</p>
-          <h2 id="solutions-title" data-reveal className="h2 balance mt-5 max-w-[14ch] text-ink">
-            {solutions.title}
+          <p data-reveal="rule" className="tag">
+            {solutions.label}
+          </p>
+          <h2 id="solutions-title" data-reveal="words" className="h2 balance mt-5 max-w-[14ch] text-ink">
+            <Words>{solutions.title}</Words>
           </h2>
           <div className="mt-8">
             <a href={wa(hello)} target="_blank" rel="noopener noreferrer" className={btn("electric")}>
@@ -44,8 +47,8 @@ export function Solutions() {
                 key={s.id}
                 id={s.id}
                 data-pulse
-                data-reveal
-                style={{ ["--d" as string]: `${i * 0.08}s` } as CSSProperties}
+                data-reveal="slide"
+                style={{ ["--d" as string]: `${i * 0.12}s` } as CSSProperties}
                 className={`group relative grid gap-5 rounded-2xl p-6 transition duration-300 sm:grid-cols-[auto_1fr] sm:gap-6 sm:p-7 lg:p-8 ${
                   lead
                     ? "bg-[linear-gradient(160deg,#3551FF_0%,#0714D8_50%,#0A12A8_100%)] text-white shadow-[0_24px_48px_-28px_rgba(7,20,216,.55)]"

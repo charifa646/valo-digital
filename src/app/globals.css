@@ -184,23 +184,283 @@ main {
 }
 
 /* ------------------------------------------------------------------ */
-/* Reveal on scroll: only hidden once the script has started           */
+/* Reveal on scroll: each kind of content has its own entrance, so the  */
+/* page never fades everything up the same way. Only hidden once the    */
+/* script has started; « reduce motion » keeps the plain fade only.     */
 /* ------------------------------------------------------------------ */
 
+:root {
+  /* springs, as in Framer Motion: stiffness 100 with damping 20 (settles), and with damping 12 (a small overshoot) */
+  --spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring: linear(
+      0,
+      0.016 2.1%,
+      0.055 4.2%,
+      0.11 6.2%,
+      0.173 8.3%,
+      0.241 10.4%,
+      0.31 12.5%,
+      0.378 14.6%,
+      0.442 16.7%,
+      0.503 18.8%,
+      0.559 20.8%,
+      0.611 22.9%,
+      0.657 25%,
+      0.7 27.1%,
+      0.737 29.2%,
+      0.771 31.2%,
+      0.801 33.3%,
+      0.827 35.4%,
+      0.85 37.5%,
+      0.871 39.6%,
+      0.888 41.7%,
+      0.904 43.8%,
+      0.917 45.8%,
+      0.929 47.9%,
+      0.939 50%,
+      0.948 52.1%,
+      0.955 54.2%,
+      0.962 56.2%,
+      0.967 58.3%,
+      0.972 60.4%,
+      0.976 62.5%,
+      0.98 64.6%,
+      0.983 66.7%,
+      0.985 68.8%,
+      0.987 70.8%,
+      0.989 72.9%,
+      0.991 75%,
+      0.992 77.1%,
+      0.993 79.2%,
+      0.994 81.2%,
+      0.995 83.3%,
+      0.996 85.4%,
+      0.997 87.5%,
+      0.998 91.7%,
+      0.999 97.9%,
+      1
+    );
+    --bounce: linear(
+      0,
+      0.021 2.1%,
+      0.077 4.2%,
+      0.158 6.2%,
+      0.254 8.3%,
+      0.358 10.4%,
+      0.465 12.5%,
+      0.569 14.6%,
+      0.667 16.7%,
+      0.757 18.8%,
+      0.835 20.8%,
+      0.903 22.9%,
+      0.959 25%,
+      1.004 27.1%,
+      1.039 29.2%,
+      1.064 31.2%,
+      1.081 33.3%,
+      1.091 35.4%,
+      1.095 37.5%,
+      1.094 39.6%,
+      1.089 41.7%,
+      1.082 43.8%,
+      1.074 45.8%,
+      1.064 47.9%,
+      1.054 50%,
+      1.044 52.1%,
+      1.034 54.2%,
+      1.026 56.2%,
+      1.018 58.3%,
+      1.011 60.4%,
+      1.005 62.5%,
+      1.001 64.6%,
+      0.997 66.7%,
+      0.995 68.8%,
+      0.993 70.8%,
+      0.992 72.9%,
+      0.991 77.1%,
+      0.992 81.2%,
+      0.994 85.4%,
+      0.996 89.6%,
+      0.998 95.8%,
+      1
+    );
+  }
+}
+
+/* the plain one: a fade, without travelling */
 .js [data-reveal] {
   opacity: 0;
-  transform: translate3d(0, 26px, 0);
-  transition:
-    opacity 0.8s var(--ease),
-    transform 1s var(--ease);
+  transition: opacity 0.9s var(--ease);
   transition-delay: var(--d, 0s);
-}
-.js [data-reveal="scale"] {
-  transform: translate3d(0, 26px, 0) scale(0.96);
 }
 .js [data-reveal][data-in] {
   opacity: 1;
-  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* blur: comes out of a blur, without moving */
+  .js [data-reveal="blur"] {
+    filter: blur(12px);
+    transition:
+      opacity 0.9s var(--ease) var(--d, 0s),
+      filter 1.1s var(--ease) var(--d, 0s);
+  }
+  .js [data-reveal="blur"][data-in] {
+    filter: none;
+  }
+
+  /* words: a title whose words come out of the blur one after the other (Motion Primitives « TextEffect », blur) */
+  .js [data-reveal="words"] {
+    opacity: 1;
+  }
+  .js [data-reveal="words"] .w {
+    opacity: 0;
+    filter: blur(10px);
+    transition:
+      opacity 0.7s var(--ease),
+      filter 0.9s var(--ease);
+    transition-delay: calc(var(--d, 0s) + var(--i, 0) * 60ms);
+  }
+  .js [data-reveal="words"][data-in] .w {
+    opacity: 1;
+    filter: none;
+  }
+
+  /* flip: stands up in 3D, like a card set upright */
+  .js [data-reveal="flip"] {
+    transform: perspective(1000px) rotateX(-38deg);
+    transform-origin: 50% 0;
+    transition:
+      opacity 0.6s var(--ease) var(--d, 0s),
+      transform 0.9s var(--spring) var(--d, 0s);
+  }
+
+  /* slide: comes in from the side (slide-left: from the left) */
+  .js [data-reveal="slide"] {
+    transform: translate3d(64px, 0, 0);
+  }
+  .js [data-reveal="slide-left"] {
+    transform: translate3d(-48px, 0, 0);
+  }
+  .js [data-reveal^="slide"] {
+    transition:
+      opacity 0.8s var(--ease) var(--d, 0s),
+      transform 0.9s var(--spring) var(--d, 0s);
+  }
+
+  /* photo: the card fades in while its picture settles from a zoom (on `scale`, so the hover zoom keeps working) */
+  .js [data-reveal="photo"]:not([data-in]) img {
+    scale: 1.18;
+  }
+  .js [data-reveal="photo"][data-in] img {
+    animation: settle 1.6s var(--ease) var(--d, 0s) backwards;
+  }
+
+  /* tilt: lands from a slight angle, with a little spring */
+  .js [data-reveal="tilt"] {
+    transform: rotate(-6deg) scale(0.94);
+    transform-origin: 20% 100%;
+    transition:
+      opacity 0.7s var(--ease) var(--d, 0s),
+      transform 1.03s var(--bounce) var(--d, 0s);
+  }
+
+  /* pop: a small spring, for a button */
+  .js [data-reveal="pop"] {
+    transform: scale(0.82);
+    transition:
+      opacity 0.5s var(--ease) var(--d, 0s),
+      transform 1.03s var(--bounce) var(--d, 0s);
+  }
+
+  /* zoom: grows into place */
+  .js [data-reveal="zoom"] {
+    transform: scale(0.9);
+    transition:
+      opacity 0.8s var(--ease) var(--d, 0s),
+      transform 0.9s var(--spring) var(--d, 0s);
+  }
+
+  .js [data-reveal][data-in] {
+    transform: none;
+  }
+
+  /* rule, wipe, curtain: unveiled through a growing mask (a mask, unlike a clip-path, never hides the element from the
+     observer that starts it). rule: a section's name and its line, from the left (from the middle when centred);
+     wipe: a card, from the bottom up; curtain: a large card, opened from the middle. */
+  .js [data-reveal="rule"],
+  .js [data-reveal="wipe"],
+  .js [data-reveal="curtain"] {
+    opacity: 1;
+  }
+  .js [data-reveal="rule"]:not([data-in]),
+  .js [data-reveal="wipe"]:not([data-in]),
+  .js [data-reveal="curtain"]:not([data-in]) {
+    -webkit-mask: linear-gradient(#000, #000) no-repeat 0 0 / 0 0;
+    mask: linear-gradient(#000, #000) no-repeat 0 0 / 0 0;
+  }
+  .js [data-reveal="rule"][data-in] {
+    animation: unveil-x 1.2s var(--ease) var(--d, 0s) backwards;
+  }
+  .js [data-reveal="rule"].tag-center[data-in],
+  .js [data-reveal="curtain"][data-in] {
+    animation: unveil-mid 1.3s var(--ease) var(--d, 0s) backwards;
+  }
+  .js [data-reveal="wipe"][data-in] {
+    animation: unveil-up 1.1s var(--ease) var(--d, 0s) backwards;
+  }
+
+  /* draw: the footer's name traced like a signature */
+  .js [data-reveal="draw"] {
+    opacity: 1;
+  }
+  .js [data-reveal="draw"] .draw-stroke {
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+    transition: stroke-dashoffset 2.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s;
+  }
+  .js [data-reveal="draw"][data-in] .draw-stroke {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes unveil-x {
+  from {
+    -webkit-mask: linear-gradient(#000, #000) no-repeat 0 50% / 0% 100%;
+    mask: linear-gradient(#000, #000) no-repeat 0 50% / 0% 100%;
+  }
+  to {
+    -webkit-mask: linear-gradient(#000, #000) no-repeat 0 50% / 100% 100%;
+    mask: linear-gradient(#000, #000) no-repeat 0 50% / 100% 100%;
+  }
+}
+@keyframes unveil-mid {
+  from {
+    -webkit-mask: linear-gradient(#000, #000) no-repeat 50% 50% / 0% 100%;
+    mask: linear-gradient(#000, #000) no-repeat 50% 50% / 0% 100%;
+  }
+  to {
+    -webkit-mask: linear-gradient(#000, #000) no-repeat 50% 50% / 100% 100%;
+    mask: linear-gradient(#000, #000) no-repeat 50% 50% / 100% 100%;
+  }
+}
+@keyframes unveil-up {
+  from {
+    -webkit-mask: linear-gradient(#000, #000) no-repeat 50% 100% / 100% 0%;
+    mask: linear-gradient(#000, #000) no-repeat 50% 100% / 100% 0%;
+  }
+  to {
+    -webkit-mask: linear-gradient(#000, #000) no-repeat 50% 100% / 100% 100%;
+    mask: linear-gradient(#000, #000) no-repeat 50% 100% / 100% 100%;
+  }
+}
+@keyframes settle {
+  from {
+    scale: 1.18;
+  }
 }
 
 /* light lines: two fine beams framing the content, each with a soft glow, fading at the top and bottom (light sections) */
@@ -389,6 +649,71 @@ main {
   animation: pop-in 1.1s var(--ease) both;
   animation-delay: var(--d, 0s);
 }
+/* the homepage's entrances: words out of a blur, the mark spinning in, the windows arriving along the orbit, the channels dropping */
+/* the title starts as a faint blur rather than nothing: it is on screen from the first paint, then sharpens word by word */
+@keyframes blur-in {
+  from {
+    opacity: 0.14;
+    filter: blur(14px);
+  }
+}
+@keyframes spin-in {
+  from {
+    opacity: 0;
+    transform: rotate(-120deg) scale(0.4);
+  }
+}
+@keyframes orbit-in {
+  from {
+    opacity: 0;
+    transform: translate3d(var(--fx, 0), var(--fy, 0), 0) scale(0.6);
+  }
+}
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -48px, 0) scale(0.8);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes grow-in {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+}
+.blur-in {
+  animation: blur-in 1s var(--ease) both;
+  animation-delay: var(--d, 0s);
+}
+.spin-in {
+  animation: spin-in 1.03s var(--bounce) both;
+  animation-delay: var(--d, 0s);
+}
+.orbit-in {
+  animation: orbit-in 1.2s var(--spring) both;
+  animation-delay: var(--d, 0s);
+}
+.drop-in {
+  animation: drop-in 1.03s var(--bounce) both;
+  animation-delay: var(--d, 0s);
+}
+.fade-in {
+  animation: fade-in 1s var(--ease) both;
+  animation-delay: var(--d, 0s);
+}
+.grow-in {
+  animation: grow-in 1.4s var(--ease) both;
+  animation-delay: var(--d, 0s);
+}
+.bounce-in {
+  animation: grow-in 1.03s var(--bounce) both;
+  animation-delay: var(--d, 0s);
+}
 .letter {
   animation: letter 1.6s var(--ease) both;
   animation-delay: var(--d, 0s);
@@ -506,6 +831,13 @@ main {
   .rise,
   .fade-up,
   .pop-in,
+  .blur-in,
+  .spin-in,
+  .orbit-in,
+  .drop-in,
+  .fade-in,
+  .grow-in,
+  .bounce-in,
   .letter,
   .float,
   [data-anim] {

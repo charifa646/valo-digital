@@ -7,7 +7,7 @@ const type = { fontFamily: "var(--font-montserrat)", fontWeight: 800, fontSize: 
 
 /**
  * The name at the foot of the page, drawn in outline and cut by the bottom
- * edge. Under the mouse a light passes through the letters and fills them
+ * edge; it traces itself the first time it comes on screen. Under the mouse a light passes through the letters and fills them
  * (21st.dev « Hover Footer »). On touch screens it simply stays outlined.
  */
 export function FooterWordmark() {
@@ -20,9 +20,9 @@ export function FooterWordmark() {
   };
 
   return (
-    <div ref={box} onPointerMove={follow} aria-hidden data-wordmark className="group relative -mb-[2.5%] select-none [--x:50%] [--y:50%]">
+    <div ref={box} onPointerMove={follow} aria-hidden data-wordmark data-reveal="draw" className="group relative -mb-[2.5%] select-none [--x:50%] [--y:50%]">
       <svg viewBox="0 0 1000 200" className="block w-full">
-        <text {...word} style={type} fill="none" stroke="rgba(255,255,255,.2)" strokeWidth="1.4">
+        <text {...word} style={type} className="draw-stroke" fill="none" stroke="rgba(255,255,255,.2)" strokeWidth="1.4">
           VALO
         </text>
       </svg>

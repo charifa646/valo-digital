@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { needs } from "@/lib/content";
 import { Anchor } from "./Scroll";
+import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight, Cap, Handoff, Rocket, Scan } from "@/components/ui/Icons";
 
@@ -32,9 +33,11 @@ export function Needs() {
       <div aria-hidden className="light-lines" />
       <div className="gutter mx-auto max-w-page pb-20 pt-16 lg:pb-28 lg:pt-20">
         <div className="text-center">
-          <p className="tag tag-center">{needs.label}</p>
-          <h2 id="besoin-title" data-reveal className="h2 balance mx-auto mt-5 max-w-[18ch] text-ink">
-            {needs.title}
+          <p data-reveal="rule" className="tag tag-center">
+            {needs.label}
+          </p>
+          <h2 id="besoin-title" data-reveal="words" className="h2 balance mx-auto mt-5 max-w-[18ch] text-ink">
+            <Words>{needs.title}</Words>
           </h2>
         </div>
 
@@ -61,8 +64,8 @@ export function Needs() {
                   cards.current[i] = el;
                 }}
                 data-i={i}
-                data-reveal
-                style={{ ["--d" as string]: `${i * 0.06}s` } as CSSProperties}
+                data-reveal="flip"
+                style={{ ["--d" as string]: `${i * 0.1}s` } as CSSProperties}
                 onMouseEnter={() => setActive(i)}
                 onFocus={() => setActive(i)}
                 className={`group relative z-[1] flex items-start gap-4 rounded-2xl p-5 transition-colors duration-500 sm:min-h-[220px] sm:flex-col sm:gap-0 lg:p-6 ${on ? "text-white" : "text-ink"}`}

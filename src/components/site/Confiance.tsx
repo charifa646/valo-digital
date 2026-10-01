@@ -15,13 +15,17 @@ export function Confiance({ preview = false }: { preview?: boolean }) {
 
   return (
     <section aria-labelledby="confiance-title" className="relative overflow-hidden pb-14 pt-10 lg:pb-16 lg:pt-14">
-      <div aria-hidden className="relative mx-auto grid h-[230px] w-[230px] place-items-center sm:h-[300px] sm:w-[300px]">
+      <div aria-hidden data-reveal="zoom" className="relative mx-auto grid h-[230px] w-[230px] place-items-center sm:h-[300px] sm:w-[300px]">
         <span className="absolute inset-0 rounded-full border border-hair/80 bg-[radial-gradient(closest-side,rgba(231,237,255,.25),rgba(231,237,255,.85))]" />
         <span className="absolute inset-[17%] rounded-full border border-hair bg-[radial-gradient(closest-side,rgba(255,255,255,.4),rgba(219,227,255,.9))]" />
         <span className="absolute inset-[33%] rounded-full border border-white bg-white shadow-panel" />
         <Monogram className="relative h-7 w-auto text-electric sm:h-8" />
       </div>
-      <h2 id="confiance-title" className="relative -mt-12 text-center text-[20px] font-semibold tracking-[-0.02em] text-ink sm:-mt-14 sm:text-[24px]">
+      <h2
+        id="confiance-title"
+        data-reveal="blur"
+        className="relative -mt-12 text-center text-[20px] font-semibold tracking-[-0.02em] text-ink sm:-mt-14 sm:text-[24px]"
+      >
         {confiance.title}
       </h2>
 

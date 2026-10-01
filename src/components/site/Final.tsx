@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { contact, final, fondateur, footer, formations, nav, prestations } from "@/lib/content";
 import { hello, wa } from "@/lib/links";
 import { Monogram } from "@/components/brand/Logo";
@@ -6,6 +7,7 @@ import { BtnInner, btn } from "@/components/ui/Action";
 import { Mail, Phone, Pin } from "@/components/ui/Icons";
 import { Anchor } from "./Scroll";
 import { FooterWordmark } from "./FooterWordmark";
+import { Words } from "@/components/ui/Words";
 
 const heading = "text-[12px] font-semibold uppercase tracking-[0.18em] text-white/50";
 const link = "text-[14.5px] font-medium text-white/80 transition hover:text-white";
@@ -36,13 +38,17 @@ export function Final() {
         className="relative mx-auto grid max-w-page gap-4 px-6 pt-16 sm:px-12 sm:pt-20 lg:grid-cols-[1.08fr_1fr] lg:items-end lg:gap-10 lg:px-14 lg:pt-24"
       >
         <div className="lg:pb-28">
-          <h2 id="contact-title" data-reveal className="h2 balance max-w-[14ch]">
-            {final.title}
+          <h2 id="contact-title" data-reveal="words" className="h2 balance max-w-[14ch]">
+            <Words>{final.title}</Words>
           </h2>
-          <p data-reveal className="pretty mt-5 max-w-[30rem] text-[17px] font-medium leading-relaxed text-white/80 sm:text-[18px]">
+          <p
+            data-reveal
+            style={{ ["--d" as string]: "0.3s" } as CSSProperties}
+            className="pretty mt-5 max-w-[30rem] text-[17px] font-medium leading-relaxed text-white/80 sm:text-[18px]"
+          >
             {final.text}
           </p>
-          <div data-reveal className="mt-8">
+          <div data-reveal="pop" style={{ ["--d" as string]: "0.45s" } as CSSProperties} className="mt-8">
             <a href={wa(hello)} target="_blank" rel="noopener noreferrer" className={btn("white")}>
               <BtnInner>{final.cta}</BtnInner>
             </a>
@@ -50,7 +56,7 @@ export function Final() {
         </div>
 
         {/* Valentin, smiling, in a pool of light */}
-        <div data-reveal="scale" className="relative mx-auto -mb-px mt-6 w-full max-w-[500px] self-end lg:mt-0">
+        <div data-reveal="zoom" className="relative mx-auto -mb-px mt-6 w-full max-w-[500px] origin-bottom self-end lg:mt-0">
           <div
             aria-hidden
             className="absolute bottom-[4%] left-1/2 h-[80%] w-[90%] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(232,238,255,.45),rgba(143,163,255,.18)_60%,transparent)]"

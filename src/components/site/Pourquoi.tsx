@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { pourquoi } from "@/lib/content";
+import { Words } from "@/components/ui/Words";
 import { Bolt, Compass, Trend } from "@/components/ui/Icons";
 
 const icons = [Compass, Bolt, Trend];
@@ -13,7 +14,7 @@ export function Pourquoi() {
   return (
     <section id="pourquoi" aria-labelledby="pourquoi-title" className="relative">
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
-        <div data-dark className="relative isolate overflow-hidden rounded-2xl bg-night text-white">
+        <div data-dark data-reveal="curtain" className="relative isolate overflow-hidden rounded-2xl bg-night text-white">
           <Image src="/images/v3/equipe.webp" alt="" fill sizes="(min-width: 1240px) 1160px, 100vw" className="-z-10 object-cover object-[62%_30%]" />
           {/* the words always sit on dark blue: evenly on phones, from the left on larger screens */}
           <div
@@ -22,9 +23,11 @@ export function Pourquoi() {
           />
           <div aria-hidden className="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t from-[rgba(4,11,82,.55)] to-transparent" />
           <div className="max-w-[36rem] px-6 pb-28 pt-14 sm:px-12 sm:pb-36 sm:pt-20 lg:px-16 lg:pb-44 lg:pt-24">
-            <p className="tag text-white/85">{pourquoi.label}</p>
-            <h2 id="pourquoi-title" data-reveal className="h2 balance mt-5">
-              {pourquoi.title}
+            <p data-reveal="rule" className="tag text-white/85" style={{ ["--d" as string]: "0.3s" } as CSSProperties}>
+              {pourquoi.label}
+            </p>
+            <h2 id="pourquoi-title" data-reveal="words" className="h2 balance mt-5" style={{ ["--d" as string]: "0.4s" } as CSSProperties}>
+              <Words>{pourquoi.title}</Words>
             </h2>
             <p data-reveal className="pretty mt-5 text-[16.5px] font-medium leading-relaxed text-white/85 lg:text-[17.5px]">
               {pourquoi.lead}
@@ -39,8 +42,8 @@ export function Pourquoi() {
             return (
               <li
                 key={p.name}
-                data-reveal
-                style={{ ["--d" as string]: `${i * 0.08}s` } as CSSProperties}
+                data-reveal="blur"
+                style={{ ["--d" as string]: `${0.15 + i * 0.12}s` } as CSSProperties}
                 className="border-hair p-6 max-md:[&:not(:first-child)]:border-t sm:p-7 md:[&:not(:first-child)]:border-l lg:p-8"
               >
                 <span className="grid h-11 w-11 place-items-center rounded-full bg-frost text-electric">

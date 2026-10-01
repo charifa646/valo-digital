@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { methode } from "@/lib/content";
 import { ArrowUpRight } from "@/components/ui/Icons";
 import { GrowthCurve } from "./GrowthCurve";
+import { Words, count } from "@/components/ui/Words";
 import { Wave } from "@/components/ui/Wave";
 
 /** Each step is a stair, a little higher and a little bluer than the one before. */
@@ -24,10 +25,16 @@ export function Methode() {
     <section id="methode" aria-labelledby="methode-title" className="relative bg-white">
       <div className="gutter mx-auto max-w-page pb-14 pt-24 lg:pb-20 lg:pt-32">
         <div className="max-w-[40rem]">
-          <p className="tag">{methode.label}</p>
-          <h2 id="methode-title" data-reveal className="h2 mt-5 text-ink">
-            <span className="block">{methode.title[0]}</span>
-            <span className="block text-electric">{methode.title[1]}</span>
+          <p data-reveal="rule" className="tag">
+            {methode.label}
+          </p>
+          <h2 id="methode-title" data-reveal="words" className="h2 mt-5 text-ink">
+            <span className="block">
+              <Words>{methode.title[0]}</Words>
+            </span>
+            <span className="block text-electric">
+              <Words from={count(methode.title[0])}>{methode.title[1]}</Words>
+            </span>
           </h2>
         </div>
 

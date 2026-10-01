@@ -7,6 +7,7 @@ import { useSheet } from "./Sheet";
 import { ArrowRight } from "@/components/ui/Icons";
 import { Price } from "@/components/ui/Price";
 import { Wave } from "@/components/ui/Wave";
+import { Words } from "@/components/ui/Words";
 import { Calendrier } from "@/components/previews/Calendrier";
 import { Campagnes } from "@/components/previews/Campagnes";
 import { Montage } from "@/components/previews/Montage";
@@ -33,8 +34,8 @@ function OfferCard({ o, i }: { o: Offer; i: number }) {
 
   return (
     <article
-      data-reveal
-      style={{ ["--d" as string]: `${(i % 2) * 0.08}s` } as CSSProperties}
+      data-reveal="wipe"
+      style={{ ["--d" as string]: `${(i % 2) * 0.14}s` } as CSSProperties}
       className={`flex flex-col overflow-hidden rounded-2xl ${spans[i]} ${
         lead ? "bg-[linear-gradient(160deg,#3551FF_0%,#0714D8_46%,#0A12A8_100%)] text-white" : "border border-hair bg-white text-ink"
       }`}
@@ -70,13 +71,17 @@ export function Prestations() {
     <section id="prestations" aria-labelledby="prestations-title" className="relative">
       <div className="gutter mx-auto max-w-page pb-14 pt-8 lg:pb-20 lg:pt-10">
         <div className="max-w-[40rem]">
-          <p data-reveal className="tag">
+          <p data-reveal="rule" className="tag">
             {prestations.label}
           </p>
-          <h2 id="prestations-title" data-reveal className="h2 balance mt-5 text-ink">
-            {prestations.title}
+          <h2 id="prestations-title" data-reveal="words" className="h2 balance mt-5 text-ink">
+            <Words>{prestations.title}</Words>
           </h2>
-          <p data-reveal className="pretty mt-4 text-[16.5px] font-medium leading-relaxed text-body lg:text-[17.5px]">
+          <p
+            data-reveal
+            className="pretty mt-4 text-[16.5px] font-medium leading-relaxed text-body lg:text-[17.5px]"
+            style={{ ["--d" as string]: "0.3s" } as CSSProperties}
+          >
             {prestations.lead}
           </p>
         </div>

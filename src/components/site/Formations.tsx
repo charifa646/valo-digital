@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import { formations } from "@/lib/content";
 import { useSheet } from "./Sheet";
+import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight } from "@/components/ui/Icons";
 
@@ -32,16 +33,24 @@ export function Formations() {
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[40rem]">
-            <p className="tag">{formations.label}</p>
-            <h2 id="formations-title" data-reveal className="h2 balance mt-5 text-ink">
+            <p data-reveal="rule" className="tag">
+              {formations.label}
+            </p>
+            <h2 id="formations-title" data-reveal="words" className="h2 balance mt-5 text-ink">
               {formations.title.map((w, i) => (
-                <span key={w} className={i === 2 ? "text-electric" : ""}>
-                  {w}
+                <span key={w}>
+                  <Words from={i} className={i === 2 ? "text-electric" : ""}>
+                    {w}
+                  </Words>
                   {i < formations.title.length - 1 ? " " : ""}
                 </span>
               ))}
             </h2>
-            <p data-reveal className="pretty mt-4 text-[16.5px] font-medium leading-relaxed text-body lg:text-[17.5px]">
+            <p
+              data-reveal
+              className="pretty mt-4 text-[16.5px] font-medium leading-relaxed text-body lg:text-[17.5px]"
+              style={{ ["--d" as string]: "0.3s" } as CSSProperties}
+            >
               {formations.lead}
             </p>
           </div>
@@ -52,7 +61,7 @@ export function Formations() {
 
         <ul className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:mt-14 lg:grid-cols-4 lg:gap-5">
           {formations.items.map((f, i) => (
-            <li key={f.id} data-reveal style={{ ["--d" as string]: `${(i % 4) * 0.06}s` } as CSSProperties}>
+            <li key={f.id} data-reveal="photo" style={{ ["--d" as string]: `${(i % 4) * 0.09}s` } as CSSProperties}>
               <button
                 type="button"
                 onClick={() => open("formations", f.id)}

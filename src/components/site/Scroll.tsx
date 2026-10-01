@@ -38,7 +38,7 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
   const go = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-    // a card still waiting to ease in would be measured 26px too low: show it at once
+    // a card still waiting for its entrance (shifted, tilted or clipped) would be measured out of place: show it at once
     if (el.matches("[data-reveal]:not([data-in])")) {
       el.style.transition = "none";
       el.setAttribute("data-in", "");
