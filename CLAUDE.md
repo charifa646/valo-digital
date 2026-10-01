@@ -17,10 +17,14 @@ Claude Code lit ce fichier au début de chaque conversation sur ce dépôt. Il r
 - Les tirets du document (« 01 — Comprendre », « Cohorte métiers du digital — 2 mois ») sont rendus par la mise en page : le numéro à part, « 2 mois » en étiquette. Les mots ne changent pas.
 - Les détails des offres et des formations (formules, contenu des formations, prix du diagnostic et de l'accompagnement) viennent du catalogue du client, accents restaurés. Ils s'ouvrent dans un panneau pour ne pas alourdir la page.
 - Rien n'est inventé : ni chiffres, ni témoignages, ni références clients, ni promesses de résultat.
-- Direction visuelle, d'après mes maquettes (Payrot, AirLume, Fondo, Relink, Juniper, quso) : panneaux bleu nuit et bleu électrique, colonnes de lumière, verre, monogramme VD en 3D chromé, petites scènes animées en code.
+- Direction visuelle, d'après mes maquettes (Payrot, AirLume, Fondo, Relink, Juniper, quso) : panneaux bleu nuit et bleu électrique, colonnes de lumière, monogramme VD en 3D chromé (rendu en image légère), petites scènes animées en code.
+- Accueil : le titre, la phrase et le bouton en haut, comme AirLume ; en dessous, une vraie photo détourée (la femme à la tablette) qui monte d'un socle taillé droit, devant le grand nom VALO, avec les quatre étiquettes autour, comme Payrot. Pas de 3D dans l'accueil : je l'ai trouvée trop lourde.
+- Arrondis dosés, pour ne pas faire « site IA » : sections droites et pleine largeur, cartes 16 px, tuiles 10 px, petits éléments 6 à 8 px, boutons en pilule. Le flou de verre est réservé à la barre du menu.
+- Bas de section géométriques et irréguliers, en marches ou en ligne brisée qui monte, comme une courbe de résultats (`src/components/ui/Edge.tsx`).
+- Au défilement, rien ne disparaît : les blocs apparaissent une fois et restent, les mots des grands titres s'allument une fois.
 - Identité du client : bleu électrique `#0714D8`, jaune `#FDEC05`, navy `#071F78`, Montserrat.
 - Le logo (monogramme VD) est redessiné d'après la couverture. Il sera remplacé par le fichier officiel dès que le client le fournit (`src/components/brand/Logo.tsx`).
-- Les photos de Valentin viennent de moi. Elles sont détourées dans `public/images/v3/`.
+- Les photos de Valentin viennent de moi. La photo de l'accueil vient de la banque d'images (j'ai choisi la version A, la femme à la tablette ; la version B, `personne-telephone.webp`, reste dans le dossier). Toutes sont détourées dans `public/images/v3/`.
 - Les boutons ouvrent WhatsApp avec un message déjà écrit, validé avec moi (`src/lib/links.ts`).
 
 ## Travailler avec moi
@@ -28,7 +32,7 @@ Claude Code lit ce fichier au début de chaque conversation sur ce dépôt. Il r
 - Réponds en français et tutoie-moi. Sur les sites, les textes vouvoient le visiteur.
 - Avant un changement important, dis-moi ce que tu vas faire et attends mon accord, sauf si je te donne carte blanche.
 - Montre-moi des captures ordinateur et téléphone avant toute mise en ligne.
-- Ne pousse rien sans que je dise « publie » ou « pousse » : dès que ce dépôt sera relié à Vercel, pousser met le site en ligne.
+- Ne pousse rien sans que je dise « publie » ou « pousse » : ce dépôt est relié à Vercel, pousser sur `main` met https://valo-digital.vercel.app à jour.
 
 ## Mon stack de création de design
 
