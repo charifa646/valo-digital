@@ -7,15 +7,21 @@ import { Bolt, Compass, Trend } from "@/components/ui/Icons";
 const icons = [Compass, Bolt, Trend];
 
 /**
- * « Le digital ne se résume pas à être visible. »: a real team at work carries
- * the sentence, and the three pillars sit on a white card laid over the photo.
+ * « Le digital ne se résume pas à être visible. »: the VALO team carries the
+ * sentence, and the three pillars sit on a white card laid over the photo.
  */
 export function Pourquoi() {
   return (
     <section id="pourquoi" aria-labelledby="pourquoi-title" className="relative">
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
         <div data-dark data-reveal="curtain" className="relative isolate overflow-hidden rounded-2xl bg-night text-white">
-          <Image src="/images/v3/equipe.webp" alt="" fill sizes="(min-width: 1240px) 1160px, 100vw" className="-z-10 object-cover object-[62%_30%]" />
+          <Image
+            src="/images/apropos/equipe-casquettes.webp"
+            alt=""
+            fill
+            sizes="(min-width: 1240px) 1160px, 100vw"
+            className="-z-10 object-cover object-[50%_28%]"
+          />
           {/* the words always sit on dark blue: evenly on phones, from the left on larger screens */}
           <div
             aria-hidden

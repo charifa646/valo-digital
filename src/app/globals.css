@@ -323,7 +323,7 @@ main {
     transition:
       opacity 0.7s var(--ease),
       filter 0.9s var(--ease);
-    transition-delay: calc(var(--d, 0s) + var(--i, 0) * 60ms);
+    transition-delay: calc(var(--d, 0s) + var(--i, 0) * var(--step, 60ms));
   }
   .js [data-reveal="words"][data-in] .w {
     opacity: 1;
@@ -495,7 +495,10 @@ main {
 
 /* the clients' logos pass slowly, and stop under the hand */
 .logos-track {
-  animation: logos 42s linear infinite;
+  animation: logos 70s linear infinite;
+}
+.logos-reverse {
+  animation-direction: reverse;
 }
 .logos-track:hover {
   animation-play-state: paused;
@@ -504,6 +507,24 @@ main {
   to {
     transform: translate3d(-50%, 0, 0);
   }
+}
+
+/* a figure that climbs once it is on screen (« +1000 »); without @property it simply shows the figure */
+@property --num {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+.count-up {
+  --num: var(--to);
+  counter-reset: n var(--num);
+  transition: --num 1.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--d, 0s) + 0.15s);
+}
+.count-up::after {
+  content: counter(n);
+}
+.js [data-reveal]:not([data-in]) .count-up {
+  --num: 0;
 }
 
 /* the method: the stairs rise one after the other, then the words step onto them */
@@ -825,6 +846,9 @@ main {
   }
   .js .curve-draw {
     stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+  .count-up {
     transition: none !important;
   }
   .logos-track,

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 /**
  * One observer for the whole page: every [data-reveal] element eases in once,
@@ -13,6 +14,7 @@ import { useEffect } from "react";
  * a card that pauses its little scene off screen never fades out with it.
  */
 export function RevealObserver() {
+  const pathname = usePathname();
   useEffect(() => {
     const reveal = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal], [data-words]"));
     const play = Array.from(document.querySelectorAll<HTMLElement>(".play-when-in"));
@@ -48,6 +50,6 @@ export function RevealObserver() {
       live.disconnect();
       removeEventListener("scroll", atEnd);
     };
-  }, []);
+  }, [pathname]); // a new page brings new elements to watch
   return null;
 }

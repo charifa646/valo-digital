@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion } from "framer-motion";
 import { contact, hero, nav } from "@/lib/content";
 import { hello, wa } from "@/lib/links";
@@ -25,6 +27,10 @@ export function Header() {
   const menuButton = useRef<HTMLButtonElement>(null);
   const { lock } = useScroll();
   const reduce = useReducedMotion();
+  const pathname = usePathname();
+  const home = pathname === "/";
+  // a page of its own (« À propos ») lights its entry while it is open
+  const current = (id: string) => active === id || nav.some((n) => n.id === id && n.href === pathname);
 
   // dark glass over the night-blue panels, light glass everywhere else:
   // watch a thin strip at the top edge of the header, so it only turns dark once fully over the panel
@@ -42,10 +48,10 @@ export function Header() {
     return () => io.disconnect();
   }, []);
 
-  // the section on screen lights the menu entry it belongs to; the hero and the needs light none
+  // the section on screen lights the menu entry it belongs to; a section no entry owns lights none
   useEffect(() => {
     const owner = new Map(nav.flatMap((n) => n.sections.map((s) => [s, n.id] as const)));
-    const sections = [...owner.keys(), "top", "besoin"].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const sections = Array.from(document.querySelectorAll<HTMLElement>("main section[id], #contact"));
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) if (e.isIntersecting) setActive(owner.get(e.target.id) ?? null);
@@ -82,25 +88,36 @@ export function Header() {
             light ? "glass blur-bar text-ink" : "glass-dark blur-bar text-white"
           }`}
         >
-          <Anchor to="top" aria-label="VALO DIGITAL, retour en haut" className={`shrink-0 ${light ? "text-electric" : "text-white"}`}>
-            <Wordmark />
-          </Anchor>
+          {home ? (
+            <Anchor to="top" aria-label="VALO DIGITAL, retour en haut" className={`shrink-0 ${light ? "text-electric" : "text-white"}`}>
+              <Wordmark />
+            </Anchor>
+          ) : (
+            <Link href="/" aria-label="VALO DIGITAL, accueil" className={`shrink-0 ${light ? "text-electric" : "text-white"}`}>
+              <Wordmark />
+            </Link>
+          )}
 
           <nav aria-label="Navigation principale" className="hidden lg:block">
             <ul className="flex items-center gap-1">
-              {nav.map((n) => (
-                <li key={n.id}>
-                  <Anchor
-                    to={n.id}
-                    aria-current={active === n.id ? "true" : undefined}
-                    className={`relative block whitespace-nowrap rounded-full px-3.5 py-2 text-[14px] font-semibold transition ${ink} ${
-                      active === n.id ? (light ? "bg-frost text-electric" : "bg-white/12") : light ? "hover:text-electric" : "opacity-85 hover:opacity-100"
-                    }`}
-                  >
-                    {n.label}
-                  </Anchor>
-                </li>
-              ))}
+              {nav.map((n) => {
+                const cls = `relative block whitespace-nowrap rounded-full px-3.5 py-2 text-[14px] font-semibold transition ${ink} ${
+                  current(n.id) ? (light ? "bg-frost text-electric" : "bg-white/12") : light ? "hover:text-electric" : "opacity-85 hover:opacity-100"
+                }`;
+                return (
+                  <li key={n.id}>
+                    {n.href ? (
+                      <Link href={n.href} aria-current={n.href === pathname ? "page" : undefined} className={cls}>
+                        {n.label}
+                      </Link>
+                    ) : (
+                      <Anchor to={n.id} aria-current={active === n.id ? "true" : undefined} className={cls}>
+                        {n.label}
+                      </Anchor>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
@@ -168,13 +185,24 @@ export function Header() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.25 + i * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <Anchor
-                        to={n.id}
-                        onClick={() => setOpen(false)}
-                        className="block border-b border-white/10 py-3.5 text-[clamp(1.35rem,6.4vw,1.9rem)] font-semibold leading-tight tracking-[-0.025em]"
-                      >
-                        {n.label}
-                      </Anchor>
+                      {n.href ? (
+                        <Link
+                          href={n.href}
+                          onClick={() => setOpen(false)}
+                          aria-current={n.href === pathname ? "page" : undefined}
+                          className="block border-b border-white/10 py-3.5 text-[clamp(1.35rem,6.4vw,1.9rem)] font-semibold leading-tight tracking-[-0.025em]"
+                        >
+                          {n.label}
+                        </Link>
+                      ) : (
+                        <Anchor
+                          to={n.id}
+                          onClick={() => setOpen(false)}
+                          className="block border-b border-white/10 py-3.5 text-[clamp(1.35rem,6.4vw,1.9rem)] font-semibold leading-tight tracking-[-0.025em]"
+                        >
+                          {n.label}
+                        </Anchor>
+                      )}
                     </m.li>
                   ))}
                 </ul>

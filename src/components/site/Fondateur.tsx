@@ -5,8 +5,9 @@ import { Monogram } from "@/components/brand/Logo";
 import { Cap } from "@/components/ui/Icons";
 import { Wave } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
+import { BtnInner, btn } from "@/components/ui/Action";
 
-/** Valentin, standing out of a light card, his name and his two titles beside him. */
+/** Valentin, standing out of a light card, his name and his two titles beside him, and the way to his whole story. */
 export function Fondateur() {
   return (
     <section id="fondateur" aria-labelledby="fondateur-title" className="relative isolate bg-white">
@@ -66,6 +67,11 @@ export function Fondateur() {
           >
             {fondateur.text}
           </p>
+          <div data-reveal="pop" style={{ ["--d" as string]: "0.5s" } as CSSProperties} className="mt-8">
+            <a href="/a-propos#fondateur" className={btn("electric")}>
+              <BtnInner>{fondateur.cta}</BtnInner>
+            </a>
+          </div>
         </div>
       </div>
       <Wave shape="swell" flip back="text-electric/25" front="text-electric" className="-mb-px" />

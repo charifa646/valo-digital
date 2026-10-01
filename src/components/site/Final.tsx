@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { CSSProperties } from "react";
 import { contact, final, fondateur, footer, formations, nav, prestations } from "@/lib/content";
 import { hello, wa } from "@/lib/links";
@@ -141,9 +142,15 @@ export function Final() {
               <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[13.5px] font-semibold text-white/70">
                 {nav.map((n) => (
                   <li key={n.id}>
-                    <Anchor to={n.id} className="transition hover:text-white">
-                      {n.label}
-                    </Anchor>
+                    {n.href ? (
+                      <Link href={n.href} className="transition hover:text-white">
+                        {n.label}
+                      </Link>
+                    ) : (
+                      <Anchor to={n.id} className="transition hover:text-white">
+                        {n.label}
+                      </Anchor>
+                    )}
                   </li>
                 ))}
               </ul>

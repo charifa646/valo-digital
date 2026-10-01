@@ -1,20 +1,87 @@
 import Image from "next/image";
-import { confiance, type ClientLogo } from "@/lib/content";
+import type { CSSProperties } from "react";
+import { chiffres, confiance, type ClientLogo } from "@/lib/content";
 import { Monogram } from "@/components/brand/Logo";
 
+/** One client's logo on its white card, the logo kept whole whatever its shape. */
+export function LogoTile({ logo, hidden = false, className = "" }: { logo: ClientLogo; hidden?: boolean; className?: string }) {
+  return (
+    <span className={`relative block overflow-hidden rounded-[12px] border border-hair bg-white ${className}`}>
+      <Image src={logo.src} alt={hidden ? "" : logo.name || "Client de VALO DIGITAL"} fill sizes="160px" className="object-contain p-2.5 sm:p-3.5" />
+    </span>
+  );
+}
+
+/** A row of logos passing slowly, twice over so the loop has no seam; it stops under the hand. */
+function Row({ logos, reverse = false }: { logos: ClientLogo[]; reverse?: boolean }) {
+  const row = [...logos, ...logos];
+  return (
+    <ul className={`logos-track flex w-max ${reverse ? "logos-reverse" : ""}`}>
+      {row.map((l, i) => (
+        <li key={i} aria-hidden={i >= logos.length || undefined} className="shrink-0 pr-3 sm:pr-4">
+          <LogoTile logo={l} hidden={i >= logos.length} className="h-[64px] w-[112px] sm:h-[78px] sm:w-[140px]" />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 /**
- * « Ils nous ont fait confiance »: the VALO mark in its rings, the sentence, then
- * the clients' logos passing slowly, in grey until a hand goes over them. The
- * band is not shown until the real logos are in content.ts; `preview` shows empty
- * slots in their place, for the local captures only.
+ * The figures of the portfolio, side by side: « Depuis 2022 », « +1000 »,
+ * « +100 ». The counts climb once when they come on screen (the real figure
+ * stays in the text for screen readers and without animation).
  */
-export function Confiance({ preview = false }: { preview?: boolean }) {
-  const logos: (ClientLogo | null)[] = confiance.logos.length ? confiance.logos : preview ? Array(7).fill(null) : [];
+export function Figures({ dark = false, className = "" }: { dark?: boolean; className?: string }) {
+  return (
+    <ul
+      className={`grid overflow-hidden rounded-2xl border sm:grid-cols-3 ${dark ? "border-white/15 bg-white/[0.05]" : "border-hair bg-white shadow-panel"} ${className}`}
+    >
+      {chiffres.map((c, i) => (
+        <li
+          key={c.value}
+          data-reveal="blur"
+          style={{ ["--d" as string]: `${0.1 + i * 0.12}s` } as CSSProperties}
+          className={`flex items-center gap-5 px-5 py-5 sm:block sm:px-7 sm:py-9 sm:text-center ${i ? `max-sm:border-t sm:border-l ${dark ? "border-white/15" : "border-hair"}` : ""}`}
+        >
+          {/* on phones a row (the figure, then its words), side by side columns from tablets up */}
+          <div className="w-[38%] shrink-0 sm:w-auto">
+            <p className={`text-[11px] font-semibold uppercase tracking-[0.16em] sm:h-5 sm:text-[12px] ${dark ? "text-sun" : "text-electric"}`}>{c.pre}</p>
+            <p className={`mt-1 text-[clamp(2.1rem,1.6rem+2.6vw,3.6rem)] font-medium leading-none tracking-[-0.045em] ${dark ? "text-white" : "text-ink"}`}>
+              {c.count ? (
+                <>
+                  <span aria-hidden className="count-up tabular-nums" style={{ ["--to" as string]: c.count } as CSSProperties}>
+                    +
+                  </span>
+                  <span className="sr-only">{c.value}</span>
+                </>
+              ) : (
+                c.value
+              )}
+            </p>
+          </div>
+          <p
+            className={`pretty text-[14px] font-medium leading-snug sm:mx-auto sm:mt-4 sm:max-w-[26ch] sm:text-[14.5px] ${dark ? "text-white/75" : "text-body"}`}
+          >
+            {c.text}
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/**
+ * « Ils nous ont fait confiance », right after the homepage's top: the VALO mark
+ * in its rings, the sentence, the clients' logos in two rows going opposite
+ * ways, then the figures.
+ */
+export function Confiance() {
+  const logos = confiance.logos;
   if (!logos.length) return null;
-  const row = [...logos, ...logos]; // twice, so the loop has no seam
+  const half = Math.ceil(logos.length / 2);
 
   return (
-    <section aria-labelledby="confiance-title" className="relative overflow-hidden pb-14 pt-10 lg:pb-16 lg:pt-14">
+    <section aria-labelledby="confiance-title" className="relative overflow-hidden pb-16 pt-10 lg:pb-24 lg:pt-14">
       <div aria-hidden data-reveal="zoom" className="relative mx-auto grid h-[230px] w-[230px] place-items-center sm:h-[300px] sm:w-[300px]">
         <span className="absolute inset-0 rounded-full border border-hair/80 bg-[radial-gradient(closest-side,rgba(231,237,255,.25),rgba(231,237,255,.85))]" />
         <span className="absolute inset-[17%] rounded-full border border-hair bg-[radial-gradient(closest-side,rgba(255,255,255,.4),rgba(219,227,255,.9))]" />
@@ -29,26 +96,16 @@ export function Confiance({ preview = false }: { preview?: boolean }) {
         {confiance.title}
       </h2>
 
-      <div className="relative mt-8 [-webkit-mask-image:linear-gradient(90deg,transparent,#000_14%,#000_86%,transparent)] [mask-image:linear-gradient(90deg,transparent,#000_14%,#000_86%,transparent)] lg:mt-10">
-        <ul className="logos-track flex w-max items-center gap-12 sm:gap-16">
-          {row.map((l, i) => (
-            <li key={i} aria-hidden={i >= logos.length || undefined} className="shrink-0">
-              {l ? (
-                <Image
-                  src={l.src}
-                  alt={i < logos.length ? l.name : ""}
-                  width={l.width}
-                  height={l.height}
-                  className="h-8 w-auto opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 sm:h-9"
-                />
-              ) : (
-                <span className="grid h-9 w-[132px] place-items-center rounded-[8px] border border-dashed border-mute/40 text-[12px] font-semibold text-mute">
-                  Logo client
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
+      <div
+        data-reveal
+        className="relative mt-8 grid gap-3 [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] sm:gap-4 lg:mt-10"
+      >
+        <Row logos={logos.slice(0, half)} />
+        <Row logos={logos.slice(half)} reverse />
+      </div>
+
+      <div className="gutter mx-auto mt-12 max-w-[1080px] lg:mt-16">
+        <Figures />
       </div>
     </section>
   );

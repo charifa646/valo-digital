@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, forwardRef, useCallback, useContext, useEffect, useMemo, useRef, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import type Lenis from "lenis";
 
 type Scroll = {
@@ -78,17 +79,25 @@ type AnchorProps = { to: string; className?: string; children: ReactNode; onClic
   "href" | "onClick"
 >;
 
-/** An in-page link that still works without JavaScript. */
+/** Sections every page has (the top, the contact block); the others live on the homepage. */
+const everywhere = new Set(["top", "contact", "contenu"]);
+
+/**
+ * A link to a section that still works without JavaScript. On the homepage it
+ * glides there; from another page it opens the homepage at that section.
+ */
 export const Anchor = forwardRef<HTMLAnchorElement, AnchorProps>(function Anchor({ to, className, children, onClick, ...rest }, ref) {
   const { go } = useScroll();
+  const home = usePathname() === "/";
   return (
     <a
       ref={ref}
-      href={`#${to}`}
+      href={home || everywhere.has(to) ? `#${to}` : `/#${to}`}
       className={className}
       onClick={(e) => {
-        e.preventDefault();
         onClick?.();
+        if (!document.getElementById(to)) return; // not on this page: the link opens the homepage there
+        e.preventDefault();
         go(to);
       }}
       {...rest}
