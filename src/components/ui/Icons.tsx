@@ -22,6 +22,7 @@ import {
   IconTarget,
   IconTrendingUp,
   IconUsers,
+  IconVideo,
   IconX,
   IconZoomScan,
 } from "@tabler/icons-react";
@@ -60,6 +61,7 @@ export const Bolt = ({ className }: P) => <IconBolt className={className} stroke
 export const Trend = ({ className }: P) => <IconTrendingUp className={className} stroke={stroke} aria-hidden />;
 
 export const Play = ({ className }: P) => <IconPlayerPlayFilled className={className} aria-hidden />;
+export const Video = ({ className }: P) => <IconVideo className={className} stroke={stroke} aria-hidden />;
 
 /* platforms */
 export const Facebook = ({ className }: P) => <IconBrandFacebookFilled className={className} aria-hidden />;

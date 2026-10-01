@@ -183,6 +183,45 @@ main {
   transform: none;
 }
 
+/* the method: when the steps arrive, the line draws itself and the numbers light up in turn */
+.step-dot {
+  border-color: #0714d8;
+  background: #0714d8;
+  color: #fff;
+  transition:
+    background-color 0.5s var(--ease),
+    color 0.5s var(--ease),
+    border-color 0.5s var(--ease);
+}
+.js .step-dot {
+  border-color: #e6eaf3;
+  background: #fff;
+  color: #0714d8;
+}
+.js [data-in] .step-dot {
+  border-color: #0714d8;
+  background: #0714d8;
+  color: #fff;
+}
+.step-line {
+  transform-origin: top center;
+  transition: transform 0.6s var(--ease);
+}
+.js .step-line {
+  transform: scaleY(0);
+}
+@media (min-width: 1024px) {
+  .step-line {
+    transform-origin: left center;
+  }
+  .js .step-line {
+    transform: scaleX(0);
+  }
+}
+.js [data-in] .step-line {
+  transform: none;
+}
+
 /* ------------------------------------------------------------------ */
 /* Light: the curtain of light columns, the glow, the grain            */
 /* ------------------------------------------------------------------ */
@@ -376,6 +415,16 @@ main {
   .js [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
+    transition: none !important;
+  }
+  .js .step-line {
+    transform: none !important;
+    transition: none !important;
+  }
+  .js .step-dot {
+    border-color: #0714d8 !important;
+    background: #0714d8 !important;
+    color: #fff !important;
     transition: none !important;
   }
   .rise,

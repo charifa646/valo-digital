@@ -5,6 +5,7 @@ import { prestations, type Offer } from "@/lib/content";
 import { ask, wa } from "@/lib/links";
 import { useSheet } from "./Sheet";
 import { ArrowRight } from "@/components/ui/Icons";
+import { Price } from "@/components/ui/Price";
 import { Calendrier } from "@/components/previews/Calendrier";
 import { Campagnes } from "@/components/previews/Campagnes";
 import { Montage } from "@/components/previews/Montage";
@@ -14,25 +15,6 @@ const previews: Record<string, () => JSX.Element> = { reseaux: Calendrier, publi
 
 /** Two rows, the wide card changing sides. */
 const spans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7"];
-
-/** « À partir de 80 000 F CFA / mois »: the amount carries the weight, the rest stays quiet. */
-function Price({ price, note, light }: { price: string; note?: string; light: boolean }) {
-  const from = "À partir de";
-  const starts = price.startsWith(from);
-  const rest = starts ? price.slice(from.length).trim() : price;
-  const slash = rest.indexOf("/");
-  const amount = slash > -1 ? rest.slice(0, slash).trim() : rest;
-  const per = slash > -1 ? rest.slice(slash) : "";
-  const quiet = light ? "text-white/65" : "text-mute";
-  return (
-    <p className="leading-tight">
-      {starts && <span className={`block text-[12px] font-semibold ${quiet}`}>{from}</span>}{" "}
-      <span className="text-[19px] font-bold tracking-[-0.02em]">{amount}</span>
-      {per && <span className={`text-[13px] font-semibold ${quiet}`}> {per}</span>}
-      {note && <span className={`mt-1 block text-[12px] font-medium ${quiet}`}>{note}</span>}
-    </p>
-  );
-}
 
 function OfferCard({ o, i }: { o: Offer; i: number }) {
   const { open } = useSheet();
