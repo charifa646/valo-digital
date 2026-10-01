@@ -39,9 +39,9 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
     const el = document.getElementById(id);
     if (!el) return;
     // a card still waiting to ease in would be measured 26px too low: show it at once
-    if (el.matches("[data-reveal]:not(.is-in)")) {
+    if (el.matches("[data-reveal]:not([data-in])")) {
       el.style.transition = "none";
-      el.classList.add("is-in");
+      el.setAttribute("data-in", "");
       void el.offsetWidth;
       el.style.transition = "";
     }
