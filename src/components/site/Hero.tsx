@@ -27,7 +27,7 @@ export function Hero() {
     <section id="top" className="relative overflow-hidden bg-[radial-gradient(90%_70%_at_50%_72%,#ffffff_0%,#eaf0ff_45%,#d3dfff_100%)]">
       {/* the message first */}
       <div className="relative z-10 mx-auto max-w-page px-5 pt-[118px] text-center sm:pt-[132px] lg:pt-[140px]">
-        <h1 className="balance mx-auto max-w-[22ch] text-[clamp(2.2rem,5vw,3.7rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-ink">
+        <h1 className="balance mx-auto max-w-[22ch] text-[clamp(2.2rem,5vw,3.7rem)] font-medium leading-[1.04] tracking-[-0.03em] text-ink">
           {words.map((w, i) => (
             <span key={i}>
               <span className="inline-block overflow-hidden pb-[0.06em] align-bottom">

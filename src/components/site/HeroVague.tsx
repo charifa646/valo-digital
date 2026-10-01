@@ -54,7 +54,7 @@ export function HeroVague() {
       >
         <div aria-hidden className="light-lines-white" />
         <div className="relative mx-auto max-w-page px-5 pt-[118px] text-center sm:pt-[132px] lg:pt-[140px]">
-          <h1 className="balance mx-auto max-w-[22ch] text-[clamp(2.2rem,5vw,3.7rem)] font-semibold leading-[1.06] tracking-[-0.035em]">
+          <h1 className="balance mx-auto max-w-[22ch] text-[clamp(2.2rem,5vw,3.7rem)] font-medium leading-[1.06] tracking-[-0.03em]">
             {words.map((w, i) => (
               <span key={i}>
                 <span className="inline-block overflow-hidden pb-[0.06em] align-bottom">

@@ -153,9 +153,9 @@ main {
     backdrop-filter: blur(14px) saturate(1.3);
   }
 
-  /* section titles: semibold, not shouting */
+  /* section titles: medium weight, calm and airy */
   .h2 {
-    @apply text-[clamp(2rem,1.35rem+2.2vw,3rem)] font-semibold leading-[1.1] tracking-[-0.03em];
+    @apply text-[clamp(2rem,1.35rem+2.2vw,3rem)] font-medium leading-[1.1] tracking-[-0.025em];
   }
   /* the section's name, in a small pill */
   .tag {

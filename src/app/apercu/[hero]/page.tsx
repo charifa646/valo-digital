@@ -16,7 +16,12 @@ import { Fondateur } from "@/components/site/Fondateur";
 import { Final } from "@/components/site/Final";
 
 /** Local preview of the two hero proposals, with the trust band's empty slots. Removed before anything goes online. */
-const heroes = { vague: HeroVague, orbite: HeroOrbite };
+/** Charifa's mix: the orbit in the blue of A, with the woman in the background. */
+function HeroOrbiteBleue() {
+  return <HeroOrbite blue />;
+}
+
+const heroes = { vague: HeroVague, orbite: HeroOrbite, "orbite-bleue": HeroOrbiteBleue };
 
 export const dynamicParams = false;
 export const generateStaticParams = () => Object.keys(heroes).map((hero) => ({ hero }));

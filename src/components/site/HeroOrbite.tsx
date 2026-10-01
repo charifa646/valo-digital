@@ -155,8 +155,10 @@ function Tile({ className = "" }: { className?: string }) {
  * Proposal B, « l'orbite » (quso.ai): the VALO mark above the message, and
  * around it, on a dotted orbit, the four things the agency does, each shown as
  * a small piece of real work. The channels sit on the bottom of the orbit.
+ * `blue` is Charifa's mix: the same orbit in the blue of proposal A, the woman
+ * with the tablet melted into the background.
  */
-export function HeroOrbite() {
+export function HeroOrbite({ blue = false }: { blue?: boolean }) {
   const sats = [
     { title: marketing, icon: <Megaphone />, body: <MarketingBody />, spot: "lg:left-[12%] lg:top-[40%] lg:w-[200px]", tilt: "[--r:-3deg] [--t:7.6s]" },
     { title: publicite, icon: <Target />, body: <PubliciteBody />, spot: "lg:left-[88%] lg:top-[38%] lg:w-[200px]", tilt: "[--r:3deg] [--t:8.4s] [--fd:-3s]" },
@@ -166,34 +168,68 @@ export function HeroOrbite() {
 
   return (
     <section id="top" className="relative px-[var(--frame)] pt-[var(--frame)]">
-      <div className="relative isolate overflow-hidden rounded-[18px] border border-hair bg-[linear-gradient(180deg,#ffffff_0%,#F7F9FF_100%)] lg:h-[880px] lg:rounded-[22px]">
-        {/* the dotted ground, stronger towards the edges */}
-        <div
-          aria-hidden
-          className="dots absolute inset-0 -z-10 [-webkit-mask-image:radial-gradient(70%_60%_at_50%_42%,transparent_20%,#000_100%)] [mask-image:radial-gradient(70%_60%_at_50%_42%,transparent_20%,#000_100%)]"
-        />
-        <div
-          aria-hidden
-          className="absolute left-1/2 top-[30%] -z-10 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(53,81,255,.10),transparent)]"
-        />
+      <div
+        data-dark={blue || undefined}
+        className={`relative isolate overflow-hidden rounded-[18px] lg:h-[880px] lg:rounded-[22px] ${
+          blue
+            ? "on-dark bg-[radial-gradient(110%_80%_at_50%_0%,#3551FF_0%,#0714D8_52%,#0510A8_100%)] text-white"
+            : "border border-hair bg-[linear-gradient(180deg,#ffffff_0%,#F7F9FF_100%)]"
+        }`}
+      >
+        {blue ? (
+          <>
+            <div aria-hidden className="light-lines-white" />
+            {/* the woman, in the blue of the page, her head just under the VALO mark: present, never louder than the words */}
+            <Image
+              src="/images/v3/personne-tablette-bleu.webp"
+              alt=""
+              width={1097}
+              height={1089}
+              priority
+              sizes="(min-width: 1024px) 680px, 440px"
+              className="pointer-events-none absolute left-1/2 top-[166px] -z-10 w-[440px] max-w-none -translate-x-[31%] opacity-50 sm:top-[192px] [-webkit-mask-image:linear-gradient(180deg,#000_45%,transparent_92%)] [mask-image:linear-gradient(180deg,#000_45%,transparent_92%)] lg:bottom-0 lg:top-auto lg:w-[680px] lg:[-webkit-mask-image:linear-gradient(180deg,#000_55%,transparent_100%)] lg:[mask-image:linear-gradient(180deg,#000_55%,transparent_100%)]"
+            />
+          </>
+        ) : (
+          <>
+            {/* the dotted ground, stronger towards the edges */}
+            <div
+              aria-hidden
+              className="dots absolute inset-0 -z-10 [-webkit-mask-image:radial-gradient(70%_60%_at_50%_42%,transparent_20%,#000_100%)] [mask-image:radial-gradient(70%_60%_at_50%_42%,transparent_20%,#000_100%)]"
+            />
+            <div
+              aria-hidden
+              className="absolute left-1/2 top-[30%] -z-10 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(53,81,255,.10),transparent)]"
+            />
+          </>
+        )}
 
         {/* the orbits (large screens) */}
         <div aria-hidden className="absolute inset-y-0 left-1/2 hidden w-full max-w-[1480px] -translate-x-1/2 lg:block">
-          <span className="absolute bottom-[14%] left-[8%] right-[8%] top-[18%] rounded-[50%] border-[1.5px] border-dotted border-electric/30" />
-          <span className="absolute bottom-[26%] left-[20%] right-[20%] top-[30%] rounded-[50%] border-[1.5px] border-dotted border-electric/20 [-webkit-mask-image:linear-gradient(90deg,#000_8%,transparent_26%,transparent_74%,#000_92%)] [mask-image:linear-gradient(90deg,#000_8%,transparent_26%,transparent_74%,#000_92%)]" />
+          <span
+            className={`absolute bottom-[14%] left-[8%] right-[8%] top-[18%] rounded-[50%] border-[1.5px] border-dotted ${blue ? "border-white/30" : "border-electric/30"}`}
+          />
+          <span
+            className={`absolute bottom-[26%] left-[20%] right-[20%] top-[30%] rounded-[50%] border-[1.5px] border-dotted ${blue ? "border-white/20" : "border-electric/20"} [-webkit-mask-image:linear-gradient(90deg,#000_8%,transparent_26%,transparent_74%,#000_92%)] [mask-image:linear-gradient(90deg,#000_8%,transparent_26%,transparent_74%,#000_92%)]`}
+          />
         </div>
 
         <div className="relative px-5 pb-6 pt-[104px] text-center sm:pt-[120px] lg:px-0 lg:pb-0 lg:pt-[126px]">
           <div className="pop-in" style={{ ["--d" as string]: "0.05s" } as CSSProperties}>
             <Tile className="mx-auto h-14 w-14 sm:h-16 sm:w-16" />
           </div>
-          <h1 className="balance mx-auto mt-7 max-w-[20ch] text-[clamp(2.1rem,4.4vw,3.4rem)] font-semibold leading-[1.06] tracking-[-0.035em] text-ink xl:max-w-none">
+          <h1
+            className={`balance mx-auto mt-7 max-w-[20ch] text-[clamp(2.1rem,4.4vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.03em] xl:max-w-none ${blue ? "text-white" : "text-ink"}`}
+          >
             {hero.title.map((line, li) => (
               <span key={li} className="xl:block">
                 {line.split(" ").map((w, wi) => (
                   <span key={wi}>
                     <span className="inline-block overflow-hidden pb-[0.06em] align-bottom">
-                      <span className={`rise ${li ? "text-electric" : ""}`} style={{ ["--d" as string]: `${0.1 + (li * 5 + wi) * 0.05}s` } as CSSProperties}>
+                      <span
+                        className={`rise ${li ? (blue ? "text-sun" : "text-electric") : ""}`}
+                        style={{ ["--d" as string]: `${0.1 + (li * 5 + wi) * 0.05}s` } as CSSProperties}
+                      >
                         {w}
                       </span>
                     </span>{" "}
@@ -203,13 +239,13 @@ export function HeroOrbite() {
             ))}
           </h1>
           <p
-            className="fade-up pretty mx-auto mt-5 max-w-[34rem] text-[16px] font-medium leading-relaxed text-body sm:text-[17px]"
+            className={`fade-up pretty mx-auto mt-5 max-w-[34rem] text-[16px] font-medium leading-relaxed sm:text-[17px] ${blue ? "text-white/85" : "text-body"}`}
             style={{ ["--d" as string]: "0.5s" } as CSSProperties}
           >
             {hero.lead}
           </p>
           <div className="fade-up mt-8" style={{ ["--d" as string]: "0.65s" } as CSSProperties}>
-            <a href={wa(hello)} target="_blank" rel="noopener noreferrer" className={btn("electric")}>
+            <a href={wa(hello)} target="_blank" rel="noopener noreferrer" className={btn(blue ? "white" : "electric")}>
               <BtnInner>{hero.cta}</BtnInner>
             </a>
           </div>
@@ -217,7 +253,10 @@ export function HeroOrbite() {
 
         {/* the four around the orbit: placed on it on large screens, two by two below the message on small ones */}
         <div className="relative mx-auto mt-4 grid max-w-[460px] grid-cols-2 items-start gap-x-3 gap-y-4 px-4 pb-16 lg:absolute lg:inset-y-0 lg:left-1/2 lg:mt-0 lg:block lg:w-full lg:max-w-[1480px] lg:-translate-x-1/2 lg:p-0">
-          <span aria-hidden className="absolute inset-x-[6%] inset-y-[8%] -z-10 rounded-[50%] border-[1.5px] border-dotted border-electric/25 lg:hidden" />
+          <span
+            aria-hidden
+            className={`absolute inset-x-[6%] inset-y-[8%] -z-10 rounded-[50%] border-[1.5px] border-dotted lg:hidden ${blue ? "border-white/25" : "border-electric/25"}`}
+          />
           {sats.map((s, i) => (
             <div key={s.title} className={`lg:absolute lg:-translate-x-1/2 lg:-translate-y-1/2 ${s.spot} ${i % 2 ? "mt-6 lg:mt-0" : ""}`}>
               <div className="pop-in" style={{ ["--d" as string]: `${0.8 + i * 0.1}s` } as CSSProperties}>
