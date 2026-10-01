@@ -22,7 +22,7 @@ export function Pourquoi() {
           />
           <div aria-hidden className="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t from-[rgba(4,11,82,.55)] to-transparent" />
           <div className="max-w-[36rem] px-6 pb-28 pt-14 sm:px-12 sm:pb-36 sm:pt-20 lg:px-16 lg:pb-44 lg:pt-24">
-            <p className="tag border-white/25 bg-white/10 text-white">{pourquoi.label}</p>
+            <p className="tag text-white/85">{pourquoi.label}</p>
             <h2 id="pourquoi-title" data-reveal className="h2 balance mt-5">
               {pourquoi.title}
             </h2>

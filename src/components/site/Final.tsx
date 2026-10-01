@@ -1,13 +1,21 @@
 import Image from "next/image";
-import type { CSSProperties } from "react";
-import { contact, final, fondateur, footer, nav } from "@/lib/content";
+import { contact, final, fondateur, footer, formations, nav, prestations } from "@/lib/content";
 import { hello, wa } from "@/lib/links";
 import { Monogram } from "@/components/brand/Logo";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Mail, Phone, Pin } from "@/components/ui/Icons";
 import { Anchor } from "./Scroll";
+import { FooterWordmark } from "./FooterWordmark";
 
-/** The last call with Valentin in his armchair, then the footer and the giant name, in one blue block. */
+const heading = "text-[12px] font-semibold uppercase tracking-[0.18em] text-white/50";
+const link = "text-[14.5px] font-medium text-white/80 transition hover:text-white";
+
+/**
+ * The last call with Valentin in his armchair, then the footer: a night-blue
+ * card (21st.dev « Hover Footer » and « Footer Section 4 »), the name, the
+ * services, the trainings and how to reach VALO, and the name again, outlined,
+ * lighting up under the mouse.
+ */
 export function Final() {
   const reach = [
     { href: contact.phoneHref, label: contact.phone, Icon: Phone, ext: false },
@@ -16,7 +24,7 @@ export function Final() {
   ];
 
   return (
-    <div data-dark className="on-dark relative isolate overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_48%,#050E78_100%)] text-white">
+    <div data-dark className="on-dark relative isolate overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_45%,#050E78_100%)] text-white">
       <div
         aria-hidden
         className="absolute right-[-10%] top-[-20%] -z-10 h-[620px] w-[620px] rounded-full bg-[radial-gradient(closest-side,rgba(143,163,255,.35),transparent)]"
@@ -27,7 +35,7 @@ export function Final() {
         aria-labelledby="contact-title"
         className="relative mx-auto grid max-w-page gap-4 px-6 pt-16 sm:px-12 sm:pt-20 lg:grid-cols-[1.08fr_1fr] lg:items-end lg:gap-10 lg:px-14 lg:pt-24"
       >
-        <div className="lg:pb-24">
+        <div className="lg:pb-28">
           <h2 id="contact-title" data-reveal className="h2 balance max-w-[14ch]">
             {final.title}
           </h2>
@@ -39,22 +47,6 @@ export function Final() {
               <BtnInner>{final.cta}</BtnInner>
             </a>
           </div>
-          <ul className="mt-10 grid gap-2 sm:max-w-[27rem]">
-            {reach.map(({ href, label, Icon, ext }, i) => (
-              <li key={href} data-reveal style={{ ["--d" as string]: `${0.08 + i * 0.06}s` } as CSSProperties}>
-                <a
-                  href={href}
-                  {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="group flex items-center gap-4 rounded-[10px] border border-white/15 bg-white/[0.07] p-2 pr-5 transition duration-300 hover:border-white/30 hover:bg-white/[0.13]"
-                >
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[8px] bg-white text-electric">
-                    <Icon className="h-[19px] w-[19px]" />
-                  </span>
-                  <span className="min-w-0 break-words text-[15px] font-semibold">{label}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
 
         {/* Valentin, smiling, in a pool of light */}
@@ -74,55 +66,89 @@ export function Final() {
         </div>
       </section>
 
-      <footer className="relative mx-auto max-w-page px-6 sm:px-12 lg:px-14">
-        <div className="grid gap-8 border-t border-white/15 py-10 md:grid-cols-[1.1fr_1fr] md:items-start">
-          <div>
-            <p className="flex items-center gap-3">
-              <Monogram className="h-7 w-auto" />
-              <span className="grid">
-                <span className="text-[15px] font-bold tracking-[0.04em]">{footer.name}</span>
-                <span className="text-[13px] font-medium text-white/65">{footer.tagline}</span>
-              </span>
-            </p>
-            <p className="mt-5 text-[13.5px] font-semibold text-white/70">{footer.tags.join(" · ")}</p>
-          </div>
-          <nav aria-label="Pied de page">
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-[14px] font-semibold text-white/80">
-              {nav.map((n) => (
-                <li key={n.id}>
-                  <Anchor to={n.id} className="transition hover:text-white">
-                    {n.label}
+      <footer className="relative mx-auto max-w-page px-3 pb-3 sm:px-6 sm:pb-6 lg:px-8 lg:pb-8">
+        <div className="relative overflow-hidden rounded-[22px] border border-white/10 bg-[linear-gradient(180deg,rgba(4,11,82,.92)_0%,rgba(2,6,46,.96)_100%)] shadow-[0_40px_80px_-40px_rgba(0,0,0,.6)]">
+          {/* a blue light rising from the bottom of the card, behind the name */}
+          <div aria-hidden className="absolute inset-x-0 bottom-0 h-[70%] bg-[radial-gradient(60%_90%_at_50%_100%,rgba(53,81,255,.32),transparent)]" />
+
+          <div className="relative grid gap-10 px-6 pb-10 pt-10 sm:grid-cols-2 sm:px-10 lg:grid-cols-[1.3fr_1fr_1fr_1.15fr] lg:gap-8 lg:px-12 lg:pt-14">
+            <div className="sm:col-span-2 lg:col-span-1">
+              <p className="flex items-center gap-3">
+                <Monogram className="h-8 w-auto" />
+                <span className="text-[17px] font-bold tracking-[0.04em]">{footer.name}</span>
+              </p>
+              <p className="mt-4 max-w-[17rem] text-[15px] font-medium leading-relaxed text-white/70">{footer.tagline}</p>
+              <p className="mt-2 text-[13.5px] font-semibold text-white/50">{footer.tags.join(" · ")}</p>
+            </div>
+
+            <nav aria-label={nav[0].label}>
+              <p className={heading}>{nav[0].label}</p>
+              <ul className="mt-5 grid gap-3">
+                {prestations.offers.map((o) => (
+                  <li key={o.id}>
+                    <Anchor to="prestations" className={link}>
+                      {o.name}
+                    </Anchor>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <nav aria-label={nav[1].label}>
+              <p className={heading}>{nav[1].label}</p>
+              <ul className="mt-5 grid gap-3">
+                {formations.items.slice(0, 4).map((f) => (
+                  <li key={f.id}>
+                    <Anchor to="formations" className={link}>
+                      {f.name}
+                    </Anchor>
+                  </li>
+                ))}
+                <li>
+                  <Anchor to="formations" className="text-[14.5px] font-semibold text-sun transition hover:text-white">
+                    {formations.cta}
                   </Anchor>
                 </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-        <div className="border-t border-white/10 py-5">
-          <p className="text-[13px] font-medium text-white/55">{footer.copyright}</p>
+              </ul>
+            </nav>
+
+            <div>
+              <p className={heading}>{nav[3].label}</p>
+              <ul className="mt-5 grid gap-3.5">
+                {reach.map(({ href, label, Icon, ext }) => (
+                  <li key={href}>
+                    <a href={href} {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`group flex items-center gap-3 ${link}`}>
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-white transition group-hover:border-white/40">
+                        <Icon className="h-[17px] w-[17px]" />
+                      </span>
+                      <span className="min-w-0 break-words">{label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="relative mx-6 flex flex-col gap-4 border-t border-white/10 py-6 sm:mx-10 sm:flex-row sm:items-center sm:justify-between lg:mx-12">
+            <p className="text-[13px] font-medium text-white/55">{footer.copyright}</p>
+            <nav aria-label="Pied de page">
+              <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[13.5px] font-semibold text-white/70">
+                {nav.map((n) => (
+                  <li key={n.id}>
+                    <Anchor to={n.id} className="transition hover:text-white">
+                      {n.label}
+                    </Anchor>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          <div className="relative px-4 sm:px-8">
+            <FooterWordmark />
+          </div>
         </div>
       </footer>
-
-      {/* the giant name, cut by the bottom edge */}
-      <svg aria-hidden viewBox="0 0 1000 170" className="pointer-events-none relative -mb-[3%] mt-1 block w-full">
-        <defs>
-          <linearGradient id="wordmark-foot" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#ffffff" stopOpacity="0.16" />
-            <stop offset="1" stopColor="#ffffff" stopOpacity="0.02" />
-          </linearGradient>
-        </defs>
-        <text
-          x="500"
-          y="196"
-          textAnchor="middle"
-          textLength="980"
-          lengthAdjust="spacingAndGlyphs"
-          fill="url(#wordmark-foot)"
-          style={{ fontFamily: "var(--font-montserrat)", fontWeight: 800, fontSize: 262 }}
-        >
-          VALO
-        </text>
-      </svg>
     </div>
   );
 }

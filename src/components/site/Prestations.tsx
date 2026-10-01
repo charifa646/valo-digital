@@ -6,6 +6,7 @@ import { ask, wa } from "@/lib/links";
 import { useSheet } from "./Sheet";
 import { ArrowRight } from "@/components/ui/Icons";
 import { Price } from "@/components/ui/Price";
+import { Wave } from "@/components/ui/Wave";
 import { Calendrier } from "@/components/previews/Calendrier";
 import { Campagnes } from "@/components/previews/Campagnes";
 import { Montage } from "@/components/previews/Montage";
@@ -67,7 +68,7 @@ function OfferCard({ o, i }: { o: Offer; i: number }) {
 export function Prestations() {
   return (
     <section id="prestations" aria-labelledby="prestations-title" className="relative">
-      <div className="gutter mx-auto max-w-page pb-24 pt-8 lg:pb-32 lg:pt-10">
+      <div className="gutter mx-auto max-w-page pb-14 pt-8 lg:pb-20 lg:pt-10">
         <div className="max-w-[40rem]">
           <p data-reveal className="tag">
             {prestations.label}
@@ -86,6 +87,7 @@ export function Prestations() {
           ))}
         </div>
       </div>
+      <Wave shape="swell" back="text-frost" front="text-white" className="-mb-px" />
     </section>
   );
 }

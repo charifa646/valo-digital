@@ -1,7 +1,7 @@
 import { ScrollProvider } from "@/components/site/Scroll";
 import { SheetProvider } from "@/components/site/Sheet";
 import { Header } from "@/components/site/Header";
-import { Hero } from "@/components/site/Hero";
+import { HeroOrbite } from "@/components/site/HeroOrbite";
 import { Confiance } from "@/components/site/Confiance";
 import { Needs } from "@/components/site/Needs";
 import { Prestations } from "@/components/site/Prestations";
@@ -19,7 +19,7 @@ export default function Page() {
       <SheetProvider>
         <Header />
         <main id="contenu">
-          <Hero />
+          <HeroOrbite blue />
           <Confiance />
           <Needs />
           <Prestations />

@@ -32,7 +32,7 @@ export function Needs() {
       <div aria-hidden className="light-lines" />
       <div className="gutter mx-auto max-w-page pb-20 pt-16 lg:pb-28 lg:pt-20">
         <div className="text-center">
-          <p className="tag">{needs.label}</p>
+          <p className="tag tag-center">{needs.label}</p>
           <h2 id="besoin-title" data-reveal className="h2 balance mx-auto mt-5 max-w-[18ch] text-ink">
             {needs.title}
           </h2>

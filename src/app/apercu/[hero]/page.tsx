@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ScrollProvider } from "@/components/site/Scroll";
 import { SheetProvider } from "@/components/site/Sheet";
 import { Header } from "@/components/site/Header";
+import { Hero } from "@/components/site/Hero";
 import { HeroVague } from "@/components/site/HeroVague";
 import { HeroOrbite } from "@/components/site/HeroOrbite";
 import { Confiance } from "@/components/site/Confiance";
@@ -15,13 +16,13 @@ import { Pourquoi } from "@/components/site/Pourquoi";
 import { Fondateur } from "@/components/site/Fondateur";
 import { Final } from "@/components/site/Final";
 
-/** Local preview of the two hero proposals, with the trust band's empty slots. Removed before anything goes online. */
-/** Charifa's mix: the orbit in the blue of A. */
-function HeroOrbiteBleue() {
-  return <HeroOrbite blue />;
-}
-
-const heroes = { vague: HeroVague, orbite: HeroOrbite, "orbite-bleue": HeroOrbiteBleue };
+/**
+ * The other homepage versions, kept at hidden addresses so none is lost:
+ * A « la vague » (/apercu/vague), B « l'orbite » in light (/apercu/orbite)
+ * and the earlier homepage (/apercu/ancien). The real homepage is C, the
+ * orbit in blue. Not indexed.
+ */
+const heroes = { vague: HeroVague, orbite: HeroOrbite, ancien: Hero };
 
 export const dynamicParams = false;
 export const generateStaticParams = () => Object.keys(heroes).map((hero) => ({ hero }));

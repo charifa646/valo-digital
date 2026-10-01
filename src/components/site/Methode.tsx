@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { methode } from "@/lib/content";
 import { ArrowUpRight } from "@/components/ui/Icons";
 import { GrowthCurve } from "./GrowthCurve";
+import { Wave } from "@/components/ui/Wave";
 
 /** Each step is a stair, a little higher and a little bluer than the one before. */
 const stairs = [
@@ -21,7 +22,7 @@ const stairs = [
 export function Methode() {
   return (
     <section id="methode" aria-labelledby="methode-title" className="relative bg-white">
-      <div className="gutter mx-auto max-w-page py-24 lg:py-32">
+      <div className="gutter mx-auto max-w-page pb-14 pt-24 lg:pb-20 lg:pt-32">
         <div className="max-w-[40rem]">
           <p className="tag">{methode.label}</p>
           <h2 id="methode-title" data-reveal className="h2 mt-5 text-ink">
@@ -69,6 +70,7 @@ export function Methode() {
           </div>
         </div>
       </div>
+      <Wave shape="ripple" flip back="text-frost" front="text-ice" className="-mb-px" />
     </section>
   );
 }

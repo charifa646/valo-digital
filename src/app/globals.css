@@ -157,9 +157,29 @@ main {
   .h2 {
     @apply text-[clamp(2rem,1.35rem+2.2vw,3rem)] font-medium leading-[1.1] tracking-[-0.025em];
   }
-  /* the section's name, in a small pill */
+  /* the section's name: small capitals on a fine rule that fades out, like a page header (no pill) */
   .tag {
-    @apply inline-flex items-center rounded-full border border-hair bg-white px-3.5 py-[7px] text-[11px] font-semibold uppercase leading-none tracking-[0.1em] text-electric;
+    @apply flex items-center gap-3 text-[11px] font-semibold uppercase leading-snug tracking-[0.14em] text-electric sm:gap-4 sm:text-[11.5px] sm:tracking-[0.2em];
+  }
+  .tag::after {
+    content: "";
+    flex: 1 1 0%;
+    min-width: 28px;
+    height: 1px;
+    background: linear-gradient(90deg, currentColor, transparent);
+    opacity: 0.35;
+  }
+  /* centred titles: the rule on both sides */
+  .tag-center {
+    @apply justify-center;
+  }
+  .tag-center::before {
+    content: "";
+    flex: 1 1 0%;
+    min-width: 28px;
+    height: 1px;
+    background: linear-gradient(270deg, currentColor, transparent);
+    opacity: 0.35;
   }
 }
 
@@ -183,36 +203,34 @@ main {
   transform: none;
 }
 
-/* light lines: fine vertical lines, a few brighter ones, fading at the top and bottom (light sections only) */
+/* light lines: two fine beams framing the content, each with a soft glow, fading at the top and bottom (light sections) */
 .light-lines {
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   background:
-    linear-gradient(90deg, transparent calc(14% - 1px), rgba(53, 81, 255, 0.26) 14%, transparent calc(14% + 1px)),
-    linear-gradient(90deg, transparent calc(32% - 1px), rgba(53, 81, 255, 0.16) 32%, transparent calc(32% + 1px)),
-    linear-gradient(90deg, transparent calc(68% - 1px), rgba(53, 81, 255, 0.16) 68%, transparent calc(68% + 1px)),
-    linear-gradient(90deg, transparent calc(86% - 1px), rgba(53, 81, 255, 0.26) 86%, transparent calc(86% + 1px)),
-    repeating-linear-gradient(90deg, rgba(7, 20, 216, 0) 0 47px, rgba(7, 20, 216, 0.07) 47px 48px);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 58%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 58%, transparent 100%);
+    linear-gradient(90deg, transparent calc(16% - 28px), rgba(53, 81, 255, 0.05) 16%, transparent calc(16% + 28px)),
+    linear-gradient(90deg, transparent calc(84% - 28px), rgba(53, 81, 255, 0.05) 84%, transparent calc(84% + 28px)),
+    linear-gradient(90deg, transparent calc(16% - 0.5px), rgba(53, 81, 255, 0.2) 16%, transparent calc(16% + 0.5px)),
+    linear-gradient(90deg, transparent calc(84% - 0.5px), rgba(53, 81, 255, 0.2) 84%, transparent calc(84% + 0.5px));
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 28%, #000 62%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 28%, #000 62%, transparent 100%);
 }
 
-/* the same lines, in white, for the blue panels */
+/* the same beams, in white, for the blue panels */
 .light-lines-white {
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   background:
-    linear-gradient(90deg, transparent calc(14% - 1px), rgba(255, 255, 255, 0.24) 14%, transparent calc(14% + 1px)),
-    linear-gradient(90deg, transparent calc(32% - 1px), rgba(255, 255, 255, 0.14) 32%, transparent calc(32% + 1px)),
-    linear-gradient(90deg, transparent calc(68% - 1px), rgba(255, 255, 255, 0.14) 68%, transparent calc(68% + 1px)),
-    linear-gradient(90deg, transparent calc(86% - 1px), rgba(255, 255, 255, 0.24) 86%, transparent calc(86% + 1px)),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0) 0 47px, rgba(255, 255, 255, 0.07) 47px 48px);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 60%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 60%, transparent 100%);
+    linear-gradient(90deg, transparent calc(16% - 28px), rgba(255, 255, 255, 0.05) 16%, transparent calc(16% + 28px)),
+    linear-gradient(90deg, transparent calc(84% - 28px), rgba(255, 255, 255, 0.05) 84%, transparent calc(84% + 28px)),
+    linear-gradient(90deg, transparent calc(16% - 0.5px), rgba(255, 255, 255, 0.22) 16%, transparent calc(16% + 0.5px)),
+    linear-gradient(90deg, transparent calc(84% - 0.5px), rgba(255, 255, 255, 0.22) 84%, transparent calc(84% + 0.5px));
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 64%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 64%, transparent 100%);
 }
 
 /* the clients' logos pass slowly, and stop under the hand */

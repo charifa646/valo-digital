@@ -2,7 +2,7 @@ import Image from "next/image";
 import { fondateur } from "@/lib/content";
 import { Monogram } from "@/components/brand/Logo";
 import { Cap } from "@/components/ui/Icons";
-import { Edge } from "@/components/ui/Edge";
+import { Wave } from "@/components/ui/Wave";
 
 /** Valentin, standing out of a light card, his name and his two titles beside him. */
 export function Fondateur() {
@@ -56,7 +56,7 @@ export function Fondateur() {
           </p>
         </div>
       </div>
-      <Edge variant="steps" className="-mb-px text-electric" />
+      <Wave shape="swell" flip back="text-electric/25" front="text-electric" className="-mb-px" />
     </section>
   );
 }

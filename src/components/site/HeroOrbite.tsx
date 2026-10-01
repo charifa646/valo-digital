@@ -7,6 +7,7 @@ import { Monogram } from "@/components/brand/Logo";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Cap, Cart, Facebook, Instagram, Megaphone, Target, TikTok, WhatsApp } from "@/components/ui/Icons";
 import { Chip } from "@/components/previews/kit";
+import { Wave } from "@/components/ui/Wave";
 
 const [marketing, publicite, vente, formation] = hero.tags;
 const course = formations.items[0];
@@ -178,7 +179,10 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
         }`}
       >
         {blue ? (
-          <div aria-hidden className="light-lines-white" />
+          <>
+            <div aria-hidden className="light-lines-white" />
+            <Wave shape="rise" back="text-white/15" front="text-ice" className="absolute inset-x-0 bottom-0" />
+          </>
         ) : (
           <>
             {/* the dotted ground, stronger towards the edges */}
