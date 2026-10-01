@@ -167,13 +167,14 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
   ];
 
   return (
-    <section id="top" className="relative px-[var(--frame)] pt-[var(--frame)]">
+    <section id="top" className={blue ? "relative" : "relative px-[var(--frame)] pt-[var(--frame)]"}>
+      {/* the light one sits in a framed card; the blue one fills the whole section, edge to edge */}
       <div
         data-dark={blue || undefined}
-        className={`relative isolate overflow-hidden rounded-[18px] lg:h-[880px] lg:rounded-[22px] ${
+        className={`relative isolate overflow-hidden lg:h-[880px] ${
           blue
             ? "on-dark bg-[radial-gradient(110%_80%_at_50%_0%,#3551FF_0%,#0714D8_52%,#0510A8_100%)] text-white"
-            : "border border-hair bg-[linear-gradient(180deg,#ffffff_0%,#F7F9FF_100%)]"
+            : "rounded-[18px] border border-hair bg-[linear-gradient(180deg,#ffffff_0%,#F7F9FF_100%)] lg:rounded-[22px]"
         }`}
       >
         {blue ? (
