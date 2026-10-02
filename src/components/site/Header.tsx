@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion } from "framer-motion";
 import { contact, hero, nav } from "@/lib/content";
 import { hello, wa } from "@/lib/links";
-import { Anchor, useScroll } from "./Scroll";
+import { Anchor, NavLink, useScroll } from "./Scroll";
 import { Monogram } from "@/components/brand/Logo";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Close, Mail, Menu, Phone, Pin } from "@/components/ui/Icons";
@@ -29,8 +29,8 @@ export function Header() {
   const reduce = useReducedMotion();
   const pathname = usePathname();
   const home = pathname === "/";
-  // a page of its own (« À propos ») lights its entry while it is open
-  const current = (id: string) => active === id || nav.some((n) => n.id === id && n.href === pathname);
+  // on the homepage the sections light their entry; another page (« À propos ») lights its own while it is open
+  const current = (id: string) => (home ? active === id : nav.some((n) => n.id === id && n.href === pathname));
 
   // dark glass over the night-blue panels, light glass everywhere else:
   // watch a thin strip at the top edge of the header, so it only turns dark once fully over the panel
@@ -102,19 +102,11 @@ export function Header() {
             <ul className="flex items-center gap-1">
               {nav.map((n) => {
                 const cls = `relative block whitespace-nowrap rounded-full px-3.5 py-2 text-[14px] font-semibold transition ${ink} ${
-                  current(n.id) ? (light ? "bg-frost text-electric" : "bg-white/12") : light ? "hover:text-electric" : "opacity-85 hover:opacity-100"
+                  current(n.id) ? (light ? "bg-frost text-electric" : "bg-white/15") : light ? "hover:text-electric" : "opacity-85 hover:opacity-100"
                 }`;
                 return (
                   <li key={n.id}>
-                    {n.href ? (
-                      <Link href={n.href} aria-current={n.href === pathname ? "page" : undefined} className={cls}>
-                        {n.label}
-                      </Link>
-                    ) : (
-                      <Anchor to={n.id} aria-current={active === n.id ? "true" : undefined} className={cls}>
-                        {n.label}
-                      </Anchor>
-                    )}
+                    <NavLink item={n} aria-current={current(n.id) ? (n.href ? "page" : "true") : undefined} className={cls} />
                   </li>
                 );
               })}
@@ -185,24 +177,12 @@ export function Header() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.25 + i * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      {n.href ? (
-                        <Link
-                          href={n.href}
-                          onClick={() => setOpen(false)}
-                          aria-current={n.href === pathname ? "page" : undefined}
-                          className="block border-b border-white/10 py-3.5 text-[clamp(1.35rem,6.4vw,1.9rem)] font-semibold leading-tight tracking-[-0.025em]"
-                        >
-                          {n.label}
-                        </Link>
-                      ) : (
-                        <Anchor
-                          to={n.id}
-                          onClick={() => setOpen(false)}
-                          className="block border-b border-white/10 py-3.5 text-[clamp(1.35rem,6.4vw,1.9rem)] font-semibold leading-tight tracking-[-0.025em]"
-                        >
-                          {n.label}
-                        </Anchor>
-                      )}
+                      <NavLink
+                        item={n}
+                        onClick={() => setOpen(false)}
+                        aria-current={current(n.id) ? (n.href ? "page" : "true") : undefined}
+                        className={`block border-b border-white/10 py-3.5 text-[clamp(1.35rem,6.4vw,1.9rem)] font-semibold leading-tight tracking-[-0.025em] ${current(n.id) ? "text-sun" : ""}`}
+                      />
                     </m.li>
                   ))}
                 </ul>

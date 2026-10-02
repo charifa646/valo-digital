@@ -39,6 +39,19 @@ export function RevealObserver() {
     });
     reveal.forEach((el) => once.observe(el));
     play.forEach((el) => live.observe(el));
+    // images that move on their own (the logos passing by) never trigger the browser's lazy loading:
+    // load them all once their band is about a screen away
+    const early = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          e.target.querySelectorAll<HTMLImageElement>('img[loading="lazy"]').forEach((img) => (img.loading = "eager"));
+          early.unobserve(e.target);
+        }
+      },
+      { rootMargin: "0px 0px 120% 0px" },
+    );
+    document.querySelectorAll("[data-preload]").forEach((el) => early.observe(el));
     // the very last elements (the footer's name) may never reach the trigger line on short screens: show them at the end of the page
     const atEnd = () => {
       if (innerHeight + scrollY < document.documentElement.scrollHeight - 2) return;
@@ -48,6 +61,7 @@ export function RevealObserver() {
     return () => {
       once.disconnect();
       live.disconnect();
+      early.disconnect();
       removeEventListener("scroll", atEnd);
     };
   }, [pathname]); // a new page brings new elements to watch

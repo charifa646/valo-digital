@@ -527,6 +527,36 @@ main {
   --num: 0;
 }
 
+/* the reportage (« Quelques clichés »): the photo shown closes in slowly, a line counts the time it stays */
+@keyframes kenburns {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+.kenburns {
+  animation: kenburns 9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes slide-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.slide-progress {
+  animation-name: slide-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+[data-paused] .kenburns,
+[data-paused] .slide-progress {
+  animation-play-state: paused;
+}
+
 /* the method: the stairs rise one after the other, then the words step onto them */
 .stair {
   transform-origin: bottom center;
@@ -852,6 +882,7 @@ main {
     transition: none !important;
   }
   .logos-track,
+  .kenburns,
   .rise,
   .fade-up,
   .pop-in,

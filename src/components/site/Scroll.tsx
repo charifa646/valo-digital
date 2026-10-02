@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, forwardRef, useCallback, useContext, useEffect, useMemo, useRef, type ReactNode } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type Lenis from "lenis";
 
@@ -106,3 +107,28 @@ export const Anchor = forwardRef<HTMLAnchorElement, AnchorProps>(function Anchor
     </a>
   );
 });
+
+type NavLinkProps = { item: { id: string; label: string; href?: string }; className?: string; onClick?: () => void } & Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  "href" | "onClick"
+>;
+
+/**
+ * A menu entry: a page (« Accueil », « À propos ») opens with a client-side
+ * link, or glides back to its top when it is the page already open; a section
+ * of the homepage goes through Anchor.
+ */
+export function NavLink({ item, className, onClick, children, ...rest }: NavLinkProps & { children?: ReactNode }) {
+  const pathname = usePathname();
+  if (item.href && item.href !== pathname)
+    return (
+      <Link href={item.href} className={className} onClick={onClick} {...rest}>
+        {children ?? item.label}
+      </Link>
+    );
+  return (
+    <Anchor to={item.href ? "top" : item.id} className={className} onClick={onClick} {...rest}>
+      {children ?? item.label}
+    </Anchor>
+  );
+}

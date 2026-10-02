@@ -10,7 +10,11 @@ import { ArrowUpRight, Cap, Handoff, Rocket, Scan } from "@/components/ui/Icons"
 const icons = [Cap, Scan, Handoff, Rocket];
 const lit = "bg-[linear-gradient(160deg,#3551FF_0%,#0714D8_52%,#0A12A8_100%)] shadow-[0_22px_40px_-26px_rgba(7,20,216,.45)]";
 
-/** « De quoi avez-vous besoin aujourd'hui ? »: four doors, one lit at a time, each opening onto its offer. */
+/**
+ * « De quoi avez-vous besoin aujourd'hui ? »: four ways in, each opening onto its offer. On computers four
+ * doors with a light sliding to the one under the mouse; on phones and tablets an index, the line in the
+ * middle of the screen lit.
+ */
 export function Needs() {
   const [active, setActive] = useState(0);
   const cards = useRef<(HTMLAnchorElement | null)[]>([]);
@@ -41,7 +45,8 @@ export function Needs() {
           </h2>
         </div>
 
-        <div className="relative mt-10 grid gap-3 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4 lg:gap-4">
+        {/* phones and tablets: an index, 01 to 04, the verb large, its line below, an arrow; computers: four doors and a sliding light */}
+        <div className="relative mt-8 border-t border-hair sm:grid sm:grid-cols-2 sm:gap-x-10 lg:mt-14 lg:grid-cols-4 lg:gap-4 lg:border-t-0">
           {/* the light that slides from door to door (computers) */}
           <div
             aria-hidden
@@ -68,37 +73,53 @@ export function Needs() {
                 style={{ ["--d" as string]: `${i * 0.1}s` } as CSSProperties}
                 onMouseEnter={() => setActive(i)}
                 onFocus={() => setActive(i)}
-                className={`group relative z-[1] flex items-start gap-4 rounded-2xl p-5 transition-colors duration-500 sm:min-h-[220px] sm:flex-col sm:gap-0 lg:p-6 ${on ? "text-white" : "text-ink"}`}
+                className={`group relative z-[1] flex items-center gap-4 border-b border-hair py-5 text-ink transition-colors duration-500 lg:min-h-[220px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-2xl lg:border-b-0 lg:p-6 ${on ? "lg:text-white" : ""}`}
               >
-                {/* the door at rest, and lit (phones, tablets: computers have the sliding light) */}
+                {/* the door at rest (computers: the sliding light shows through when it is lit) */}
                 <span
                   aria-hidden
-                  className={`absolute inset-0 -z-[1] rounded-2xl border border-hair bg-white transition-opacity duration-500 ${on ? "opacity-0" : "opacity-100"}`}
-                />
-                <span
-                  aria-hidden
-                  className={`absolute inset-0 -z-[2] rounded-2xl transition-opacity duration-500 lg:hidden ${lit} ${on ? "opacity-100" : "opacity-0"}`}
+                  className={`absolute inset-0 -z-[1] hidden rounded-2xl border border-hair bg-white transition-opacity duration-500 lg:block ${on ? "opacity-0" : "opacity-100"}`}
                 />
 
-                <span className="flex shrink-0 items-start justify-between sm:w-full">
+                {/* the number of the index (phones, tablets) */}
+                <span
+                  aria-hidden
+                  className={`w-7 shrink-0 self-start pt-[5px] text-[13px] font-semibold tabular-nums transition-colors duration-500 lg:hidden ${on ? "text-electric" : "text-mute"}`}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                {/* the door's icon and arrow (computers) */}
+                <span className="hidden shrink-0 items-start justify-between lg:flex lg:w-full">
                   <span
                     className={`grid h-11 w-11 place-items-center rounded-full transition-colors duration-500 ${on ? "bg-white/15 text-white" : "bg-frost text-electric"}`}
                   >
                     <Icon className="h-[22px] w-[22px]" />
                   </span>
                   <span
-                    className={`hidden h-9 w-9 place-items-center rounded-full border transition-all duration-500 group-hover:rotate-45 sm:grid ${on ? "border-white bg-white text-electric" : "border-hair text-ink"}`}
+                    className={`grid h-9 w-9 place-items-center rounded-full border transition-all duration-500 group-hover:rotate-45 ${on ? "border-white bg-white text-electric" : "border-hair text-ink"}`}
                   >
                     <ArrowUpRight className="h-4 w-4" />
                   </span>
                 </span>
-                <span className="min-w-0 sm:mt-auto sm:pt-10">
-                  <span className="block text-[14px] font-bold tracking-[0.06em]">{d.name}</span>
+
+                <span className="min-w-0 flex-1 lg:mt-auto lg:flex-none lg:pt-10">
+                  <span className="block text-[18px] font-semibold tracking-[0.05em] sm:text-[19px] lg:text-[14px] lg:font-bold lg:tracking-[0.06em]">
+                    {d.name}
+                  </span>
                   <span
-                    className={`mt-1.5 block text-[14.5px] font-medium leading-relaxed transition-colors duration-500 sm:mt-2.5 ${on ? "text-white/80" : "text-body"}`}
+                    className={`pretty mt-1 block text-[14.5px] font-medium leading-relaxed transition-colors duration-500 lg:mt-2.5 ${on ? "text-body lg:text-white/80" : "text-body"}`}
                   >
                     {d.text}
                   </span>
+                </span>
+
+                {/* the arrow at the end of the line (phones, tablets) */}
+                <span
+                  aria-hidden
+                  className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-all duration-500 lg:hidden ${on ? "border-electric bg-electric text-white" : "border-hair text-ink"}`}
+                >
+                  <ArrowUpRight className="h-4 w-4" />
                 </span>
               </Anchor>
             );

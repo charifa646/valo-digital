@@ -27,26 +27,35 @@ function Row({ logos, reverse = false }: { logos: ClientLogo[]; reverse?: boolea
 }
 
 /**
- * The figures of the portfolio, side by side: « Depuis 2022 », « +1000 »,
- * « +100 ». The counts climb once when they come on screen (the real figure
- * stays in the text for screen readers and without animation).
+ * The figures of the portfolio, side by side, on one line on every screen:
+ * « Depuis 2022 », « +1000 », « +100 ». On phones a word of the portfolio sits
+ * above each figure, and a column widens a little when its word needs it
+ * (« entrepreneurs » on the narrowest phones); from tablets up the full
+ * sentence sits below it. The counts climb once when they come on screen (the
+ * real figure stays in the text for screen readers and without animation).
  */
 export function Figures({ dark = false, className = "" }: { dark?: boolean; className?: string }) {
   return (
     <ul
-      className={`grid overflow-hidden rounded-2xl border sm:grid-cols-3 ${dark ? "border-white/15 bg-white/[0.05]" : "border-hair bg-white shadow-panel"} ${className}`}
+      className={`grid grid-cols-[repeat(3,minmax(min-content,1fr))] overflow-hidden rounded-2xl border sm:grid-cols-3 ${dark ? "border-white/15 bg-white/[0.05]" : "border-hair bg-white shadow-panel"} ${className}`}
     >
       {chiffres.map((c, i) => (
         <li
           key={c.value}
           data-reveal="blur"
           style={{ ["--d" as string]: `${0.1 + i * 0.12}s` } as CSSProperties}
-          className={`flex items-center gap-5 px-5 py-5 sm:block sm:px-7 sm:py-9 sm:text-center ${i ? `max-sm:border-t sm:border-l ${dark ? "border-white/15" : "border-hair"}` : ""}`}
+          className={`flex flex-col items-center px-1.5 py-5 text-center sm:px-7 sm:py-9 ${i ? `border-l ${dark ? "border-white/15" : "border-hair"}` : ""}`}
         >
-          {/* on phones a row (the figure, then its words), side by side columns from tablets up */}
-          <div className="w-[38%] shrink-0 sm:w-auto">
-            <p className={`text-[11px] font-semibold uppercase tracking-[0.16em] sm:h-5 sm:text-[12px] ${dark ? "text-sun" : "text-electric"}`}>{c.pre}</p>
-            <p className={`mt-1 text-[clamp(2.1rem,1.6rem+2.6vw,3.6rem)] font-medium leading-none tracking-[-0.045em] ${dark ? "text-white" : "text-ink"}`}>
+          <div>
+            <p
+              className={`flex min-h-[2.4em] items-end justify-center text-[clamp(9px,2.7vw,10px)] font-semibold uppercase leading-tight tracking-[0.08em] sm:block sm:h-5 sm:min-h-0 sm:text-[12px] sm:tracking-[0.16em] ${dark ? "text-sun" : "text-electric"}`}
+            >
+              <span className="sm:hidden">{c.pre ?? c.short}</span>
+              <span className="hidden sm:inline">{c.pre}</span>
+            </p>
+            <p
+              className={`mt-1.5 text-[clamp(1.7rem,1.15rem+2.9vw,3.6rem)] font-medium leading-none tracking-[-0.045em] sm:mt-1 ${dark ? "text-white" : "text-ink"}`}
+            >
               {c.count ? (
                 <>
                   <span aria-hidden className="count-up tabular-nums" style={{ ["--to" as string]: c.count } as CSSProperties}>
@@ -59,9 +68,7 @@ export function Figures({ dark = false, className = "" }: { dark?: boolean; clas
               )}
             </p>
           </div>
-          <p
-            className={`pretty text-[14px] font-medium leading-snug sm:mx-auto sm:mt-4 sm:max-w-[26ch] sm:text-[14.5px] ${dark ? "text-white/75" : "text-body"}`}
-          >
+          <p className={`pretty mx-auto mt-4 hidden max-w-[26ch] text-[14.5px] font-medium leading-snug sm:block ${dark ? "text-white/75" : "text-body"}`}>
             {c.text}
           </p>
         </li>
@@ -98,6 +105,7 @@ export function Confiance() {
 
       <div
         data-reveal
+        data-preload
         className="relative mt-8 grid gap-3 [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] sm:gap-4 lg:mt-10"
       >
         <Row logos={logos.slice(0, half)} />

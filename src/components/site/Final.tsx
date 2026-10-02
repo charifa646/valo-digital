@@ -1,12 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { CSSProperties } from "react";
 import { contact, final, fondateur, footer, formations, nav, prestations } from "@/lib/content";
 import { hello, wa } from "@/lib/links";
 import { Monogram } from "@/components/brand/Logo";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Mail, Phone, Pin } from "@/components/ui/Icons";
-import { Anchor } from "./Scroll";
+import { Anchor, NavLink } from "./Scroll";
 import { FooterWordmark } from "./FooterWordmark";
 import { Words } from "@/components/ui/Words";
 
@@ -142,15 +141,7 @@ export function Final() {
               <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[13.5px] font-semibold text-white/70">
                 {nav.map((n) => (
                   <li key={n.id}>
-                    {n.href ? (
-                      <Link href={n.href} className="transition hover:text-white">
-                        {n.label}
-                      </Link>
-                    ) : (
-                      <Anchor to={n.id} className="transition hover:text-white">
-                        {n.label}
-                      </Anchor>
-                    )}
+                    <NavLink item={n} className="transition hover:text-white" />
                   </li>
                 ))}
               </ul>

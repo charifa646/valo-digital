@@ -37,12 +37,13 @@ export const contact = typeset({
 });
 
 /**
- * The menu: four plain entries, then « Parlons de votre projet ». Each entry
- * lights up while one of its sections is on screen; « À propos » is a page of
- * its own (/a-propos) and lights up there.
+ * The menu: five plain entries, then « Parlons de votre projet ». Each entry
+ * lights up while one of its sections is on screen; « Accueil » and
+ * « À propos » are pages (/ and /a-propos), the others sections of the homepage.
  */
 export type NavItem = { id: string; label: string; sections: string[]; href?: string };
 export const nav: NavItem[] = typeset([
+  { id: "accueil", label: "Accueil", sections: ["top", "besoin"], href: "/" },
   { id: "prestations", label: "Services", sections: ["prestations", "solutions"] },
   { id: "formations", label: "Formations", sections: ["formations"] },
   { id: "a-propos", label: "À propos", sections: [], href: "/a-propos" },
@@ -65,53 +66,56 @@ export type ClientLogo = { name: string; src: string; width: number; height: num
 export const confiance = typeset({
   title: "Ils nous ont fait confiance",
   logos: [
-    { name: "Ministère des Sports, de la Jeunesse et de l’Emploi", src: "/images/clients/msje.webp", width: 279, height: 320 },
-    { name: "SONABEL", src: "/images/clients/sonabel.webp", width: 320, height: 246 },
-    { name: "Simplon Burkina Faso", src: "/images/clients/simplon.webp", width: 320, height: 92 },
-    { name: "CAGEFIC", src: "/images/clients/cagefic.webp", width: 320, height: 301 },
-    { name: "Elite Afrique", src: "/images/clients/elite-afrique.webp", width: 445, height: 198 },
-    { name: "Faso Télécom", src: "/images/clients/faso-telecom.webp", width: 320, height: 180 },
-    { name: "Tiligre Agro SARL", src: "/images/clients/tiligre.webp", width: 320, height: 320 },
-    { name: "Winner Professional School", src: "/images/clients/winner.webp", width: 293, height: 320 },
-    { name: "Les Gais Lurons", src: "/images/clients/gais-lurons.webp", width: 311, height: 320 },
-    { name: "", src: "/images/clients/goutte.webp", width: 258, height: 320 },
-    { name: "", src: "/images/clients/cauris.webp", width: 315, height: 320 },
-    { name: "Bee Management", src: "/images/clients/bee-management.webp", width: 320, height: 288 },
-    { name: "Les Petites Élites", src: "/images/clients/petites-elites.webp", width: 301, height: 320 },
-    { name: "P’tits Chérubins", src: "/images/clients/ptits-cherubins.webp", width: 320, height: 290 },
-    { name: "Reliant Livraison", src: "/images/clients/reliant-livraison.webp", width: 320, height: 280 },
-    { name: "SavonEKO", src: "/images/clients/savoneko.webp", width: 286, height: 271 },
-    { name: "Les Écoles Marie Rose", src: "/images/clients/emr.webp", width: 320, height: 164 },
-    { name: "École maternelle bilingue Le Nid des Tout-Petits", src: "/images/clients/nid-des-tout-petits.webp", width: 320, height: 320 },
-    { name: "E.S.A.F Zoignandé", src: "/images/clients/esaf.webp", width: 320, height: 204 },
-    { name: "SmartSank", src: "/images/clients/smartsank.webp", width: 320, height: 290 },
-    { name: "Complexe scolaire Les Héritiers du Savoir", src: "/images/clients/heritiers-du-savoir.webp", width: 320, height: 299 },
-    { name: "Cosmos Management", src: "/images/clients/cosmos.webp", width: 320, height: 255 },
-    { name: "Wend Yiida Négoce", src: "/images/clients/wend-yiida.webp", width: 320, height: 186 },
-    { name: "Carrefour du Schengen", src: "/images/clients/carrefour-schengen.webp", width: 293, height: 320 },
-    { name: "MysterH, les vins du Burkina", src: "/images/clients/mysterh.webp", width: 320, height: 277 },
-    { name: "Prestige Hair", src: "/images/clients/prestige-hair.webp", width: 320, height: 218 },
-    { name: "Le Paradis des Bout’chou", src: "/images/clients/paradis-des-boutchou.webp", width: 320, height: 211 },
-    { name: "", src: "/images/clients/arobase.webp", width: 320, height: 320 },
-    { name: "SETECK, Salon de l’entrepreneuriat technologique de Koudougou", src: "/images/clients/seteck.webp", width: 320, height: 229 },
-    { name: "Espace Soleo", src: "/images/clients/espace-soleo.webp", width: 320, height: 293 },
-    { name: "L’univers de Moli", src: "/images/clients/univers-de-moli.webp", width: 320, height: 320 },
-    { name: "ISPPI, Institut supérieur privé des professions immobilières", src: "/images/clients/isppi.webp", width: 320, height: 287 },
-    { name: "NebSond Shop", src: "/images/clients/nebsond.webp", width: 320, height: 135 },
-    { name: "Chez Zaza", src: "/images/clients/chez-zaza.webp", width: 320, height: 316 },
-    { name: "Hôriyombo Agrobusiness", src: "/images/clients/horiyombo.webp", width: 320, height: 320 },
-    { name: "Ferme African Dream", src: "/images/clients/ferme-african-dream.webp", width: 318, height: 320 },
-    { name: "Green Star Bio", src: "/images/clients/green-star-bio.webp", width: 320, height: 268 },
+    { name: "Ministère des Sports, de la Jeunesse et de l’Emploi", src: "/images/clients/msje.webp", width: 223, height: 256 },
+    { name: "SONABEL", src: "/images/clients/sonabel.webp", width: 256, height: 197 },
+    { name: "Simplon Burkina Faso", src: "/images/clients/simplon.webp", width: 256, height: 74 },
+    { name: "CAGEFIC", src: "/images/clients/cagefic.webp", width: 256, height: 241 },
+    { name: "Elite Afrique", src: "/images/clients/elite-afrique.webp", width: 256, height: 114 },
+    { name: "Faso Télécom", src: "/images/clients/faso-telecom.webp", width: 256, height: 144 },
+    { name: "Tiligre Agro SARL", src: "/images/clients/tiligre.webp", width: 256, height: 256 },
+    { name: "Winner Professional School", src: "/images/clients/winner.webp", width: 234, height: 256 },
+    { name: "Les Gais Lurons", src: "/images/clients/gais-lurons.webp", width: 249, height: 256 },
+    { name: "", src: "/images/clients/goutte.webp", width: 206, height: 256 },
+    { name: "", src: "/images/clients/cauris.webp", width: 252, height: 256 },
+    { name: "Bee Management", src: "/images/clients/bee-management.webp", width: 256, height: 230 },
+    { name: "Les Petites Élites", src: "/images/clients/petites-elites.webp", width: 241, height: 256 },
+    { name: "P’tits Chérubins", src: "/images/clients/ptits-cherubins.webp", width: 256, height: 232 },
+    { name: "Reliant Livraison", src: "/images/clients/reliant-livraison.webp", width: 256, height: 224 },
+    { name: "SavonEKO", src: "/images/clients/savoneko.webp", width: 256, height: 243 },
+    { name: "Les Écoles Marie Rose", src: "/images/clients/emr.webp", width: 256, height: 131 },
+    { name: "École maternelle bilingue Le Nid des Tout-Petits", src: "/images/clients/nid-des-tout-petits.webp", width: 256, height: 256 },
+    { name: "E.S.A.F Zoignandé", src: "/images/clients/esaf.webp", width: 256, height: 163 },
+    { name: "SmartSank", src: "/images/clients/smartsank.webp", width: 256, height: 232 },
+    { name: "Complexe scolaire Les Héritiers du Savoir", src: "/images/clients/heritiers-du-savoir.webp", width: 256, height: 239 },
+    { name: "Cosmos Management", src: "/images/clients/cosmos.webp", width: 256, height: 204 },
+    { name: "Wend Yiida Négoce", src: "/images/clients/wend-yiida.webp", width: 256, height: 149 },
+    { name: "Carrefour du Schengen", src: "/images/clients/carrefour-schengen.webp", width: 234, height: 256 },
+    { name: "MysterH, les vins du Burkina", src: "/images/clients/mysterh.webp", width: 256, height: 222 },
+    { name: "Prestige Hair", src: "/images/clients/prestige-hair.webp", width: 256, height: 174 },
+    { name: "Le Paradis des Bout’chou", src: "/images/clients/paradis-des-boutchou.webp", width: 256, height: 169 },
+    { name: "", src: "/images/clients/arobase.webp", width: 256, height: 256 },
+    { name: "SETECK, Salon de l’entrepreneuriat technologique de Koudougou", src: "/images/clients/seteck.webp", width: 256, height: 183 },
+    { name: "Espace Soleo", src: "/images/clients/espace-soleo.webp", width: 256, height: 234 },
+    { name: "L’univers de Moli", src: "/images/clients/univers-de-moli.webp", width: 256, height: 256 },
+    { name: "ISPPI, Institut supérieur privé des professions immobilières", src: "/images/clients/isppi.webp", width: 256, height: 230 },
+    { name: "NebSond Shop", src: "/images/clients/nebsond.webp", width: 256, height: 108 },
+    { name: "Chez Zaza", src: "/images/clients/chez-zaza.webp", width: 256, height: 253 },
+    { name: "Hôriyombo Agrobusiness", src: "/images/clients/horiyombo.webp", width: 256, height: 256 },
+    { name: "Ferme African Dream", src: "/images/clients/ferme-african-dream.webp", width: 254, height: 256 },
+    { name: "Green Star Bio", src: "/images/clients/green-star-bio.webp", width: 256, height: 214 },
   ] as ClientLogo[],
   mission: "Notre mission est d’accompagner dans la ==croissance digitale== des entreprises africaines.",
 });
 
-/** The figures of the portfolio (« Mon parcours digital », « Qui suis-je ? »), in its own words. */
-export type Figure = { pre?: string; value: string; text: string; count?: number };
+/**
+ * The figures of the portfolio (« Mon parcours digital », « Qui suis-je ? »), in
+ * its own words: `short` is the word shown above the figure on phones.
+ */
+export type Figure = { pre?: string; short?: string; value: string; text: string; count?: number };
 export const chiffres: Figure[] = typeset([
   { pre: "Depuis", value: "2022", text: "auprès des entrepreneurs, PME, institutions publiques, ONG et écoles d’Afrique de l’Ouest" },
-  { value: "+1000", count: 1000, text: "entrepreneurs formés et accompagnés aux métiers du digital" },
-  { value: "+100", count: 100, text: "projets digitaux accompagnés au lancement" },
+  { value: "+1000", count: 1000, short: "entrepreneurs", text: "entrepreneurs formés et accompagnés aux métiers du digital" },
+  { value: "+100", count: 100, short: "projets digitaux", text: "projets digitaux accompagnés au lancement" },
 ]);
 
 export type Door = { id: string; name: string; text: string; target: string };
