@@ -463,43 +463,81 @@ main {
   }
 }
 
-/* light lines: two fine beams, each with a soft glow, fading at the top and bottom. They stand on the edges of the
-   content column (the 1240px page, or halfway into the side margin on narrower screens), so they frame the text and
-   never cross it. Phones are too narrow for them: none there. */
-.light-lines,
-.light-lines-white {
-  --l: max(calc(var(--gutter) / 2), calc((100% - 1240px) / 2));
-  --r: calc(100% - var(--l));
+/* the paper: a very fine grain on the light backgrounds, under the content so the cards stay clean white, and on a few
+   sections one soft halo of blue (`halo-*`). Kept light on purpose: too much blue and the white looks dirty. */
+.paper {
+  isolation: isolate;
+}
+.paper::before,
+.paper::after {
+  content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
 }
-.light-lines {
-  background:
-    linear-gradient(90deg, transparent calc(var(--l) - 28px), rgba(53, 81, 255, 0.05) var(--l), transparent calc(var(--l) + 28px)),
-    linear-gradient(90deg, transparent calc(var(--r) - 28px), rgba(53, 81, 255, 0.05) var(--r), transparent calc(var(--r) + 28px)),
-    linear-gradient(90deg, transparent calc(var(--l) - 0.5px), rgba(53, 81, 255, 0.2) var(--l), transparent calc(var(--l) + 0.5px)),
-    linear-gradient(90deg, transparent calc(var(--r) - 0.5px), rgba(53, 81, 255, 0.2) var(--r), transparent calc(var(--r) + 0.5px));
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 28%, #000 62%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 28%, #000 62%, transparent 100%);
+.paper::before {
+  background: var(--halo, none);
+}
+.paper::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.03 0 0 0 0 0.05 0 0 0 0 0.32 0 0 0 0.9 -0.36'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.38;
+}
+/* sharp screens: a finer grain */
+@media (min-resolution: 1.5dppx) {
+  .paper::after {
+    background-size: 110px 110px;
+  }
+}
+.halo-tl {
+  --halo: radial-gradient(40% 52% at 0% 0%, rgba(76, 96, 255, 0.085), transparent 70%);
+}
+.halo-tr {
+  --halo: radial-gradient(40% 52% at 100% 0%, rgba(76, 96, 255, 0.085), transparent 70%);
+}
+.halo-bl {
+  --halo: radial-gradient(40% 52% at 0% 100%, rgba(76, 96, 255, 0.085), transparent 70%);
 }
 
-/* the same beams, in white, for the blue panels */
-.light-lines-white {
-  background:
-    linear-gradient(90deg, transparent calc(var(--l) - 28px), rgba(255, 255, 255, 0.05) var(--l), transparent calc(var(--l) + 28px)),
-    linear-gradient(90deg, transparent calc(var(--r) - 28px), rgba(255, 255, 255, 0.05) var(--r), transparent calc(var(--r) + 28px)),
-    linear-gradient(90deg, transparent calc(var(--l) - 0.5px), rgba(255, 255, 255, 0.22) var(--l), transparent calc(var(--l) + 0.5px)),
-    linear-gradient(90deg, transparent calc(var(--r) - 0.5px), rgba(255, 255, 255, 0.22) var(--r), transparent calc(var(--r) + 0.5px));
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 64%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 64%, transparent 100%);
+/* a word of its section, very large and very pale, fading out (« BESOIN », « MÉTHODE »): two on the site, no more */
+.filigrane {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.filigrane > span {
+  position: absolute;
+  white-space: nowrap;
+  font-size: clamp(130px, 21vw, 330px);
+  font-weight: 600;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  color: rgba(7, 20, 216, 0.05);
+  -webkit-mask-image: linear-gradient(180deg, #000 20%, transparent 92%);
+  mask-image: linear-gradient(180deg, #000 20%, transparent 92%);
 }
 @media (max-width: 767px) {
-  .light-lines,
-  .light-lines-white {
-    display: none;
+  .filigrane > span {
+    font-size: 26vw;
   }
+}
+
+/* two fine beams of light, kept only for the reserve hero A (`/apercu/vague`): the live pages have the paper instead */
+.light-lines-white {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent calc(16% - 28px), rgba(255, 255, 255, 0.05) 16%, transparent calc(16% + 28px)),
+    linear-gradient(90deg, transparent calc(84% - 28px), rgba(255, 255, 255, 0.05) 84%, transparent calc(84% + 28px)),
+    linear-gradient(90deg, transparent calc(16% - 0.5px), rgba(255, 255, 255, 0.22) 16%, transparent calc(16% + 0.5px)),
+    linear-gradient(90deg, transparent calc(84% - 0.5px), rgba(255, 255, 255, 0.22) 84%, transparent calc(84% + 0.5px));
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 64%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 64%, transparent 100%);
 }
 
 /* the clients' logos pass slowly, and stop under the hand */

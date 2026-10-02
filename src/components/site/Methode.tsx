@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { methode } from "@/lib/content";
 import { ArrowUpRight } from "@/components/ui/Icons";
 import { GrowthCurve } from "./GrowthCurve";
+import { Filigrane } from "@/components/ui/Filigrane";
 import { Words, count } from "@/components/ui/Words";
 import { Wave } from "@/components/ui/Wave";
 
@@ -22,7 +23,8 @@ const stairs = [
  */
 export function Methode() {
   return (
-    <section id="methode" aria-labelledby="methode-title" className="relative bg-white">
+    <section id="methode" aria-labelledby="methode-title" className="paper relative bg-white">
+      <Filigrane word={methode.filigrane} className="-left-[0.04em] top-[0.15em] md:-right-[0.06em] md:left-auto" />
       <div className="gutter mx-auto max-w-page pb-14 pt-24 lg:pb-20 lg:pt-32">
         <div className="max-w-[40rem]">
           <p data-reveal="rule" className="tag">

@@ -122,6 +122,8 @@ export type Door = { id: string; name: string; text: string; target: string };
 
 export const needs = typeset({
   label: "UNE SOLUTION SELON VOTRE BESOIN",
+  /** the word of the label written very large and very pale behind the section */
+  filigrane: "BESOIN",
   title: "De quoi avez-vous besoin aujourd’hui ?",
   doors: [
     { id: "apprendre", name: "APPRENDRE", text: "Développez vos compétences avec des formations pratiques.", target: "formations" },
@@ -284,6 +286,8 @@ export const solutions = typeset({
 
 export const methode = typeset({
   label: "MÉTHODE VALO",
+  /** the word of the label written very large and very pale behind the section */
+  filigrane: "MÉTHODE",
   title: ["Une méthode simple.", "Des actions concrètes."],
   steps: [
     { n: "01", name: "COMPRENDRE", text: "Partir de votre situation réelle." },

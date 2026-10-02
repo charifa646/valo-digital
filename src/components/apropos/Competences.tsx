@@ -35,7 +35,7 @@ const icons = [
 export function Competences() {
   const c = apropos.competences;
   return (
-    <section aria-labelledby="competences-title" className="relative bg-white">
+    <section aria-labelledby="competences-title" className="paper relative bg-white">
       <div className="gutter mx-auto grid max-w-page items-center gap-14 pb-24 pt-16 lg:grid-cols-[1.25fr_0.75fr] lg:gap-16 lg:pb-32 lg:pt-20">
         <div>
           <p data-reveal="rule" className="tag">

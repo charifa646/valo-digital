@@ -12,7 +12,7 @@ const icons = [Compass, Bolt, Trend];
  */
 export function Pourquoi() {
   return (
-    <section id="pourquoi" aria-labelledby="pourquoi-title" className="relative">
+    <section id="pourquoi" aria-labelledby="pourquoi-title" className="paper relative">
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
         <div data-dark data-reveal="curtain" className="relative isolate overflow-hidden rounded-2xl bg-night text-white">
           <Image

@@ -10,8 +10,7 @@ import { Words } from "@/components/ui/Words";
 export function Equipe() {
   const e = apropos.equipe;
   return (
-    <section aria-labelledby="equipe-title" className="relative isolate">
-      <div aria-hidden className="light-lines" />
+    <section aria-labelledby="equipe-title" className="paper halo-bl relative isolate">
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
         <div className="text-center">
           <p data-reveal="rule" className="tag tag-center">

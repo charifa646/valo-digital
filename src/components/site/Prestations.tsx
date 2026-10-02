@@ -68,7 +68,7 @@ function OfferCard({ o, i }: { o: Offer; i: number }) {
 
 export function Prestations() {
   return (
-    <section id="prestations" aria-labelledby="prestations-title" className="relative">
+    <section id="prestations" aria-labelledby="prestations-title" className="paper halo-tl relative">
       <div className="gutter mx-auto max-w-page pb-14 pt-8 lg:pb-20 lg:pt-10">
         <div className="max-w-[40rem]">
           <p data-reveal="rule" className="tag">

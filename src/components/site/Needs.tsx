@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { needs } from "@/lib/content";
 import { Anchor } from "./Scroll";
+import { Filigrane } from "@/components/ui/Filigrane";
 import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight, Cap, Handoff, Rocket, Scan } from "@/components/ui/Icons";
@@ -33,8 +34,8 @@ export function Needs() {
   }, []);
 
   return (
-    <section id="besoin" aria-labelledby="besoin-title" className="relative isolate">
-      <div aria-hidden className="light-lines" />
+    <section id="besoin" aria-labelledby="besoin-title" className="paper relative isolate">
+      <Filigrane word={needs.filigrane} className="left-1/2 top-[0.02em] -translate-x-1/2" />
       <div className="gutter mx-auto max-w-page pb-20 pt-16 lg:pb-28 lg:pt-20">
         <div className="text-center">
           <p data-reveal="rule" className="tag tag-center">

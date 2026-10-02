@@ -8,8 +8,7 @@ import { Words } from "@/components/ui/Words";
 /** « Ils nous ont fait confiance », all the logos at once on white cards, then the mission. */
 export function References() {
   return (
-    <section aria-labelledby="references-title" className="relative isolate">
-      <div aria-hidden className="light-lines" />
+    <section aria-labelledby="references-title" className="paper halo-tl relative isolate">
       <div className="gutter mx-auto max-w-page pb-20 pt-24 lg:pb-28 lg:pt-32">
         <div className="text-center">
           <p data-reveal="rule" className="tag tag-center">

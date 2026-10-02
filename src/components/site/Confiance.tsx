@@ -88,7 +88,7 @@ export function Confiance() {
   const half = Math.ceil(logos.length / 2);
 
   return (
-    <section aria-labelledby="confiance-title" className="relative overflow-hidden pb-16 pt-10 lg:pb-24 lg:pt-14">
+    <section aria-labelledby="confiance-title" className="paper relative overflow-hidden pb-16 pt-10 lg:pb-24 lg:pt-14">
       <div aria-hidden data-reveal="zoom" className="relative mx-auto grid h-[230px] w-[230px] place-items-center sm:h-[300px] sm:w-[300px]">
         <span className="absolute inset-0 rounded-full border border-hair/80 bg-[radial-gradient(closest-side,rgba(231,237,255,.25),rgba(231,237,255,.85))]" />
         <span className="absolute inset-[17%] rounded-full border border-hair bg-[radial-gradient(closest-side,rgba(255,255,255,.4),rgba(219,227,255,.9))]" />

@@ -16,7 +16,6 @@ export function AproposHero() {
         data-dark
         className="on-dark relative isolate overflow-hidden bg-[radial-gradient(110%_80%_at_50%_0%,#3551FF_0%,#0714D8_52%,#0510A8_100%)] text-white"
       >
-        <div aria-hidden className="light-lines-white" />
         <div className="gutter mx-auto grid max-w-page items-center gap-16 pb-32 pt-[118px] sm:pt-[136px] lg:grid-cols-[1.06fr_0.94fr] lg:gap-16 lg:pb-44 lg:pt-[160px]">
           <div>
             <p className="tag fade-in text-white/85" style={{ ["--d" as string]: "0.05s" } as CSSProperties}>

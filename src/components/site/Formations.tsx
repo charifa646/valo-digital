@@ -29,7 +29,7 @@ export function Formations() {
   const { open } = useSheet();
 
   return (
-    <section id="formations" aria-labelledby="formations-title" className="relative bg-white">
+    <section id="formations" aria-labelledby="formations-title" className="paper halo-tr relative bg-white">
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[40rem]">

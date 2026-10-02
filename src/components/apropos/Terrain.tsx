@@ -59,7 +59,7 @@ export function Terrain() {
     "grid h-11 w-11 place-items-center rounded-full border border-hair bg-white text-ink transition duration-300 hover:border-electric hover:text-electric";
 
   return (
-    <section aria-labelledby="terrain-title" className="relative bg-white">
+    <section aria-labelledby="terrain-title" className="paper relative bg-white">
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[44rem]">

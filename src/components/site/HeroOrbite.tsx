@@ -179,10 +179,7 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
         }`}
       >
         {blue ? (
-          <>
-            <div aria-hidden className="light-lines-white" />
-            <Wave shape="rise" back="text-white/15" front="text-ice" className="absolute inset-x-0 bottom-0" />
-          </>
+          <Wave shape="rise" back="text-white/15" front="text-ice" className="absolute inset-x-0 bottom-0" />
         ) : (
           <>
             {/* the dotted ground, stronger towards the edges */}

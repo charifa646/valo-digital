@@ -13,7 +13,6 @@ export function Parcours() {
   return (
     <section aria-labelledby="parcours-title" className="relative">
       <div data-dark className="on-dark relative isolate overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_55%,#0610A6_100%)] text-white">
-        <div aria-hidden className="light-lines-white" />
         <div className="gutter mx-auto max-w-page pb-20 pt-12 lg:pb-28 lg:pt-16">
           <h2 id="parcours-title" data-reveal="rule" className="tag text-white/85">
             {p.label}
