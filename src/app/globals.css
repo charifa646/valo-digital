@@ -463,34 +463,43 @@ main {
   }
 }
 
-/* light lines: two fine beams framing the content, each with a soft glow, fading at the top and bottom (light sections) */
-.light-lines {
+/* light lines: two fine beams, each with a soft glow, fading at the top and bottom. They stand on the edges of the
+   content column (the 1240px page, or halfway into the side margin on narrower screens), so they frame the text and
+   never cross it. Phones are too narrow for them: none there. */
+.light-lines,
+.light-lines-white {
+  --l: max(calc(var(--gutter) / 2), calc((100% - 1240px) / 2));
+  --r: calc(100% - var(--l));
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
+}
+.light-lines {
   background:
-    linear-gradient(90deg, transparent calc(16% - 28px), rgba(53, 81, 255, 0.05) 16%, transparent calc(16% + 28px)),
-    linear-gradient(90deg, transparent calc(84% - 28px), rgba(53, 81, 255, 0.05) 84%, transparent calc(84% + 28px)),
-    linear-gradient(90deg, transparent calc(16% - 0.5px), rgba(53, 81, 255, 0.2) 16%, transparent calc(16% + 0.5px)),
-    linear-gradient(90deg, transparent calc(84% - 0.5px), rgba(53, 81, 255, 0.2) 84%, transparent calc(84% + 0.5px));
+    linear-gradient(90deg, transparent calc(var(--l) - 28px), rgba(53, 81, 255, 0.05) var(--l), transparent calc(var(--l) + 28px)),
+    linear-gradient(90deg, transparent calc(var(--r) - 28px), rgba(53, 81, 255, 0.05) var(--r), transparent calc(var(--r) + 28px)),
+    linear-gradient(90deg, transparent calc(var(--l) - 0.5px), rgba(53, 81, 255, 0.2) var(--l), transparent calc(var(--l) + 0.5px)),
+    linear-gradient(90deg, transparent calc(var(--r) - 0.5px), rgba(53, 81, 255, 0.2) var(--r), transparent calc(var(--r) + 0.5px));
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 28%, #000 62%, transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0%, #000 28%, #000 62%, transparent 100%);
 }
 
 /* the same beams, in white, for the blue panels */
 .light-lines-white {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
   background:
-    linear-gradient(90deg, transparent calc(16% - 28px), rgba(255, 255, 255, 0.05) 16%, transparent calc(16% + 28px)),
-    linear-gradient(90deg, transparent calc(84% - 28px), rgba(255, 255, 255, 0.05) 84%, transparent calc(84% + 28px)),
-    linear-gradient(90deg, transparent calc(16% - 0.5px), rgba(255, 255, 255, 0.22) 16%, transparent calc(16% + 0.5px)),
-    linear-gradient(90deg, transparent calc(84% - 0.5px), rgba(255, 255, 255, 0.22) 84%, transparent calc(84% + 0.5px));
+    linear-gradient(90deg, transparent calc(var(--l) - 28px), rgba(255, 255, 255, 0.05) var(--l), transparent calc(var(--l) + 28px)),
+    linear-gradient(90deg, transparent calc(var(--r) - 28px), rgba(255, 255, 255, 0.05) var(--r), transparent calc(var(--r) + 28px)),
+    linear-gradient(90deg, transparent calc(var(--l) - 0.5px), rgba(255, 255, 255, 0.22) var(--l), transparent calc(var(--l) + 0.5px)),
+    linear-gradient(90deg, transparent calc(var(--r) - 0.5px), rgba(255, 255, 255, 0.22) var(--r), transparent calc(var(--r) + 0.5px));
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 64%, transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 64%, transparent 100%);
+}
+@media (max-width: 767px) {
+  .light-lines,
+  .light-lines-white {
+    display: none;
+  }
 }
 
 /* the clients' logos pass slowly, and stop under the hand */
