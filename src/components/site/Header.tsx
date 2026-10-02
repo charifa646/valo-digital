@@ -79,9 +79,6 @@ export function Header() {
 
   return (
     <LazyMotion features={domAnimation} strict>
-      <a href="#contenu" className="sr-only z-[90] rounded-full bg-sun px-5 py-3 font-bold text-navy focus:not-sr-only focus:fixed focus:left-4 focus:top-3">
-        Aller au contenu
-      </a>
       <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-[calc(var(--frame)+6px)] pt-[calc(var(--frame)+6px)] sm:pt-[calc(var(--frame)+10px)]">
         <div
           className={`pointer-events-auto mx-auto flex h-[58px] max-w-[1200px] items-center justify-between gap-4 rounded-full pl-5 pr-2 transition-[background,box-shadow,color] duration-500 sm:h-[64px] sm:pl-6 ${

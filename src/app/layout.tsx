@@ -52,6 +52,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className="font-sans">
+        {/* for keyboards only: shown on Tab, never on a tap. It lives here, outside the pages, because after a
+            change of page Next.js focuses the page's first element, and on a phone that brought it up. */}
+        <a
+          href="#contenu"
+          className="sr-only z-[90] rounded-full bg-sun px-5 py-3 font-bold text-navy focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-3"
+        >
+          Aller au contenu
+        </a>
         {children}
         <RevealObserver />
       </body>
