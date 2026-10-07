@@ -143,7 +143,9 @@ export const needs = typeset({
   cta: "Découvrir nos solutions",
 });
 
-export type SheetId = "reseaux" | "publicite" | "video" | "diagnostic" | "accompagnement" | "formations";
+/** The panels: an offer's details, the catalogue of trainings, and the forms of « Parlons de votre projet ». */
+export type DetailId = "reseaux" | "publicite" | "video" | "diagnostic" | "accompagnement";
+export type SheetId = DetailId | "formations" | "demande" | "demande-prestation" | "demande-formation";
 
 export type Offer = {
   id: string;
@@ -538,7 +540,7 @@ export type Detail = { title: string; for?: string; pitch?: string; points?: str
 
 export const detailLabels = typeset({ for: "Pour qui" });
 
-export const details: Record<Exclude<SheetId, "formations">, Detail> = typeset({
+export const details: Record<DetailId, Detail> = typeset({
   reseaux: {
     title: "Gestion des réseaux sociaux",
     formules: [
@@ -636,3 +638,80 @@ export const details: Record<Exclude<SheetId, "formations">, Detail> = typeset({
     price: "À partir de 150 000 F CFA",
   },
 });
+
+/* ---------------------------------------------------------------------------
+ * The two forms (7 October 2026): every « Parlons de votre projet » opens a
+ * choice between ordering a service and signing up for a training; the buttons
+ * inside an offer or a training open the right form with it already chosen.
+ * VALO prefers the forms to WhatsApp. The two lines under the choices are the
+ * homepage's own (« DÉLÉGUER » and « APPRENDRE »); the confirmation is
+ * Charifa's; the rest is proposed to her for validation.
+ * ------------------------------------------------------------------------- */
+
+export type DemandeKind = "prestation" | "formation";
+export type DemandeChoice = { id: string; label: string; price?: string };
+
+const door = (id: string) => needs.doors.find((d) => d.id === id)!.text;
+
+export const demande = typeset({
+  label: "PARLONS DE VOTRE PROJET",
+  title: "Que souhaitez-vous ?",
+  choices: [
+    { kind: "prestation" as DemandeKind, title: "Commander une prestation", text: door("deleguer") },
+    { kind: "formation" as DemandeKind, title: "M’inscrire à une formation", text: door("apprendre") },
+  ],
+  back: "Retour",
+  optional: "facultatif",
+  pick: "Choisissez dans la liste",
+  prestation: {
+    title: "Commander une prestation",
+    choice: "Prestation souhaitée",
+    situation: "Où en êtes-vous aujourd’hui ?",
+    situations: ["Je lance mon activité", "J’ai une activité, mais peu de résultats en ligne", "J’ai des résultats, je veux accélérer"],
+    project: "Expliquez brièvement votre projet",
+    projectHint: "Par exemple : je vends des pagnes à Ouagadougou et je veux plus de clients grâce à Facebook.",
+    submit: "Envoyer ma demande",
+  },
+  formation: {
+    title: "M’inscrire à une formation",
+    choice: "Formation choisie",
+    situation: "Vous êtes",
+    situations: ["Entrepreneur", "Salarié", "Étudiant", "En reconversion", "Autre"],
+    project: "Quelles sont vos attentes ?",
+    projectHint: "Par exemple : je veux apprendre à lancer mes propres publicités.",
+    submit: "Envoyer mon inscription",
+  },
+  name: "Nom et prénom",
+  business: "Entreprise ou activité",
+  phone: "Numéro WhatsApp",
+  email: "E-mail",
+  unsure: "Je ne sais pas encore",
+  privacy: "Vos informations servent uniquement à vous recontacter.",
+  sending: "Envoi en cours",
+  sent: {
+    title: "Merci, votre demande est bien envoyée.",
+    text: "L’équipe VALO DIGITAL vous recontacte dans les prochaines heures.",
+    close: "Fermer",
+  },
+  errors: {
+    required: "Ce champ est à remplir.",
+    pick: "Choisissez une réponse.",
+    phone: "Ce numéro semble incomplet.",
+    email: "Cette adresse e-mail semble incomplète.",
+    send: "L’envoi n’a pas abouti. Vérifiez votre connexion, puis réessayez.",
+  },
+});
+
+/** The services, in the catalogue's order, the three social media plans first. */
+export const prestationChoices: DemandeChoice[] = [
+  ...(details.reseaux.formules ?? []).map((f, i) => ({ id: ["essentiel", "developpement", "premium"][i], label: `${details.reseaux.title}, ${f.name}` })),
+  { id: "video", label: details.video.title },
+  { id: "publicite", label: details.publicite.title },
+  { id: "diagnostic", label: details.diagnostic.title },
+  { id: "accompagnement", label: details.accompagnement.title },
+  { id: "responsable", label: prestations.offers.find((o) => o.id === "direction")!.name },
+  { id: "inconnu", label: demande.unsure },
+];
+
+/** The trainings, in the catalogue's order, with their price. */
+export const formationChoices: DemandeChoice[] = formations.items.map((f) => ({ id: f.id, label: f.name, price: f.price }));

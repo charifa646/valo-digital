@@ -2,16 +2,52 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion } from "framer-motion";
-import { detailLabels, details, formations, hero, prestations, solutions, type Detail, type SheetId } from "@/lib/content";
-import { ask, wa } from "@/lib/links";
+import {
+  demande,
+  detailLabels,
+  details,
+  formations,
+  hero,
+  prestations,
+  solutions,
+  type DemandeKind,
+  type Detail,
+  type DetailId,
+  type SheetId,
+} from "@/lib/content";
 import { useScroll } from "./Scroll";
 import { ArrowRight, Check, Close } from "@/components/ui/Icons";
 import { BtnInner, btn } from "@/components/ui/Action";
+import { DemandeChoix, DemandeForm } from "./Demande";
 
-type State = { id: SheetId; focus?: string } | null;
+/** `focus`: the training to show, or the offer already chosen in a form; `back`: the form was reached from the choice. */
+type State = { id: SheetId; focus?: string; back?: boolean } | null;
+type Open = (id: SheetId, focus?: string, back?: boolean) => void;
 
-const Ctx = createContext<{ open: (id: SheetId, focus?: string) => void }>({ open: () => {} });
+const Ctx = createContext<{ open: Open }>({ open: () => {} });
 export const useSheet = () => useContext(Ctx);
+
+const isDemande = (id: SheetId) => id === "demande" || id === "demande-prestation" || id === "demande-formation";
+
+/** « Parlons de votre projet » and the like: opens the choice between the two forms, or one form with its offer chosen. */
+export function DemandeButton({
+  id = "demande",
+  choice,
+  className = "",
+  children,
+}: {
+  id?: SheetId;
+  choice?: string;
+  className?: string;
+  children: ReactNode;
+}) {
+  const { open } = useSheet();
+  return (
+    <button type="button" onClick={() => open(id, choice)} aria-haspopup="dialog" className={className}>
+      {children}
+    </button>
+  );
+}
 
 /** The details panel: from the right on computers, from the bottom on phones. */
 export function SheetProvider({ children }: { children: ReactNode }) {
@@ -19,9 +55,10 @@ export function SheetProvider({ children }: { children: ReactNode }) {
   const opener = useRef<HTMLElement | null>(null);
   const { lock } = useScroll();
 
-  const open = useCallback((id: SheetId, focus?: string) => {
-    opener.current = document.activeElement as HTMLElement | null;
-    setState({ id, focus });
+  const open = useCallback<Open>((id, focus, back) => {
+    // moving between the screens of the forms keeps the element that opened the panel, to give it the focus back
+    if (!document.querySelector("[data-sheet]")) opener.current = document.activeElement as HTMLElement | null;
+    setState({ id, focus, back });
   }, []);
   const close = useCallback(() => setState(null), []);
 
@@ -36,7 +73,7 @@ export function SheetProvider({ children }: { children: ReactNode }) {
       {children}
       <LazyMotion features={domAnimation} strict>
         <AnimatePresence onExitComplete={() => opener.current?.focus({ preventScroll: true })}>
-          {state && <Panel key={state.id} state={state} onClose={close} />}
+          {state && <Panel key={isDemande(state.id) ? "demande" : state.id} state={state} onClose={close} />}
         </AnimatePresence>
       </LazyMotion>
     </Ctx.Provider>
@@ -46,6 +83,7 @@ export function SheetProvider({ children }: { children: ReactNode }) {
 const fromPrestations = (id: SheetId) => id === "reseaux" || id === "publicite" || id === "video";
 
 function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => void }) {
+  const { open } = useSheet();
   const reduce = useReducedMotion();
   const box = useRef<HTMLDivElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
@@ -61,7 +99,8 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
 
   useEffect(() => {
     closeButton.current?.focus({ preventScroll: true });
-    if (state.focus) {
+    if (isDemande(state.id) && box.current) box.current.scrollTop = 0;
+    else if (state.focus) {
       const el = box.current?.querySelector<HTMLElement>(`[data-item="${state.focus}"]`);
       if (el && box.current) box.current.scrollTop = el.offsetTop - 96;
     }
@@ -72,7 +111,11 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
         return;
       }
       if (e.key !== "Tab" || !box.current) return;
-      const f = Array.from(box.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'));
+      const f = Array.from(
+        box.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]):not([tabindex="-1"]), select, textarea, [tabindex]:not([tabindex="-1"])',
+        ),
+      );
       if (!f.length) return;
       const first = f[0];
       const last = f[f.length - 1];
@@ -92,9 +135,25 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
   const shown = reduce ? { opacity: 1 } : { x: 0, y: 0 };
 
   const id = state.id;
-  const eyebrow = id === "formations" ? formations.label : fromPrestations(id) ? prestations.label : solutions.label;
-  const title = id === "formations" ? formations.title.join(" ") : details[id].title;
+  const kind: DemandeKind | null = id === "demande-prestation" ? "prestation" : id === "demande-formation" ? "formation" : null;
+  const eyebrow = isDemande(id) ? demande.label : id === "formations" ? formations.label : fromPrestations(id) ? prestations.label : solutions.label;
+  const title = isDemande(id) ? (kind ? demande[kind].title : demande.title) : id === "formations" ? formations.title.join(" ") : details[id as DetailId].title;
   const cta = fromPrestations(id) ? hero.cta : solutions.cta;
+
+  let body: ReactNode;
+  if (id === "demande") body = <DemandeChoix onPick={(k) => open(`demande-${k}`, undefined, true)} />;
+  else if (kind)
+    body = (
+      <DemandeForm
+        key={`${kind}-${state.focus ?? ""}`}
+        kind={kind}
+        preset={state.focus}
+        onBack={state.back ? () => open("demande") : undefined}
+        onClose={onClose}
+      />
+    );
+  else if (id === "formations") body = <FormationList focus={state.focus} />;
+  else body = <DetailBody id={id as DetailId} d={details[id as DetailId]} cta={cta} />;
 
   return (
     <div className="fixed inset-0 z-[80]" role="presentation">
@@ -110,6 +169,7 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
         ref={box}
         role="dialog"
         aria-modal="true"
+        data-sheet
         aria-labelledby="sheet-title"
         data-lenis-prevent
         className="absolute inset-x-0 bottom-0 max-h-[90svh] overflow-y-auto overscroll-contain rounded-t-2xl bg-ice shadow-[0_-30px_80px_-20px_rgba(2,6,46,.6)] md:inset-y-0 md:left-auto md:right-0 md:max-h-none md:w-[min(620px,94vw)] md:rounded-l-2xl md:rounded-tr-none"
@@ -136,7 +196,7 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
           </button>
         </div>
 
-        <div className="px-6 pb-10 sm:px-9">{id === "formations" ? <FormationList focus={state.focus} /> : <DetailBody d={details[id]} cta={cta} />}</div>
+        <div className="px-6 pb-10 sm:px-9">{body}</div>
       </m.div>
     </div>
   );
@@ -157,7 +217,11 @@ function Points({ points, dark = false, className = "mt-5" }: { points: string[]
   );
 }
 
-function DetailBody({ d, cta }: { d: Detail; cta: string }) {
+/** The offer each panel's button chooses in the form: the three social media plans in order, the others by name. */
+const plans = ["essentiel", "developpement", "premium"];
+
+function DetailBody({ id, d, cta }: { id: DetailId; d: Detail; cta: string }) {
+  const { open } = useSheet();
   if (d.formules) {
     return (
       <div className="grid gap-4">
@@ -175,14 +239,13 @@ function DetailBody({ d, cta }: { d: Detail; cta: string }) {
               <Points points={f.points} dark={featured} />
               <div className={`mt-6 flex flex-wrap items-center justify-between gap-4 border-t pt-5 ${featured ? "border-white/20" : "border-line"}`}>
                 <p className="text-[18px] font-extrabold tracking-[-0.02em]">{f.price}</p>
-                <a
-                  href={wa(ask(`${d.title}, ${f.name}`, f.price))}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={() => open("demande-prestation", plans[i])}
                   className={btn(featured ? "white" : "electric", "min-h-[48px] pl-5 text-[14px] [&_.dot]:h-9 [&_.dot]:w-9")}
                 >
                   <BtnInner>{cta}</BtnInner>
-                </a>
+                </button>
               </div>
             </article>
           );
@@ -207,20 +270,20 @@ function DetailBody({ d, cta }: { d: Detail; cta: string }) {
       )}
       <div className="mt-6 flex flex-col gap-5 rounded-2xl bg-night p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-7">
         {d.price && <p className="text-[20px] font-extrabold leading-tight tracking-[-0.02em]">{d.price}</p>}
-        <a
-          href={wa(ask(d.title, d.price))}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={() => open("demande-prestation", id)}
           className={btn("white", "min-h-[50px] pl-6 text-[14px] [&_.dot]:h-9 [&_.dot]:w-9")}
         >
           <BtnInner>{cta}</BtnInner>
-        </a>
+        </button>
       </div>
     </div>
   );
 }
 
 function FormationList({ focus }: { focus?: string }) {
+  const { open } = useSheet();
   const c = formations.columns;
   return (
     <div className="grid gap-3.5">
@@ -246,15 +309,14 @@ function FormationList({ focus }: { focus?: string }) {
             <dt className="font-semibold text-body">{c.price}</dt>
             <dd className="font-extrabold text-electric">{f.price}</dd>
           </dl>
-          <a
-            href={wa(ask(f.name, f.price))}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() => open("demande-formation", f.id)}
             className="group mt-5 inline-flex items-center gap-2 text-[14px] font-bold text-electric hover:text-navy"
           >
             <span className="underline decoration-2 underline-offset-[6px]">{solutions.cta}</span>
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
+          </button>
         </article>
       ))}
     </div>

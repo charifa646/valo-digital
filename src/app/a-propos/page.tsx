@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { apropos } from "@/lib/content";
 import { ScrollProvider } from "@/components/site/Scroll";
+import { SheetProvider } from "@/components/site/Sheet";
 import { Header } from "@/components/site/Header";
 import { Final } from "@/components/site/Final";
 import { AproposHero } from "@/components/apropos/AproposHero";
@@ -26,17 +27,19 @@ export const metadata: Metadata = {
 export default function APropos() {
   return (
     <ScrollProvider>
-      <Header />
-      <main id="contenu">
-        <AproposHero />
-        <QuiSuisJe />
-        <Parcours />
-        <Competences />
-        <Equipe />
-        <Terrain />
-        <References />
-      </main>
-      <Final />
+      <SheetProvider>
+        <Header />
+        <main id="contenu">
+          <AproposHero />
+          <QuiSuisJe />
+          <Parcours />
+          <Competences />
+          <Equipe />
+          <Terrain />
+          <References />
+        </main>
+        <Final />
+      </SheetProvider>
     </ScrollProvider>
   );
 }

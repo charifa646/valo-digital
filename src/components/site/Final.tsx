@@ -1,11 +1,11 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { contact, final, fondateur, footer, formations, nav, prestations } from "@/lib/content";
-import { hello, wa } from "@/lib/links";
 import { Monogram } from "@/components/brand/Logo";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Mail, Phone, Pin } from "@/components/ui/Icons";
 import { Anchor, NavLink } from "./Scroll";
+import { DemandeButton } from "./Sheet";
 import { FooterWordmark } from "./FooterWordmark";
 import { Words } from "@/components/ui/Words";
 import { waveTop } from "@/components/ui/Wave";
@@ -55,9 +55,9 @@ export function Final() {
             {final.text}
           </p>
           <div data-reveal="pop" style={{ ["--d" as string]: "0.45s" } as CSSProperties} className="mt-8">
-            <a href={wa(hello)} target="_blank" rel="noopener noreferrer" className={btn("white")}>
+            <DemandeButton className={btn("white")}>
               <BtnInner>{final.cta}</BtnInner>
-            </a>
+            </DemandeButton>
           </div>
         </div>
 

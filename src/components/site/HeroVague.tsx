@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { hero } from "@/lib/content";
-import { hello, wa } from "@/lib/links";
+import { DemandeButton } from "./Sheet";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Cap, Cart, Megaphone, Target } from "@/components/ui/Icons";
 
@@ -72,9 +72,9 @@ export function HeroVague() {
             {hero.lead}
           </p>
           <div className="fade-up mt-8" style={{ ["--d" as string]: "0.65s" } as CSSProperties}>
-            <a href={wa(hello)} target="_blank" rel="noopener noreferrer" className={btn("white")}>
+            <DemandeButton className={btn("white")}>
               <BtnInner>{hero.cta}</BtnInner>
-            </a>
+            </DemandeButton>
           </div>
         </div>
       </div>

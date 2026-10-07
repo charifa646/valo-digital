@@ -2,8 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { details, solutions } from "@/lib/content";
-import { hello, wa } from "@/lib/links";
-import { useSheet } from "./Sheet";
+import { DemandeButton, useSheet } from "./Sheet";
 import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight, Compass, Scan, Video } from "@/components/ui/Icons";
@@ -30,9 +29,9 @@ export function Solutions() {
             <Words>{solutions.title}</Words>
           </h2>
           <div className="mt-8">
-            <a href={wa(hello)} target="_blank" rel="noopener noreferrer" className={btn("electric")}>
+            <DemandeButton className={btn("electric")}>
               <BtnInner>{solutions.cta}</BtnInner>
-            </a>
+            </DemandeButton>
           </div>
         </div>
 

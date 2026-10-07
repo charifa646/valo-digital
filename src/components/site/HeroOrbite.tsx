@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import { IconCheck, IconClock, IconPhoto, IconPlayerPlayFilled, IconShoppingBag } from "@tabler/icons-react";
 import { formations, hero } from "@/lib/content";
-import { hello, wa } from "@/lib/links";
+import { DemandeButton } from "./Sheet";
 import { Monogram } from "@/components/brand/Logo";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Cap, Cart, Facebook, Instagram, Megaphone, Target, TikTok, WhatsApp } from "@/components/ui/Icons";
@@ -237,14 +237,15 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
             {hero.lead}
           </p>
           <div className="bounce-in mt-8" style={{ ["--d" as string]: "0.9s" } as CSSProperties}>
-            <a href={wa(hello)} target="_blank" rel="noopener noreferrer" className={btn(blue ? "white" : "electric")}>
+            <DemandeButton className={btn(blue ? "white" : "electric")}>
               <BtnInner>{hero.cta}</BtnInner>
-            </a>
+            </DemandeButton>
           </div>
         </div>
 
-        {/* the four around the orbit: placed on it on large screens, two by two below the message on small ones */}
-        <div className="relative mx-auto mt-4 grid max-w-[460px] grid-cols-2 items-start [--ox:44px] [--oy:16px] lg:[--ox:200px] lg:[--oy:70px] gap-x-3 gap-y-4 px-4 pb-16 lg:absolute lg:inset-y-0 lg:left-1/2 lg:mt-0 lg:block lg:w-full lg:max-w-[1480px] lg:-translate-x-1/2 lg:p-0">
+        {/* the four around the orbit: placed on it on large screens, two by two below the message on small ones. On large
+            screens this layer covers the whole top of the page: it lets clicks through to « Parlons de votre projet ». */}
+        <div className="relative mx-auto mt-4 grid max-w-[460px] grid-cols-2 items-start [--ox:44px] [--oy:16px] lg:[--ox:200px] lg:[--oy:70px] gap-x-3 gap-y-4 px-4 pb-16 lg:pointer-events-none lg:absolute lg:inset-y-0 lg:left-1/2 lg:mt-0 lg:block lg:w-full lg:max-w-[1480px] lg:-translate-x-1/2 lg:p-0">
           <span
             aria-hidden
             className={`grow-in absolute inset-x-[6%] inset-y-[8%] -z-10 rounded-[50%] border-[1.5px] border-dotted lg:hidden ${blue ? "border-white/25" : "border-electric/25"}`}

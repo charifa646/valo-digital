@@ -5,8 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion } from "framer-motion";
 import { contact, hero, nav } from "@/lib/content";
-import { hello, wa } from "@/lib/links";
 import { Anchor, NavLink, useScroll } from "./Scroll";
+import { useSheet } from "./Sheet";
 import { Monogram } from "@/components/brand/Logo";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Close, Mail, Menu, Phone, Pin } from "@/components/ui/Icons";
@@ -26,6 +26,7 @@ export function Header() {
   const [active, setActive] = useState<string | null>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
   const { lock } = useScroll();
+  const { open: demande } = useSheet();
   const reduce = useReducedMotion();
   const pathname = usePathname();
   const home = pathname === "/";
@@ -125,17 +126,17 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <a
-              href={wa(hello)}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => demande("demande")}
+              aria-haspopup="dialog"
               className={btn(
                 light ? "electric" : "white",
                 "hidden min-h-[46px] pl-5 text-[13.5px] sm:inline-flex [&_.dot]:h-[34px] [&_.dot]:w-[34px] [&_.dot_svg]:h-4 [&_.dot_svg]:w-4",
               )}
             >
               <BtnInner>{hero.cta}</BtnInner>
-            </a>
+            </button>
             <button
               ref={menuButton}
               type="button"
@@ -204,9 +205,17 @@ export function Header() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.6 }}
               >
-                <a href={wa(hello)} target="_blank" rel="noopener noreferrer" className={btn("white", "w-full")}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    demande("demande");
+                  }}
+                  aria-haspopup="dialog"
+                  className={btn("white", "w-full")}
+                >
                   <BtnInner>{hero.cta}</BtnInner>
-                </a>
+                </button>
                 <ul className="mt-7 grid gap-3 text-[15px] font-medium text-white/80">
                   <li>
                     <a href={contact.phoneHref} className="inline-flex items-center gap-3">

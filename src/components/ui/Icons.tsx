@@ -1,4 +1,5 @@
 import {
+  IconArrowLeft,
   IconArrowRight,
   IconArrowUpRight,
   IconBolt,
@@ -8,6 +9,7 @@ import {
   IconBrandWhatsapp,
   IconBrandYoutubeFilled,
   IconCheck,
+  IconChevronDown,
   IconCompass,
   IconHeartFilled,
   IconMail,
@@ -34,6 +36,7 @@ import {
 type P = { className?: string };
 const stroke = 1.8;
 
+export const ArrowLeft = ({ className }: P) => <IconArrowLeft className={className} stroke={stroke} aria-hidden />;
 export const ArrowRight = ({ className }: P) => <IconArrowRight className={className} stroke={stroke} aria-hidden />;
 export const ArrowUpRight = ({ className }: P) => <IconArrowUpRight className={className} stroke={stroke} aria-hidden />;
 export const WhatsApp = ({ className }: P) => <IconBrandWhatsapp className={className} stroke={stroke} aria-hidden />;
@@ -41,6 +44,7 @@ export const Phone = ({ className }: P) => <IconPhone className={className} stro
 export const Mail = ({ className }: P) => <IconMail className={className} stroke={stroke} aria-hidden />;
 export const Pin = ({ className }: P) => <IconMapPin className={className} stroke={stroke} aria-hidden />;
 export const Check = ({ className }: P) => <IconCheck className={className} stroke={2.4} aria-hidden />;
+export const ChevronDown = ({ className }: P) => <IconChevronDown className={className} stroke={2} aria-hidden />;
 export const Close = ({ className }: P) => <IconX className={className} stroke={2} aria-hidden />;
 export const Menu = ({ className }: P) => <IconMenu className={className} stroke={2} aria-hidden />;
 

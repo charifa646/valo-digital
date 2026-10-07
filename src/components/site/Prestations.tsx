@@ -2,7 +2,6 @@
 
 import type { CSSProperties } from "react";
 import { prestations, type Offer } from "@/lib/content";
-import { ask, wa } from "@/lib/links";
 import { useSheet } from "./Sheet";
 import { ArrowRight } from "@/components/ui/Icons";
 import { Price } from "@/components/ui/Price";
@@ -58,9 +57,9 @@ function OfferCard({ o, i }: { o: Offer; i: number }) {
               {label}
             </button>
           ) : (
-            <a href={wa(ask(o.name, o.price))} target="_blank" rel="noopener noreferrer" className={link}>
+            <button type="button" onClick={() => open("demande-prestation", "responsable")} className={link} aria-haspopup="dialog">
               {label}
-            </a>
+            </button>
           )}
         </div>
       </div>
