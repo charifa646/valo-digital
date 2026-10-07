@@ -698,7 +698,8 @@ export const demande = typeset({
     pick: "Choisissez une réponse.",
     phone: "Ce numéro semble incomplet.",
     email: "Cette adresse e-mail semble incomplète.",
-    send: "L’envoi n’a pas abouti. Vérifiez votre connexion, puis réessayez.",
+    /** followed by VALO's number, as a link that calls it */
+    send: "L’envoi n’a pas abouti. Réessayez dans un instant ou appelez VALO DIGITAL au",
   },
 });
 
