@@ -22,16 +22,16 @@ export function DemandeChoix({ onPick }: { onPick: (kind: DemandeKind) => void }
           key={c.kind}
           type="button"
           onClick={() => onPick(c.kind)}
-          className="group flex items-center gap-5 rounded-2xl border border-hair bg-white p-5 text-left transition duration-300 hover:border-electric/40 hover:shadow-card sm:p-6"
+          className="group flex items-center gap-4 rounded-2xl border border-hair bg-white p-5 text-left transition duration-300 hover:border-electric/40 hover:shadow-card sm:gap-5 sm:p-6"
         >
-          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-[12px] bg-frost text-electric transition duration-300 group-hover:bg-electric group-hover:text-white">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-[12px] bg-frost text-electric transition duration-300 group-hover:bg-electric group-hover:text-white sm:h-14 sm:w-14">
             {icons[c.kind]}
           </span>
           <span className="min-w-0 flex-1">
             <span className="block text-[18px] font-semibold leading-snug tracking-[-0.015em] text-ink sm:text-[19px]">{c.title}</span>
             <span className="mt-1 block text-[14.5px] font-medium leading-snug text-body">{c.text}</span>
           </span>
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-electric text-white transition-transform duration-300 group-hover:translate-x-0.5">
+          <span className="hidden h-10 w-10 shrink-0 place-items-center rounded-full bg-electric text-white transition-transform duration-300 group-hover:translate-x-0.5 sm:grid">
             <ArrowRight className="h-[18px] w-[18px]" />
           </span>
         </button>
