@@ -61,7 +61,9 @@ export async function POST(req: Request) {
       body: JSON.stringify({ token: process.env.DEMANDES_WEBHOOK_TOKEN ?? "", ...row }),
       cache: "no-store",
     });
-    if (!r.ok) throw new Error(String(r.status));
+    // the script answers {"ok": true} once the row is written; anything else (a wrong key, a page of error) is a failure
+    const answer = (await r.json().catch(() => null)) as { ok?: boolean } | null;
+    if (!r.ok || answer?.ok !== true) throw new Error(String(r.status));
     return NextResponse.json({ ok: true, stored: true });
   } catch {
     return NextResponse.json({ ok: false }, { status: 502 });

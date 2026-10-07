@@ -53,7 +53,8 @@ export const nav: NavItem[] = typeset([
 
 export const hero = typeset({
   title: ["Faites du digital un véritable", "levier de croissance."],
-  lead: "VALO DIGITAL accompagne les entrepreneurs et entreprises dans leur marketing, leur acquisition et leur développement.",
+  /** the catalogue's own words (validated by Charifa, 7 October 2026): where VALO is and that it also trains */
+  lead: "Agence de croissance digitale et centre de formation aux métiers du numérique, à Ouagadougou.",
   cta: "Parlons de votre projet",
   tags: ["Marketing digital", "Publicité", "Vente", "Formation"],
 });
@@ -160,7 +161,7 @@ export type Offer = {
 export const prestations = typeset({
   label: "PRESTATIONS",
   title: "Vous préférez déléguer ?",
-  lead: "Des solutions digitales pensées pour développer votre visibilité, votre acquisition et vos ventes.",
+  lead: "Nous gérons vos réseaux sociaux, vos publicités et vos vidéos, ou tout votre marketing.",
   offers: [
     {
       id: "reseaux",
@@ -299,7 +300,7 @@ export const methode = typeset({
   label: "MÉTHODE VALO",
   /** the word of the label written very large and very pale behind the section */
   filigrane: "MÉTHODE",
-  title: ["Une méthode simple.", "Des actions concrètes."],
+  title: ["Notre méthode,", "en quatre étapes."],
   steps: [
     { n: "01", name: "COMPRENDRE", text: "Partir de votre situation réelle." },
     { n: "02", name: "STRUCTURER", text: "Identifier les priorités et construire une stratégie claire." },
@@ -310,7 +311,7 @@ export const methode = typeset({
 
 export const pourquoi = typeset({
   label: "POURQUOI VALO",
-  title: "Le digital ne se résume pas à être visible.",
+  title: "Être visible ne suffit pas.",
   lead: "Nous vous aidons à transformer votre présence digitale en véritable levier pour votre activité.",
   pillars: [
     { name: "STRATÉGIE", text: "Des priorités adaptées à vos objectifs." },
@@ -343,7 +344,7 @@ export const fondateur = typeset({
 
 export const final = typeset({
   title: "Prêt à faire avancer votre activité ?",
-  text: "Parlez-nous de votre projet, de vos objectifs et de vos enjeux.",
+  text: "Parlez-nous de votre projet : nous vous répondons dans les prochaines heures.",
   cta: "Parlons de votre projet",
 });
 
@@ -661,6 +662,9 @@ export const demande = typeset({
     { kind: "formation" as DemandeKind, title: "M’inscrire à une formation", text: door("apprendre") },
   ],
   back: "Retour",
+  /** the buttons inside an offer's details and under each training of the catalogue */
+  order: "Commander cette offre",
+  enroll: "M’inscrire à cette formation",
   optional: "facultatif",
   pick: "Choisissez dans la liste",
   prestation: {

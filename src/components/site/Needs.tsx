@@ -38,10 +38,8 @@ export function Needs() {
       <Filigrane word={needs.filigrane} className="left-1/2 top-[0.02em] -translate-x-1/2" />
       <div className="gutter mx-auto max-w-page pb-20 pt-16 lg:pb-28 lg:pt-20">
         <div className="text-center">
-          <p data-reveal="rule" className="tag tag-center">
-            {needs.label}
-          </p>
-          <h2 id="besoin-title" data-reveal="words" className="h2 balance mx-auto mt-5 max-w-[18ch] text-ink">
+          {/* the title alone: « BESOIN » is already written large behind it (the small label above was dropped, 7 October 2026) */}
+          <h2 id="besoin-title" data-reveal="words" className="h2 balance mx-auto max-w-[18ch] text-ink">
             <Words>{needs.title}</Words>
           </h2>
         </div>

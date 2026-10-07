@@ -7,7 +7,6 @@ import {
   detailLabels,
   details,
   formations,
-  hero,
   prestations,
   solutions,
   type DemandeKind,
@@ -138,7 +137,7 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
   const kind: DemandeKind | null = id === "demande-prestation" ? "prestation" : id === "demande-formation" ? "formation" : null;
   const eyebrow = isDemande(id) ? demande.label : id === "formations" ? formations.label : fromPrestations(id) ? prestations.label : solutions.label;
   const title = isDemande(id) ? (kind ? demande[kind].title : demande.title) : id === "formations" ? formations.title.join(" ") : details[id as DetailId].title;
-  const cta = fromPrestations(id) ? hero.cta : solutions.cta;
+  const cta = demande.order;
 
   let body: ReactNode;
   if (id === "demande") body = <DemandeChoix onPick={(k) => open(`demande-${k}`, undefined, true)} />;
@@ -314,7 +313,7 @@ function FormationList({ focus }: { focus?: string }) {
             onClick={() => open("demande-formation", f.id)}
             className="group mt-5 inline-flex items-center gap-2 text-[14px] font-bold text-electric hover:text-navy"
           >
-            <span className="underline decoration-2 underline-offset-[6px]">{solutions.cta}</span>
+            <span className="underline decoration-2 underline-offset-[6px]">{demande.enroll}</span>
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </button>
         </article>
