@@ -158,29 +158,11 @@ main {
   .h2 {
     @apply text-[clamp(2rem,1.35rem+2.2vw,3rem)] font-medium leading-[1.1] tracking-[-0.025em];
   }
-  /* the section's name: small capitals on a fine rule that fades out, like a page header (no pill) */
+  /* a section's name, only where it is the section's own title (« Mot du fondateur », « Mon parcours digital »): small
+     bold capitals and nothing after them, as Wpromote does. No fading line any more, and no name above the other
+     titles: they speak for themselves (Charifa, 7 October 2026: « ça fait trop AI slop, surtout la ligne qui suit »). */
   .tag {
-    @apply flex items-center gap-3 text-[11px] font-semibold uppercase leading-snug tracking-[0.14em] text-electric sm:gap-4 sm:text-[11.5px] sm:tracking-[0.2em];
-  }
-  .tag::after {
-    content: "";
-    flex: 1 1 0%;
-    min-width: 28px;
-    height: 1px;
-    background: linear-gradient(90deg, currentColor, transparent);
-    opacity: 0.35;
-  }
-  /* centred titles: the rule on both sides */
-  .tag-center {
-    @apply justify-center;
-  }
-  .tag-center::before {
-    content: "";
-    flex: 1 1 0%;
-    min-width: 28px;
-    height: 1px;
-    background: linear-gradient(270deg, currentColor, transparent);
-    opacity: 0.35;
+    @apply text-[11.5px] font-bold uppercase leading-snug tracking-[0.14em] text-electric sm:text-[12px];
   }
 }
 
@@ -391,7 +373,7 @@ main {
   }
 
   /* rule, wipe, curtain: unveiled through a growing mask (a mask, unlike a clip-path, never hides the element from the
-     observer that starts it). rule: a section's name and its line, from the left (from the middle when centred);
+     observer that starts it). rule: a section's name, from the left;
      wipe: a card, from the bottom up; curtain: a large card, opened from the middle. */
   .js [data-reveal="rule"],
   .js [data-reveal="wipe"],
@@ -407,7 +389,6 @@ main {
   .js [data-reveal="rule"][data-in] {
     animation: unveil-x 1.2s var(--ease) var(--d, 0s) backwards;
   }
-  .js [data-reveal="rule"].tag-center[data-in],
   .js [data-reveal="curtain"][data-in] {
     animation: unveil-mid 1.3s var(--ease) var(--d, 0s) backwards;
   }

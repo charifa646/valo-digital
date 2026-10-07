@@ -13,10 +13,7 @@ export function Equipe() {
     <section aria-labelledby="equipe-title" className="paper halo-bl relative isolate">
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
         <div className="text-center">
-          <p data-reveal="rule" className="tag tag-center">
-            {e.label}
-          </p>
-          <h2 id="equipe-title" data-reveal="words" className="h2 mt-5 text-ink">
+          <h2 id="equipe-title" data-reveal="words" className="h2 text-ink">
             <Words>{e.title}</Words>
           </h2>
         </div>

@@ -10,9 +10,7 @@ import { Confiance } from "@/components/site/Confiance";
 import { Needs } from "@/components/site/Needs";
 import { Prestations } from "@/components/site/Prestations";
 import { Formations } from "@/components/site/Formations";
-import { Solutions } from "@/components/site/Solutions";
 import { Methode } from "@/components/site/Methode";
-import { Pourquoi } from "@/components/site/Pourquoi";
 import { Fondateur } from "@/components/site/Fondateur";
 import { Final } from "@/components/site/Final";
 
@@ -43,9 +41,7 @@ export default function Apercu({ params }: { params: { hero: string } }) {
           <Needs />
           <Prestations />
           <Formations />
-          <Solutions />
           <Methode />
-          <Pourquoi />
           <Fondateur />
         </main>
         <Final />

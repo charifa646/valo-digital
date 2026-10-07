@@ -6,8 +6,10 @@ import { Header } from "@/components/site/Header";
 import { Final } from "@/components/site/Final";
 import { AproposHero } from "@/components/apropos/AproposHero";
 import { QuiSuisJe } from "@/components/apropos/QuiSuisJe";
+import { Mot } from "@/components/apropos/Mot";
 import { Parcours } from "@/components/apropos/Parcours";
 import { Competences } from "@/components/apropos/Competences";
+import { Pourquoi } from "@/components/apropos/Pourquoi";
 import { Equipe } from "@/components/apropos/Equipe";
 import { Terrain } from "@/components/apropos/Terrain";
 import { References } from "@/components/apropos/References";
@@ -20,9 +22,9 @@ export const metadata: Metadata = {
 };
 
 /**
- * The « À propos » page, from the portfolio: the agency, its founder, his
- * path, his skills, the team, the moments in the field and the references,
- * then the same last call and footer as the homepage.
+ * The « À propos » page, from the portfolio: the agency, its founder and his whole letter (the homepage shows its
+ * beginning), his path, his skills, why VALO (moved from the homepage on 7 October 2026), the team, the moments in
+ * the field and the references, then the same last call and footer as the homepage.
  */
 export default function APropos() {
   return (
@@ -32,8 +34,10 @@ export default function APropos() {
         <main id="contenu">
           <AproposHero />
           <QuiSuisJe />
+          <Mot />
           <Parcours />
           <Competences />
+          <Pourquoi />
           <Equipe />
           <Terrain />
           <References />

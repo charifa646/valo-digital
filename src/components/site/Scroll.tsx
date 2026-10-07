@@ -71,6 +71,15 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
     document.documentElement.style.overflow = on ? "hidden" : "";
   }, []);
 
+  // arriving from another page at one of this page's places (« /services#diagnostic », « /a-propos#mot »): glide the
+  // last bit with the header taken into account, show it at once if it was waiting for its entrance, and say hello
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (!id || id === "top" || id === "contenu") return;
+    const t = window.setTimeout(() => document.getElementById(id) && go(id), 160);
+    return () => window.clearTimeout(t);
+  }, [go]);
+
   const value = useMemo(() => ({ go, lock }), [go, lock]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
@@ -108,7 +117,33 @@ export const Anchor = forwardRef<HTMLAnchorElement, AnchorProps>(function Anchor
   );
 });
 
-type NavLinkProps = { item: { id: string; label: string; href?: string }; className?: string; onClick?: () => void } & Omit<
+type PageLinkProps = { page: string; to: string; className?: string; children: ReactNode; onClick?: () => void } & Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  "href" | "onClick"
+>;
+
+/** A link to a place on a page of its own (« /services#diagnostic »): it glides there when that page is already open. */
+export function PageLink({ page, to, className, children, onClick, ...rest }: PageLinkProps) {
+  const { go } = useScroll();
+  const pathname = usePathname();
+  return (
+    <Link
+      href={`${page}#${to}`}
+      className={className}
+      onClick={(e) => {
+        onClick?.();
+        if (pathname !== page || !document.getElementById(to)) return;
+        e.preventDefault();
+        go(to);
+      }}
+      {...rest}
+    >
+      {children}
+    </Link>
+  );
+}
+
+type NavLinkProps = { item: { id: string; label: string; href?: string; page?: string }; className?: string; onClick?: () => void } & Omit<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,
   "href" | "onClick"
 >;
@@ -116,7 +151,8 @@ type NavLinkProps = { item: { id: string; label: string; href?: string }; classN
 /**
  * A menu entry: a page (« Accueil », « À propos ») opens with a client-side
  * link, or glides back to its top when it is the page already open; a section
- * of the homepage goes through Anchor.
+ * of the homepage goes through Anchor, except on its own page (« Services » on
+ * /services), where it glides back to the top.
  */
 export function NavLink({ item, className, onClick, children, ...rest }: NavLinkProps & { children?: ReactNode }) {
   const pathname = usePathname();
@@ -127,7 +163,7 @@ export function NavLink({ item, className, onClick, children, ...rest }: NavLink
       </Link>
     );
   return (
-    <Anchor to={item.href ? "top" : item.id} className={className} onClick={onClick} {...rest}>
+    <Anchor to={item.href || item.page === pathname ? "top" : item.id} className={className} onClick={onClick} {...rest}>
       {children ?? item.label}
     </Anchor>
   );

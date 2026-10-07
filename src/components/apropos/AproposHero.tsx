@@ -17,10 +17,7 @@ export function AproposHero() {
       >
         <div className="gutter mx-auto grid max-w-page items-center gap-16 pb-32 pt-[118px] sm:pt-[136px] lg:grid-cols-[1.06fr_0.94fr] lg:gap-16 lg:pb-44 lg:pt-[160px]">
           <div>
-            <p className="tag fade-in text-white/85" style={{ ["--d" as string]: "0.05s" } as CSSProperties}>
-              {apropos.label}
-            </p>
-            <h1 id="apropos-title" className="mt-6 text-[clamp(2.3rem,1.6rem+3vw,3.9rem)] font-medium leading-[1.04] tracking-[-0.035em]">
+            <h1 id="apropos-title" className="text-[clamp(2.3rem,1.6rem+3vw,3.9rem)] font-medium leading-[1.04] tracking-[-0.035em]">
               {apropos.title.map((line, li) => (
                 <span key={li} className="block">
                   {line.split(" ").map((w, wi) => (
@@ -65,8 +62,8 @@ export function AproposHero() {
           </div>
 
           <figure className="grow-in relative mx-auto w-full max-w-[500px]" style={{ ["--d" as string]: "0.3s" } as CSSProperties}>
-            <span aria-hidden className="absolute -inset-3 rounded-[28px] border border-sun/55 sm:-inset-4 sm:rounded-[32px]" />
-            <div className="relative overflow-hidden rounded-[20px] shadow-[0_40px_80px_-30px_rgba(2,6,46,.75)]">
+            <span aria-hidden className="absolute -inset-3 rounded-[4px] border border-sun/55 sm:-inset-4" />
+            <div className="relative overflow-hidden rounded-[4px] shadow-[0_40px_80px_-30px_rgba(2,6,46,.75)]">
               <Image
                 src="/images/apropos/equipe-bleu.webp"
                 alt={apropos.photoAlt}

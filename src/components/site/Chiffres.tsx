@@ -1,56 +1,37 @@
-import Image from "next/image";
 import type { CSSProperties } from "react";
-import { figures, figuresPhoto, type KeyFigure } from "@/lib/content";
+import { figures, figuresBloc } from "@/lib/content";
 import { Counter } from "@/components/ui/Counter";
 
 /**
- * The three key figures, laid out after « Stats Bento » (uilayout.contact, 21st.dev), the layout the client chose on
- * 7 October 2026, with the photo of a full lecture hall in the large card, as in « Feature Bento »: « +1 000 »
- * entrepreneurs on the real training, the two other figures in a white tile and a pale blue one beside it. The
- * figures count up once on screen.
+ * The three key figures as Wpromote shows its own (« Bold moves pay off », Charifa's choice of 7 October 2026): one
+ * block in VALO's night blue with square corners, a short title and a sentence, then the figures large and light, their
+ * « + » in colour and what they count written plainly underneath, the years on their own line. The figures count up
+ * once on screen.
  */
-const [formes, projets, budgets] = figures;
-
-const delay = (d: number) => ({ ["--d" as string]: `${d}s` }) as CSSProperties;
-
-function Num({ f }: { f: KeyFigure }) {
-  return <Counter value={f.value} to={f.count} prefix={f.prefix} suffix={f.suffix} />;
-}
+const plus = ["text-sun", "text-[#8FA3FF]", "text-sun"];
 
 export function Chiffres({ className = "" }: { className?: string }) {
   return (
-    <div className={`grid gap-4 lg:grid-cols-6 lg:grid-rows-2 ${className}`}>
-      <div
-        data-reveal="photo"
-        className="group relative min-h-[340px] overflow-hidden rounded-2xl bg-night text-white sm:min-h-[380px] lg:col-span-3 lg:row-span-2"
-      >
-        <Image
-          src={figuresPhoto.src}
-          alt={figuresPhoto.alt}
-          fill
-          sizes="(min-width: 1024px) 540px, 92vw"
-          className="object-cover transition duration-700 [transition-timing-function:var(--ease)] group-hover:scale-[1.04]"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,11,82,0)_25%,rgba(4,11,82,.55)_58%,rgba(4,11,82,.92)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 p-7 sm:p-9">
-          <span className="inline-flex rounded-full bg-sun px-3 py-1.5 text-[12px] font-bold leading-none tracking-[0.04em] text-navy">{formes.note}</span>
-          <p className="mt-4 text-[clamp(3.4rem,2.4rem+3.4vw,5.4rem)] font-medium leading-[0.9] tracking-[-0.055em]">
-            <Num f={formes} />
-          </p>
-          <p className="mt-3 text-[13px] font-semibold uppercase tracking-[0.16em] text-white/85">{formes.label}</p>
+    <div data-reveal className={`bg-night px-6 py-12 text-white sm:px-12 sm:py-14 lg:px-16 lg:py-16 ${className}`}>
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+        <div>
+          <p className="text-[clamp(1.35rem,1.05rem+1vw,1.9rem)] font-extrabold leading-[1.05] tracking-[-0.01em]">{figuresBloc.title}</p>
+          <p className="pretty mt-4 max-w-[24rem] text-[15px] font-medium leading-relaxed text-white/75">{figuresBloc.text}</p>
         </div>
-      </div>
-      <div data-reveal style={delay(0.15)} className="flex flex-col justify-center gap-3 rounded-2xl border border-hair bg-white p-7 sm:p-8 lg:col-span-3">
-        <p className="text-[clamp(2.4rem,1.9rem+1.6vw,3.2rem)] font-medium leading-none tracking-[-0.045em] text-ink">
-          <Num f={budgets} />
-        </p>
-        <p className="max-w-[28rem] text-[12px] font-semibold uppercase leading-relaxed tracking-[0.16em] text-mute">{budgets.label}</p>
-      </div>
-      <div data-reveal style={delay(0.25)} className="flex items-center gap-6 rounded-2xl bg-frost p-7 sm:p-8 lg:col-span-3">
-        <p className="text-[clamp(2.4rem,1.9rem+1.6vw,3.2rem)] font-medium leading-none tracking-[-0.045em] text-electric">
-          <Num f={projets} />
-        </p>
-        <p className="text-[12px] font-semibold uppercase leading-relaxed tracking-[0.16em] text-navy/70">{projets.label}</p>
+        <ul className="grid grid-cols-2 gap-x-8 gap-y-10 lg:gap-x-12 lg:gap-y-12">
+          {figures.map((f, i) => (
+            <li key={f.label} className={i === 2 ? "col-span-2" : ""} style={{ ["--d" as string]: `${0.1 + i * 0.12}s` } as CSSProperties}>
+              <p className="whitespace-nowrap text-[clamp(2.5rem,1.7rem+3.2vw,4.4rem)] font-light leading-none tracking-[-0.035em]">
+                <span className={plus[i]}>{f.prefix}</span>
+                <Counter value={f.value.slice(f.prefix.length)} to={f.count} suffix={f.suffix} />
+              </p>
+              <p className="mt-3 text-[14px] font-medium leading-snug text-white/80">
+                {f.caption}
+                {f.note && <span className="block whitespace-nowrap text-white/55">{f.note}</span>}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

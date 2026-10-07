@@ -1,24 +1,57 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { needs } from "@/lib/content";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { needs, type DetailId } from "@/lib/content";
 import { Anchor } from "./Scroll";
+import { useSheet } from "./Sheet";
 import { Filigrane } from "@/components/ui/Filigrane";
 import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
-import { ArrowUpRight, Cap, Handoff, Rocket, Scan } from "@/components/ui/Icons";
+import { ArrowUpRight } from "@/components/ui/Icons";
 
-const icons = [Cap, Scan, Handoff, Rocket];
 const lit = "bg-[linear-gradient(160deg,#3551FF_0%,#0714D8_52%,#0A12A8_100%)] shadow-[0_22px_40px_-26px_rgba(7,20,216,.45)]";
 
+type DoorProps = {
+  to: string;
+  onOpen?: () => void;
+  set: (el: HTMLElement | null) => void;
+  className: string;
+  style: CSSProperties;
+  children: ReactNode;
+  onMouseEnter: () => void;
+  onFocus: () => void;
+  "data-i": number;
+  "data-reveal": string;
+};
+
+/** A door: a link that glides to its section, or a button that opens its offer in the panel. */
+function Door({ to, onOpen, set, children, ...rest }: DoorProps) {
+  if (onOpen)
+    return (
+      <button type="button" ref={set} onClick={onOpen} aria-haspopup="dialog" {...rest} className={`${rest.className} w-full text-left`}>
+        {children}
+      </button>
+    );
+  return (
+    <Anchor to={to} ref={set} {...rest}>
+      {children}
+    </Anchor>
+  );
+}
+
+/** The doors whose offer left the homepage for /services (7 October 2026): they open its details in the panel instead. */
+const panels = new Set<string>(["diagnostic", "accompagnement"]);
+
 /**
- * « De quoi avez-vous besoin aujourd'hui ? »: four ways in, each opening onto its offer. On computers four
- * doors with a light sliding to the one under the mouse; on phones and tablets an index, the line in the
- * middle of the screen lit.
+ * « De quoi avez-vous besoin aujourd'hui ? »: four ways in, each opening onto its offer: the trainings and the
+ * services glide to their section, « COMPRENDRE » and « ACCÉLÉRER » open the details of their offer. On computers
+ * four doors with a light sliding to the one under the mouse; on phones and tablets an index, the line in the middle
+ * of the screen lit.
  */
 export function Needs() {
   const [active, setActive] = useState(0);
-  const cards = useRef<(HTMLAnchorElement | null)[]>([]);
+  const cards = useRef<(HTMLElement | null)[]>([]);
+  const { open } = useSheet();
 
   // on phones and tablets the door in the middle of the screen lights up
   useEffect(() => {
@@ -59,12 +92,12 @@ export function Needs() {
 
           {needs.doors.map((d, i) => {
             const on = active === i;
-            const Icon = icons[i];
             return (
-              <Anchor
+              <Door
                 key={d.id}
                 to={d.target}
-                ref={(el: HTMLAnchorElement | null) => {
+                onOpen={panels.has(d.target) ? () => open(d.target as DetailId) : undefined}
+                set={(el) => {
                   cards.current[i] = el;
                 }}
                 data-i={i}
@@ -88,12 +121,10 @@ export function Needs() {
                   {String(i + 1).padStart(2, "0")}
                 </span>
 
-                {/* the door's icon and arrow (computers) */}
+                {/* the door's number and arrow (computers): a figure rather than an icon in a circle */}
                 <span className="hidden shrink-0 items-start justify-between lg:flex lg:w-full">
-                  <span
-                    className={`grid h-11 w-11 place-items-center rounded-full transition-colors duration-500 ${on ? "bg-white/15 text-white" : "bg-frost text-electric"}`}
-                  >
-                    <Icon className="h-[22px] w-[22px]" />
+                  <span className={`pt-2 text-[13px] font-bold tabular-nums transition-colors duration-500 ${on ? "text-white/80" : "text-electric"}`}>
+                    {String(i + 1).padStart(2, "0")}
                   </span>
                   <span
                     className={`grid h-9 w-9 place-items-center rounded-full border transition-all duration-500 group-hover:rotate-45 ${on ? "border-white bg-white text-electric" : "border-hair text-ink"}`}
@@ -102,7 +133,7 @@ export function Needs() {
                   </span>
                 </span>
 
-                <span className="min-w-0 flex-1 lg:mt-auto lg:flex-none lg:pt-10">
+                <span className="min-w-0 flex-1 lg:flex-none lg:pt-[52px]">
                   <span className="block text-[18px] font-semibold tracking-[0.05em] sm:text-[19px] lg:text-[14px] lg:font-bold lg:tracking-[0.06em]">
                     {d.name}
                   </span>
@@ -120,7 +151,7 @@ export function Needs() {
                 >
                   <ArrowUpRight className="h-4 w-4" />
                 </span>
-              </Anchor>
+              </Door>
             );
           })}
         </div>

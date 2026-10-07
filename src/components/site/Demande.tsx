@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { contact, demande, formationChoices, formations, prestationChoices, type DemandeChoice, type DemandeKind } from "@/lib/content";
-import { ArrowLeft, ArrowRight, Cap, Check, ChevronDown, Handoff } from "@/components/ui/Icons";
+import { ArrowLeft, ArrowRight, Check, ChevronDown } from "@/components/ui/Icons";
 import { BtnInner, btn } from "@/components/ui/Action";
 
 /**
@@ -12,22 +12,18 @@ import { BtnInner, btn } from "@/components/ui/Action";
  * /api/demande, which passes it on to VALO's Google Sheet once it is connected.
  */
 
-const icons: Record<DemandeKind, ReactNode> = { prestation: <Handoff className="h-6 w-6" />, formation: <Cap className="h-6 w-6" /> };
-
 export function DemandeChoix({ onPick }: { onPick: (kind: DemandeKind) => void }) {
   return (
     <div className="grid gap-3.5">
       {demande.choices.map((c) => (
         // a card that reads as a button on every screen: blue edge, and the arrow in its blue circle, as on the site's buttons
+        // (no icon tile: the words say it, Charifa, 7 October 2026)
         <button
           key={c.kind}
           type="button"
           onClick={() => onPick(c.kind)}
           className="group flex items-center gap-4 rounded-2xl border border-electric/25 bg-white p-5 text-left shadow-[0_14px_30px_-20px_rgba(7,20,216,.45)] transition duration-300 hover:border-electric/60 hover:shadow-card active:scale-[.985] sm:gap-5 sm:p-6"
         >
-          <span className="hidden h-14 w-14 shrink-0 place-items-center rounded-[12px] bg-frost text-electric transition duration-300 group-hover:bg-electric group-hover:text-white sm:grid">
-            {icons[c.kind]}
-          </span>
           <span className="min-w-0 flex-1">
             <span className="block text-[17.5px] font-semibold leading-snug tracking-[-0.015em] text-ink sm:text-[19px]">{c.title}</span>
             <span className="mt-1 block text-[14.5px] font-medium leading-snug text-body">{c.text}</span>
@@ -45,7 +41,7 @@ type Values = { choice: string; situation: string; project: string; name: string
 type Errors = Partial<Record<keyof Values, string>>;
 
 const field =
-  "block w-full rounded-[10px] border border-hair bg-white px-4 py-3 text-[15.5px] font-medium text-ink transition placeholder:font-normal placeholder:text-mute/90 focus:border-electric focus:outline-none focus:ring-4 focus:ring-electric/10 aria-[invalid=true]:border-[#C62828]";
+  "block w-full rounded-[4px] border border-hair bg-white px-4 py-3 text-[15.5px] font-medium text-ink transition placeholder:font-normal placeholder:text-mute/90 focus:border-electric focus:outline-none focus:ring-4 focus:ring-electric/10 aria-[invalid=true]:border-[#C62828]";
 
 function Label({ htmlFor, children, optional = false }: { htmlFor?: string; children: ReactNode; optional?: boolean }) {
   return (
@@ -209,7 +205,7 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
           {t.situations.map((s, i) => (
             <label
               key={s}
-              className="group flex cursor-pointer items-center gap-3 rounded-[10px] border border-hair bg-white px-4 py-3 text-[14.5px] font-semibold leading-snug text-ink transition has-[:checked]:border-electric has-[:checked]:bg-frost has-[:checked]:text-electric has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-electric/15"
+              className="group flex cursor-pointer items-center gap-3 rounded-[4px] border border-hair bg-white px-4 py-3 text-[14.5px] font-semibold leading-snug text-ink transition has-[:checked]:border-electric has-[:checked]:bg-frost has-[:checked]:text-electric has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-electric/15"
             >
               <input
                 id={i === 0 ? id("situation") : undefined}
@@ -320,7 +316,7 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
 
       <div className="grid gap-3">
         {status === "failed" && (
-          <p role="alert" className="rounded-[10px] bg-[#FDECEC] px-4 py-3 text-[14px] font-semibold text-[#C62828]">
+          <p role="alert" className="rounded-[4px] bg-[#FDECEC] px-4 py-3 text-[14px] font-semibold text-[#C62828]">
             {demande.errors.send}{" "}
             <a href={contact.phoneHref} className="whitespace-nowrap underline decoration-2 underline-offset-4">
               {contact.phone}

@@ -9,13 +9,16 @@
  * Nothing here is invented: no figures, testimonials or promises.
  */
 
-/** French typography: narrow spaces before ? ! ; and inside « », no break inside prices. */
+/**
+ * French typography: narrow spaces before ? ! ; and inside « », no break inside prices. Thousands are grouped with a
+ * full no-break space: the narrow one all but vanished on phones in small prices (« 75000 F CFA », 7 October 2026).
+ */
 const fr = (s: string) =>
   s
     .replace(/ ([?!;»])/g, " $1")
     .replace(/« /g, "« ")
     .replace(/ :/g, " :")
-    .replace(/(\d) (\d{3})/g, "$1 $2")
+    .replace(/(\d) (\d{3})/g, "$1 $2")
     .replace(/ F CFA/g, " F CFA")
     .replace(/ \/ /g, " / ")
     .replace(/(\d) ([a-zà-ÿ])/g, "$1 $2");
@@ -41,12 +44,14 @@ export const contact = typeset({
  * The menu: five plain entries, then « Parlons de votre projet ». Each entry
  * lights up while one of its sections is on screen; « Accueil » and
  * « À propos » are pages (/ and /a-propos), the others sections of the homepage.
+ * « Services » and « Formations » also have a page of their own (`page`), where
+ * everything is shown, and open a short menu of their offers (7 October 2026).
  */
-export type NavItem = { id: string; label: string; sections: string[]; href?: string };
+export type NavItem = { id: string; label: string; sections: string[]; href?: string; page?: string };
 export const nav: NavItem[] = typeset([
   { id: "accueil", label: "Accueil", sections: ["top", "besoin"], href: "/" },
-  { id: "prestations", label: "Services", sections: ["prestations", "solutions"] },
-  { id: "formations", label: "Formations", sections: ["formations"] },
+  { id: "prestations", label: "Services", sections: ["prestations"], page: "/services" },
+  { id: "formations", label: "Formations", sections: ["formations"], page: "/formations" },
   { id: "a-propos", label: "À propos", sections: [], href: "/a-propos" },
   { id: "contact", label: "Contact", sections: ["contact"] },
 ]);
@@ -113,20 +118,28 @@ export const confiance = typeset({
  * The key figures in Charifa's words (7 October 2026), written as she wrote them (`value`), with the number each one
  * counts up to, what it counts (`label`) and the years it covers (`note`).
  */
-export type KeyFigure = { value: string; count: number; prefix: string; suffix?: string; label: string; note?: string };
+export type KeyFigure = { value: string; count: number; prefix: string; suffix?: string; label: string; caption: string; note?: string };
 export const figures: KeyFigure[] = typeset([
-  { value: "+1 000", prefix: "+", count: 1000, label: "ENTREPRENEURS FORMÉS", note: "2022-2026" },
-  { value: "+100", prefix: "+", count: 100, label: "PROJETS RÉALISÉS" },
-  { value: "+70 000\u00a0$", prefix: "+", count: 70000, suffix: "\u00a0$", label: "BUDGETS DE CAMPAGNES PUBLICITAIRES (FB & INST) GÉRÉS" },
+  { value: "+1 000", prefix: "+", count: 1000, label: "ENTREPRENEURS FORMÉS", caption: "Entrepreneurs formés", note: "2022-2026" },
+  { value: "+100", prefix: "+", count: 100, label: "PROJETS RÉALISÉS", caption: "Projets réalisés" },
+  {
+    value: "+70 000\u00a0$",
+    prefix: "+",
+    count: 70000,
+    suffix: "\u00a0$",
+    label: "BUDGETS DE CAMPAGNES PUBLICITAIRES (FB & INST) GÉRÉS",
+    caption: "Budgets de campagnes publicitaires (FB & INST) gérés",
+  },
 ]);
 
-/** The real training behind « +1 000 entrepreneurs formés »: a full lecture hall, from the portfolio. */
-export const figuresPhoto = {
-  src: "/images/terrain/universite-ki-zerbo.webp",
-  width: 1100,
-  height: 568,
-  alt: "Une formation de VALO DIGITAL au Pavillon K1 de l’Université Joseph Ki-Zerbo",
-};
+/**
+ * The block that carries the figures, after Wpromote's « Bold moves pay off » (Charifa, 7 October 2026): VALO's
+ * own words, the catalogue's tagline as its title and the portfolio's mission as its sentence.
+ */
+export const figuresBloc = typeset({
+  title: "VOTRE CROISSANCE MAINTENANT",
+  text: "Notre mission est d’accompagner dans la croissance digitale des entreprises africaines.",
+});
 
 export type Door = { id: string; name: string; text: string; target: string };
 
@@ -196,6 +209,8 @@ export const prestations = typeset({
       link: "Parlons de votre projet",
     },
   ] as Offer[],
+  /** under the glimpse of the other offers, on the homepage: leads to the page of all the services */
+  all: "Voir tous les services",
 });
 
 export type Formation = { id: string; name: string; tag?: string; price: string; format: string; modules: string };
@@ -720,3 +735,26 @@ export const prestationChoices: DemandeChoice[] = [
 
 /** The trainings, in the catalogue's order, with their price. */
 export const formationChoices: DemandeChoice[] = formations.items.map((f) => ({ id: f.id, label: f.name, price: f.price }));
+
+/**
+ * The short menus under « Services » and « Formations » (7 October 2026): each offer with its price from the
+ * catalogue, leading to its place on its page, then the button to the whole page. Built from the offers above, so
+ * nothing is written twice.
+ */
+export type MenuLink = { id: string; name: string; price?: string };
+export type Menu = { page: string; all: string; links: MenuLink[] };
+export const menus: Record<"prestations" | "formations", Menu> = {
+  prestations: {
+    page: "/services",
+    all: prestations.all,
+    links: [
+      ...prestations.offers.map((o) => ({ id: o.id, name: o.name, price: o.price })),
+      ...(["diagnostic", "accompagnement"] as const).map((id) => ({ id, name: details[id].title, price: details[id].price })),
+    ],
+  },
+  formations: {
+    page: "/formations",
+    all: formations.cta,
+    links: formations.items.map((f) => ({ id: `formation-${f.id}`, name: f.name, price: f.price })),
+  },
+};

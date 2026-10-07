@@ -6,7 +6,7 @@ import { Chiffres } from "./Chiffres";
 /** One client's logo on its white card, the logo kept whole whatever its shape. */
 export function LogoTile({ logo, hidden = false, className = "" }: { logo: ClientLogo; hidden?: boolean; className?: string }) {
   return (
-    <span className={`relative block overflow-hidden rounded-[12px] border border-hair bg-white ${className}`}>
+    <span className={`relative block overflow-hidden rounded-[4px] border border-hair bg-white ${className}`}>
       <Image src={logo.src} alt={hidden ? "" : logo.name || "Client de VALO DIGITAL"} fill sizes="160px" className="object-contain p-2.5 sm:p-3.5" />
     </span>
   );
@@ -61,7 +61,7 @@ export function Confiance() {
         <Row logos={logos.slice(half)} reverse />
       </div>
 
-      <div className="gutter mx-auto mt-12 max-w-[1080px] lg:mt-16">
+      <div className="gutter mx-auto mt-12 max-w-page lg:mt-16">
         <Chiffres />
       </div>
     </section>

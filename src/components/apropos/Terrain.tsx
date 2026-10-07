@@ -63,10 +63,7 @@ export function Terrain() {
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[44rem]">
-            <p data-reveal="rule" className="tag">
-              {t.label}
-            </p>
-            <h2 id="terrain-title" data-reveal="words" className="h2 balance mt-5 text-ink">
+            <h2 id="terrain-title" data-reveal="words" className="h2 balance text-ink">
               <Words>{t.title}</Words>
             </h2>
           </div>
@@ -185,7 +182,7 @@ export function Terrain() {
                   onClick={() => go(k)}
                   aria-label={mm.title}
                   aria-current={k === i ? "true" : undefined}
-                  className={`relative block h-14 w-[84px] overflow-hidden rounded-[10px] bg-soft transition duration-300 sm:h-[68px] sm:w-[104px] ${
+                  className={`relative block h-14 w-[84px] overflow-hidden rounded-[4px] bg-soft transition duration-300 sm:h-[68px] sm:w-[104px] ${
                     k === i ? "opacity-100 ring-2 ring-electric ring-offset-2 ring-offset-white" : "opacity-45 hover:opacity-90"
                   }`}
                 >

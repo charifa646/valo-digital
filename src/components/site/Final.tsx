@@ -1,10 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { CSSProperties } from "react";
-import { contact, final, fondateur, footer, formations, nav, prestations } from "@/lib/content";
+import { contact, final, fondateur, footer, formations, menus, nav } from "@/lib/content";
 import { Monogram } from "@/components/brand/Logo";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Mail, Phone, Pin } from "@/components/ui/Icons";
-import { Anchor, NavLink } from "./Scroll";
+import { NavLink, PageLink } from "./Scroll";
 import { DemandeButton } from "./Sheet";
 import { FooterWordmark } from "./FooterWordmark";
 import { Words } from "@/components/ui/Words";
@@ -79,7 +80,7 @@ export function Final() {
       </section>
 
       <footer className="relative mx-auto max-w-page px-3 pb-3 sm:px-6 sm:pb-6 lg:px-8 lg:pb-8">
-        <div className="relative overflow-hidden rounded-[22px] border border-white/10 bg-[linear-gradient(180deg,rgba(4,11,82,.92)_0%,rgba(2,6,46,.96)_100%)] shadow-[0_40px_80px_-40px_rgba(0,0,0,.6)]">
+        <div className="relative overflow-hidden rounded-none border border-white/10 bg-[linear-gradient(180deg,rgba(4,11,82,.92)_0%,rgba(2,6,46,.96)_100%)] shadow-[0_40px_80px_-40px_rgba(0,0,0,.6)]">
           {/* a blue light rising from the bottom of the card, behind the name */}
           <div aria-hidden className="absolute inset-x-0 bottom-0 h-[70%] bg-[radial-gradient(60%_90%_at_50%_100%,rgba(53,81,255,.32),transparent)]" />
 
@@ -96,30 +97,35 @@ export function Final() {
             <nav aria-label={columnTitle("prestations")}>
               <p className={heading}>{columnTitle("prestations")}</p>
               <ul className="mt-5 grid gap-3">
-                {prestations.offers.map((o) => (
-                  <li key={o.id}>
-                    <Anchor to="prestations" className={link}>
-                      {o.name}
-                    </Anchor>
+                {menus.prestations.links.slice(0, 4).map((l) => (
+                  <li key={l.id}>
+                    <PageLink page={menus.prestations.page} to={l.id} className={link}>
+                      {l.name}
+                    </PageLink>
                   </li>
                 ))}
+                <li>
+                  <Link href={menus.prestations.page} className="text-[14.5px] font-semibold text-sun transition hover:text-white">
+                    {menus.prestations.all}
+                  </Link>
+                </li>
               </ul>
             </nav>
 
             <nav aria-label={columnTitle("formations")}>
               <p className={heading}>{columnTitle("formations")}</p>
               <ul className="mt-5 grid gap-3">
-                {formations.items.slice(0, 4).map((f) => (
-                  <li key={f.id}>
-                    <Anchor to="formations" className={link}>
-                      {f.name}
-                    </Anchor>
+                {menus.formations.links.slice(0, 4).map((l) => (
+                  <li key={l.id}>
+                    <PageLink page={menus.formations.page} to={l.id} className={link}>
+                      {l.name}
+                    </PageLink>
                   </li>
                 ))}
                 <li>
-                  <Anchor to="formations" className="text-[14.5px] font-semibold text-sun transition hover:text-white">
+                  <Link href={menus.formations.page} className="text-[14.5px] font-semibold text-sun transition hover:text-white">
                     {formations.cta}
-                  </Anchor>
+                  </Link>
                 </li>
               </ul>
             </nav>

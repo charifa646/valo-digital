@@ -35,6 +35,11 @@ const config: Config = {
       maxWidth: {
         page: "1240px",
       },
+      // square corners for blocks and cards (Charifa, 7 October 2026: an agency site, not a sales page); pills stay round
+      borderRadius: {
+        xl: "4px",
+        "2xl": "4px",
+      },
       boxShadow: {
         card: "0 1px 0 rgba(255,255,255,.9) inset, 0 30px 60px -32px rgba(7,20,216,.28), 0 2px 6px -2px rgba(11,18,51,.06)",
         lift: "0 40px 80px -30px rgba(7,20,216,.45)",

@@ -2,13 +2,14 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import { apropos, fondateur } from "@/lib/content";
 import { Rich } from "@/components/ui/Rich";
-import { WaveSpace, waveTop } from "@/components/ui/Wave";
+import { waveTop } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 
 /**
  * « Qui suis-je ? »: Valentin seated in the light, his name on a card at the
  * foot of the photo, and the portfolio's two paragraphs with its bold words.
- * The section keeps its #fondateur anchor; the homepage's « En savoir plus » opens the page at its top.
+ * The section keeps its #fondateur anchor. His whole letter follows on the same light blue (`Mot.tsx`, #mot), where the
+ * homepage's « En savoir plus » leads.
  */
 export function QuiSuisJe() {
   const f = apropos.fondateur;
@@ -33,10 +34,7 @@ export function QuiSuisJe() {
         </figure>
 
         <div>
-          <p data-reveal="rule" className="tag">
-            {f.label}
-          </p>
-          <h2 id="fondateur-title" data-reveal="words" className="h2 mt-5 text-ink">
+          <h2 id="fondateur-title" data-reveal="words" className="h2 text-ink">
             <Words>{f.title}</Words>
           </h2>
           {f.text.map((t, i) => (
@@ -51,7 +49,6 @@ export function QuiSuisJe() {
           ))}
         </div>
       </div>
-      <WaveSpace />
     </section>
   );
 }

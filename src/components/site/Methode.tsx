@@ -27,10 +27,7 @@ export function Methode() {
       <Filigrane word={methode.filigrane} className="-left-[0.04em] top-[0.15em] md:-right-[0.06em] md:left-auto" />
       <div className="gutter mx-auto max-w-page pb-14 pt-24 lg:pb-20 lg:pt-32">
         <div className="max-w-[40rem]">
-          <p data-reveal="rule" className="tag">
-            {methode.label}
-          </p>
-          <h2 id="methode-title" data-reveal="words" className="h2 mt-5 text-ink">
+          <h2 id="methode-title" data-reveal="words" className="h2 text-ink">
             <span className="block">
               <Words>{methode.title[0]}</Words>
             </span>
