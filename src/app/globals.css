@@ -635,24 +635,6 @@ main {
   }
 }
 
-/* a figure that climbs once it is on screen (« +1000 »); without @property it simply shows the figure */
-@property --num {
-  syntax: "<integer>";
-  initial-value: 0;
-  inherits: false;
-}
-.count-up {
-  --num: var(--to);
-  counter-reset: n var(--num);
-  transition: --num 1.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--d, 0s) + 0.15s);
-}
-.count-up::after {
-  content: counter(n);
-}
-.js [data-reveal]:not([data-in]) .count-up {
-  --num: 0;
-}
-
 /* the reportage (« Quelques clichés »): the photo shown closes in slowly, a line counts the time it stays */
 @keyframes kenburns {
   from {
@@ -1002,9 +984,6 @@ main {
   }
   .js .curve-draw {
     stroke-dashoffset: 0 !important;
-    transition: none !important;
-  }
-  .count-up {
     transition: none !important;
   }
   .logos-track,

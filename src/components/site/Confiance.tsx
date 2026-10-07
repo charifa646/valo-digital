@@ -1,7 +1,7 @@
 import Image from "next/image";
-import type { CSSProperties } from "react";
-import { chiffres, confiance, type ClientLogo } from "@/lib/content";
+import { confiance, type ClientLogo } from "@/lib/content";
 import { Monogram } from "@/components/brand/Logo";
+import { Chiffres } from "./Chiffres";
 
 /** One client's logo on its white card, the logo kept whole whatever its shape. */
 export function LogoTile({ logo, hidden = false, className = "" }: { logo: ClientLogo; hidden?: boolean; className?: string }) {
@@ -27,60 +27,9 @@ function Row({ logos, reverse = false }: { logos: ClientLogo[]; reverse?: boolea
 }
 
 /**
- * The figures of the portfolio, side by side, on one line on every screen:
- * « Depuis 2022 », « +1000 », « +100 ». On phones a word of the portfolio sits
- * above each figure, and a column widens a little when its word needs it
- * (« entrepreneurs » on the narrowest phones); from tablets up the full
- * sentence sits below it. The counts climb once when they come on screen (the
- * real figure stays in the text for screen readers and without animation).
- */
-export function Figures({ dark = false, className = "" }: { dark?: boolean; className?: string }) {
-  return (
-    <ul
-      className={`grid grid-cols-[repeat(3,minmax(min-content,1fr))] overflow-hidden rounded-2xl border sm:grid-cols-3 ${dark ? "border-white/15 bg-white/[0.05]" : "border-hair bg-white shadow-panel"} ${className}`}
-    >
-      {chiffres.map((c, i) => (
-        <li
-          key={c.value}
-          data-reveal="blur"
-          style={{ ["--d" as string]: `${0.1 + i * 0.12}s` } as CSSProperties}
-          className={`flex flex-col items-center px-1.5 py-5 text-center sm:px-7 sm:py-9 ${i ? `border-l ${dark ? "border-white/15" : "border-hair"}` : ""}`}
-        >
-          <div>
-            <p
-              className={`flex min-h-[2.4em] items-end justify-center text-[clamp(9px,2.7vw,10px)] font-semibold uppercase leading-tight tracking-[0.08em] sm:block sm:h-5 sm:min-h-0 sm:text-[12px] sm:tracking-[0.16em] ${dark ? "text-sun" : "text-electric"}`}
-            >
-              <span className="sm:hidden">{c.pre ?? c.short}</span>
-              <span className="hidden sm:inline">{c.pre}</span>
-            </p>
-            <p
-              className={`mt-1.5 text-[clamp(1.7rem,1.15rem+2.9vw,3.6rem)] font-medium leading-none tracking-[-0.045em] sm:mt-1 ${dark ? "text-white" : "text-ink"}`}
-            >
-              {c.count ? (
-                <>
-                  <span aria-hidden className="count-up tabular-nums" style={{ ["--to" as string]: c.count } as CSSProperties}>
-                    +
-                  </span>
-                  <span className="sr-only">{c.value}</span>
-                </>
-              ) : (
-                c.value
-              )}
-            </p>
-          </div>
-          <p className={`pretty mx-auto mt-4 hidden max-w-[26ch] text-[14.5px] font-medium leading-snug sm:block ${dark ? "text-white/75" : "text-body"}`}>
-            {c.text}
-          </p>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-/**
  * « Ils nous ont fait confiance », right after the homepage's top: the VALO mark
  * in its rings, the sentence, the clients' logos in two rows going opposite
- * ways, then the figures.
+ * ways, then the three key figures (`Chiffres.tsx`).
  */
 export function Confiance() {
   const logos = confiance.logos;
@@ -113,7 +62,7 @@ export function Confiance() {
       </div>
 
       <div className="gutter mx-auto mt-12 max-w-[1080px] lg:mt-16">
-        <Figures />
+        <Chiffres />
       </div>
     </section>
   );

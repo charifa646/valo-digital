@@ -1,12 +1,12 @@
 import type { CSSProperties } from "react";
 import { apropos } from "@/lib/content";
-import { Figures } from "@/components/site/Confiance";
+import { Chiffres } from "@/components/site/Chiffres";
 import { Rich } from "@/components/ui/Rich";
 import { WaveSpace, waveTop } from "@/components/ui/Wave";
 
 /**
  * « Mon parcours digital »: Valentin's own sentence, large, its figures lit in
- * yellow as in the portfolio, then the three figures counted out below it.
+ * yellow as in the portfolio, then the three key figures below it, as on the homepage.
  */
 export function Parcours() {
   const p = apropos.parcours;
@@ -27,7 +27,7 @@ export function Parcours() {
           >
             <Rich text={p.text} words mark="text-sun" />
           </blockquote>
-          <Figures dark className="mt-14 lg:mt-20" />
+          <Chiffres className="mt-14 lg:mt-20" />
         </div>
         <WaveSpace />
       </div>

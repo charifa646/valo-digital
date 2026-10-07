@@ -109,15 +109,23 @@ export const confiance = typeset({
 });
 
 /**
- * The figures of the portfolio (« Mon parcours digital », « Qui suis-je ? »), in
- * its own words: `short` is the word shown above the figure on phones.
+ * The key figures in Charifa's words (7 October 2026), written as she wrote them (`value`), with the number each one
+ * counts up to, what it counts (`label`) and the years it covers (`note`).
  */
-export type Figure = { pre?: string; short?: string; value: string; text: string; count?: number };
-export const chiffres: Figure[] = typeset([
-  { pre: "Depuis", value: "2022", text: "auprès des entrepreneurs, PME, institutions publiques, ONG et écoles d’Afrique de l’Ouest" },
-  { value: "+1000", count: 1000, short: "entrepreneurs", text: "entrepreneurs formés et accompagnés aux métiers du digital" },
-  { value: "+100", count: 100, short: "projets digitaux", text: "projets digitaux accompagnés au lancement" },
+export type KeyFigure = { value: string; count: number; prefix: string; suffix?: string; label: string; note?: string };
+export const figures: KeyFigure[] = typeset([
+  { value: "+1 000", prefix: "+", count: 1000, label: "ENTREPRENEURS FORMÉS", note: "2022-2026" },
+  { value: "+100", prefix: "+", count: 100, label: "PROJETS RÉALISÉS" },
+  { value: "+70 000\u00a0$", prefix: "+", count: 70000, suffix: "\u00a0$", label: "BUDGETS DE CAMPAGNES PUBLICITAIRES (FB & INST) GÉRÉS" },
 ]);
+
+/** The real training behind « +1 000 entrepreneurs formés »: a full lecture hall, from the portfolio. */
+export const figuresPhoto = {
+  src: "/images/terrain/universite-ki-zerbo.webp",
+  width: 1100,
+  height: 568,
+  alt: "Une formation de VALO DIGITAL au Pavillon K1 de l’Université Joseph Ki-Zerbo",
+};
 
 export type Door = { id: string; name: string; text: string; target: string };
 
