@@ -616,6 +616,173 @@ main {
   }
 }
 
+/* ------------------------------------------------------------------ */
+/* The foot of the page, two proposals (7 October 2026)               */
+/* ------------------------------------------------------------------ */
+
+/* a link whose line draws itself under the mouse, from the left */
+.link-draw {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 2px;
+  padding-bottom: 0.08em;
+  transition: background-size 0.6s var(--ease);
+}
+.link-draw:hover,
+.link-draw:focus-visible {
+  background-size: 100% 2px;
+}
+
+/* A « la scène »: the blue curtain of the last call rises and uncovers, pinned under it, a night-blue stage where the
+   name VALO stands on a mirror floor with Valentin in front. `--p` says how much of the stage is uncovered (0 to 1,
+   set while scrolling); the lights come on and the letters rise with it. One unit, `--u`, sizes the whole stage on
+   computers so it always fits the screen, wide or low; phones have their own measures. */
+.stage {
+  --u: min(1vw, 1.55svh);
+  --p: 1;
+  --light: clamp(0, calc((var(--p) - 0.05) / 0.6), 1);
+  --h: calc(var(--u) * 60);
+  --top: calc(var(--u) * 9);
+  --font: min(33.6cqw, calc(var(--u) * 33));
+  --man: calc(var(--u) * 41);
+  container-type: inline-size;
+  position: sticky;
+  bottom: 0;
+  z-index: 0;
+  height: var(--h);
+  overflow: hidden;
+  background:
+    radial-gradient(55% 70% at 50% 8%, rgba(53, 81, 255, 0.55), transparent 70%), radial-gradient(120% 90% at 50% 0%, #0a16a8 0%, #040b52 48%, #02062e 100%);
+}
+@media (max-width: 639px) {
+  .stage {
+    --h: 156vw;
+    --top: 17vw;
+    --font: 31cqw;
+    --man: 118vw;
+  }
+}
+/* the light poured on the stage from above, and the dark that lifts as the curtain rises */
+.stage-beam {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 180deg at 50% -6%,
+    transparent 158deg,
+    rgba(190, 204, 255, 0.22) 172deg,
+    rgba(190, 204, 255, 0.3) 180deg,
+    rgba(190, 204, 255, 0.22) 188deg,
+    transparent 202deg
+  );
+  -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent 92%);
+  mask-image: linear-gradient(180deg, #000 40%, transparent 92%);
+  opacity: var(--light);
+}
+.stage-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: #02062e;
+  opacity: calc((1 - var(--light)) * 0.7);
+  pointer-events: none;
+}
+/* the name: four letters standing on the floor, lit from above */
+.stage-word {
+  position: absolute;
+  left: 50%;
+  top: var(--top);
+  display: flex;
+  font-size: var(--font);
+  font-weight: 800;
+  line-height: 0.74;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+.stage-letter {
+  --rise: clamp(0, calc((var(--p) - 0.62 - var(--i) * 0.07) / 0.2), 1);
+  display: inline-block;
+  color: transparent;
+  background: linear-gradient(180deg, #ffffff 0%, #e7edff 40%, #9fb1ff 78%, #5c74ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  opacity: calc(0.15 + var(--rise) * 0.85);
+  transform: translateY(calc((1 - var(--rise)) * 26%));
+}
+/* the same name upside down under the floor line, fading: the floor shines like a mirror */
+.stage-mirror {
+  transform: translateX(-50%) scaleY(-1);
+  transform-origin: 50% 98.4%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 38%, rgba(0, 0, 0, 0.42) 100%);
+  mask-image: linear-gradient(180deg, transparent 38%, rgba(0, 0, 0, 0.42) 100%);
+  filter: blur(1.5px);
+}
+/* under the mouse a light passes through the letters (computers) */
+.stage-glow {
+  -webkit-mask-image: radial-gradient(calc(var(--u) * 20) circle at var(--x, 50%) var(--y, 30%), #000, transparent 70%);
+  mask-image: radial-gradient(calc(var(--u) * 20) circle at var(--x, 50%) var(--y, 30%), #000, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+.stage-glow .stage-letter {
+  background: linear-gradient(120deg, #fdec05 0%, #ffffff 45%, #8fa3ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+@media (hover: hover) {
+  .stage:hover .stage-glow {
+    opacity: 1;
+  }
+}
+/* a soft pool of light on the floor, behind Valentin */
+.stage-pool {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--top) + var(--font) * 0.73);
+  width: calc(var(--man) * 1.5);
+  height: calc(var(--u) * 14);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(143, 163, 255, 0.4), transparent);
+  opacity: var(--light);
+}
+@media (max-width: 639px) {
+  .stage-pool {
+    height: 30vw;
+  }
+}
+.stage-man {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 3;
+  width: auto;
+  height: var(--man);
+  transform: translateX(-50%);
+}
+/* the photo of Valentin in his armchair is cut on its left, through his foot: that edge fades instead */
+.fade-left {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 14%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 14%);
+}
+/* the hem of the blue curtain, a wave, with the shadow it casts on the stage as it rises */
+.hem {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: calc(100% - 1px);
+  height: var(--wave-h, 70px);
+  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.45));
+  /* the shadow falls on the stage only, never back on the curtain */
+  clip-path: inset(0 0 -160px 0);
+  pointer-events: none;
+}
+
+/* B « le grand appel »: the four words of VALO's trade passing in very large letters */
+.marquee {
+  animation: logos 38s linear infinite;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+
 /* the reportage (« Quelques clichés »): the photo shown closes in slowly, a line counts the time it stays */
 @keyframes kenburns {
   from {
@@ -968,6 +1135,7 @@ main {
     transition: none !important;
   }
   .logos-track,
+  .marquee,
   .kenburns,
   .rise,
   .fade-up,
