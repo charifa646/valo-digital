@@ -1,79 +1,84 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { fondateur } from "@/lib/content";
-import { Monogram } from "@/components/brand/Logo";
-import { Cap } from "@/components/ui/Icons";
-import { Wave } from "@/components/ui/Wave";
+import { WaveSpace } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 
-/** Valentin, standing out of a light card, his name and his two titles beside him, and the way to his whole story. */
+/**
+ * « Mot du fondateur », as in the catalogue: Valentin standing out of a light card with his name and his three
+ * titles under him, and his letter beside him, whole. On computers the portrait stays in place while the letter
+ * is read; on phones the greeting comes first, then the portrait, then the letter. The button opens « À propos ».
+ */
 export function Fondateur() {
   return (
     <section id="fondateur" aria-labelledby="fondateur-title" className="paper relative isolate bg-white">
-      <div className="gutter mx-auto grid max-w-page items-center gap-14 pb-24 pt-20 lg:grid-cols-[1fr_1.08fr] lg:gap-20 lg:pb-32 lg:pt-28">
-        <figure data-reveal="tilt" className="relative mx-auto w-full max-w-[440px] pt-[84px] sm:pt-[100px]">
-          {/* the card, and Valentin coming out of its top edge */}
-          <div className="relative aspect-[1/1.06] w-full">
-            <div className="absolute inset-0 overflow-hidden rounded-2xl bg-[linear-gradient(170deg,#EEF2FF_0%,#D8E0FF_62%,#C3CFFF_100%)]">
-              <div className="absolute -bottom-20 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-white/60 blur-3xl" />
-            </div>
-            <div className="absolute inset-x-0 bottom-0 top-[-84px] [clip-path:inset(-100%_0_0_0_round_16px)] sm:top-[-100px]">
-              <Image
-                src="/images/v3/valentin-debout.webp"
-                alt={`${fondateur.name}, ${fondateur.roles[1]}`}
-                width={774}
-                height={1445}
-                sizes="(min-width: 1024px) 360px, 76vw"
-                className="absolute bottom-[-16%] left-1/2 h-auto w-[76%] -translate-x-1/2"
-              />
-            </div>
-          </div>
-        </figure>
-
-        <div>
-          <p data-reveal="rule" className="tag">
+      <div className="gutter mx-auto grid max-w-page gap-x-20 pb-24 pt-20 [grid-template-areas:'head'_'photo'_'letter'] lg:grid-cols-[0.8fr_1.2fr] lg:pb-32 lg:pt-28 lg:[grid-template-areas:'photo_head'_'photo_letter']">
+        <div className="[grid-area:head]">
+          <h2 id="fondateur-title" data-reveal="rule" className="tag">
             {fondateur.label}
-          </p>
-          <h2 id="fondateur-title" data-reveal="words" className="h2 balance mt-5 text-ink">
-            <Words>{fondateur.title}</Words>
           </h2>
           <p
-            data-reveal="blur"
-            style={{ ["--d" as string]: "0.2s" } as CSSProperties}
-            className="mt-6 text-[clamp(1.35rem,2.4vw,1.75rem)] font-semibold leading-[1.2] tracking-[-0.02em] text-electric"
+            data-reveal="words"
+            className="balance mt-6 max-w-[24ch] text-[clamp(1.6rem,1.1rem+1.6vw,2.4rem)] font-medium leading-[1.15] tracking-[-0.025em] text-ink"
           >
-            {fondateur.name}
+            <Words>{fondateur.greeting}</Words>
           </p>
-          <ul data-reveal="slide-left" style={{ ["--d" as string]: "0.3s" } as CSSProperties} className="mt-6 grid gap-3">
-            <li className="flex items-center gap-3">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-frost text-electric">
-                <Cap className="h-[18px] w-[18px]" />
-              </span>
-              <span className="text-[15.5px] font-semibold text-ink">{fondateur.roles[0]}</span>
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-electric text-white">
-                <Monogram className="h-3 w-auto" />
-              </span>
-              <span className="text-[15.5px] font-semibold text-ink">{fondateur.roles[1]}</span>
-            </li>
-          </ul>
-          <p
+        </div>
+
+        <div className="mt-12 [grid-area:photo] lg:sticky lg:top-[calc(var(--header)+40px)] lg:mt-0 lg:self-start">
+          <figure data-reveal="tilt" className="relative mx-auto w-full max-w-[340px] pt-[78px] sm:max-w-[400px] sm:pt-[96px] lg:mx-0">
+            {/* the card, and Valentin coming out of its top edge */}
+            <div className="relative aspect-[1/1.06] w-full">
+              <div className="absolute inset-0 overflow-hidden rounded-2xl bg-[linear-gradient(170deg,#EEF2FF_0%,#D8E0FF_62%,#C3CFFF_100%)]">
+                <div className="absolute -bottom-20 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-white/60 blur-3xl" />
+              </div>
+              <div className="absolute inset-x-0 bottom-0 top-[-78px] [clip-path:inset(-100%_0_0_0_round_16px)] sm:top-[-96px]">
+                <Image
+                  src="/images/v3/valentin-debout.webp"
+                  alt={`${fondateur.name}, ${fondateur.roles[2]}`}
+                  width={774}
+                  height={1445}
+                  sizes="(min-width: 1024px) 330px, 76vw"
+                  className="absolute bottom-[-16%] left-1/2 h-auto w-[76%] -translate-x-1/2"
+                />
+              </div>
+            </div>
+            {/* his name and his titles, the way the catalogue signs the letter */}
+            <figcaption className="mt-7">
+              <span className="block text-[19px] font-semibold leading-snug tracking-[-0.02em] text-ink">{fondateur.name}</span>
+              <span aria-hidden className="mt-3 block h-[3px] w-10 rounded-full bg-sun" />
+              <span className="mt-3 block text-[14.5px] font-bold text-electric">{fondateur.roles[0]}</span>
+              {fondateur.roles.slice(1).map((r) => (
+                <span key={r} className="mt-1 block text-[14.5px] font-medium leading-snug text-body">
+                  {r}
+                </span>
+              ))}
+            </figcaption>
+          </figure>
+        </div>
+
+        <div className="mt-12 [grid-area:letter] lg:mt-10">
+          <div
             data-reveal
-            style={{ ["--d" as string]: "0.4s" } as CSSProperties}
-            className="pretty mt-7 max-w-[36rem] border-t border-hair pt-7 text-[16.5px] font-medium leading-[1.75] text-body sm:text-[17.5px]"
+            style={{ ["--d" as string]: "0.2s" } as CSSProperties}
+            className="max-w-[38rem] space-y-5 text-[16.5px] font-medium leading-[1.75] text-body sm:text-[17px]"
           >
-            {fondateur.text}
-          </p>
-          <div data-reveal="pop" style={{ ["--d" as string]: "0.5s" } as CSSProperties} className="mt-8">
-            <a href="/a-propos#fondateur" className={btn("electric")}>
+            {fondateur.letter.map((p) => (
+              <p key={p.slice(0, 24)} className="pretty">
+                {p}
+              </p>
+            ))}
+            <p className="pt-1 text-[18px] font-semibold tracking-[-0.01em] text-electric">{fondateur.closing}</p>
+          </div>
+          <div data-reveal="pop" style={{ ["--d" as string]: "0.3s" } as CSSProperties} className="mt-9">
+            <a href="/a-propos" className={btn("electric")}>
               <BtnInner>{fondateur.cta}</BtnInner>
             </a>
           </div>
         </div>
       </div>
-      <Wave shape="swell" flip back="text-electric/25" front="text-electric" className="-mb-px" />
+      <WaveSpace />
     </section>
   );
 }

@@ -7,12 +7,12 @@ const phases = ["Structurer", "Coordonner", "Accélérer"];
 const lanes: { name: string; icon: ReactNode; from: number; to: number }[] = [
   { name: "Réseaux sociaux", icon: <IconBrandInstagram stroke={2} />, from: 3, to: 70 },
   { name: "Publicité", icon: <IconSpeakerphone stroke={2} />, from: 28, to: 97 },
-  { name: "Content vidéo", icon: <IconMovie stroke={2} />, from: 14, to: 84 },
+  { name: "Création de vidéos", icon: <IconMovie stroke={2} />, from: 14, to: 84 },
 ];
 const now = 45; // where today falls on the plan, in %
 const done = (l: { from: number; to: number }) => Math.max(0, Math.min(100, ((now - l.from) / (l.to - l.from)) * 100));
 
-/** « Direction marketing externalisée »: one plan that coordinates every channel, phase by phase. */
+/** « Votre responsable marketing à temps partagé »: one plan that coordinates every channel, phase by phase. */
 export function Pilotage() {
   return (
     <Panel>

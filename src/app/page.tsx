@@ -12,14 +12,17 @@ import { Pourquoi } from "@/components/site/Pourquoi";
 import { Fondateur } from "@/components/site/Fondateur";
 import { Final } from "@/components/site/Final";
 
-/** One page, in the order of the brief: hero, needs, offers, trainings, solutions, method, why, founder, contact, footer. */
+/**
+ * One page, in the order of the brief: hero, needs, offers, trainings, solutions, method, why, founder, contact,
+ * footer. The hero is the light orbit, the client's choice of 7 October 2026.
+ */
 export default function Page() {
   return (
     <ScrollProvider>
       <SheetProvider>
         <Header />
         <main id="contenu">
-          <HeroOrbite blue />
+          <HeroOrbite />
           <Confiance />
           <Needs />
           <Prestations />

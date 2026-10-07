@@ -4,7 +4,7 @@ import { ArrowUpRight } from "@/components/ui/Icons";
 import { GrowthCurve } from "./GrowthCurve";
 import { Filigrane } from "@/components/ui/Filigrane";
 import { Words, count } from "@/components/ui/Words";
-import { Wave } from "@/components/ui/Wave";
+import { WaveSpace } from "@/components/ui/Wave";
 
 /** Each step is a stair, a little higher and a little bluer than the one before. */
 const stairs = [
@@ -79,7 +79,7 @@ export function Methode() {
           </div>
         </div>
       </div>
-      <Wave shape="ripple" flip back="text-frost" front="text-ice" className="-mb-px" />
+      <WaveSpace />
     </section>
   );
 }

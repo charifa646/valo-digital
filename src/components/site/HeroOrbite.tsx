@@ -110,7 +110,7 @@ function VenteBody() {
   );
 }
 
-/** Formation: the Facebook & Instagram Ads course, its first modules. */
+/** Formation: the first course of the catalogue (the Facebook and Instagram ads), its first modules. */
 function FormationBody() {
   return (
     <>
@@ -179,7 +179,7 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
         }`}
       >
         {blue ? (
-          <Wave shape="rise" back="text-white/15" front="text-ice" className="absolute inset-x-0 bottom-0" />
+          <Wave back="text-white/15" front="text-ice" className="absolute inset-x-0 bottom-0" />
         ) : (
           <>
             {/* the dotted ground, stronger towards the edges */}

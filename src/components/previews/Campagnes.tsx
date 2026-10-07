@@ -10,7 +10,7 @@ const campaigns: { name: string; goal: string; icon: ReactNode; live: boolean }[
   { name: "Boutique en ligne", goal: "Ventes", icon: <IconShoppingBag stroke={2} />, live: false },
 ];
 
-/** « Publicité Facebook & Instagram »: the ad as people will see it, next to the campaigns behind it. */
+/** « Campagnes publicitaires pour attirer des clients »: the ad as people will see it, next to the campaigns behind it. */
 export function Campagnes() {
   return (
     <div className="relative h-full @[440px]:flex @[440px]:items-start">

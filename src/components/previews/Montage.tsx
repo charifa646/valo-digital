@@ -12,7 +12,7 @@ const steps: { name: string; state: "done" | "now" | "next" }[] = [
   { name: "Adaptation aux plateformes", state: "next" },
 ];
 
-/** « Content vidéo »: the vertical video being edited, and where the four videos stand. */
+/** « Création de vidéos pour votre entreprise »: the vertical video being edited, and where the four videos stand. */
 export function Montage() {
   return (
     <div className="flex h-full items-start gap-3 @[420px]:gap-4">

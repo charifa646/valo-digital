@@ -6,7 +6,7 @@ import { ask, wa } from "@/lib/links";
 import { useSheet } from "./Sheet";
 import { ArrowRight } from "@/components/ui/Icons";
 import { Price } from "@/components/ui/Price";
-import { Wave } from "@/components/ui/Wave";
+import { WaveSpace } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 import { Calendrier } from "@/components/previews/Calendrier";
 import { Campagnes } from "@/components/previews/Campagnes";
@@ -23,7 +23,9 @@ function OfferCard({ o, i }: { o: Offer; i: number }) {
   const Preview = previews[o.id];
   const lead = o.id === "direction"; // the complete offer, in blue
   const link = `group/link inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-[13.5px] font-semibold transition duration-300 ${
-    lead ? "border-white/30 text-white hover:bg-white hover:text-electric" : "border-hair bg-white text-ink hover:border-electric hover:text-electric"
+    lead
+      ? "border-white bg-white text-electric hover:border-sun hover:bg-sun hover:text-navy"
+      : "border-electric/15 bg-frost text-electric hover:border-electric hover:bg-electric hover:text-white"
   }`;
   const label = (
     <>
@@ -92,7 +94,7 @@ export function Prestations() {
           ))}
         </div>
       </div>
-      <Wave shape="swell" back="text-frost" front="text-white" className="-mb-px" />
+      <WaveSpace />
     </section>
   );
 }

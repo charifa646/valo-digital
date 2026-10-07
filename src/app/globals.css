@@ -107,9 +107,10 @@ main {
   .btn-line .dot {
     @apply bg-white text-electric;
   }
-  /* the quiet one, on light sections: a white pill, the arrow in blue */
+  /* the quiet one, on light sections: a light blue pill with blue words, the arrow in its blue circle (no longer
+     white on white, where it was not seen as a button) */
   .btn-ghost {
-    @apply border border-hair bg-white text-ink hover:border-electric/40;
+    @apply border border-electric/15 bg-frost text-electric hover:border-electric/35 hover:bg-[#DCE4FF];
   }
   .btn-ghost .dot {
     @apply bg-electric text-white;
@@ -498,6 +499,84 @@ main {
 }
 .halo-bl {
   --halo: radial-gradient(40% 52% at 0% 100%, rgba(76, 96, 255, 0.085), transparent 70%);
+}
+
+/* the waves, anchored in their section (`waveTop` and `WaveSpace` in Wave.tsx): the next section rises over the end
+   of the one before by the height of the wave, and a mask cuts its top edge as a wave, so the wave keeps that section's
+   own white, grain, halo or blue and no straight line shows under it. The mask's second layer covers the rest of the
+   section, from one pixel above the end of the wave so no seam shows. */
+.wave-top,
+.wave-space {
+  --wave-h: 46px;
+}
+@media (min-width: 640px) {
+  .wave-top,
+  .wave-space {
+    --wave-h: 70px;
+  }
+}
+@media (min-width: 1024px) {
+  .wave-top,
+  .wave-space {
+    --wave-h: 96px;
+  }
+}
+.wave-space {
+  height: var(--wave-h);
+}
+.wave-top {
+  margin-top: calc(var(--wave-h) * -1);
+  padding-top: var(--wave-h);
+  -webkit-mask:
+    var(--wave) 0 0 / 100% var(--wave-h) no-repeat,
+    linear-gradient(#000, #000) 0 calc(var(--wave-h) - 1px) / 100% 100% no-repeat;
+  mask:
+    var(--wave) 0 0 / 100% var(--wave-h) no-repeat,
+    linear-gradient(#000, #000) 0 calc(var(--wave-h) - 1px) / 100% 100% no-repeat;
+}
+.wave-swell {
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 69C240 25 500 20 760 54C1010 86 1230 95 1440 56V120H0Z'/%3E%3C/svg%3E");
+}
+.wave-swell-flip {
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 69C240 25 500 20 760 54C1010 86 1230 95 1440 56V120H0Z'/%3E%3C/svg%3E");
+}
+.wave-rise {
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 85C280 93 560 69 820 43C1060 20 1280 25 1440 46V120H0Z'/%3E%3C/svg%3E");
+}
+.wave-rise-flip {
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 85C280 93 560 69 820 43C1060 20 1280 25 1440 46V120H0Z'/%3E%3C/svg%3E");
+}
+.wave-ripple {
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 54C200 77 400 80 600 59C800 38 1000 20 1200 36C1300 43 1380 54 1440 51V120H0Z'/%3E%3C/svg%3E");
+}
+.wave-ripple-flip {
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 54C200 77 400 80 600 59C800 38 1000 20 1200 36C1300 43 1380 54 1440 51V120H0Z'/%3E%3C/svg%3E");
+}
+
+/* between two light sections the two whites are close: a fine line follows the edge of the wave, inside it, like the
+   fine line around the cards, so the wave reads on every screen */
+.wave-line {
+  background-image: var(--wave-line);
+  background-size: 100% var(--wave-h);
+  background-repeat: no-repeat;
+}
+.wave-swell.wave-line {
+  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 69C240 25 500 20 760 54C1010 86 1230 95 1440 56' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+}
+.wave-swell-flip.wave-line {
+  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 69C240 25 500 20 760 54C1010 86 1230 95 1440 56' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+}
+.wave-rise.wave-line {
+  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 85C280 93 560 69 820 43C1060 20 1280 25 1440 46' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+}
+.wave-rise-flip.wave-line {
+  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 85C280 93 560 69 820 43C1060 20 1280 25 1440 46' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+}
+.wave-ripple.wave-line {
+  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 54C200 77 400 80 600 59C800 38 1000 20 1200 36C1300 43 1380 54 1440 51' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+}
+.wave-ripple-flip.wave-line {
+  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 54C200 77 400 80 600 59C800 38 1000 20 1200 36C1300 43 1380 54 1440 51' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
 }
 
 /* a word of its section, very large and very pale, fading out (« BESOIN », « MÉTHODE »): two on the site, no more */

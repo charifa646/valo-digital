@@ -18,11 +18,13 @@ import { Final } from "@/components/site/Final";
 
 /**
  * The other homepage versions, kept at hidden addresses so none is lost:
- * A « la vague » (/apercu/vague), B « l'orbite » in light (/apercu/orbite)
- * and the earlier homepage (/apercu/ancien). The real homepage is C, the
- * orbit in blue. Not indexed.
+ * A « la vague » (/apercu/vague), B « l'orbite » in light (/apercu/orbite,
+ * the same as the real homepage since the client chose it on 7 October 2026),
+ * C the orbit in blue (/apercu/orbite-bleue) and the earlier homepage
+ * (/apercu/ancien). Not indexed.
  */
-const heroes = { vague: HeroVague, orbite: HeroOrbite, ancien: Hero };
+const OrbiteBleue = () => <HeroOrbite blue />;
+const heroes = { vague: HeroVague, orbite: HeroOrbite, "orbite-bleue": OrbiteBleue, ancien: Hero };
 
 export const dynamicParams = false;
 export const generateStaticParams = () => Object.keys(heroes).map((hero) => ({ hero }));

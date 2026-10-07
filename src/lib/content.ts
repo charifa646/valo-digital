@@ -2,7 +2,8 @@
  * The site's words, exactly as in « VALO COPYWRITING + STRUCTURE » (the
  * Copywriting part for the text, the Structure part for the order). The
  * details behind « Découvrir les offres », « En savoir plus » and « Voir toutes
- * les formations » come from the client's catalogue, accents restored. The
+ * les formations » come from the client's catalogue, accents restored; the
+ * names of the trainings and services follow its 2026 edition. The
  * figures, the references, the founder's story, the team and the events come
  * from the client's portfolio (« PORTFOLIO VALO », 2026), spelling restored.
  * Nothing here is invented: no figures, testimonials or promises.
@@ -54,7 +55,7 @@ export const hero = typeset({
   title: ["Faites du digital un véritable", "levier de croissance."],
   lead: "VALO DIGITAL accompagne les entrepreneurs et entreprises dans leur marketing, leur acquisition et leur développement.",
   cta: "Parlons de votre projet",
-  tags: ["Marketing", "Publicité", "Vente", "Formation"],
+  tags: ["Marketing digital", "Publicité", "Vente", "Formation"],
 });
 
 /**
@@ -161,7 +162,7 @@ export const prestations = typeset({
     },
     {
       id: "publicite",
-      name: "Publicité Facebook & Instagram",
+      name: "Campagnes publicitaires pour attirer des clients",
       text: "Des campagnes conçues pour générer visibilité, prospects ou ventes.",
       price: "À partir de 100 000 F CFA",
       note: "Hors budget publicitaire",
@@ -170,7 +171,7 @@ export const prestations = typeset({
     },
     {
       id: "video",
-      name: "Content vidéo",
+      name: "Création de vidéos pour votre entreprise",
       text: "Transformez vos idées, votre expertise et vos offres en contenus vidéo adaptés aux réseaux sociaux.",
       price: "À partir de 80 000 F CFA / 4 vidéos",
       link: "Découvrir",
@@ -178,7 +179,7 @@ export const prestations = typeset({
     },
     {
       id: "direction",
-      name: "Direction marketing externalisée",
+      name: "Votre responsable marketing à temps partagé",
       text: "Un pilotage marketing pour structurer, coordonner et accélérer votre croissance.",
       price: "À partir de 750 000 F CFA",
       link: "Parlons de votre projet",
@@ -195,49 +196,49 @@ export const formations = typeset({
   items: [
     {
       id: "ads",
-      name: "Facebook & Instagram Ads",
+      name: "Attirer des clients avec la publicité Facebook et Instagram",
       price: "75 000 F CFA",
       format: "Formation pratique",
       modules: "Page Facebook, Meta Business Suite, Business Manager, ciblage, campagnes, budget, analyse et optimisation.",
     },
     {
       id: "vente",
-      name: "Vente en ligne",
+      name: "Vendre avec Facebook, TikTok et WhatsApp",
       price: "65 000 F CFA",
       format: "Formation pratique",
       modules: "Facebook, TikTok, WhatsApp Business, acquisition clients, contenus, messages de vente, tunnel WhatsApp.",
     },
     {
       id: "marketing",
-      name: "Marketing digital",
+      name: "Construire sa stratégie pour trouver des clients en ligne",
       price: "65 000 F CFA",
       format: "Formation ou accompagnement",
       modules: "Stratégie digitale, positionnement, acquisition, contenu, réseaux sociaux, conversion, plan d’action.",
     },
     {
       id: "ia",
-      name: "Intelligence artificielle pour le business",
+      name: "Utiliser l’IA dans son activité professionnelle",
       price: "65 000 F CFA",
       format: "Formation pratique",
       modules: "ChatGPT, création de contenus, recherche, productivité, prompts business, automatisation des tâches.",
     },
     {
       id: "contenu",
-      name: "Création de contenu",
+      name: "Créer des contenus pour attirer et convaincre",
       price: "50 000 F CFA",
       format: "Formation pratique",
       modules: "Stratégie de contenu, idées, copywriting, visuels, vidéos, calendrier éditorial, contenu qui vend.",
     },
     {
       id: "cm",
-      name: "Community management",
+      name: "Gérer les réseaux sociaux d’une entreprise",
       price: "Tarif selon format",
       format: "Formation pratique",
       modules: "Stratégie réseaux sociaux, création, publication, animation, engagement, Meta Business Suite, reporting.",
     },
     {
       id: "cohorte",
-      name: "Cohorte métiers du digital",
+      name: "Se former aux métiers du digital",
       tag: "2 mois",
       price: "150 000 F CFA",
       format: "2 mois",
@@ -245,7 +246,7 @@ export const formations = typeset({
     },
     {
       id: "prive",
-      name: "Accompagnement privé",
+      name: "Coaching digital personnalisé",
       price: "50 000 à 100 000 F CFA",
       format: "Individuel",
       modules: "Diagnostic, stratégie, offre, acquisition, Facebook Ads, contenu, IA, plan d’action personnalisé.",
@@ -264,19 +265,19 @@ export const solutions = typeset({
   items: [
     {
       id: "diagnostic",
-      name: "DIAGNOSTIC DIGITAL",
+      name: "BILAN DIGITAL ET PLAN D’ACTION",
       text: "Identifiez vos blocages et repartez avec des priorités claires et un plan d’action.",
       sheet: "diagnostic",
     },
     {
       id: "accompagnement",
-      name: "ACCOMPAGNEMENT BUSINESS & CROISSANCE",
+      name: "ACCOMPAGNEMENT POUR DÉVELOPPER VOTRE ENTREPRISE",
       text: "Structurez votre offre, votre acquisition, votre marketing et votre parcours de vente.",
       sheet: "accompagnement",
     },
     {
       id: "content-video",
-      name: "CONTENT VIDÉO",
+      name: "CRÉATION DE VIDÉOS POUR VOTRE ENTREPRISE",
       text: "Des contenus pensés pour attirer l’attention et valoriser votre activité.",
       sheet: "video",
     },
@@ -308,14 +309,26 @@ export const pourquoi = typeset({
   ],
 });
 
+/**
+ * « Mot du fondateur », from the 2026 catalogue, word for word, except one sentence: « Ce catalogue présente »
+ * became « Ce site présente » (Charifa, 7 October 2026). His three titles are the catalogue's. The button opens
+ * the « À propos » page.
+ */
 export const fondateur = typeset({
-  label: "FONDATEUR",
-  title: "Derrière VALO DIGITAL",
+  label: "MOT DU FONDATEUR",
+  greeting: "Chers entrepreneurs, partenaires et futurs apprenants,",
+  letter: [
+    "Au fil de mon parcours, j’ai rencontré des entrepreneurs avec de bons produits, des jeunes prêts à entreprendre et des entreprises qui souhaitaient se développer, mais qui peinaient à trouver leur place en ligne. Ces rencontres ont nourri une conviction : les outils numériques prennent toute leur valeur lorsque l’on sait les utiliser pour répondre à un besoin concret.",
+    "Mon propre chemin s’est construit par la formation, l’apprentissage continu et la pratique auprès des entreprises. Cette expérience guide aujourd’hui l’approche de VALO DIGITAL : partir de votre réalité, comprendre vos difficultés et vous aider à avancer avec des méthodes applicables à votre activité.",
+    "Depuis 2022, je forme et accompagne des entrepreneurs, des PME, des associations et des institutions dans l’utilisation professionnelle du digital. Trouver des clients, présenter une offre, créer des contenus utiles ou piloter une campagne publicitaire demande des compétences qui s’apprennent et se développent sur le terrain.",
+    "Avec VALO DIGITAL, nous voulons rendre ces compétences accessibles et accompagner leur mise en œuvre. Nous intégrons également l’intelligence artificielle pour vous aider à mieux organiser votre travail, produire vos contenus et gagner en efficacité, tout en gardant la maîtrise de vos décisions.",
+    "Ce site présente nos formations et nos solutions d’accompagnement. Vous y trouverez des possibilités pour apprendre, déléguer certaines actions ou structurer la croissance de votre entreprise.",
+    "Mon engagement est de vous transmettre ce que la pratique m’a appris et de vous accompagner avec exigence, proximité et attention aux résultats.",
+  ],
+  closing: "Bienvenue chez VALO DIGITAL.",
   name: "Gueswendyam Valentin WAONGO",
-  roles: ["Consultant formateur aux métiers du digital", "Fondateur de VALO DIGITAL"],
-  text: "VALO DIGITAL accompagne entrepreneurs, TPE, PME, équipes et institutions dans la structuration de leur présence digitale, l’acquisition de prospects et le développement des ventes.",
-  /** Charifa's words: the button that opens the « À propos » page at the founder. */
-  cta: "À propos du fondateur",
+  roles: ["Digital manager", "Consultant et formateur aux métiers du digital", "Fondateur de VALO DIGITAL"],
+  cta: "En savoir plus",
 });
 
 export const final = typeset({
@@ -327,7 +340,7 @@ export const final = typeset({
 export const footer = typeset({
   name: "VALO DIGITAL",
   tagline: "Agence de croissance digitale",
-  tags: ["Marketing", "Publicité", "Vente", "Formation"],
+  tags: ["Marketing digital", "Publicité", "Vente", "Formation"],
   copyright: "© VALO DIGITAL",
 });
 
@@ -522,7 +535,7 @@ export const details: Record<Exclude<SheetId, "formations">, Detail> = typeset({
     title: "Gestion des réseaux sociaux",
     formules: [
       {
-        name: "Offre Standard",
+        name: "Essentiel",
         for: "Entreprises souhaitant être régulières",
         pitch: "Pour maintenir une présence professionnelle et régulière.",
         points: [
@@ -536,7 +549,7 @@ export const details: Record<Exclude<SheetId, "formations">, Detail> = typeset({
         price: "À partir de 80 000 F CFA / mois",
       },
       {
-        name: "Offre Business",
+        name: "Développement",
         for: "Entreprises en développement",
         pitch: "Pour transformer les réseaux sociaux en outil de communication et d’acquisition.",
         points: [
@@ -550,7 +563,7 @@ export const details: Record<Exclude<SheetId, "formations">, Detail> = typeset({
         price: "À partir de 150 000 F CFA / mois",
       },
       {
-        name: "Offre Premium Growth",
+        name: "Premium",
         for: "Entreprises ambitieuses",
         pitch: "Pour soutenir la croissance avec une gestion complète et optimisée.",
         points: [
@@ -566,7 +579,7 @@ export const details: Record<Exclude<SheetId, "formations">, Detail> = typeset({
     ],
   },
   publicite: {
-    title: "Publicité Facebook & Instagram",
+    title: "Campagnes publicitaires pour attirer des clients",
     for: "Entreprises souhaitant acquérir",
     pitch: "Générer plus de visibilité, de prospects ou de ventes avec des campagnes pilotées.",
     points: [
@@ -580,14 +593,14 @@ export const details: Record<Exclude<SheetId, "formations">, Detail> = typeset({
     price: "À partir de 100 000 F CFA hors budget publicitaire",
   },
   video: {
-    title: "Content vidéo",
+    title: "Création de vidéos pour votre entreprise",
     for: "Marques, experts, entreprises",
     pitch: "Transformer l’expertise, les produits et les offres en vidéos adaptées aux réseaux sociaux.",
     points: ["Recherche d’idées", "Stratégie de contenu", "Scripts", "Tournage ou production", "Montage et sous-titrage", "Adaptation aux plateformes"],
     price: "À partir de 80 000 F CFA pour 4 vidéos",
   },
   diagnostic: {
-    title: "Diagnostic digital",
+    title: "Bilan digital et plan d’action",
     for: "TPE, PME, entrepreneurs",
     pitch: "Comprendre pourquoi la présence digitale ne produit pas suffisamment de résultats.",
     points: [
@@ -601,7 +614,7 @@ export const details: Record<Exclude<SheetId, "formations">, Detail> = typeset({
     price: "150 000 F CFA",
   },
   accompagnement: {
-    title: "Accompagnement business & croissance",
+    title: "Accompagnement pour développer votre entreprise",
     for: "Dirigeants et entrepreneurs",
     pitch: "Accompagner les dirigeants dans la construction et la mise en œuvre de leur stratégie.",
     points: [

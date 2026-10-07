@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import { apropos, confiance } from "@/lib/content";
 import { LogoTile } from "@/components/site/Confiance";
 import { Rich } from "@/components/ui/Rich";
-import { Wave } from "@/components/ui/Wave";
+import { WaveSpace } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 
 /** « Ils nous ont fait confiance », all the logos at once on white cards, then the mission. */
@@ -39,7 +39,7 @@ export function References() {
           <Rich text={confiance.mission} mark="text-electric" />
         </p>
       </div>
-      <Wave shape="swell" flip back="text-electric/25" front="text-electric" className="-mb-px" />
+      <WaveSpace />
     </section>
   );
 }

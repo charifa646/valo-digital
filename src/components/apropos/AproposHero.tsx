@@ -2,7 +2,6 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import { apropos } from "@/lib/content";
 import { Pin } from "@/components/ui/Icons";
-import { Wave } from "@/components/ui/Wave";
 
 /**
  * The top of the « À propos » page, in the blue of the homepage: what VALO
@@ -86,7 +85,6 @@ export function AproposHero() {
             </figcaption>
           </figure>
         </div>
-        <Wave shape="rise" back="text-white/15" front="text-ice" className="absolute inset-x-0 bottom-0" />
       </div>
     </section>
   );

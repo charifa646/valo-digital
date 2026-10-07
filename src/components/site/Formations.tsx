@@ -7,6 +7,7 @@ import { useSheet } from "./Sheet";
 import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight } from "@/components/ui/Icons";
+import { waveTop } from "@/components/ui/Wave";
 
 /**
  * « Apprenez. Appliquez. Progressez. »: the catalogue, one card per training,
@@ -29,7 +30,7 @@ export function Formations() {
   const { open } = useSheet();
 
   return (
-    <section id="formations" aria-labelledby="formations-title" className="paper halo-tr relative bg-white">
+    <section id="formations" aria-labelledby="formations-title" className={`paper halo-tr relative bg-white ${waveTop("swell", false, true)}`}>
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[40rem]">
@@ -88,7 +89,7 @@ export function Formations() {
                   )}
                   <span className="mt-auto flex items-end justify-between gap-2 pt-4 sm:pt-5">
                     <span className="text-[13.5px] font-bold leading-tight text-ink sm:text-[15px]">{f.price}</span>
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-hair text-ink transition duration-300 group-hover:border-electric group-hover:bg-electric group-hover:text-white">
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-electric text-white transition duration-300 group-hover:bg-deep">
                       <ArrowUpRight className="h-4 w-4" />
                     </span>
                   </span>

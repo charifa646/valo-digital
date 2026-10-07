@@ -32,20 +32,34 @@ export function Header() {
   // on the homepage the sections light their entry; another page (« À propos ») lights its own while it is open
   const current = (id: string) => (home ? active === id : nav.some((n) => n.id === id && n.href === pathname));
 
-  // dark glass over the night-blue panels, light glass everywhere else:
-  // watch a thin strip at the top edge of the header, so it only turns dark once fully over the panel
+  // dark glass over the night-blue panels, light glass everywhere else: watch a thin strip at the top edge of the
+  // header, so it only turns dark once fully over the panel. A panel whose top is cut as a wave (`.wave-top`) counts
+  // from the middle of its wave, where its blue really begins.
   useEffect(() => {
     const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-dark]"));
-    const under = new Set<Element>();
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) e.isIntersecting ? under.add(e.target) : under.delete(e.target);
-        setLight(under.size === 0);
-      },
-      { rootMargin: "-14px 0px -97% 0px", threshold: 0 },
-    );
-    panels.forEach((p) => io.observe(p));
-    return () => io.disconnect();
+    let frame = 0;
+    const check = () => {
+      frame = 0;
+      const strip = innerHeight * 0.03;
+      setLight(
+        !panels.some((p) => {
+          const r = p.getBoundingClientRect();
+          const wave = p.classList.contains("wave-top") ? parseFloat(getComputedStyle(p).paddingTop) / 2 : 0;
+          return r.top + wave <= strip && r.bottom > 14;
+        }),
+      );
+    };
+    const soon = () => {
+      if (!frame) frame = requestAnimationFrame(check);
+    };
+    check();
+    addEventListener("scroll", soon, { passive: true });
+    addEventListener("resize", soon);
+    return () => {
+      cancelAnimationFrame(frame);
+      removeEventListener("scroll", soon);
+      removeEventListener("resize", soon);
+    };
   }, []);
 
   // the section on screen lights the menu entry it belongs to; a section no entry owns lights none

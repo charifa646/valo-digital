@@ -8,9 +8,12 @@ import { Mail, Phone, Pin } from "@/components/ui/Icons";
 import { Anchor, NavLink } from "./Scroll";
 import { FooterWordmark } from "./FooterWordmark";
 import { Words } from "@/components/ui/Words";
+import { waveTop } from "@/components/ui/Wave";
 
 const heading = "text-[12px] font-semibold uppercase tracking-[0.18em] text-white/50";
 const link = "text-[14.5px] font-medium text-white/80 transition hover:text-white";
+// the columns are named after their menu entries, found by id: « Accueil » came first in the menu and shifted them
+const columnTitle = (id: string) => nav.find((n) => n.id === id)?.label ?? "";
 
 /**
  * The last call with Valentin in his armchair, then the footer: a night-blue
@@ -26,7 +29,10 @@ export function Final() {
   ];
 
   return (
-    <div data-dark className="on-dark relative isolate overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_45%,#050E78_100%)] text-white">
+    <div
+      data-dark
+      className={`on-dark relative isolate overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_45%,#050E78_100%)] text-white ${waveTop("swell", true)}`}
+    >
       <div
         aria-hidden
         className="absolute right-[-10%] top-[-20%] -z-10 h-[620px] w-[620px] rounded-full bg-[radial-gradient(closest-side,rgba(143,163,255,.35),transparent)]"
@@ -63,7 +69,7 @@ export function Final() {
           />
           <Image
             src="/images/v3/valentin-assis.webp"
-            alt={`${fondateur.name}, ${fondateur.roles[1]}`}
+            alt={`${fondateur.name}, ${fondateur.roles[2]}`}
             width={990}
             height={1131}
             sizes="(min-width: 1024px) 500px, 90vw"
@@ -87,8 +93,8 @@ export function Final() {
               <p className="mt-2 text-[13.5px] font-semibold text-white/50">{footer.tags.join(" · ")}</p>
             </div>
 
-            <nav aria-label={nav[0].label}>
-              <p className={heading}>{nav[0].label}</p>
+            <nav aria-label={columnTitle("prestations")}>
+              <p className={heading}>{columnTitle("prestations")}</p>
               <ul className="mt-5 grid gap-3">
                 {prestations.offers.map((o) => (
                   <li key={o.id}>
@@ -100,8 +106,8 @@ export function Final() {
               </ul>
             </nav>
 
-            <nav aria-label={nav[1].label}>
-              <p className={heading}>{nav[1].label}</p>
+            <nav aria-label={columnTitle("formations")}>
+              <p className={heading}>{columnTitle("formations")}</p>
               <ul className="mt-5 grid gap-3">
                 {formations.items.slice(0, 4).map((f) => (
                   <li key={f.id}>
@@ -119,7 +125,7 @@ export function Final() {
             </nav>
 
             <div>
-              <p className={heading}>{nav[3].label}</p>
+              <p className={heading}>{columnTitle("contact")}</p>
               <ul className="mt-5 grid gap-3.5">
                 {reach.map(({ href, label, Icon, ext }) => (
                   <li key={href}>
