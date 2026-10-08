@@ -368,6 +368,18 @@ main {
       transform 0.9s var(--spring) var(--d, 0s);
   }
 
+  /* rise: very large words rising from below their own line, as the names of the pages do on arrival */
+  .js [data-reveal="rise"] {
+    opacity: 1;
+  }
+  .js [data-reveal="rise"] .rise-in {
+    transform: translate3d(0, 108%, 0);
+    transition: transform 1.3s var(--spring) var(--d, 0s);
+  }
+  .js [data-reveal="rise"][data-in] .rise-in {
+    transform: none;
+  }
+
   .js [data-reveal][data-in] {
     transform: none;
   }
@@ -617,6 +629,43 @@ main {
 }
 
 /* ------------------------------------------------------------------ */
+/* The very large titles of the homepage (8 October 2026)              */
+/* ------------------------------------------------------------------ */
+
+/* « Nos services », « Nos formations »: the first word full, the second drawn in outline (Charifa: « l'effet contour »),
+   both as large as the longer one allows on its line. They drift a little sideways as the page goes by (`--drift`,
+   from -1 to 1, set while scrolling); under the mouse the outline fills from the left. */
+.grand-titre {
+  container-type: inline-size;
+}
+.grand-titre-ligne {
+  display: block;
+  font-size: min(13.6cqw, 9.5rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  padding-bottom: 0.06em;
+  transform: translate3d(calc(var(--drift, 0) * -2.5%), 0, 0);
+}
+.contour {
+  --trait: #0714d8;
+  font-family: var(--font-contour, var(--font-montserrat, Montserrat)), system-ui, sans-serif;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: max(1px, 0.012em) var(--trait);
+  background: linear-gradient(90deg, var(--trait) 50%, transparent 50%) 100% 0 / 200% 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: background-position 1s var(--ease);
+}
+@media (hover: hover) {
+  .grand-titre:hover .contour {
+    background-position: 0 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
 /* The foot of the page, two proposals (7 October 2026)               */
 /* ------------------------------------------------------------------ */
 
@@ -637,6 +686,11 @@ main {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+}
+/* the block after the page, the foot, waits a moment: the page stays still for this much scrolling before the sheet
+   comes, so its last button is seen (Charifa, 8 October 2026: « on n'a même pas le temps de remarquer le bouton ») */
+#contenu + * {
+  margin-top: clamp(140px, 30svh, 300px);
 }
 .feuille {
   --feuille-r: clamp(26px, 3.6vw, 56px);

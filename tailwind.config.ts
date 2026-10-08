@@ -30,7 +30,8 @@ const config: Config = {
         soft: "#F1F3F9",
       },
       fontFamily: {
-        sans: ["var(--font-montserrat)", "system-ui", "sans-serif"],
+        // if the font's variable ever goes missing, the line still falls back to a sans-serif, never to the browser's serif
+        sans: ["var(--font-montserrat, Montserrat)", "system-ui", "sans-serif"],
       },
       maxWidth: {
         page: "1240px",

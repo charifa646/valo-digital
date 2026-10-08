@@ -127,6 +127,9 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
   const value = useMemo(() => ({ go, lock }), [go, lock]);
   return (
     <Ctx.Provider value={value}>
+      {/* On a change of page Next.js scrolls back to the page's first element, passing over the fixed and sticky ones:
+          without this first one in the flow it went to the foot of the page (8 October 2026). */}
+      <div aria-hidden className="h-0" />
       {children}
       <div ref={veil} aria-hidden className="veil" />
     </Ctx.Provider>

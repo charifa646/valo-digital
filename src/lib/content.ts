@@ -173,6 +173,8 @@ export type Offer = {
 
 export const prestations = typeset({
   label: "PRESTATIONS",
+  /** the very large title that opens the part on the homepage (Charifa's words, 8 October 2026) */
+  grand: "Nos services",
   title: "Vous préférez déléguer ?",
   lead: "Nous gérons vos réseaux sociaux, vos publicités et vos vidéos, ou tout votre marketing.",
   offers: [
@@ -217,6 +219,8 @@ export type Formation = { id: string; name: string; tag?: string; price: string;
 
 export const formations = typeset({
   label: "FORMATIONS",
+  /** the very large title that opens the part on the homepage (Charifa's words, 8 October 2026) */
+  grand: "Nos formations",
   title: ["Apprenez.", "Appliquez.", "Progressez."],
   lead: "Des formations pratiques pour développer les compétences qui font avancer votre activité.",
   items: [

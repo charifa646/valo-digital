@@ -1,13 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat } from "next/font/google";
+import localFont from "next/font/local";
 import { contact, fondateur, footer, hero } from "@/lib/content";
 import { RevealObserver } from "@/components/ui/RevealObserver";
 import "./globals.css";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
+// Montserrat lives in the repository (variable weights 100 to 900, the latin set: all of French), under the SIL Open
+// Font License (fonts/OFL.txt). Fetched from Google at each build, it once came out with a different name in the page
+// and in its stylesheet, and phones showed the whole site in a serif font (8 October 2026).
+const montserrat = localFont({
+  src: [{ path: "./fonts/montserrat-latin.woff2", weight: "100 900", style: "normal" }],
   display: "swap",
   variable: "--font-montserrat",
+});
+
+// the same SemiBold without overlapping contours, only for the words drawn in outline (`.contour`): an outline drawn on
+// the variable font shows the seams inside the letters
+const contour = localFont({
+  src: "./fonts/montserrat-600-contour.woff2",
+  weight: "600",
+  display: "swap",
+  preload: false,
+  variable: "--font-contour",
 });
 
 const plain = (s: string) => s.replace(/[  ]/g, " ");
@@ -46,7 +59,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={montserrat.variable} suppressHydrationWarning>
+    <html lang="fr" className={`${montserrat.variable} ${contour.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

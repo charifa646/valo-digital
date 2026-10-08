@@ -9,6 +9,7 @@ import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight } from "@/components/ui/Icons";
 import { Suite } from "@/components/ui/Suite";
+import { GrandTitre } from "@/components/ui/GrandTitre";
 import { waveTop } from "@/components/ui/Wave";
 
 /** One photo per training (file names change when a photo is replaced, so no cache can show the old one). */
@@ -74,8 +75,9 @@ export function Formations() {
   return (
     <section id="formations" aria-labelledby="formations-title" className={`paper halo-tr relative bg-white ${waveTop("swell", false, true)}`}>
       <div className="gutter mx-auto max-w-page pb-20 pt-24 lg:pb-28 lg:pt-32">
-        <div className="max-w-[40rem]">
-          <h2 id="formations-title" data-reveal="words" className="h2 balance text-ink">
+        <GrandTitre id="formations-title">{formations.grand}</GrandTitre>
+        <div className="mt-8 max-w-[40rem] lg:mt-12">
+          <h3 data-reveal="words" className="h2 balance text-ink">
             {formations.title.map((w, i) => (
               <span key={w}>
                 <Words from={i} className={i === 2 ? "text-electric" : ""}>
@@ -84,7 +86,7 @@ export function Formations() {
                 {i < formations.title.length - 1 ? " " : ""}
               </span>
             ))}
-          </h2>
+          </h3>
           <p
             data-reveal
             className="pretty mt-4 text-[16.5px] font-medium leading-relaxed text-body lg:text-[17.5px]"

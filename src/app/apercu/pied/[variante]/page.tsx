@@ -10,14 +10,15 @@ import { Prestations } from "@/components/site/Prestations";
 import { Formations } from "@/components/site/Formations";
 import { Methode } from "@/components/site/Methode";
 import { Fondateur } from "@/components/site/Fondateur";
-import { Scene } from "@/components/site/pied/Scene";
+import { Final } from "@/components/site/Final";
 import { Appel } from "@/components/site/pied/Appel";
 
 /**
  * The two proposals for the foot of the page (7 October 2026), on the whole homepage, at hidden addresses:
- * /apercu/pied/scene (A, « la scène ») and /apercu/pied/appel (B, « le grand appel »). Not indexed.
+ * /apercu/pied/scene (A, « la scène », chosen on 8 October 2026 and now the foot of every page) and
+ * /apercu/pied/appel (B, « le grand appel », kept in reserve). Not indexed.
  */
-const variantes = { scene: Scene, appel: Appel };
+const variantes = { scene: Final, appel: Appel };
 
 export const dynamicParams = false;
 export const generateStaticParams = () => Object.keys(variantes).map((variante) => ({ variante }));

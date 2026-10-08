@@ -10,6 +10,7 @@ import { Price } from "@/components/ui/Price";
 import { Suite } from "@/components/ui/Suite";
 import { WaveSpace } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
+import { GrandTitre } from "@/components/ui/GrandTitre";
 import { Calendrier } from "@/components/previews/Calendrier";
 import { Campagnes } from "@/components/previews/Campagnes";
 import { Montage } from "@/components/previews/Montage";
@@ -86,10 +87,18 @@ export function Prestations({ full = false }: { full?: boolean }) {
   return (
     <section id="prestations" aria-labelledby="prestations-title" className={`paper relative ${full ? "" : "halo-tl"}`}>
       <div className="gutter mx-auto max-w-page pb-14 pt-8 lg:pb-20 lg:pt-10">
-        <div className="max-w-[40rem]">
-          <h2 id="prestations-title" data-reveal="words" className="h2 balance text-ink">
-            <Words>{prestations.title}</Words>
-          </h2>
+        {/* on the homepage the part opens on a very large title; the page of all the services has its own */}
+        {!full && <GrandTitre id="prestations-title">{prestations.grand}</GrandTitre>}
+        <div className={`max-w-[40rem] ${full ? "" : "mt-8 lg:mt-12"}`}>
+          {full ? (
+            <h2 id="prestations-title" data-reveal="words" className="h2 balance text-ink">
+              <Words>{prestations.title}</Words>
+            </h2>
+          ) : (
+            <h3 data-reveal="words" className="h2 balance text-ink">
+              <Words>{prestations.title}</Words>
+            </h3>
+          )}
           <p
             data-reveal
             className="pretty mt-4 text-[16.5px] font-medium leading-relaxed text-body lg:text-[17.5px]"
