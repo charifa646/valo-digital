@@ -12,7 +12,7 @@ const plus = ["text-sun", "text-[#8FA3FF]", "text-sun"];
 
 export function Chiffres({ className = "" }: { className?: string }) {
   return (
-    <div data-reveal className={`bg-night px-6 py-12 text-white sm:px-12 sm:py-14 lg:px-16 lg:py-16 ${className}`}>
+    <div data-reveal data-teinte="nuit" className={`bg-night px-6 py-12 text-white sm:px-12 sm:py-14 lg:px-16 lg:py-16 ${className}`}>
       <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
         <div>
           <p className="text-[clamp(1.35rem,1.05rem+1vw,1.9rem)] font-extrabold leading-[1.05] tracking-[-0.01em]">{figuresBloc.title}</p>

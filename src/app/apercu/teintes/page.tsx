@@ -14,7 +14,10 @@ import { Teintes } from "@/components/site/Teintes";
 
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
-/** The homepage with the colour of each part changing as on instrument.com (8 October 2026), at a hidden address. */
+/**
+ * The homepage with the colour of the page changing as on instrument.com, from the parts already in colour: the
+ * figures' night blue and the last call's blue (8 October 2026), at a hidden address.
+ */
 export default function ApercuTeintes() {
   return (
     <ScrollProvider>

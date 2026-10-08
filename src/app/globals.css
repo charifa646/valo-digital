@@ -629,48 +629,60 @@ main {
 }
 
 /* ------------------------------------------------------------------ */
-/* The colour of the page, part by part, as on instrument.com          */
-/* (proposal of 8 October 2026, at /apercu/teintes: `Teintes.tsx`)     */
+/* The colour of the page, as on instrument.com, taken from the parts  */
+/* that already have one (proposal of 8 October 2026, /apercu/teintes) */
 /* ------------------------------------------------------------------ */
 
-/* The page itself changes colour in a short fade, so every part without a colour of its own takes it: VALO's yellow
-   for « Nos services » (dark words stay readable on it, the white cards stand out), its night blue for the method
-   (its words turn light, its accent yellow). The parts with their own white or light blue keep it, and their waves
-   rise over the colour. */
+/* No new colour (Charifa: « utiliser les sections déjà en couleur »). When the night-blue block of the figures reaches
+   the middle of the screen, the page itself takes its night blue in a short fade, so the block melts into it and the
+   figures fill the screen; the parts around it without a colour of their own take it too, their words turning light.
+   When the blue sheet of the last call comes, the page it covers takes its blue instead of darkening. `Teintes.tsx`
+   says which colour is on (`html[data-teinte]`); the veil is in `Scroll.tsx`. Without the script the page stays light. */
 html[data-teintes] body {
   transition: background-color 0.6s var(--ease);
-}
-html[data-teintes][data-teinte="soleil"] body {
-  background-color: #fdec05;
-}
-html[data-teintes][data-teinte="soleil"] #prestations {
-  --halo: none;
 }
 html[data-teintes][data-teinte="nuit"] body {
   background-color: #040b52;
 }
-html[data-teintes] #methode {
-  background-color: transparent;
+html[data-teintes] :is(#confiance-title, #besoin-title, [data-anneaux], #besoin .filigrane > span) {
+  transition:
+    color 0.6s var(--ease),
+    opacity 0.6s var(--ease);
 }
-html[data-teintes] #methode :is(h2, h2 span, [data-step] h3, [data-step] p) {
-  transition: color 0.6s var(--ease);
-}
-html[data-teintes][data-teinte="nuit"] #methode h2,
-html[data-teintes][data-teinte="nuit"] #methode [data-step] h3 {
+html[data-teintes][data-teinte="nuit"] :is(#confiance-title, #besoin-title) {
   color: #fff;
 }
-html[data-teintes][data-teinte="nuit"] #methode h2 .text-electric {
-  color: #fdec05;
+html[data-teintes][data-teinte="nuit"] [data-anneaux] {
+  opacity: 0.14;
 }
-html[data-teintes][data-teinte="nuit"] #methode [data-step] p {
-  color: rgba(255, 255, 255, 0.72);
-}
-html[data-teintes][data-teinte="nuit"] #methode .filigrane > span {
+html[data-teintes][data-teinte="nuit"] #besoin .filigrane > span {
   color: rgba(255, 255, 255, 0.05);
 }
-html[data-teintes][data-teinte="nuit"] #methode .curve-draw,
-html[data-teintes][data-teinte="nuit"] #methode .curve-dot {
-  stroke: #8fa3ff;
+/* phones and tablets: the needs are an index on the page itself (on computers they are white doors, left as they are) */
+@media (max-width: 1023px) {
+  html[data-teintes] #besoin :is([data-i], [data-i] *, .border-hair) {
+    transition:
+      color 0.6s var(--ease),
+      border-color 0.6s var(--ease);
+  }
+  html[data-teintes][data-teinte="nuit"] #besoin [data-i],
+  html[data-teintes][data-teinte="nuit"] #besoin [data-i] .text-ink {
+    color: #fff;
+  }
+  html[data-teintes][data-teinte="nuit"] #besoin [data-i] .text-body {
+    color: rgba(255, 255, 255, 0.72);
+  }
+  html[data-teintes][data-teinte="nuit"] #besoin [data-i] .text-mute {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  html[data-teintes][data-teinte="nuit"] #besoin .border-hair {
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+}
+/* the sheet of the last call: the page it covers fades into its blue once it is a third of the way up */
+html[data-teintes] .veil {
+  background: #0714d8;
+  transition: opacity 0.6s var(--ease);
 }
 
 /* ------------------------------------------------------------------ */

@@ -85,7 +85,7 @@ function OfferCard({ o, i, still = false, anchor = false }: { o: Offer; i: numbe
 export function Prestations({ full = false }: { full?: boolean }) {
   const offers = prestations.offers;
   return (
-    <section id="prestations" aria-labelledby="prestations-title" data-teinte="soleil" className={`paper relative ${full ? "" : "halo-tl"}`}>
+    <section id="prestations" aria-labelledby="prestations-title" className={`paper relative ${full ? "" : "halo-tl"}`}>
       <div className="gutter mx-auto max-w-page pb-14 pt-8 lg:pb-20 lg:pt-10">
         {/* on the homepage the part opens on a very large title; the page of all the services has its own */}
         {!full && <GrandTitre id="prestations-title">{prestations.grand}</GrandTitre>}
