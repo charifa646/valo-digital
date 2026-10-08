@@ -762,3 +762,11 @@ export const menus: Record<"prestations" | "formations", Menu> = {
     links: formations.items.map((f) => ({ id: `formation-${f.id}`, name: f.name, price: f.price })),
   },
 };
+
+/**
+ * The order shown on a phone, playing by itself, right after « De quoi avez-vous besoin aujourd'hui ? » (Charifa,
+ * 8 October 2026). Everything on its screen is the site's own words; the title is proposed to her for validation.
+ */
+export const demo = typeset({
+  title: "Voici comment passer commande.",
+});

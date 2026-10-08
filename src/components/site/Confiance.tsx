@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { confiance, type ClientLogo } from "@/lib/content";
 import { Monogram } from "@/components/brand/Logo";
 import { Chiffres } from "./Chiffres";
@@ -27,9 +28,54 @@ function Row({ logos, reverse = false }: { logos: ClientLogo[]; reverse?: boolea
 }
 
 /**
+ * The field photos that fan out of the figures while the page turns night blue (Charifa, 8 October 2026:
+ * « je veux voir »): VALO's own trainings and events, printed with a white edge, rising from the block's top and
+ * spreading above it, their lower edge pinned over it, then folding back when the colour goes. `x` is in hundredths of the block's width, `y` in
+ * pixels from its top, `i` the order they leave in (from the middle outwards); `tel` places the four kept on phones.
+ * Decorative, hidden from screen readers.
+ */
+type Spot = { x: number; y: number; r: number; i: number };
+const wall: (Spot & { src: string; tel?: Spot })[] = [
+  { src: "akili", x: 9, y: -120, r: -7, i: 2 },
+  { src: "forum-du-digital", x: 26, y: -150, r: 3, i: 1, tel: { x: 17, y: -78, r: -8, i: 1 } },
+  { src: "valo-connect-2", x: 43, y: -128, r: -3, i: 0, tel: { x: 39, y: -96, r: -2, i: 0 } },
+  { src: "simplon-reconversion", x: 60, y: -156, r: 4, i: 0, tel: { x: 61, y: -86, r: 4, i: 0 } },
+  { src: "seteck", x: 77, y: -124, r: -4, i: 1, tel: { x: 83, y: -100, r: 9, i: 1 } },
+  { src: "universite-ki-zerbo", x: 94, y: -146, r: 7, i: 2 },
+];
+
+function Mur() {
+  return (
+    <div aria-hidden className="mur">
+      {wall.map((p) => (
+        <span
+          key={p.src}
+          className="mur-photo"
+          data-tel={p.tel ? "" : undefined}
+          style={
+            {
+              "--X": p.x,
+              "--Y": p.y,
+              "--R": `${p.r}deg`,
+              "--I": p.i,
+              "--x": p.tel?.x ?? p.x,
+              "--y": p.tel?.y ?? p.y,
+              "--r": `${p.tel?.r ?? p.r}deg`,
+              "--i": p.tel?.i ?? p.i,
+            } as CSSProperties
+          }
+        >
+          <Image src={`/images/terrain/${p.src}.webp`} alt="" fill sizes="(min-width: 1024px) 220px, (min-width: 640px) 24vw, 34vw" className="object-cover" />
+        </span>
+      ))}
+    </div>
+  );
+}
+
+/**
  * « Ils nous ont fait confiance », right after the homepage's top: the VALO mark
  * in its rings, the sentence, the clients' logos in two rows going opposite
- * ways, then the three key figures (`Chiffres.tsx`).
+ * ways, then the three key figures (`Chiffres.tsx`) and their field photos.
  */
 export function Confiance() {
   const logos = confiance.logos;
@@ -55,14 +101,17 @@ export function Confiance() {
       <div
         data-reveal
         data-preload
-        className="relative mt-8 grid gap-3 [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] sm:gap-4 lg:mt-10"
+        className="logos-rangs relative mt-8 grid gap-3 [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] sm:gap-4 lg:mt-10"
       >
         <Row logos={logos.slice(0, half)} />
         <Row logos={logos.slice(half)} reverse />
       </div>
 
       <div className="gutter mx-auto mt-12 max-w-page lg:mt-16">
-        <Chiffres />
+        <div className="relative">
+          <Mur />
+          <Chiffres className="relative z-[1]" />
+        </div>
       </div>
     </section>
   );

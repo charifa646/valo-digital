@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { contact, fondateur, footer, hero } from "@/lib/content";
 import { RevealObserver } from "@/components/ui/RevealObserver";
+import { Transitions } from "@/components/site/Transitions";
+import { Aimants } from "@/components/site/Aimants";
 import "./globals.css";
 
 // Montserrat lives in the repository (variable weights 100 to 900, the latin set: all of French), under the SIL Open
@@ -75,6 +77,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         {children}
         <RevealObserver />
+        <Transitions />
+        <Aimants />
       </body>
     </html>
   );

@@ -133,7 +133,7 @@ export function Header() {
 
   return (
     <LazyMotion features={domAnimation} strict>
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-[calc(var(--frame)+6px)] pt-[calc(var(--frame)+6px)] sm:pt-[calc(var(--frame)+10px)]">
+      <header className="entete pointer-events-none fixed inset-x-0 top-0 z-50 px-[calc(var(--frame)+6px)] pt-[calc(var(--frame)+6px)] sm:pt-[calc(var(--frame)+10px)]">
         <div ref={bar} className="relative mx-auto max-w-[1200px]">
           <div
             className={`pointer-events-auto flex h-[58px] items-center justify-between gap-4 rounded-full pl-5 pr-2 transition-[background,box-shadow,color] duration-500 sm:h-[64px] sm:pl-6 ${
@@ -227,7 +227,10 @@ export function Header() {
               >
                 <div className="grid grid-cols-[0.72fr_2fr] gap-2 rounded-2xl border border-hair bg-white p-2 shadow-float">
                   <div className="flex flex-col justify-between gap-10 rounded-[4px] bg-electric p-6 text-white">
-                    <p className="text-[30px] font-semibold leading-none tracking-[-0.035em]">{nav.find((n) => n.id === sub)?.label}</p>
+                    {/* the name that grows into the page's title on the way there (`Transitions.tsx`) */}
+                    <p data-titre className="self-start text-[30px] font-semibold leading-none tracking-[-0.035em]">
+                      {nav.find((n) => n.id === sub)?.label}
+                    </p>
                     <Link
                       href={menus[sub].page}
                       onClick={() => setSub(null)}

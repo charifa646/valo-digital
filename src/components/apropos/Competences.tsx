@@ -2,14 +2,13 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import { apropos } from "@/lib/content";
 import { Words } from "@/components/ui/Words";
-import { WaveSpace, waveTop } from "@/components/ui/Wave";
 
 /** The eleven skills learnt on his own, as a numbered index beside Valentin in his blue waistcoat (no icons since 7 October 2026). */
 export function Competences() {
   const c = apropos.competences;
   return (
-    <section aria-labelledby="competences-title" className={`paper relative bg-white ${waveTop("ripple", false, true)}`}>
-      <div className="gutter mx-auto grid max-w-page items-center gap-14 pb-16 pt-16 lg:grid-cols-[1.25fr_0.75fr] lg:gap-16 lg:pb-24 lg:pt-20">
+    <section aria-labelledby="competences-title" className="paper relative bg-white">
+      <div className="gutter mx-auto grid max-w-page items-center gap-14 py-20 lg:grid-cols-[1.25fr_0.75fr] lg:gap-16 lg:py-28">
         <div>
           <h2 id="competences-title" data-reveal="words" className="h2 balance max-w-[22ch] text-ink">
             <Words>{c.title}</Words>
@@ -42,7 +41,6 @@ export function Competences() {
           </div>
         </figure>
       </div>
-      <WaveSpace />
     </section>
   );
 }

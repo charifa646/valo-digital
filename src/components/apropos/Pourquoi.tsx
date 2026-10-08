@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { pourquoi } from "@/lib/content";
-import { waveTop } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 
 /**
@@ -11,7 +10,7 @@ import { Words } from "@/components/ui/Words";
  */
 export function Pourquoi() {
   return (
-    <section id="pourquoi" aria-labelledby="pourquoi-title" className={`paper relative bg-ice ${waveTop("ripple", true, true)}`}>
+    <section id="pourquoi" aria-labelledby="pourquoi-title" className="paper relative bg-ice">
       <div className="gutter mx-auto max-w-page py-24 lg:py-32">
         <div data-dark data-teinte="nuit" data-reveal="curtain" className="relative isolate overflow-hidden rounded-2xl bg-night text-white">
           <Image

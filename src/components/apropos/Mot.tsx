@@ -1,6 +1,5 @@
 import type { CSSProperties } from "react";
 import { fondateur } from "@/lib/content";
-import { WaveSpace } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 
 /**
@@ -12,7 +11,7 @@ import { Words } from "@/components/ui/Words";
 export function Mot() {
   return (
     <section id="mot" aria-labelledby="mot-title" className="paper relative bg-ice">
-      <div className="gutter mx-auto max-w-page pb-16 pt-6 lg:pb-24 lg:pt-10">
+      <div className="gutter mx-auto max-w-page pb-24 pt-6 lg:pb-32 lg:pt-10">
         <div className="mx-auto max-w-[44rem]">
           <h2 id="mot-title" data-reveal="rule" className="tag">
             {fondateur.label}
@@ -44,7 +43,6 @@ export function Mot() {
           </p>
         </div>
       </div>
-      <WaveSpace />
     </section>
   );
 }
