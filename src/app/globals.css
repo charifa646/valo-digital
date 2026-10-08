@@ -687,10 +687,14 @@ main {
   visibility: hidden;
   pointer-events: none;
 }
-/* the block after the page, the foot, waits a moment: the page stays still for this much scrolling before the sheet
-   comes, so its last button is seen (Charifa, 8 October 2026: « on n'a même pas le temps de remarquer le bouton ») */
+/* The page's last part goes on scrolling until its last rows are about the middle of the screen before the page is
+   held: its own background continues below them (Charifa, 8 October 2026: « on ne remarque pas vraiment les dernières
+   rangées »). Then the page stays still a moment before the sheet comes, so its last button is seen. */
+#contenu > :last-child {
+  padding-bottom: max(0px, calc(46svh - 7rem));
+}
 #contenu + * {
-  margin-top: clamp(140px, 30svh, 300px);
+  margin-top: clamp(70px, 12svh, 140px);
 }
 .feuille {
   --feuille-r: clamp(26px, 3.6vw, 56px);
