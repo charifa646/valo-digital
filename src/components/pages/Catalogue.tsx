@@ -6,7 +6,6 @@ import { demande, formations } from "@/lib/content";
 import { useSheet } from "@/components/site/Sheet";
 import { formationPhotos } from "@/components/site/Formations";
 import { BtnInner, btn } from "@/components/ui/Action";
-import { WaveSpace } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 
 /**
@@ -84,7 +83,6 @@ export function Catalogue() {
           ))}
         </ul>
       </div>
-      <WaveSpace />
     </section>
   );
 }

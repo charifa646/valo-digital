@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { fondateur } from "@/lib/content";
-import { WaveSpace, waveTop } from "@/components/ui/Wave";
+import { waveTop } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Suite } from "@/components/ui/Suite";
@@ -86,7 +86,6 @@ export function Fondateur() {
           </Suite>
         </div>
       </div>
-      <WaveSpace />
     </section>
   );
 }

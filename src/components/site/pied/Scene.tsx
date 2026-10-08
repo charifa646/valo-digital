@@ -6,7 +6,6 @@ import { final } from "@/lib/content";
 import { DemandeButton } from "../Sheet";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Words, count } from "@/components/ui/Words";
-import { waveTop } from "@/components/ui/Wave";
 import { Bas, Colonnes, Contacts, Marque } from "./Liens";
 
 const name = ["V", "A", "L", "O"];
@@ -29,12 +28,12 @@ const line1 = final.title.slice(0, cut).trim();
 const line2 = final.title.slice(cut);
 
 /**
- * Proposal A for the foot of the page, « la scène » (7 October 2026). The last call is a blue curtain: its title very
- * large, the way to write to VALO, its numbers written large, the services and trainings. As the page reaches its end
- * the curtain rises, its hem a wave casting its shadow, and uncovers the stage pinned under it: the name VALO standing
- * on a floor that shines like a mirror, Valentin in his armchair in front, the light coming on as the curtain goes up
- * and the letters rising last. Under the mouse a light passes through the letters. With « reduce motion », all is lit
- * and in place.
+ * Proposal A for the foot of the page, « la scène » (7 October 2026). The last call is a blue sheet with rounded corners
+ * that slides over the page (held in place behind it): its title very large, the way to write to VALO, its numbers
+ * written large, the brand, the services and trainings. As the page reaches its end the sheet lifts, casting its
+ * shadow, and uncovers the stage pinned under it: the name VALO standing on a floor that shines like a mirror,
+ * Valentin in his armchair in front, the light coming on as the sheet goes up and the letters rising last. Under the
+ * mouse a light passes through the letters. With « reduce motion », all is lit and in place.
  */
 export function Scene() {
   const curtain = useRef<HTMLDivElement>(null);
@@ -74,10 +73,10 @@ export function Scene() {
   };
 
   return (
-    <div data-dark className={`on-dark relative isolate bg-electric text-white ${waveTop("swell", true)}`}>
-      {/* the curtain */}
-      <div ref={curtain} className="relative z-[1]">
-        <div className="relative overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_55%,#0712B0_100%)]">
+    <div data-dark className="on-dark relative isolate z-[2] text-white">
+      {/* the sheet, which lifts off the stage at the end */}
+      <div ref={curtain} className="feuille feuille-rideau">
+        <div className="relative overflow-hidden rounded-[inherit] bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_55%,#0712B0_100%)]">
           <div
             aria-hidden
             className="absolute right-[-12%] top-[-18%] -z-10 h-[680px] w-[680px] rounded-full bg-[radial-gradient(closest-side,rgba(143,163,255,.32),transparent)]"
@@ -110,9 +109,6 @@ export function Scene() {
             <Bas className="mt-12 lg:mt-16" />
           </footer>
         </div>
-        <svg aria-hidden className="hem" viewBox="0 0 1440 120" preserveAspectRatio="none">
-          <path d="M0 0H1440V56C1230 95 1010 86 760 54C500 20 240 25 0 69Z" fill="#0712B0" />
-        </svg>
       </div>
 
       {/* the stage, pinned under the curtain */}

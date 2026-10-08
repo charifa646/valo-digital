@@ -5,7 +5,6 @@ import { Monogram } from "@/components/brand/Logo";
 import { DemandeButton } from "../Sheet";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Words, count } from "@/components/ui/Words";
-import { waveTop } from "@/components/ui/Wave";
 import { Bas, Colonnes, Contacts, Marque } from "./Liens";
 
 const cut = final.title.indexOf("votre");
@@ -33,16 +32,14 @@ function Bande() {
 }
 
 /**
- * Proposal B for the foot of the page, « le grand appel » (7 October 2026): one blue block, the last call's title very
- * large with Valentin in his armchair beside it, then VALO's four trades passing in very large letters (as The Alien
+ * Proposal B for the foot of the page, « le grand appel » (7 October 2026): one blue sheet with rounded top corners
+ * that slides over the page (held in place behind it), the last call's title very large with Valentin in his armchair
+ * beside it, then VALO's four trades passing in very large letters (as The Alien
  * does with its own words), then the numbers written large, the services, the trainings and the menu.
  */
 export function Appel() {
   return (
-    <div
-      data-dark
-      className={`on-dark relative isolate overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_45%,#050E78_100%)] text-white ${waveTop("swell", true)}`}
-    >
+    <div data-dark className="feuille on-dark isolate overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_45%,#050E78_100%)] text-white">
       <div
         aria-hidden
         className="absolute right-[-10%] top-[-12%] -z-10 h-[680px] w-[680px] rounded-full bg-[radial-gradient(closest-side,rgba(143,163,255,.35),transparent)]"

@@ -7,7 +7,6 @@ import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight } from "@/components/ui/Icons";
 import { Price } from "@/components/ui/Price";
-import { WaveSpace } from "@/components/ui/Wave";
 
 /**
  * « Besoin d'un accompagnement plus ciblé ? », on the page of all the services since 7 October 2026: the title stays
@@ -83,7 +82,6 @@ export function Solutions() {
           })}
         </ol>
       </div>
-      <WaveSpace />
     </section>
   );
 }

@@ -48,12 +48,19 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
       el.style.transition = "";
     }
     const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header")) || 80;
-    const offset = -header - 8;
-    // Lenis already honours the scroll-padding-top set on <html> (header height)
-    if (lenis.current) lenis.current.scrollTo(el, { duration: 1.3 });
+    // the page is held in place while the last call slides over it (`#contenu` is sticky): a section of it is measured
+    // where it really lies, not where it is held, by letting go of it for the time of the measure
+    const main = document.getElementById("contenu");
+    const held = !!main && main.contains(el);
+    if (held) main!.style.position = "static";
+    let top = el.getBoundingClientRect().top + window.scrollY - header - 8;
+    // never past the point where the page is held: the sheet would cover what the visitor came to see
+    if (held) top = Math.min(top, main!.offsetHeight - window.innerHeight);
+    if (held) main!.style.position = "";
+    if (lenis.current) lenis.current.scrollTo(top, { duration: 1.3 });
     else {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + offset, behavior: reduce ? "auto" : "smooth" });
+      window.scrollTo({ top, behavior: reduce ? "auto" : "smooth" });
     }
     if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
     el.focus({ preventScroll: true });
@@ -71,6 +78,43 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
     document.documentElement.style.overflow = on ? "hidden" : "";
   }, []);
 
+  // The last call (the block after `#contenu`) slides over the page like a sheet (Charifa, 7 October 2026): the page
+  // stays where it is once its end reaches the bottom of the screen (`#contenu` is sticky, its height kept here), and a
+  // veil darkens it as the sheet covers it.
+  const veil = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const main = document.getElementById("contenu");
+    const sheet = main?.nextElementSibling as HTMLElement | null;
+    const v = veil.current;
+    if (!main || !sheet || !v) return;
+    const size = () => main.style.setProperty("--main-h", `${main.offsetHeight}px`);
+    const ro = new ResizeObserver(size);
+    ro.observe(main);
+    size();
+    let frame = 0;
+    let last = -1;
+    const update = () => {
+      frame = 0;
+      const cover = Math.min(1, Math.max(0, (window.innerHeight - sheet.getBoundingClientRect().top) / window.innerHeight));
+      if (cover === last) return;
+      last = cover;
+      v.style.opacity = (cover * 0.5).toFixed(3);
+      v.style.visibility = cover > 0 ? "visible" : "hidden";
+    };
+    const soon = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", soon, { passive: true });
+    window.addEventListener("resize", soon);
+    return () => {
+      ro.disconnect();
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", soon);
+      window.removeEventListener("resize", soon);
+    };
+  }, []);
+
   // arriving from another page at one of this page's places (« /services#diagnostic », « /a-propos#mot »): glide the
   // last bit with the header taken into account, show it at once if it was waiting for its entrance, and say hello
   useEffect(() => {
@@ -81,7 +125,12 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
   }, [go]);
 
   const value = useMemo(() => ({ go, lock }), [go, lock]);
-  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
+  return (
+    <Ctx.Provider value={value}>
+      {children}
+      <div ref={veil} aria-hidden className="veil" />
+    </Ctx.Provider>
+  );
 }
 
 type AnchorProps = { to: string; className?: string; children: ReactNode; onClick?: () => void } & Omit<

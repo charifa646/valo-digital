@@ -2,7 +2,6 @@ import type { CSSProperties } from "react";
 import { apropos, confiance } from "@/lib/content";
 import { LogoTile } from "@/components/site/Confiance";
 import { Rich } from "@/components/ui/Rich";
-import { WaveSpace } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 
 /** « Ils nous ont fait confiance », all the logos at once on white cards, then the mission. */
@@ -36,7 +35,6 @@ export function References() {
           <Rich text={confiance.mission} mark="text-electric" />
         </p>
       </div>
-      <WaveSpace />
     </section>
   );
 }

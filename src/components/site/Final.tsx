@@ -9,7 +9,6 @@ import { NavLink, PageLink } from "./Scroll";
 import { DemandeButton } from "./Sheet";
 import { FooterWordmark } from "./FooterWordmark";
 import { Words } from "@/components/ui/Words";
-import { waveTop } from "@/components/ui/Wave";
 
 const heading = "text-[12px] font-semibold uppercase tracking-[0.18em] text-white/50";
 const link = "text-[14.5px] font-medium text-white/80 transition hover:text-white";
@@ -30,10 +29,7 @@ export function Final() {
   ];
 
   return (
-    <div
-      data-dark
-      className={`on-dark relative isolate overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_45%,#050E78_100%)] text-white ${waveTop("swell", true)}`}
-    >
+    <div data-dark className="feuille on-dark isolate overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_45%,#050E78_100%)] text-white">
       <div
         aria-hidden
         className="absolute right-[-10%] top-[-20%] -z-10 h-[620px] w-[620px] rounded-full bg-[radial-gradient(closest-side,rgba(143,163,255,.35),transparent)]"

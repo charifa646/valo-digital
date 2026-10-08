@@ -620,6 +620,32 @@ main {
 /* The foot of the page, two proposals (7 October 2026)               */
 /* ------------------------------------------------------------------ */
 
+/* The last call slides over the page like a sheet, its top corners rounded, instead of rising on a wave (Charifa,
+   7 October 2026: « la vague ne rend pas bien »). The page stays where it is once its end reaches the bottom of the
+   screen (its height, `--main-h`, is kept by Scroll.tsx), and a veil darkens it as the sheet covers it. Without the
+   script the page simply scrolls. */
+#contenu {
+  position: sticky;
+  top: min(0px, calc(100svh - var(--main-h, 100000px)));
+  z-index: 0;
+}
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: #02062e;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.feuille {
+  --feuille-r: clamp(26px, 3.6vw, 56px);
+  position: relative;
+  z-index: 2;
+  border-radius: var(--feuille-r) var(--feuille-r) 0 0;
+  box-shadow: 0 -30px 60px -30px rgba(2, 6, 46, 0.55);
+}
+
 /* a link whose line draws itself under the mouse, from the left */
 .link-draw {
   background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 2px;
@@ -762,17 +788,12 @@ main {
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 14%);
   mask-image: linear-gradient(90deg, transparent 0%, #000 14%);
 }
-/* the hem of the blue curtain, a wave, with the shadow it casts on the stage as it rises */
-.hem {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  top: calc(100% - 1px);
-  height: var(--wave-h, 70px);
-  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.45));
-  /* the shadow falls on the stage only, never back on the curtain */
-  clip-path: inset(0 0 -160px 0);
-  pointer-events: none;
+/* A: the curtain is the sheet; its lower corners are rounded too, and it casts its shadow on the stage as it lifts */
+.feuille-rideau {
+  border-radius: var(--feuille-r);
+  box-shadow:
+    0 -30px 60px -30px rgba(2, 6, 46, 0.55),
+    0 40px 70px -24px rgba(0, 0, 0, 0.6);
 }
 
 /* B « le grand appel »: the four words of VALO's trade passing in very large letters */
