@@ -4,9 +4,9 @@ import { useEffect } from "react";
 
 /**
  * The colour of the page changing as on instrument.com, from the parts that already have one (Charifa, 8 October
- * 2026): while an element marked `data-teinte` (the night-blue block of the figures) crosses the middle of the screen,
- * the whole page takes its colour in a short fade, and goes back to its light blue after. The colours are in
- * globals.css, under `html[data-teintes]`; the last call's sheet is handled by the veil in `Scroll.tsx`.
+ * 2026): while an element marked `data-teinte` crosses the middle of the screen (the first one in the page when two
+ * are nested), the whole page takes its colour in a short fade (`html[data-teinte]`), and is light again after. The
+ * colours are in globals.css. The header is told, so its glass turns dark over the colour.
  */
 export function Teintes() {
   useEffect(() => {
@@ -21,8 +21,11 @@ export function Teintes() {
         const r = m.getBoundingClientRect();
         return r.top <= mid && r.bottom >= mid;
       });
-      const t = on?.dataset.teinte ?? "";
-      if (root.dataset.teinte !== t) root.dataset.teinte = t;
+      const t = on?.dataset.teinte;
+      if ((root.dataset.teinte ?? undefined) === t) return;
+      if (t) root.dataset.teinte = t;
+      else delete root.dataset.teinte;
+      window.dispatchEvent(new Event("teinte"));
     };
     const soon = () => {
       if (!frame) frame = requestAnimationFrame(update);

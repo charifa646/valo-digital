@@ -98,10 +98,7 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
       const cover = Math.min(1, Math.max(0, (window.innerHeight - sheet.getBoundingClientRect().top) / window.innerHeight));
       if (cover === last) return;
       last = cover;
-      // with the colours of the page on (`Teintes.tsx`), the page it covers takes the sheet's blue at once, as on
-      // instrument.com, instead of darkening little by little
-      const flood = document.documentElement.dataset.teintes !== undefined;
-      v.style.opacity = flood ? (cover > 0.3 ? "0.94" : "0") : (cover * 0.5).toFixed(3);
+      v.style.opacity = (cover * 0.5).toFixed(3);
       v.style.visibility = cover > 0 ? "visible" : "hidden";
     };
     const soon = () => {

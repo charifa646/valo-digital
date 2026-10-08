@@ -4,6 +4,7 @@ import { ScrollProvider } from "@/components/site/Scroll";
 import { SheetProvider } from "@/components/site/Sheet";
 import { Header } from "@/components/site/Header";
 import { Final } from "@/components/site/Final";
+import { Teintes } from "@/components/site/Teintes";
 import { AproposHero } from "@/components/apropos/AproposHero";
 import { QuiSuisJe } from "@/components/apropos/QuiSuisJe";
 import { Mot } from "@/components/apropos/Mot";
@@ -43,6 +44,7 @@ export default function APropos() {
           <References />
         </main>
         <Final />
+        <Teintes />
       </SheetProvider>
     </ScrollProvider>
   );

@@ -9,6 +9,7 @@ import { Formations } from "@/components/site/Formations";
 import { Methode } from "@/components/site/Methode";
 import { Fondateur } from "@/components/site/Fondateur";
 import { Final } from "@/components/site/Final";
+import { Teintes } from "@/components/site/Teintes";
 
 /**
  * One page, kept to the essential (Charifa, 7 October 2026): hero, clients and figures, needs, the first offers and
@@ -31,6 +32,7 @@ export default function Page() {
           <Fondateur />
         </main>
         <Final />
+        <Teintes />
       </SheetProvider>
     </ScrollProvider>
   );

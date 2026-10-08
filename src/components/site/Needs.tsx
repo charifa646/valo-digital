@@ -28,12 +28,12 @@ type DoorProps = {
 function Door({ to, onOpen, set, children, ...rest }: DoorProps) {
   if (onOpen)
     return (
-      <button type="button" ref={set} onClick={onOpen} aria-haspopup="dialog" {...rest} className={`${rest.className} w-full text-left`}>
+      <button type="button" ref={set} onClick={onOpen} aria-haspopup="dialog" data-carte {...rest} className={`${rest.className} w-full text-left`}>
         {children}
       </button>
     );
   return (
-    <Anchor to={to} ref={set} {...rest}>
+    <Anchor to={to} ref={set} data-carte {...rest}>
       {children}
     </Anchor>
   );

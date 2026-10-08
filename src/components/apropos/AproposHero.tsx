@@ -13,6 +13,7 @@ export function AproposHero() {
     <section id="top" aria-labelledby="apropos-title" className="relative">
       <div
         data-dark
+        data-teinte="bleu"
         className="on-dark relative isolate overflow-hidden bg-[radial-gradient(110%_80%_at_50%_0%,#3551FF_0%,#0714D8_52%,#0510A8_100%)] text-white"
       >
         <div className="gutter mx-auto grid max-w-page items-center gap-16 pb-32 pt-[118px] sm:pt-[136px] lg:grid-cols-[1.06fr_0.94fr] lg:gap-16 lg:pb-44 lg:pt-[160px]">

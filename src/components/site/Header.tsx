@@ -78,11 +78,13 @@ export function Header() {
       frame = 0;
       const strip = innerHeight * 0.03;
       setLight(
-        !panels.some((p) => {
-          const r = p.getBoundingClientRect();
-          const wave = p.classList.contains("wave-top") ? parseFloat(getComputedStyle(p).paddingTop) / 2 : 0;
-          return r.top + wave <= strip && r.bottom > 14;
-        }),
+        // the page itself in colour (`Teintes.tsx`): dark glass too
+        document.documentElement.dataset.teinte === undefined &&
+          !panels.some((p) => {
+            const r = p.getBoundingClientRect();
+            const wave = p.classList.contains("wave-top") ? parseFloat(getComputedStyle(p).paddingTop) / 2 : 0;
+            return r.top + wave <= strip && r.bottom > 14;
+          }),
       );
     };
     const soon = () => {
@@ -91,10 +93,12 @@ export function Header() {
     check();
     addEventListener("scroll", soon, { passive: true });
     addEventListener("resize", soon);
+    addEventListener("teinte", soon);
     return () => {
       cancelAnimationFrame(frame);
       removeEventListener("scroll", soon);
       removeEventListener("resize", soon);
+      removeEventListener("teinte", soon);
     };
   }, []);
 

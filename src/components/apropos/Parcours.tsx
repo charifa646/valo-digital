@@ -14,6 +14,8 @@ export function Parcours() {
     <section aria-labelledby="parcours-title" className="relative">
       <div
         data-dark
+        data-teinte="bleu"
+        data-teinte-plat
         className={`on-dark relative isolate overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_55%,#0610A6_100%)] text-white ${waveTop("swell")}`}
       >
         <div className="gutter mx-auto max-w-page pb-20 pt-12 lg:pb-28 lg:pt-16">

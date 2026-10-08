@@ -630,59 +630,113 @@ main {
 
 /* ------------------------------------------------------------------ */
 /* The colour of the page, as on instrument.com, taken from the parts  */
-/* that already have one (proposal of 8 October 2026, /apercu/teintes) */
+/* that already have one (Charifa, 8 October 2026: `Teintes.tsx`)       */
 /* ------------------------------------------------------------------ */
 
-/* No new colour (Charifa: « utiliser les sections déjà en couleur »). When the night-blue block of the figures reaches
-   the middle of the screen, the page itself takes its night blue in a short fade, so the block melts into it and the
-   figures fill the screen; the parts around it without a colour of their own take it too, their words turning light.
-   When the blue sheet of the last call comes, the page it covers takes its blue instead of darkening. `Teintes.tsx`
-   says which colour is on (`html[data-teinte]`); the veil is in `Scroll.tsx`. Without the script the page stays light. */
-html[data-teintes] body {
+/* No new colour (« utiliser les sections déjà en couleur »). While a part marked `data-teinte` crosses the middle of
+   the screen (the figures' night blue on the homepage; on « À propos » the blue top, the blue band of « Mon parcours
+   digital » and the night photo of « Être visible ne suffit pas. »), the whole page takes its colour in a short fade:
+   every part of the page, so the waves between them melt away, and their words turn light, the cards keeping their
+   own colours. The foot of the page is left out. `html[data-teinte]` names the colour on; without the script, or once
+   the part has gone by, the page is light again. */
+html[data-teinte="nuit"] {
+  --teinte: #040b52;
+}
+html[data-teinte="bleu"] {
+  --teinte: #0610ae;
+}
+html[data-teintes] body,
+html[data-teintes] #contenu > section {
   transition: background-color 0.6s var(--ease);
 }
-html[data-teintes][data-teinte="nuit"] body {
-  background-color: #040b52;
+html[data-teinte] body,
+html[data-teinte] #contenu > section {
+  background-color: var(--teinte);
+  --halo: none;
 }
-html[data-teintes] :is(#confiance-title, #besoin-title, [data-anneaux], #besoin .filigrane > span) {
+html[data-teinte] #contenu > .wave-line {
+  background-image: none;
+}
+/* the blue band takes the flat blue of the page, so no edge shows between them */
+html[data-teinte] [data-teinte-plat] {
+  background: var(--teinte);
+}
+/* the words of the page, not those of the cards, the coloured parts or the buttons. Classes are named here by
+   attribute (`[class~=…]`): Tailwind rewrites a rule that names one of its classes, copying it for each @apply */
+html[data-teintes]
+  #contenu
+  > section
+  :is([class~="text-ink"], [class~="text-body"], [class~="text-mute"], [class~="text-electric"], [class~="tag"], h2, h3, [class~="border-hair"]) {
   transition:
     color 0.6s var(--ease),
-    opacity 0.6s var(--ease);
+    border-color 0.6s var(--ease);
 }
-html[data-teintes][data-teinte="nuit"] :is(#confiance-title, #besoin-title) {
+html[data-teinte]
+  #contenu
+  > section
+  :is([class~="text-ink"], h2, h3):not(
+    :is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte], [class*="bg-[linear-gradient"]) *,
+    [class~="text-electric"],
+    [class~="tag"]
+  ) {
   color: #fff;
 }
-html[data-teintes][data-teinte="nuit"] [data-anneaux] {
-  opacity: 0.14;
+html[data-teinte]
+  #contenu
+  > section
+  [class~="text-body"]:not(:is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *) {
+  color: rgba(255, 255, 255, 0.75);
 }
-html[data-teintes][data-teinte="nuit"] #besoin .filigrane > span {
+html[data-teinte]
+  #contenu
+  > section
+  [class~="text-mute"]:not(:is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *) {
+  color: rgba(255, 255, 255, 0.55);
+}
+html[data-teinte]
+  #contenu
+  > section
+  :is([class~="text-electric"], [class~="tag"]):not(
+    :is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *,
+    [class~="btn"]
+  ) {
+  color: #fdec05;
+}
+html[data-teinte]
+  #contenu
+  > section
+  [class~="border-hair"]:not(:is([data-dark], [class~="bg-white"], article, [data-carte]) *, [class~="bg-white"], [data-carte]) {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+html[data-teinte] #contenu .filigrane > span {
   color: rgba(255, 255, 255, 0.05);
+}
+/* stronger than the entrance's « opacity: 1 » */
+html[data-teinte] [data-anneaux][data-reveal][data-in] {
+  opacity: 0.14;
+  transition: opacity 0.6s var(--ease);
 }
 /* phones and tablets: the needs are an index on the page itself (on computers they are white doors, left as they are) */
 @media (max-width: 1023px) {
-  html[data-teintes] #besoin :is([data-i], [data-i] *, .border-hair) {
+  html[data-teintes] #besoin :is([data-i], [data-i] *) {
     transition:
       color 0.6s var(--ease),
       border-color 0.6s var(--ease);
   }
-  html[data-teintes][data-teinte="nuit"] #besoin [data-i],
-  html[data-teintes][data-teinte="nuit"] #besoin [data-i] .text-ink {
+  html[data-teinte] #besoin [data-i],
+  html[data-teinte] #besoin [data-i] [class~="text-ink"] {
     color: #fff;
   }
-  html[data-teintes][data-teinte="nuit"] #besoin [data-i] .text-body {
+  html[data-teinte] #besoin [data-i] [class~="text-body"] {
     color: rgba(255, 255, 255, 0.72);
   }
-  html[data-teintes][data-teinte="nuit"] #besoin [data-i] .text-mute {
+  html[data-teinte] #besoin [data-i] [class~="text-mute"] {
     color: rgba(255, 255, 255, 0.5);
   }
-  html[data-teintes][data-teinte="nuit"] #besoin .border-hair {
-    border-color: rgba(255, 255, 255, 0.18);
+  html[data-teinte] #besoin [data-i][class~="border-hair"],
+  html[data-teinte] #besoin [data-i] [class~="border-hair"] {
+    border-color: rgba(255, 255, 255, 0.25);
   }
-}
-/* the sheet of the last call: the page it covers fades into its blue once it is a third of the way up */
-html[data-teintes] .veil {
-  background: #0714d8;
-  transition: opacity 0.6s var(--ease);
 }
 
 /* ------------------------------------------------------------------ */
