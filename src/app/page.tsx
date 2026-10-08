@@ -13,10 +13,11 @@ import { Final } from "@/components/site/Final";
 import { Teintes } from "@/components/site/Teintes";
 
 /**
- * One page, kept to the essential (Charifa, 7 October 2026): hero, clients and figures, needs, an order played on a phone, the first offers and
- * the first trainings (the others behind a blur, on /services and /formations), method, the beginning of the
- * founder's letter (the whole of it on /a-propos), contact, footer. « Pourquoi VALO » moved to « À propos », the
- * specialised solutions to /services. The hero is the light orbit, the client's choice of 7 October 2026.
+ * One page, kept to the essential (Charifa, 7 October 2026): hero, clients and figures, needs, the first offers and
+ * the first trainings (the others behind a blur, on /services and /formations), then an order played on a phone
+ * (after the offers and trainings, Charifa, 8 October 2026), method, the beginning of the founder's letter (the whole
+ * of it on /a-propos), contact, footer. « Pourquoi VALO » moved to « À propos », the specialised solutions to
+ * /services. The hero is the light orbit, the client's choice of 7 October 2026.
  */
 export default function Page() {
   return (
@@ -27,9 +28,9 @@ export default function Page() {
           <HeroOrbite />
           <Confiance />
           <Needs />
-          <DemoCommande />
           <Prestations />
           <Formations />
+          <DemoCommande />
           <Methode />
           <Fondateur />
         </main>

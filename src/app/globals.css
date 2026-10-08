@@ -1338,6 +1338,10 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 .js .play-when-in[data-play] [data-anim] {
   animation-play-state: running;
 }
+/* the windows of the offers drawn under the homepage's blur stay still */
+[data-still] [data-anim] {
+  animation: none !important;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .js [data-words] > span {
@@ -1788,5 +1792,30 @@ html[data-teinte="nuit"] .logos-rangs[data-reveal][data-in] {
   from {
     opacity: 0;
     transform: translate3d(0, 64px, 0);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* A photo zooming out as it comes up (`PhotoZoom.tsx`): `--z` goes   */
+/* from 0 to 1 with the scroll; without the script, or with « reduce  */
+/* motion », it is simply in place                                    */
+/* ------------------------------------------------------------------ */
+
+.zoom-photo {
+  --z: 1;
+  position: relative;
+  overflow: hidden;
+  clip-path: inset(calc((1 - var(--z)) * 6%) round 4px);
+}
+.js .zoom-photo {
+  --z: 0;
+}
+.zoom-photo-img {
+  transform: scale(calc(1 + (1 - var(--z)) * 0.24));
+  transform-origin: 50% 35%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .zoom-photo {
+    --z: 1;
   }
 }

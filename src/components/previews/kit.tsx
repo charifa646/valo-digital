@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
 
 /**
@@ -60,6 +60,22 @@ export function Chip({ tone, dot = false, children }: { tone: Tone; dot?: boolea
     <span className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-1.5 py-[3px] text-[9px] font-semibold leading-none ${tones[tone]}`}>
       {dot && <span className={`h-[5px] w-[5px] rounded-full ${dots[tone]}`} />}
       {children}
+    </span>
+  );
+}
+
+/**
+ * The pointer of the windows that play by themselves (idea 4, 8 October 2026): a small arrow whose tip is the element's
+ * top left corner. Each window moves it with its own animation (`className`, `style`) and may add the ring of a click
+ * as a child. `data-anim`: it waits off screen and stands still with « reduce motion » (`globals.css`).
+ */
+export function Curseur({ className = "", style, children }: { className?: string; style?: CSSProperties; children?: ReactNode }) {
+  return (
+    <span data-anim className={`pointer-events-none absolute left-0 top-0 z-20 block h-4 w-4 ${className}`} style={style}>
+      {children}
+      <svg viewBox="0 0 16 16" className="relative block h-4 w-4 drop-shadow-[0_2px_3px_rgba(11,18,51,.35)]" aria-hidden>
+        <path d="M1.5 1.2v11.6l3.1-3 2.1 4.7 2.1-.9-2.1-4.6h4.4z" fill="#0B1233" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" />
+      </svg>
     </span>
   );
 }

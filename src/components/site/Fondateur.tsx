@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { fondateur } from "@/lib/content";
@@ -6,12 +5,13 @@ import { waveTop } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Suite } from "@/components/ui/Suite";
+import { PhotoZoom } from "@/components/ui/PhotoZoom";
 
 /**
- * « Mot du fondateur », as in the catalogue: Valentin standing out of a light card with his name and his three
- * titles under him, and the beginning of his letter beside him. Since 7 October 2026 the homepage shows its first
- * paragraph, then the next ones through a blur that fades out, and « En savoir plus » opens the whole letter on the
- * « À propos » page (#mot). On phones the greeting comes first, then the portrait, then the letter.
+ * « Mot du fondateur », as in the catalogue: Valentin's portrait (the one Charifa chose on 8 October 2026, zooming out
+ * as it comes up, `PhotoZoom.tsx`) with his name and his three titles under him, and the beginning of his letter
+ * beside him. Since 7 October 2026 the homepage shows its first paragraph, then the next ones through a blur that
+ * fades out, and « En savoir plus » opens the whole letter on the « À propos » page (#mot). On phones the greeting comes first, then the portrait, then the letter.
  */
 export function Fondateur() {
   const [first, ...rest] = fondateur.letter;
@@ -32,25 +32,18 @@ export function Fondateur() {
         </div>
 
         <div className="mt-12 [grid-area:photo] lg:mt-0">
-          <figure data-reveal="tilt" className="relative mx-auto w-full max-w-[340px] pt-[78px] sm:max-w-[400px] sm:pt-[96px] lg:mx-0">
-            {/* the card, and Valentin coming out of its top edge */}
-            <div className="relative aspect-[1/1.06] w-full">
-              <div className="absolute inset-0 overflow-hidden rounded-2xl bg-[linear-gradient(170deg,#EEF2FF_0%,#D8E0FF_62%,#C3CFFF_100%)]">
-                <div className="absolute -bottom-20 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-white/60 blur-3xl" />
-              </div>
-              <div className="absolute inset-x-0 bottom-0 top-[-78px] [clip-path:inset(-100%_0_0_0_round_4px)] sm:top-[-96px]">
-                <Image
-                  src="/images/v3/valentin-debout.webp"
-                  alt={`${fondateur.name}, ${fondateur.roles[2]}`}
-                  width={774}
-                  height={1445}
-                  sizes="(min-width: 1024px) 330px, 76vw"
-                  className="absolute bottom-[-16%] left-1/2 h-auto w-[76%] -translate-x-1/2"
-                />
-              </div>
-            </div>
+          <figure className="mx-auto w-full max-w-[340px] sm:max-w-[400px] lg:mx-0">
+            {/* Valentin's portrait, chosen by Charifa on 8 October 2026, zooming out as it comes up */}
+            <PhotoZoom
+              src="/images/v3/valentin-montre.webp"
+              alt={`${fondateur.name}, ${fondateur.roles[2]}`}
+              width={900}
+              height={1166}
+              sizes="(min-width: 1024px) 400px, (min-width: 640px) 400px, 92vw"
+              className="aspect-[900/1166] w-full rounded-2xl bg-[#6b3a1c]"
+            />
             {/* his name and his titles, the way the catalogue signs the letter */}
-            <figcaption className="mt-7">
+            <figcaption data-reveal className="mt-7">
               <span className="block text-[19px] font-semibold leading-snug tracking-[-0.02em] text-ink">{fondateur.name}</span>
               <span aria-hidden className="mt-3 block h-[3px] w-10 rounded-full bg-sun" />
               <span className="mt-3 block text-[14.5px] font-bold text-electric">{fondateur.roles[0]}</span>

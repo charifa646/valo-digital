@@ -1,0 +1,255 @@
+/*
+ * The calendar plays one scheduling, on Thursday, in a loop of 10 s (1 % = 0.1 s).
+ * 0 to 13 %: the slot is empty and the pointer comes up to it. 14 %: click, the post appears.
+ * 31 to 40 %: the pointer goes to the chip. 42 %: click, « Brouillon » becomes « Programmé ».
+ * 54 to 64 %: the pointer leaves. Hold. 88 to 97 %: the card fades back into the empty slot.
+ * Thursday is told because it shows at every width (three days on a phone, five on a wide card).
+ *
+ * Every piece carries data-anim: it waits until the window is on screen, and stands still with
+ * « reduce motion » or under the homepage's blur (globals.css). Without its animation each piece is
+ * the static design: slot, pointer, ring and draft chip are invisible; card, photo and the
+ * « Programmé » chip are in place. So the base styles below only hide what the story adds.
+ *
+ * Only transform and opacity move, so the browser does it on the compositor, light on phones.
+ * Arrivals ease out (.16, 1, .3, 1): fast then settled, like a product UI. The pointer travels
+ * ease in out (.65, 0, .35, 1): it starts and stops like a hand.
+ * The loop resets while the card is hidden (94 % to 15 %): nothing rewinds on screen.
+ */
+
+/*
+ * The empty slot: shown first, pressed by the click, then covered by the card. Its dashed line is a
+ * shade darker than the hairlines (#D3DAEA in the markup): in hairline it would vanish on white.
+ */
+.slot {
+  opacity: 0;
+  animation: slot 10s infinite both;
+}
+@keyframes slot {
+  0%,
+  13.5% {
+    opacity: 1;
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  14.5% {
+    transform: scale(0.97);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  17% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  /* gone once the card covers it, back as the card is nearly gone (not through it): the loop starts on it */
+  22%,
+  92% {
+    opacity: 0;
+  }
+  97%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* the post: it grows out of the slot after the click, holds, then fades out to loop */
+.card {
+  animation: card 10s infinite both;
+}
+@keyframes card {
+  0%,
+  15% {
+    opacity: 0;
+    transform: scale(0.94);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  24%,
+  88% {
+    opacity: 1;
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  94%,
+  100% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+/* its photo comes in just after the card, settling from a slight zoom, like a media that loads */
+.photo {
+  animation: photo 10s infinite both;
+}
+@keyframes photo {
+  0%,
+  17% {
+    opacity: 0;
+    transform: scale(1.08);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  30%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* the draft chip lies over the real one: shown while the post is new, gone at the second click */
+.draft {
+  opacity: 0;
+  animation: draft 10s infinite both;
+}
+@keyframes draft {
+  0%,
+  42.5% {
+    opacity: 1;
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  44%,
+  100% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* the real chip, « Programmé »: a short pop with no overshoot, then it stays to the end of the loop */
+.scheduled {
+  animation: scheduled 10s infinite both;
+}
+@keyframes scheduled {
+  0%,
+  42.5% {
+    opacity: 0;
+    transform: scale(0.86);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  47%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/*
+ * The track is a box the size of the card. A translate in percents moves it by a share of its own
+ * size, so the pointer's tip lands on the same spot of the card at 300, 450 or 640 px.
+ * Stops: low right in the card, the slot's plus (its middle), the chip, then out low right.
+ * The chip stop is its left part, inside it at every width: the chip runs from 83 % to 92 % of the
+ * card's height and starts at 7 px. The track jumps back to the entry while the pointer is hidden.
+ * No @container rule is needed: the percents already follow the card.
+ */
+.track {
+  animation: track 10s infinite both;
+}
+@keyframes track {
+  0%,
+  4% {
+    transform: translate(76%, 104%);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  13%,
+  31% {
+    transform: translate(50%, 50%);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  40%,
+  54% {
+    transform: translate(30%, 87%);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  64%,
+  100% {
+    transform: translate(92%, 112%);
+  }
+}
+
+/* the arrow itself: fades in and out, and presses a little at each click, around its tip */
+.pointer {
+  opacity: 0;
+  transform-origin: 0 0;
+  animation: pointer 10s infinite both;
+}
+@keyframes pointer {
+  0%,
+  3% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  9% {
+    opacity: 1;
+  }
+  13.5% {
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  14.5% {
+    transform: scale(0.86);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  16.5% {
+    transform: scale(1);
+  }
+  41.5% {
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  42.5% {
+    transform: scale(0.86);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  44.5% {
+    transform: scale(1);
+  }
+  57% {
+    opacity: 1;
+  }
+  63%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* the ring of a click, centred on the tip: a thin blue circle that widens and fades, once per click */
+.ring {
+  position: absolute;
+  left: -9px;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid rgba(7, 20, 216, 0.5);
+  border-radius: 9999px;
+  background: rgba(7, 20, 216, 0.08);
+  opacity: 0;
+  animation: ring 10s infinite both;
+}
+@keyframes ring {
+  0%,
+  14% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  14.5% {
+    opacity: 1;
+    transform: scale(0.45);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  20% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+  /* shrinks back while invisible, ready for the second click */
+  20.5%,
+  42% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  42.5% {
+    opacity: 1;
+    transform: scale(0.45);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  48%,
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}

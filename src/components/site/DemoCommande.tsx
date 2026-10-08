@@ -9,11 +9,11 @@ import { Words } from "@/components/ui/Words";
 import { DemandeButton } from "./Sheet";
 
 /**
- * « Voici comment passer commande. »: a phone that orders by itself, right after the needs (Charifa, 8 October 2026).
- * Its screen is the site as seen on a phone, drawn again at the phone's own size: a finger taps « Parlons de votre
- * projet », the panel rises, « Commander une prestation », a service from the list, where the person stands, the
- * example sentence of the form typed letter by letter, then the name and number (shown as bars: no invented name,
- * no invented number), « Envoyer ma demande » and the thanks. Beside it, the step being played, in the form's own
+ * « Voici comment passer commande. »: a phone that orders by itself, after the offers and the trainings (Charifa,
+ * 8 October 2026). Its screen is the site as seen on a phone, drawn again at the phone's own size: a finger taps
+ * « Parlons de votre projet », the panel rises, « Commander une prestation », a service from the list, where the person
+ * stands, the example sentence of the form typed letter by letter, then the name and number (shown as bars: no invented
+ * name, no invented number), « Envoyer ma demande » and the thanks. Beside it, the step being played, in the form's own
  * words. It plays only while it is on screen, from the start each time, and stands still on the filled form with
  * « reduce motion ». Hidden from screen readers and out of reach (the real button is next to it).
  */
@@ -239,7 +239,7 @@ export function DemoCommande() {
 
   return (
     <section id="demo" aria-labelledby="demo-title" className="paper relative isolate overflow-hidden bg-ice">
-      <div className="gutter mx-auto grid max-w-page items-center gap-9 pb-20 pt-6 lg:grid-cols-12 lg:gap-10 lg:pb-24 lg:pt-4">
+      <div className="gutter mx-auto grid max-w-page items-center gap-9 py-20 lg:grid-cols-12 lg:gap-10 lg:py-24">
         <div className="text-center lg:col-span-5 lg:text-left">
           <h2 id="demo-title" data-reveal="words" className="h2 balance mx-auto max-w-[14ch] text-ink lg:mx-0">
             <Words>{demo.title}</Words>

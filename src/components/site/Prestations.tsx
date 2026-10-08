@@ -50,7 +50,9 @@ function OfferCard({ o, i, still = false, anchor = false }: { o: Offer; i: numbe
     >
       <div
         aria-hidden
-        className={`@container relative h-[262px] overflow-hidden px-4 pt-5 sm:px-6 sm:pt-6 ${lead ? "" : "m-2 mb-0 rounded-[4px] bg-[linear-gradient(180deg,#EDF1FF_0%,#F6F8FF_100%)]"}`}
+        // the window plays only while on screen, and never under the glimpse's blur (`data-still`)
+        data-still={still || undefined}
+        className={`@container relative h-[262px] overflow-hidden px-4 pt-5 sm:px-6 sm:pt-6 ${still ? "" : "play-when-in"} ${lead ? "" : "m-2 mb-0 rounded-[4px] bg-[linear-gradient(180deg,#EDF1FF_0%,#F6F8FF_100%)]"}`}
       >
         <Preview />
       </div>
