@@ -629,6 +629,51 @@ main {
 }
 
 /* ------------------------------------------------------------------ */
+/* The colour of the page, part by part, as on instrument.com          */
+/* (proposal of 8 October 2026, at /apercu/teintes: `Teintes.tsx`)     */
+/* ------------------------------------------------------------------ */
+
+/* The page itself changes colour in a short fade, so every part without a colour of its own takes it: VALO's yellow
+   for « Nos services » (dark words stay readable on it, the white cards stand out), its night blue for the method
+   (its words turn light, its accent yellow). The parts with their own white or light blue keep it, and their waves
+   rise over the colour. */
+html[data-teintes] body {
+  transition: background-color 0.6s var(--ease);
+}
+html[data-teintes][data-teinte="soleil"] body {
+  background-color: #fdec05;
+}
+html[data-teintes][data-teinte="soleil"] #prestations {
+  --halo: none;
+}
+html[data-teintes][data-teinte="nuit"] body {
+  background-color: #040b52;
+}
+html[data-teintes] #methode {
+  background-color: transparent;
+}
+html[data-teintes] #methode :is(h2, h2 span, [data-step] h3, [data-step] p) {
+  transition: color 0.6s var(--ease);
+}
+html[data-teintes][data-teinte="nuit"] #methode h2,
+html[data-teintes][data-teinte="nuit"] #methode [data-step] h3 {
+  color: #fff;
+}
+html[data-teintes][data-teinte="nuit"] #methode h2 .text-electric {
+  color: #fdec05;
+}
+html[data-teintes][data-teinte="nuit"] #methode [data-step] p {
+  color: rgba(255, 255, 255, 0.72);
+}
+html[data-teintes][data-teinte="nuit"] #methode .filigrane > span {
+  color: rgba(255, 255, 255, 0.05);
+}
+html[data-teintes][data-teinte="nuit"] #methode .curve-draw,
+html[data-teintes][data-teinte="nuit"] #methode .curve-dot {
+  stroke: #8fa3ff;
+}
+
+/* ------------------------------------------------------------------ */
 /* The very large titles of the homepage (8 October 2026)              */
 /* ------------------------------------------------------------------ */
 
@@ -696,8 +741,11 @@ main {
 #contenu + * {
   margin-top: clamp(70px, 12svh, 140px);
 }
-.feuille {
+/* the roundness of the sheet's corners, shared with the stage that tucks under its lower corners */
+:root {
   --feuille-r: clamp(26px, 3.6vw, 56px);
+}
+.feuille {
   position: relative;
   z-index: 2;
   border-radius: var(--feuille-r) var(--feuille-r) 0 0;
@@ -718,28 +766,34 @@ main {
 /* A « la scène »: the blue curtain of the last call rises and uncovers, pinned under it, a night-blue stage where the
    name VALO stands on a mirror floor with Valentin in front. `--p` says how much of the stage is uncovered (0 to 1,
    set while scrolling); the lights come on and the letters rise with it. One unit, `--u`, sizes the whole stage on
-   computers so it always fits the screen, wide or low; phones have their own measures. */
+   computers so it always fits the screen, wide or low; phones have their own measures. On computers the stage fills
+   the screen at the end, so no strip of the sheet is left under the header; it starts under the sheet's rounded lower
+   corners (`--feuille-r`), so they show the stage and not the page; the letters stand at the same height above its
+   bottom whatever its height. A shadow of its colour covers the last fraction of a pixel at the very bottom. */
 .stage {
   --u: min(1vw, 1.55svh);
   --p: 1;
   --light: clamp(0, calc((var(--p) - 0.05) / 0.6), 1);
-  --h: calc(var(--u) * 60);
-  --top: calc(var(--u) * 9);
+  --h: max(calc(var(--u) * 60), min(100svh, calc(var(--u) * 80)));
+  --box: calc(var(--h) + var(--feuille-r));
+  --top: calc(var(--box) - var(--u) * 51);
   --font: min(33.6cqw, calc(var(--u) * 33));
   --man: calc(var(--u) * 41);
   container-type: inline-size;
   position: sticky;
   bottom: 0;
   z-index: 0;
-  height: var(--h);
+  margin-top: calc(-1 * var(--feuille-r));
+  height: var(--box);
   overflow: hidden;
+  box-shadow: 0 2px 0 #02062e;
   background:
     radial-gradient(55% 70% at 50% 8%, rgba(53, 81, 255, 0.55), transparent 70%), radial-gradient(120% 90% at 50% 0%, #0a16a8 0%, #040b52 48%, #02062e 100%);
 }
 @media (max-width: 639px) {
   .stage {
     --h: 156vw;
-    --top: 17vw;
+    --top: calc(17vw + var(--feuille-r));
     --font: 31cqw;
     --man: 118vw;
   }
@@ -782,7 +836,10 @@ main {
   transform: translateX(-50%);
 }
 .stage-letter {
-  --rise: clamp(0, calc((var(--p) - 0.62 - var(--i) * 0.07) / 0.2), 1);
+  --rise: clamp(0, calc((var(--p) - 0.58 - var(--i) * 0.06) / 0.2), 1);
+  /* room for each letter's ink, which the tight spacing would otherwise cut on its right */
+  padding-inline: 0.1em;
+  margin-inline: -0.1em;
   display: inline-block;
   color: transparent;
   background: linear-gradient(180deg, #ffffff 0%, #e7edff 40%, #9fb1ff 78%, #5c74ff 100%);
@@ -840,6 +897,8 @@ main {
   width: auto;
   height: var(--man);
   transform: translateX(-50%);
+  /* not capped at the stage width: on phones the cap squeezed the photo */
+  max-width: none;
 }
 /* the photo of Valentin in his armchair is cut on its left, through his foot: that edge fades instead */
 .fade-left {

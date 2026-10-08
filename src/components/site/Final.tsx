@@ -40,16 +40,21 @@ export function Final() {
   const stage = useRef<HTMLDivElement>(null);
   const glow = useRef<HTMLDivElement>(null);
 
-  // how much of the stage the curtain has uncovered, from 0 to 1: it drives the light and the letters
+  // how much of the stage the curtain has uncovered, from 0 to 1: it drives the light and the letters. The stage stays
+  // hidden until the sheet starts lifting: before that, pinned under the sheet's top, it showed in its rounded corners.
   useEffect(() => {
     const c = curtain.current;
     const s = stage.current;
-    if (!c || !s || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!c || !s) return;
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
     const update = () => {
       frame = 0;
       const shown = window.innerHeight - c.getBoundingClientRect().bottom;
-      s.style.setProperty("--p", Math.min(1, Math.max(0, shown / s.offsetHeight)).toFixed(3));
+      s.style.visibility = shown > 0 ? "visible" : "hidden";
+      // the stage's own height, without the part tucked under the sheet's lower corners
+      const h = s.offsetHeight + parseFloat(getComputedStyle(s).marginTop);
+      if (!still) s.style.setProperty("--p", Math.min(1, Math.max(0, shown / h)).toFixed(3));
     };
     const soon = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -119,7 +124,7 @@ export function Final() {
         <Letters />
         <Letters className="stage-mirror" />
         <Letters ref={glow} className="stage-glow" />
-        <Image src="/images/v3/valentin-assis.webp" alt="" width={990} height={1131} sizes="(min-width: 1024px) 520px, 100vw" className="stage-man fade-left" />
+        <Image src="/images/v3/valentin-assis.webp" alt="" width={990} height={1131} sizes="(min-width: 640px) 36vw, 100vw" className="stage-man fade-left" />
         <div className="stage-veil" />
       </div>
     </div>
