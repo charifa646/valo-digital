@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Accueil } from "@/components/site/Accueil";
-import { HeroOrbite } from "@/components/site/HeroOrbite";
+import { HeroEventail } from "@/components/site/HeroEventail";
+import { NeedsHistoire } from "@/components/site/NeedsHistoire";
 
 /**
  * The homepage with its order demo shown on a blue stage, the way Instrument shows its work (Charifa's question of
@@ -9,5 +10,5 @@ import { HeroOrbite } from "@/components/site/HeroOrbite";
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default function Apercu() {
-  return <Accueil Hero={HeroOrbite} scene />;
+  return <Accueil Hero={HeroEventail} Besoin={NeedsHistoire} scene />;
 }

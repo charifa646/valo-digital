@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Accueil } from "@/components/site/Accueil";
-import { HeroOrbite } from "@/components/site/HeroOrbite";
+import { HeroEventail } from "@/components/site/HeroEventail";
+import { NeedsHistoire } from "@/components/site/NeedsHistoire";
 
 /**
  * The order demo on its blue stage, the phone's frame reduced to a fine light rim (Charifa's question of 11 October
@@ -9,5 +10,5 @@ import { HeroOrbite } from "@/components/site/HeroOrbite";
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default function Apercu() {
-  return <Accueil Hero={HeroOrbite} scene sansCadre />;
+  return <Accueil Hero={HeroEventail} Besoin={NeedsHistoire} scene sansCadre />;
 }
