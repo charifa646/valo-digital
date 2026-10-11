@@ -119,6 +119,13 @@ html {
   .btn-ghost .dot {
     @apply bg-electric text-white;
   }
+  /* the yellow of the charte, for the button of the blue header (12 October 2026) */
+  .btn-sun {
+    @apply bg-sun text-navy shadow-[0_14px_30px_-14px_rgba(253,236,5,0.7)] hover:bg-[#fff35c];
+  }
+  .btn-sun .dot {
+    @apply bg-navy text-white;
+  }
 
   /* « → Découvrir les offres »: the arrow first, as in the copy */
   .go {
@@ -151,6 +158,21 @@ html {
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.22) inset,
       0 24px 50px -24px rgba(0, 0, 0, 0.55);
+  }
+  /* the header in blue (`Header bleu`): electric glass, and night blue glass over the dark parts of the page */
+  .glass-bleu {
+    background: linear-gradient(180deg, rgba(62, 90, 255, 0.95), rgba(7, 20, 216, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.38) inset,
+      0 24px 50px -22px rgba(7, 20, 216, 0.7);
+  }
+  .glass-bleu-nuit {
+    background: linear-gradient(180deg, rgba(22, 38, 160, 0.92), rgba(4, 11, 82, 0.94));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.22) inset,
+      0 24px 50px -24px rgba(0, 0, 0, 0.6);
   }
   /* only the header blurs what passes under it */
   .blur-bar {
@@ -784,7 +806,8 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 }
 /* the roundness of the sheet's corners, shared with the stage that tucks under its lower corners */
 :root {
-  --feuille-r: clamp(26px, 3.6vw, 56px);
+  /* less round (Charifa, 12 October 2026: « la section arrondie du footer est trop arrondie »): it was 26 to 56 px */
+  --feuille-r: clamp(14px, 1.6vw, 24px);
 }
 .feuille {
   position: relative;
@@ -2344,4 +2367,75 @@ html .demo-scene .demo-seg i {
    rather than Medium. Named by attribute: Tailwind rewrites a rule that names its own classes. */
 [class~="text-body"][class~="font-medium"] {
   font-weight: 400;
+}
+
+/* ------------------------------------------------------------------ */
+/* More colour (`couleur`, /apercu/couleur, 12 October 2026)           */
+/* ------------------------------------------------------------------ */
+
+/* Charifa: « le site est terne seulement en terme de couleur », and, on 2 October, « n'abuse pas avec le halo bleu sinon le
+   blanc sera sale ». So not a haze across the white: a clean wash of blue at the edges of two parts, a touch of sky and of
+   the charte's yellow, cards of frosted glass on top of them, the figures' block lit from a corner, and the header blue
+   (`Header bleu`). Everything is under `main[data-couleur]`, so the homepage is unchanged until she chooses. The blur behind
+   the glass is only for computers with a mouse (on phones the glass is its translucent colour alone: no blur to redo at
+   each frame of the scroll). */
+main[data-couleur] #prestations {
+  --halo:
+    radial-gradient(42% 46% at 4% 8%, rgba(53, 81, 255, 0.2), transparent 72%),
+    radial-gradient(36% 40% at 98% 62%, rgba(14, 124, 252, 0.16), transparent 72%),
+    radial-gradient(24% 26% at 86% 6%, rgba(253, 236, 5, 0.2), transparent 72%);
+}
+main[data-couleur] #formations {
+  background-image: linear-gradient(180deg, #ffffff 0%, #e4ecff 62%, #f4f7ff 100%);
+  --halo:
+    radial-gradient(40% 44% at 96% 4%, rgba(53, 81, 255, 0.24), transparent 72%),
+    radial-gradient(36% 40% at 2% 78%, rgba(14, 124, 252, 0.2), transparent 72%),
+    radial-gradient(22% 24% at 10% 6%, rgba(253, 236, 5, 0.16), transparent 72%);
+}
+/* the offers' cards and the trainings' cards: frosted glass over the colour behind them */
+main[data-couleur] #prestations article[class~="bg-white"],
+main[data-couleur] #formations .group[class~="bg-white"] {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.5));
+  border-color: rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 28px 56px -34px rgba(7, 20, 216, 0.42);
+}
+main[data-couleur] #formations .group[class~="bg-white"]:hover {
+  border-color: rgba(53, 81, 255, 0.4);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 34px 60px -30px rgba(7, 20, 216, 0.55);
+}
+/* the figures' block: lit from a corner, each figure on a pane of glass (a pane drawn behind the figure, so the block's
+   layout does not move) */
+main[data-couleur] [data-teinte="nuit"] {
+  /* contained lights: each one fades before it reaches the block's edge, so no edge is cut once the page is night too */
+  background-image:
+    radial-gradient(closest-side ellipse at 72% 30%, rgba(53, 81, 255, 0.5), transparent),
+    radial-gradient(closest-side ellipse at 22% 78%, rgba(14, 124, 252, 0.28), transparent);
+}
+main[data-couleur] [data-teinte="nuit"] ul > li {
+  position: relative;
+  isolation: isolate;
+}
+main[data-couleur] [data-teinte="nuit"] ul > li::before {
+  content: "";
+  position: absolute;
+  inset: -14px -12px;
+  z-index: -1;
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.24) inset,
+    0 20px 40px -24px rgba(0, 0, 0, 0.5);
+}
+@media (min-width: 1024px) and (hover: hover) {
+  main[data-couleur] #prestations article[class~="bg-white"],
+  main[data-couleur] #formations .group[class~="bg-white"],
+  main[data-couleur] [data-teinte="nuit"] ul > li::before {
+    -webkit-backdrop-filter: blur(16px) saturate(1.25);
+    backdrop-filter: blur(16px) saturate(1.25);
+  }
 }

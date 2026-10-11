@@ -23,7 +23,12 @@ function Wordmark({ className = "" }: { className?: string }) {
   );
 }
 
-export function Header() {
+/**
+ * The menu. `bleu` (12 October 2026, Charifa: « le header peut aussi prendre une couleur bleue bien dosée »): the bar is
+ * blue glass with white words and a yellow button, night blue over the dark parts, instead of white glass; shown at
+ * /apercu/couleur until she chooses.
+ */
+export function Header({ bleu = false }: { bleu?: boolean }) {
   const [light, setLight] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
@@ -127,7 +132,9 @@ export function Header() {
     };
   }, [open, lock]);
 
-  const ink = light ? "text-ink" : "text-white";
+  // white glass with dark words only over the light parts of the page, and never when the bar is blue
+  const clair = light && !bleu;
+  const ink = clair ? "text-ink" : "text-white";
 
   return (
     <LazyMotion features={domAnimation} strict>
@@ -135,15 +142,15 @@ export function Header() {
         <div ref={bar} className="relative mx-auto max-w-[1200px]">
           <div
             className={`pointer-events-auto flex h-[58px] items-center justify-between gap-4 rounded-full pl-5 pr-2 transition-[background,box-shadow,color] duration-500 sm:h-[64px] sm:pl-6 ${
-              light ? "glass blur-bar text-ink" : "glass-dark blur-bar text-white"
+              bleu ? (light ? "glass-bleu blur-bar text-white" : "glass-bleu-nuit blur-bar text-white") : light ? "glass blur-bar text-ink" : "glass-dark blur-bar text-white"
             }`}
           >
             {home ? (
-              <Anchor to="top" aria-label="VALO DIGITAL, retour en haut" className={`shrink-0 ${light ? "text-electric" : "text-white"}`}>
+              <Anchor to="top" aria-label="VALO DIGITAL, retour en haut" className={`shrink-0 ${clair ? "text-electric" : "text-white"}`}>
                 <Wordmark />
               </Anchor>
             ) : (
-              <Link href="/" aria-label="VALO DIGITAL, accueil" className={`shrink-0 ${light ? "text-electric" : "text-white"}`}>
+              <Link href="/" aria-label="VALO DIGITAL, accueil" className={`shrink-0 ${clair ? "text-electric" : "text-white"}`}>
                 <Wordmark />
               </Link>
             )}
@@ -154,7 +161,7 @@ export function Header() {
                   const g = subOf(n);
                   const on = current(n.id) || (g !== null && sub === g);
                   const cls = `relative block whitespace-nowrap rounded-full py-2 text-[14px] font-semibold transition ${g ? "pl-3.5 pr-8" : "px-3.5"} ${ink} ${
-                    on ? (light ? "bg-frost text-electric" : "bg-white/15") : light ? "hover:text-electric" : "opacity-85 hover:opacity-100"
+                    on ? (clair ? "bg-frost text-electric" : "bg-white/15") : clair ? "hover:text-electric" : "opacity-85 hover:opacity-100"
                   }`;
                   return (
                     <li key={n.id} className="relative" onMouseEnter={g ? () => showSub(g) : undefined} onMouseLeave={g ? hideSub : undefined}>
@@ -171,7 +178,7 @@ export function Header() {
                           aria-expanded={sub === g}
                           aria-controls="sous-menu"
                           aria-label={`Menu ${n.label}`}
-                          className={`absolute right-2 top-1/2 grid h-6 w-6 -translate-y-1/2 place-items-center rounded-full transition ${ink} ${light ? "hover:text-electric" : ""}`}
+                          className={`absolute right-2 top-1/2 grid h-6 w-6 -translate-y-1/2 place-items-center rounded-full transition ${ink} ${clair ? "hover:text-electric" : ""}`}
                         >
                           <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${sub === g ? "rotate-180" : ""}`} />
                         </button>
@@ -188,7 +195,7 @@ export function Header() {
                 onClick={() => demande("demande")}
                 aria-haspopup="dialog"
                 className={btn(
-                  light ? "electric" : "white",
+                  bleu ? "sun" : light ? "electric" : "white",
                   "hidden min-h-[46px] pl-5 text-[13.5px] sm:inline-flex [&_.dot]:h-[34px] [&_.dot]:w-[34px] [&_.dot_svg]:h-4 [&_.dot_svg]:w-4",
                 )}
               >
@@ -201,7 +208,7 @@ export function Header() {
                 aria-expanded={open}
                 aria-controls="menu"
                 aria-label="Menu"
-                className={`grid h-[46px] w-[46px] place-items-center rounded-full transition lg:hidden ${light ? "bg-electric text-white" : "bg-white text-electric"}`}
+                className={`grid h-[46px] w-[46px] place-items-center rounded-full transition lg:hidden ${clair ? "bg-electric text-white" : "bg-white text-electric"}`}
               >
                 <Menu className="h-5 w-5" />
               </button>
