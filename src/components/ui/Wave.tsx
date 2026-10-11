@@ -1,22 +1,8 @@
 /**
- * The waves between sections, anchored in them (Charifa, 7 October 2026). No ribbon is drawn between two sections
- * any more: the section that comes next rises over the end of the one before by the height of the wave, and its own
- * top edge is cut as a wave (`waveTop`, a mask written in globals.css). The wave so has that section's white, grain,
- * halo or blue, and no straight line shows under it. The section before ends with the room the wave takes
- * (`WaveSpace`). One wave, three shapes, so no two section ends look the same.
- */
-export type WaveShape = "swell" | "rise" | "ripple";
-
-/** `line`: between two light sections, a fine line along the edge of the wave so it reads on every screen. */
-export const waveTop = (shape: WaveShape, flip = false, line = false) => `wave-top wave-${shape}${flip ? "-flip" : ""}${line ? " wave-line" : ""}`;
-
-export function WaveSpace() {
-  return <div aria-hidden className="wave-space" />;
-}
-
-/**
- * The former double wave (a pale wave behind the full one), drawn over the end of a section. Only the blue
- * homepage kept in reserve (`/apercu/orbite-bleue`) still uses it.
+ * A wave drawn over the end of a section. The site no longer has any (Charifa, 11 October 2026: « retire les vagues du
+ * site, j'aime plus trop »): its sections now meet along a straight edge. Only the blue homepage kept in reserve
+ * (`/apercu/orbite-bleue`) still draws this one. The earlier waves, anchored in the next section and cut by a mask
+ * (`waveTop`, `WaveSpace` and the `.wave-*` rules of `globals.css`), are in the history of the repository.
  */
 const shapes = {
   rise: {

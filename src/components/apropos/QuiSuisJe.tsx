@@ -2,7 +2,6 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import { apropos, fondateur } from "@/lib/content";
 import { Rich } from "@/components/ui/Rich";
-import { waveTop } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 
 /**
@@ -14,7 +13,7 @@ import { Words } from "@/components/ui/Words";
 export function QuiSuisJe() {
   const f = apropos.fondateur;
   return (
-    <section id="fondateur" aria-labelledby="fondateur-title" className={`paper halo-tr relative isolate bg-ice ${waveTop("rise", false, true)}`}>
+    <section id="fondateur" aria-labelledby="fondateur-title" className="paper grain halo-tr relative isolate bg-ice">
       <div className="gutter mx-auto grid max-w-page items-center gap-14 pb-20 pt-24 lg:grid-cols-[0.92fr_1.08fr] lg:gap-20 lg:pb-28 lg:pt-32">
         <figure data-reveal="tilt" className="relative mx-auto w-full max-w-[440px]">
           <div className="overflow-hidden rounded-2xl bg-frost">

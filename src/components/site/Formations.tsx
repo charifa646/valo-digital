@@ -10,7 +10,6 @@ import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight } from "@/components/ui/Icons";
 import { Suite } from "@/components/ui/Suite";
 import { GrandTitre } from "@/components/ui/GrandTitre";
-import { waveTop } from "@/components/ui/Wave";
 
 /** One photo per training (file names change when a photo is replaced, so no cache can show the old one). */
 export const formationPhotos: Record<string, string> = {
@@ -73,7 +72,7 @@ function Card({ f, still = false }: { f: Formation; still?: boolean }) {
 export function Formations() {
   const items = formations.items;
   return (
-    <section id="formations" aria-labelledby="formations-title" className={`paper halo-tr relative bg-white ${waveTop("swell", false, true)}`}>
+    <section id="formations" aria-labelledby="formations-title" className="paper halo-tr relative bg-white">
       <div className="gutter mx-auto max-w-page pb-20 pt-24 lg:pb-28 lg:pt-32">
         <GrandTitre id="formations-title">{formations.grand}</GrandTitre>
         <div className="mt-8 max-w-[40rem] lg:mt-12">

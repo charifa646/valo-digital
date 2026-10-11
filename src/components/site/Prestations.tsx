@@ -8,7 +8,6 @@ import { ArrowRight } from "@/components/ui/Icons";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Price } from "@/components/ui/Price";
 import { Suite } from "@/components/ui/Suite";
-import { WaveSpace } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 import { GrandTitre } from "@/components/ui/GrandTitre";
 import { Calendrier } from "@/components/previews/Calendrier";
@@ -133,7 +132,6 @@ export function Prestations({ full = false }: { full?: boolean }) {
           </Suite>
         )}
       </div>
-      {!full && <WaveSpace />}
     </section>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { IconPlayerPauseFilled, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { demande, demo, hero, prestationChoices } from "@/lib/content";
 import { Monogram } from "@/components/brand/Logo";
 import { ArrowLeft, ArrowRight, Cap, Cart, Check, ChevronDown, Close, Megaphone, Target } from "@/components/ui/Icons";
@@ -16,6 +17,16 @@ import { DemandeButton } from "./Sheet";
  * name, no invented number), « Envoyer ma demande » and the thanks. Beside it, the step being played, in the form's own
  * words. It plays only while it is on screen, from the start each time, and stands still on the filled form with
  * « reduce motion ». Hidden from screen readers and out of reach (the real button is next to it).
+ *
+ * `scene`: the way Instrument shows its work, looked at again on instrument.com on 11 October 2026 (Charifa asked): a
+ * square card, large rounded corners, an almost black ground (their Services card: 668 by 668 px, 24 px corners, six
+ * slides, a 32 px white pause at the bottom left, six thin lines at the bottom right, no words on it); the text stays
+ * still beside it (the title and the real button). Here the phone, in a thin frame, plays the order on the card. A click
+ * on the pause stops the phone on the filled form, a second click starts the order again. Shown at /apercu/demo until
+ * she chooses.
+ *
+ * `sansCadre`: the phone without its frame, only a fine light rim around the screen (Charifa, 11 October 2026: « on va
+ * pas enlever le téléphone et garder la version instrument ? »), at /apercu/demo/sans-cadre.
  */
 
 const t = demande.prestation;
@@ -79,8 +90,10 @@ function Label({ children, optional = false }: { children: string; optional?: bo
   );
 }
 
-export function DemoCommande() {
+export function DemoCommande({ scene = false, sansCadre = false }: { scene?: boolean; sansCadre?: boolean }) {
   const [s, setS] = useState<State>(start);
+  const [paused, setPaused] = useState(false);
+  const control = useRef<{ pause: () => void; play: () => void } | null>(null);
   const screen = useRef<HTMLDivElement>(null);
   const finger = useRef<HTMLDivElement>(null);
   const words = useRef<HTMLSpanElement>(null);
@@ -102,6 +115,7 @@ export function DemoCommande() {
     let typing = 0;
     let running = false;
     let seen = false;
+    let held = false; // stopped by the visitor, on the filled form
     const set = (x: Partial<State>) => setS((v) => ({ ...v, ...x }));
     const later = (ms: number, fn: () => void) => timers.push(window.setTimeout(fn, ms));
 
@@ -213,7 +227,7 @@ export function DemoCommande() {
     };
 
     const sync = () => {
-      const go = seen && document.visibilityState === "visible";
+      const go = seen && document.visibilityState === "visible" && !held;
       if (go && !running) run();
       else if (!go && running) stop();
     };
@@ -226,7 +240,23 @@ export function DemoCommande() {
     );
     io.observe(box);
     document.addEventListener("visibilitychange", sync);
+    control.current = {
+      // the phone stops on the filled form (what « reduce motion » shows), a second click starts the order again
+      pause: () => {
+        held = true;
+        stop();
+        if (words.current) words.current.textContent = "";
+        setS(still);
+        setPaused(true);
+      },
+      play: () => {
+        held = false;
+        setPaused(false);
+        sync();
+      },
+    };
     return () => {
+      control.current = null;
       io.disconnect();
       document.removeEventListener("visibilitychange", sync);
       timers.forEach(window.clearTimeout);
@@ -237,8 +267,290 @@ export function DemoCommande() {
   const p = (key: string) => ({ "data-demo": key, "data-pressed": s.pressed === key ? "" : undefined });
   const picked = options[0];
 
+  const phone = (
+    <div aria-hidden {...inert} data-carte className={`demo-phone ${sansCadre ? "sans-cadre" : ""}`} data-reveal="pop">
+      <div className="demo-scaler">
+        <div className="demo-frame">
+          <div ref={screen} className="demo-screen">
+            {/* the site, as on a phone */}
+            <div className="dots absolute inset-0 bg-[#F7F9FF]" />
+            <div className="relative px-3 pt-[46px]">
+              <div className="flex h-[54px] items-center justify-between rounded-2xl bg-white pl-4 pr-1.5 text-electric shadow-[0_10px_30px_-18px_rgba(7,20,216,.35)]">
+                <span className="inline-flex items-center gap-2">
+                  <Monogram className="h-[19px] w-auto" />
+                  <span className="text-[15px] font-bold tracking-[-0.01em]">ValoDigital</span>
+                </span>
+                <span className="grid h-[42px] w-[42px] place-items-center rounded-full bg-electric">
+                  <span className="grid gap-[5px]">
+                    <i className="block h-[2px] w-4 rounded bg-white" />
+                    <i className="block h-[2px] w-4 rounded bg-white" />
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div className="relative px-6 pt-8 text-center">
+              <span className="mx-auto grid h-[52px] w-[52px] place-items-center rounded-2xl border border-hair bg-white text-electric">
+                <Monogram className="h-[17px] w-auto" />
+              </span>
+              <p className="mt-6 text-[30px] font-medium leading-[1.06] tracking-[-0.035em] text-ink">
+                {hero.title[0]} <span className="text-electric">{hero.title[1]}</span>
+              </p>
+              <p className="mt-4 text-[14.5px] font-medium leading-relaxed text-body">{hero.lead}</p>
+              <span {...p("cta")} className={btn("electric", "demo-press mt-6 min-h-[52px] text-[14.5px]")}>
+                <BtnInner>{hero.cta}</BtnInner>
+              </span>
+            </div>
+            <div className="relative mt-8 grid grid-cols-2 gap-3 px-4">
+              {[
+                { title: hero.tags[0], icon: <Megaphone className="h-4 w-4" /> },
+                { title: hero.tags[1], icon: <Target className="h-4 w-4" /> },
+                { title: hero.tags[2], icon: <Cart className="h-4 w-4" /> },
+                { title: hero.tags[3], icon: <Cap className="h-4 w-4" /> },
+              ].map((c) => (
+                <span
+                  key={c.title}
+                  className="flex h-[78px] items-start gap-2.5 rounded-2xl border border-hair bg-white p-3 text-[13px] font-semibold leading-tight text-ink"
+                >
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[4px] bg-electric text-white">{c.icon}</span>
+                  <span className="pt-1">{c.title}</span>
+                </span>
+              ))}
+            </div>
+
+            {/* the panel of « Parlons de votre projet » */}
+            <div className="demo-dim" data-on={s.panel ? "" : undefined} />
+            <div className="demo-sheet" data-on={s.panel ? "" : undefined}>
+              <div className="flex items-start justify-between gap-5 px-6 pb-4 pt-6">
+                <div>
+                  <p className="label text-electric">{demande.label}</p>
+                  <p className="mt-3 text-[24px] font-semibold leading-[1.08] tracking-[-0.025em] text-ink">{s.view === "choix" ? demande.title : t.title}</p>
+                </div>
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-ink shadow-card">
+                  <Close className="h-[18px] w-[18px]" />
+                </span>
+              </div>
+
+              <div ref={viewport} className="relative min-h-0 flex-1 overflow-hidden">
+                {/* drawn again for each view, so the thanks arrive at the top without sliding back */}
+                <div key={s.view} className="demo-body px-6 pb-10" style={{ transform: `translate3d(0, ${-s.shift}px, 0)` }}>
+                  {s.view === "choix" && (
+                    <div className="grid gap-3">
+                      {demande.choices.map((c, i) => (
+                        <span
+                          key={c.kind}
+                          {...p(i === 0 ? "prestation" : "formation")}
+                          className="demo-press flex items-center gap-4 rounded-2xl border border-electric/25 bg-white p-[18px] text-left shadow-[0_14px_30px_-20px_rgba(7,20,216,.45)]"
+                        >
+                          <span className="min-w-0 flex-1">
+                            <span className="block text-[16.5px] font-semibold leading-snug tracking-[-0.015em] text-ink">{c.title}</span>
+                            <span className="mt-1 block text-[13.5px] font-medium leading-snug text-body">{c.text}</span>
+                          </span>
+                          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-electric text-white">
+                            <ArrowRight className="h-4 w-4" />
+                          </span>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {s.view === "form" && (
+                    <div className="grid gap-5">
+                      <span className="-mt-1 inline-flex items-center gap-2 justify-self-start text-[14px] font-bold text-electric">
+                        <ArrowLeft className="h-4 w-4" />
+                        {demande.back}
+                      </span>
+
+                      <div className="relative">
+                        <Label>{t.choice}</Label>
+                        <span
+                          {...p("choice")}
+                          className={`${field} demo-press relative pr-11 leading-snug transition ${s.list ? "border-electric ring-4 ring-electric/10" : ""} ${
+                            s.choice ? "" : "font-normal text-mute/90"
+                          }`}
+                        >
+                          {s.choice ? picked.label : demande.pick}
+                          <ChevronDown
+                            className={`absolute right-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-electric transition ${s.list ? "rotate-180" : ""}`}
+                          />
+                        </span>
+                        <span className="demo-list" data-on={s.list ? "" : undefined}>
+                          {options.map((o, i) => (
+                            <span
+                              key={o.id}
+                              {...(i === 0 ? p("option") : {})}
+                              className={`block px-4 py-2.5 text-[14px] font-medium leading-snug ${
+                                i === 0 && s.pressed === "option" ? "bg-frost text-electric" : "text-ink"
+                              }`}
+                            >
+                              {o.label}
+                            </span>
+                          ))}
+                        </span>
+                      </div>
+
+                      <div>
+                        <Label>{t.situation}</Label>
+                        <div className="grid gap-2">
+                          {t.situations.map((x, i) => {
+                            const on = s.situation && i === situation;
+                            return (
+                              <span
+                                key={x}
+                                {...(i === situation ? p("situation") : {})}
+                                className={`demo-press flex items-center gap-3 rounded-[4px] border px-4 py-[11px] text-[14px] font-semibold leading-snug transition ${
+                                  on ? "border-electric bg-frost text-electric" : "border-hair bg-white text-ink"
+                                }`}
+                              >
+                                <span
+                                  className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 bg-white transition ${on ? "border-electric" : "border-hair"}`}
+                                >
+                                  <span className={`h-2.5 w-2.5 rounded-full bg-electric transition ${on ? "scale-100" : "scale-0"}`} />
+                                </span>
+                                {x}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <div>
+                        <Label optional>{t.project}</Label>
+                        <span
+                          {...p("project")}
+                          className={`${field} demo-press relative min-h-[98px] leading-relaxed ${s.typing ? "border-electric ring-4 ring-electric/10" : ""}`}
+                        >
+                          {!s.typing && <span className="absolute inset-x-4 top-3 font-normal text-mute/90">{t.projectHint}</span>}
+                          <span ref={words}>{motion && !paused ? null : sentence}</span>
+                          {s.typing && motion && !paused && <span className="demo-caret" />}
+                        </span>
+                      </div>
+
+                      {[
+                        { label: demande.name, w: "58%" },
+                        { label: demande.business, w: "44%" },
+                      ].map((x, i) => (
+                        <div key={x.label}>
+                          <Label>{x.label}</Label>
+                          <span className={`${field} flex h-[50px] items-center`}>
+                            <span
+                              className="demo-bar"
+                              data-on={s.bars ? "" : undefined}
+                              style={{ ["--w" as string]: x.w, ["--d" as string]: `${i * 0.28}s` } as CSSProperties}
+                            />
+                          </span>
+                        </div>
+                      ))}
+                      <div>
+                        <Label>{demande.phone}</Label>
+                        <span className={`${field} flex h-[50px] items-center gap-2`}>
+                          +226
+                          <span
+                            className="demo-bar"
+                            data-on={s.bars ? "" : undefined}
+                            style={{ ["--w" as string]: "40%", ["--d" as string]: "0.56s" } as CSSProperties}
+                          />
+                        </span>
+                      </div>
+                      <div>
+                        <Label optional>{demande.email}</Label>
+                        <span className={`${field} block h-[50px]`} />
+                      </div>
+
+                      <div className="grid gap-3">
+                        <span {...p("submit")} className={btn("electric", "demo-press w-full min-h-[52px] text-[14.5px]")}>
+                          <BtnInner>{s.sending ? demande.sending : t.submit}</BtnInner>
+                        </span>
+                        <span className="text-[12.5px] font-medium text-mute">{demande.privacy}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {s.view === "sent" && (
+                    <div className="demo-sent rounded-2xl bg-white px-6 py-9 text-center shadow-card">
+                      <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-electric text-white shadow-glow">
+                        <Check className="h-6 w-6" />
+                      </span>
+                      <p className="mt-6 text-[20px] font-semibold leading-snug tracking-[-0.02em] text-ink">{demande.sent.title}</p>
+                      <p className="mx-auto mt-3 text-[15px] font-medium leading-relaxed text-body">{demande.sent.text}</p>
+                      <span className="mt-7 inline-flex min-h-[46px] items-center rounded-full border border-electric/15 bg-frost px-6 text-[14px] font-bold text-electric">
+                        {demande.sent.close}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* the finger */}
+            <div ref={finger} className="demo-finger">
+              <span />
+            </div>
+            <span className="demo-island" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const segments = (
+    <div aria-hidden className="flex gap-1.5">
+      {captions.slice(0, 6).map((c, i) => (
+        <span
+          key={c}
+          className="demo-seg flex-1"
+          data-state={i < s.step ? "done" : i === s.step && motion && !paused ? "now" : undefined}
+          style={{ ["--t" as string]: `${at[i + 1] - at[i]}ms` } as CSSProperties}
+        >
+          <i key={i === s.step ? `now-${s.step}` : "x"} />
+        </span>
+      ))}
+    </div>
+  );
+
+  if (scene)
+    return (
+      <section id="demo" aria-labelledby="demo-title" className="paper grain relative isolate overflow-hidden bg-ice">
+        <div className="gutter mx-auto grid max-w-page items-center gap-9 py-20 lg:grid-cols-12 lg:gap-12 lg:py-24">
+          <div className="text-center lg:col-span-5 lg:text-left">
+            <h2 id="demo-title" data-reveal="words" className="h2 balance mx-auto max-w-[16ch] text-ink lg:mx-0">
+              <Words>{demo.title}</Words>
+            </h2>
+            <DemandeButton className={btn("electric", "mt-10 hidden lg:inline-flex")}>
+              <BtnInner>{hero.cta}</BtnInner>
+            </DemandeButton>
+          </div>
+
+          <div className="lg:col-span-7">
+            <div className="demo-scene">
+              {phone}
+              <div className="demo-commandes">
+                {motion && (
+                  <button
+                    type="button"
+                    className="demo-pause"
+                    aria-pressed={paused}
+                    aria-label={paused ? demo.play : demo.pause}
+                    onClick={() => (paused ? control.current?.play() : control.current?.pause())}
+                  >
+                    {paused ? <IconPlayerPlayFilled className="h-4 w-4" aria-hidden /> : <IconPlayerPauseFilled className="h-4 w-4" aria-hidden />}
+                  </button>
+                )}
+                {segments}
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center lg:hidden">
+            <DemandeButton className={btn("electric")}>
+              <BtnInner>{hero.cta}</BtnInner>
+            </DemandeButton>
+          </div>
+        </div>
+      </section>
+    );
+
   return (
-    <section id="demo" aria-labelledby="demo-title" className="paper relative isolate overflow-hidden bg-ice">
+    <section id="demo" aria-labelledby="demo-title" className="paper grain relative isolate overflow-hidden bg-ice">
       <div className="gutter mx-auto grid max-w-page items-center gap-9 py-20 lg:grid-cols-12 lg:gap-10 lg:py-24">
         <div className="text-center lg:col-span-5 lg:text-left">
           <h2 id="demo-title" data-reveal="words" className="h2 balance mx-auto max-w-[14ch] text-ink lg:mx-0">
@@ -257,7 +569,7 @@ export function DemoCommande() {
                 <span
                   key={c}
                   className="demo-seg"
-                  data-state={i < s.step ? "done" : i === s.step && motion ? "now" : undefined}
+                  data-state={i < s.step ? "done" : i === s.step && motion && !paused ? "now" : undefined}
                   style={{ ["--t" as string]: `${at[i + 1] - at[i]}ms` } as CSSProperties}
                 >
                   <i key={i === s.step ? `now-${s.step}` : "x"} />
@@ -273,230 +585,7 @@ export function DemoCommande() {
 
         <div className="relative flex justify-center lg:col-span-7">
           <div aria-hidden className="demo-glow" />
-          <div aria-hidden {...inert} data-carte className="demo-phone" data-reveal="pop">
-            <div className="demo-scaler">
-              <div className="demo-frame">
-                <div ref={screen} className="demo-screen">
-                  {/* the site, as on a phone */}
-                  <div className="dots absolute inset-0 bg-[#F7F9FF]" />
-                  <div className="relative px-3 pt-[46px]">
-                    <div className="flex h-[54px] items-center justify-between rounded-2xl bg-white pl-4 pr-1.5 text-electric shadow-[0_10px_30px_-18px_rgba(7,20,216,.35)]">
-                      <span className="inline-flex items-center gap-2">
-                        <Monogram className="h-[19px] w-auto" />
-                        <span className="text-[15px] font-bold tracking-[-0.01em]">ValoDigital</span>
-                      </span>
-                      <span className="grid h-[42px] w-[42px] place-items-center rounded-full bg-electric">
-                        <span className="grid gap-[5px]">
-                          <i className="block h-[2px] w-4 rounded bg-white" />
-                          <i className="block h-[2px] w-4 rounded bg-white" />
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="relative px-6 pt-8 text-center">
-                    <span className="mx-auto grid h-[52px] w-[52px] place-items-center rounded-2xl border border-hair bg-white text-electric">
-                      <Monogram className="h-[17px] w-auto" />
-                    </span>
-                    <p className="mt-6 text-[30px] font-medium leading-[1.06] tracking-[-0.035em] text-ink">
-                      {hero.title[0]} <span className="text-electric">{hero.title[1]}</span>
-                    </p>
-                    <p className="mt-4 text-[14.5px] font-medium leading-relaxed text-body">{hero.lead}</p>
-                    <span {...p("cta")} className={btn("electric", "demo-press mt-6 min-h-[52px] text-[14.5px]")}>
-                      <BtnInner>{hero.cta}</BtnInner>
-                    </span>
-                  </div>
-                  <div className="relative mt-8 grid grid-cols-2 gap-3 px-4">
-                    {[
-                      { title: hero.tags[0], icon: <Megaphone className="h-4 w-4" /> },
-                      { title: hero.tags[1], icon: <Target className="h-4 w-4" /> },
-                      { title: hero.tags[2], icon: <Cart className="h-4 w-4" /> },
-                      { title: hero.tags[3], icon: <Cap className="h-4 w-4" /> },
-                    ].map((c) => (
-                      <span
-                        key={c.title}
-                        className="flex h-[78px] items-start gap-2.5 rounded-2xl border border-hair bg-white p-3 text-[13px] font-semibold leading-tight text-ink"
-                      >
-                        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[4px] bg-electric text-white">{c.icon}</span>
-                        <span className="pt-1">{c.title}</span>
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* the panel of « Parlons de votre projet » */}
-                  <div className="demo-dim" data-on={s.panel ? "" : undefined} />
-                  <div className="demo-sheet" data-on={s.panel ? "" : undefined}>
-                    <div className="flex items-start justify-between gap-5 px-6 pb-4 pt-6">
-                      <div>
-                        <p className="label text-electric">{demande.label}</p>
-                        <p className="mt-3 text-[24px] font-semibold leading-[1.08] tracking-[-0.025em] text-ink">
-                          {s.view === "choix" ? demande.title : t.title}
-                        </p>
-                      </div>
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-ink shadow-card">
-                        <Close className="h-[18px] w-[18px]" />
-                      </span>
-                    </div>
-
-                    <div ref={viewport} className="relative min-h-0 flex-1 overflow-hidden">
-                      {/* drawn again for each view, so the thanks arrive at the top without sliding back */}
-                      <div key={s.view} className="demo-body px-6 pb-10" style={{ transform: `translate3d(0, ${-s.shift}px, 0)` }}>
-                        {s.view === "choix" && (
-                          <div className="grid gap-3">
-                            {demande.choices.map((c, i) => (
-                              <span
-                                key={c.kind}
-                                {...p(i === 0 ? "prestation" : "formation")}
-                                className="demo-press flex items-center gap-4 rounded-2xl border border-electric/25 bg-white p-[18px] text-left shadow-[0_14px_30px_-20px_rgba(7,20,216,.45)]"
-                              >
-                                <span className="min-w-0 flex-1">
-                                  <span className="block text-[16.5px] font-semibold leading-snug tracking-[-0.015em] text-ink">{c.title}</span>
-                                  <span className="mt-1 block text-[13.5px] font-medium leading-snug text-body">{c.text}</span>
-                                </span>
-                                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-electric text-white">
-                                  <ArrowRight className="h-4 w-4" />
-                                </span>
-                              </span>
-                            ))}
-                          </div>
-                        )}
-
-                        {s.view === "form" && (
-                          <div className="grid gap-5">
-                            <span className="-mt-1 inline-flex items-center gap-2 justify-self-start text-[14px] font-bold text-electric">
-                              <ArrowLeft className="h-4 w-4" />
-                              {demande.back}
-                            </span>
-
-                            <div className="relative">
-                              <Label>{t.choice}</Label>
-                              <span
-                                {...p("choice")}
-                                className={`${field} demo-press relative pr-11 leading-snug transition ${s.list ? "border-electric ring-4 ring-electric/10" : ""} ${
-                                  s.choice ? "" : "font-normal text-mute/90"
-                                }`}
-                              >
-                                {s.choice ? picked.label : demande.pick}
-                                <ChevronDown
-                                  className={`absolute right-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-electric transition ${s.list ? "rotate-180" : ""}`}
-                                />
-                              </span>
-                              <span className="demo-list" data-on={s.list ? "" : undefined}>
-                                {options.map((o, i) => (
-                                  <span
-                                    key={o.id}
-                                    {...(i === 0 ? p("option") : {})}
-                                    className={`block px-4 py-2.5 text-[14px] font-medium leading-snug ${
-                                      i === 0 && s.pressed === "option" ? "bg-frost text-electric" : "text-ink"
-                                    }`}
-                                  >
-                                    {o.label}
-                                  </span>
-                                ))}
-                              </span>
-                            </div>
-
-                            <div>
-                              <Label>{t.situation}</Label>
-                              <div className="grid gap-2">
-                                {t.situations.map((x, i) => {
-                                  const on = s.situation && i === situation;
-                                  return (
-                                    <span
-                                      key={x}
-                                      {...(i === situation ? p("situation") : {})}
-                                      className={`demo-press flex items-center gap-3 rounded-[4px] border px-4 py-[11px] text-[14px] font-semibold leading-snug transition ${
-                                        on ? "border-electric bg-frost text-electric" : "border-hair bg-white text-ink"
-                                      }`}
-                                    >
-                                      <span
-                                        className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 bg-white transition ${on ? "border-electric" : "border-hair"}`}
-                                      >
-                                        <span className={`h-2.5 w-2.5 rounded-full bg-electric transition ${on ? "scale-100" : "scale-0"}`} />
-                                      </span>
-                                      {x}
-                                    </span>
-                                  );
-                                })}
-                              </div>
-                            </div>
-
-                            <div>
-                              <Label optional>{t.project}</Label>
-                              <span
-                                {...p("project")}
-                                className={`${field} demo-press relative min-h-[98px] leading-relaxed ${s.typing ? "border-electric ring-4 ring-electric/10" : ""}`}
-                              >
-                                {!s.typing && <span className="absolute inset-x-4 top-3 font-normal text-mute/90">{t.projectHint}</span>}
-                                <span ref={words}>{motion ? null : sentence}</span>
-                                {s.typing && motion && <span className="demo-caret" />}
-                              </span>
-                            </div>
-
-                            {[
-                              { label: demande.name, w: "58%" },
-                              { label: demande.business, w: "44%" },
-                            ].map((x, i) => (
-                              <div key={x.label}>
-                                <Label>{x.label}</Label>
-                                <span className={`${field} flex h-[50px] items-center`}>
-                                  <span
-                                    className="demo-bar"
-                                    data-on={s.bars ? "" : undefined}
-                                    style={{ ["--w" as string]: x.w, ["--d" as string]: `${i * 0.28}s` } as CSSProperties}
-                                  />
-                                </span>
-                              </div>
-                            ))}
-                            <div>
-                              <Label>{demande.phone}</Label>
-                              <span className={`${field} flex h-[50px] items-center gap-2`}>
-                                +226
-                                <span
-                                  className="demo-bar"
-                                  data-on={s.bars ? "" : undefined}
-                                  style={{ ["--w" as string]: "40%", ["--d" as string]: "0.56s" } as CSSProperties}
-                                />
-                              </span>
-                            </div>
-                            <div>
-                              <Label optional>{demande.email}</Label>
-                              <span className={`${field} block h-[50px]`} />
-                            </div>
-
-                            <div className="grid gap-3">
-                              <span {...p("submit")} className={btn("electric", "demo-press w-full min-h-[52px] text-[14.5px]")}>
-                                <BtnInner>{s.sending ? demande.sending : t.submit}</BtnInner>
-                              </span>
-                              <span className="text-[12.5px] font-medium text-mute">{demande.privacy}</span>
-                            </div>
-                          </div>
-                        )}
-
-                        {s.view === "sent" && (
-                          <div className="demo-sent rounded-2xl bg-white px-6 py-9 text-center shadow-card">
-                            <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-electric text-white shadow-glow">
-                              <Check className="h-6 w-6" />
-                            </span>
-                            <p className="mt-6 text-[20px] font-semibold leading-snug tracking-[-0.02em] text-ink">{demande.sent.title}</p>
-                            <p className="mx-auto mt-3 text-[15px] font-medium leading-relaxed text-body">{demande.sent.text}</p>
-                            <span className="mt-7 inline-flex min-h-[46px] items-center rounded-full border border-electric/15 bg-frost px-6 text-[14px] font-bold text-electric">
-                              {demande.sent.close}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* the finger */}
-                  <div ref={finger} className="demo-finger">
-                    <span />
-                  </div>
-                  <span className="demo-island" />
-                </div>
-              </div>
-            </div>
-          </div>
+          {phone}
         </div>
 
         <div className="text-center lg:hidden">

@@ -69,8 +69,7 @@ export function Header() {
   useEffect(() => () => window.clearTimeout(subTimer.current), []);
 
   // dark glass over the night-blue panels, light glass everywhere else: watch a thin strip at the top edge of the
-  // header, so it only turns dark once fully over the panel. A panel whose top is cut as a wave (`.wave-top`) counts
-  // from the middle of its wave, where its blue really begins.
+  // header, so it only turns dark once fully over the panel.
   useEffect(() => {
     const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-dark]"));
     let frame = 0;
@@ -82,8 +81,7 @@ export function Header() {
         document.documentElement.dataset.teinte === undefined &&
           !panels.some((p) => {
             const r = p.getBoundingClientRect();
-            const wave = p.classList.contains("wave-top") ? parseFloat(getComputedStyle(p).paddingTop) / 2 : 0;
-            return r.top + wave <= strip && r.bottom > 14;
+            return r.top <= strip && r.bottom > 14;
           }),
       );
     };

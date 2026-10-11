@@ -10,7 +10,7 @@ import { Words } from "@/components/ui/Words";
  */
 export function Mot() {
   return (
-    <section id="mot" aria-labelledby="mot-title" className="paper relative bg-ice">
+    <section id="mot" aria-labelledby="mot-title" className="paper grain relative bg-ice">
       <div className="gutter mx-auto max-w-page pb-24 pt-6 lg:pb-32 lg:pt-10">
         <div className="mx-auto max-w-[44rem]">
           <h2 id="mot-title" data-reveal="rule" className="tag">

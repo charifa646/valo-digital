@@ -6,7 +6,7 @@ import type { CSSProperties } from "react";
  */
 export function PageTitle({ title }: { title: string }) {
   return (
-    <section id="top" aria-labelledby="page-title" className="paper relative overflow-hidden">
+    <section id="top" aria-labelledby="page-title" className="paper grain relative overflow-hidden">
       <div className="gutter mx-auto max-w-page pb-6 pt-[124px] sm:pt-[148px] lg:pb-8 lg:pt-[176px]">
         <h1 id="page-title" className="text-[clamp(3.5rem,0.9rem+11.5vw,10.5rem)] font-semibold leading-[0.92] tracking-[-0.055em] text-electric">
           <span className="line-mask">

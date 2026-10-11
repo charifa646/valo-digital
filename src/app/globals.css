@@ -466,25 +466,30 @@ html {
 .paper {
   isolation: isolate;
 }
-.paper::before,
-.paper::after {
+.paper::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-}
-.paper::before {
   background: var(--halo, none);
 }
-.paper::after {
+/* the grain is only in the sections that ask for it (`grain`), not in all of them (Charifa, 11 October 2026: « j'aime
+   plus trop les grains, mets-les dans certaines sections et pas dans d'autres »). Its strength is 0.16: at the first 0.38
+   it was clearly speckled and darkened the white (mean brightness 239.7 against 245 without it). */
+.paper.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.03 0 0 0 0 0.05 0 0 0 0 0.32 0 0 0 0.9 -0.36'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 180px 180px;
-  opacity: 0.38;
+  opacity: 0.16;
 }
 /* sharp screens: a finer grain */
 @media (min-resolution: 1.5dppx) {
-  .paper::after {
+  .paper.grain::after {
     background-size: 110px 110px;
   }
 }
@@ -496,84 +501,6 @@ html {
 }
 .halo-bl {
   --halo: radial-gradient(40% 52% at 0% 100%, rgba(76, 96, 255, 0.085), transparent 70%);
-}
-
-/* the waves, anchored in their section (`waveTop` and `WaveSpace` in Wave.tsx): the next section rises over the end
-   of the one before by the height of the wave, and a mask cuts its top edge as a wave, so the wave keeps that section's
-   own white, grain, halo or blue and no straight line shows under it. The mask's second layer covers the rest of the
-   section, from one pixel above the end of the wave so no seam shows. */
-.wave-top,
-.wave-space {
-  --wave-h: 46px;
-}
-@media (min-width: 640px) {
-  .wave-top,
-  .wave-space {
-    --wave-h: 70px;
-  }
-}
-@media (min-width: 1024px) {
-  .wave-top,
-  .wave-space {
-    --wave-h: 96px;
-  }
-}
-.wave-space {
-  height: var(--wave-h);
-}
-.wave-top {
-  margin-top: calc(var(--wave-h) * -1);
-  padding-top: var(--wave-h);
-  -webkit-mask:
-    var(--wave) 0 0 / 100% var(--wave-h) no-repeat,
-    linear-gradient(#000, #000) 0 calc(var(--wave-h) - 1px) / 100% 100% no-repeat;
-  mask:
-    var(--wave) 0 0 / 100% var(--wave-h) no-repeat,
-    linear-gradient(#000, #000) 0 calc(var(--wave-h) - 1px) / 100% 100% no-repeat;
-}
-.wave-swell {
-  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 69C240 25 500 20 760 54C1010 86 1230 95 1440 56V120H0Z'/%3E%3C/svg%3E");
-}
-.wave-swell-flip {
-  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 69C240 25 500 20 760 54C1010 86 1230 95 1440 56V120H0Z'/%3E%3C/svg%3E");
-}
-.wave-rise {
-  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 85C280 93 560 69 820 43C1060 20 1280 25 1440 46V120H0Z'/%3E%3C/svg%3E");
-}
-.wave-rise-flip {
-  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 85C280 93 560 69 820 43C1060 20 1280 25 1440 46V120H0Z'/%3E%3C/svg%3E");
-}
-.wave-ripple {
-  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 54C200 77 400 80 600 59C800 38 1000 20 1200 36C1300 43 1380 54 1440 51V120H0Z'/%3E%3C/svg%3E");
-}
-.wave-ripple-flip {
-  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 54C200 77 400 80 600 59C800 38 1000 20 1200 36C1300 43 1380 54 1440 51V120H0Z'/%3E%3C/svg%3E");
-}
-
-/* between two light sections the two whites are close: a fine line follows the edge of the wave, inside it, like the
-   fine line around the cards, so the wave reads on every screen */
-.wave-line {
-  background-image: var(--wave-line);
-  background-size: 100% var(--wave-h);
-  background-repeat: no-repeat;
-}
-.wave-swell.wave-line {
-  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 69C240 25 500 20 760 54C1010 86 1230 95 1440 56' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
-}
-.wave-swell-flip.wave-line {
-  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 69C240 25 500 20 760 54C1010 86 1230 95 1440 56' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
-}
-.wave-rise.wave-line {
-  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 85C280 93 560 69 820 43C1060 20 1280 25 1440 46' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
-}
-.wave-rise-flip.wave-line {
-  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 85C280 93 560 69 820 43C1060 20 1280 25 1440 46' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
-}
-.wave-ripple.wave-line {
-  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 54C200 77 400 80 600 59C800 38 1000 20 1200 36C1300 43 1380 54 1440 51' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
-}
-.wave-ripple-flip.wave-line {
-  --wave-line: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath transform='matrix(-1 0 0 1 1440 0)' d='M0 54C200 77 400 80 600 59C800 38 1000 20 1200 36C1300 43 1380 54 1440 51' fill='none' stroke='%230714D8' stroke-opacity='.16' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
 }
 
 /* a word of its section, very large and very pale, fading out (« BESOIN », « MÉTHODE »): two on the site, no more */
@@ -640,7 +567,7 @@ html {
 /* No new colour (« utiliser les sections déjà en couleur »). While a part marked `data-teinte` crosses the middle of
    the screen (the figures' night blue on the homepage; on « À propos » the blue top, the blue band of « Mon parcours
    digital » and the night photo of « Être visible ne suffit pas. »), the whole page takes its colour in a short fade:
-   every part of the page, so the waves between them melt away, and their words turn light, the cards keeping their
+   every part of the page, and their words turn light, the cards keeping their
    own colours. The foot of the page is left out. `html[data-teinte]` names the colour on; without the script, or once
    the part has gone by, the page is light again. */
 /* its own curve, gentle at both ends, and a little longer: on the site's entrance curve, very fast at first, the colour
@@ -675,9 +602,6 @@ html[data-teinte] #contenu > section {
    still dark, fell to 1.2 contrast (11 October 2026) */
 html[data-teintes]:not([data-teinte]) #contenu > section:not([class*="bg-"]) {
   background-color: #f4f7ff;
-}
-html[data-teinte] #contenu > .wave-line {
-  background-image: none;
 }
 /* the blue band takes the flat blue of the page, so no edge shows between them: its gradient cannot fade into a flat
    colour, so a flat layer fades in over it, under its words */
@@ -1405,11 +1329,21 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 /* drawn at a phone's size (360 px wide) and scaled down by `--s`     */
 /* ------------------------------------------------------------------ */
 
+/* the phone's outer size, in the screen's own pixels: the screen is 360 by 740 whatever the frame (`--pw`, `--ph`: the screen and
+   twice the frame's thickness). The frame was 10 px thick and dark (« diminue l'épaisseur du téléphone », 11 October 2026):
+   it is 5 px now; `sans-cadre`: only a fine light rim, the stage around the phone doing the framing (the way Instrument
+   shows its screens). */
 .demo-phone {
   --s: 0.72;
+  --pw: 370;
+  --ph: 750;
   position: relative;
-  width: calc(380px * var(--s));
-  height: calc(760px * var(--s));
+  width: calc(var(--pw) * 1px * var(--s));
+  height: calc(var(--ph) * 1px * var(--s));
+}
+.demo-phone.sans-cadre {
+  --pw: 364;
+  --ph: 744;
 }
 @media (min-width: 768px) {
   .demo-phone {
@@ -1425,28 +1359,40 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   position: absolute;
   left: 0;
   top: 0;
-  width: 380px;
-  height: 760px;
+  width: calc(var(--pw) * 1px);
+  height: calc(var(--ph) * 1px);
   transform: scale(var(--s));
   transform-origin: 0 0;
 }
 .demo-frame {
   height: 100%;
-  padding: 10px;
-  border-radius: 58px;
+  padding: 5px;
+  border-radius: 52px;
   background: linear-gradient(150deg, #20285c 0%, #0b1033 45%, #05081c 100%);
   box-shadow:
-    0 0 0 1.5px rgba(143, 163, 255, 0.28) inset,
+    0 0 0 1px rgba(143, 163, 255, 0.28) inset,
     0 60px 100px -50px rgba(2, 6, 46, 0.6),
     0 34px 70px -34px rgba(7, 20, 216, 0.4);
+}
+.sans-cadre .demo-frame {
+  padding: 2px;
+  border-radius: 38px;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.28));
+  box-shadow: 0 50px 80px -40px rgba(2, 6, 46, 0.75);
 }
 .demo-screen {
   position: relative;
   height: 100%;
   isolation: isolate;
   overflow: hidden;
-  clip-path: inset(0 round 48px);
+  clip-path: inset(0 round 47px);
   background: #fff;
+}
+.sans-cadre .demo-screen {
+  clip-path: inset(0 round 36px);
+}
+.sans-cadre .demo-island {
+  display: none;
 }
 .demo-island {
   position: absolute;
@@ -1880,4 +1826,104 @@ html[data-teinte="nuit"] .logos-rangs[data-reveal][data-in] {
   50% {
     opacity: 1;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* The order demo on a stage (`DemoCommande scene`), drawn after what    */
+/* Charifa asked to look at again on instrument.com (11 October 2026):   */
+/* a square card with large rounded corners and an almost black ground,  */
+/* the device in a thin frame, a small round white pause at the bottom   */
+/* left and six thin lines at the bottom right, and no other text on it  */
+/* ------------------------------------------------------------------ */
+
+.demo-scene {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0 88px;
+  border-radius: 24px;
+  background: radial-gradient(55% 40% at 50% 42%, rgba(53, 81, 255, 0.3), transparent 70%), linear-gradient(170deg, #07115c 0%, #040b52 45%, #02062e 100%);
+}
+/* on a phone the card stays tall: the screen of the order has to be read */
+@media (min-width: 768px) {
+  .demo-scene {
+    padding: 0;
+    aspect-ratio: 1 / 1;
+  }
+}
+.demo-scene .demo-phone {
+  --s: 0.72;
+  z-index: 1;
+}
+@media (min-width: 1024px) {
+  .demo-scene .demo-phone {
+    --s: 0.68;
+  }
+}
+/* without its frame the screen can be larger on a phone, where the words were small: 306 px wide in a card of 320 */
+.demo-scene .demo-phone.sans-cadre {
+  --s: 0.84;
+}
+@media (max-width: 359px) {
+  .demo-scene .demo-phone.sans-cadre {
+    --s: 0.72;
+  }
+}
+@media (min-width: 768px) {
+  .demo-scene .demo-phone.sans-cadre {
+    --s: 0.72;
+  }
+}
+@media (min-width: 1024px) {
+  .demo-scene .demo-phone.sans-cadre {
+    --s: 0.68;
+  }
+}
+/* the controls: the pause at the bottom left, the six lines at the bottom right (their active line fills as the step goes) */
+.demo-commandes {
+  position: absolute;
+  inset: auto 24px 24px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.demo-commandes > div {
+  display: flex;
+  gap: 6px;
+  width: min(270px, 62%);
+  margin-left: auto;
+}
+.demo-pause {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background: #fff;
+  color: #070708;
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s ease;
+}
+.demo-pause:hover {
+  background: #fdec05;
+}
+.demo-pause:active {
+  transform: scale(0.92);
+}
+.demo-pause:focus-visible {
+  outline: 2px solid #fdec05;
+  outline-offset: 3px;
+}
+html .demo-scene .demo-seg {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+}
+html .demo-scene .demo-seg i {
+  background: #fff;
 }

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { fondateur } from "@/lib/content";
-import { waveTop } from "@/components/ui/Wave";
 import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Suite } from "@/components/ui/Suite";
@@ -17,7 +16,7 @@ export function Fondateur() {
   const [first, ...rest] = fondateur.letter;
   const text = "max-w-[38rem] space-y-5 text-[16.5px] font-medium leading-[1.75] text-body sm:text-[17px]";
   return (
-    <section id="fondateur" aria-labelledby="fondateur-title" className={`paper relative isolate bg-ice ${waveTop("ripple", true, true)}`}>
+    <section id="fondateur" aria-labelledby="fondateur-title" className="paper grain relative isolate bg-ice">
       <div className="gutter mx-auto grid max-w-page gap-x-20 pb-24 pt-16 [grid-template-areas:'head'_'photo'_'letter'] lg:grid-cols-[0.8fr_1.2fr] lg:grid-rows-[auto_1fr] lg:items-start lg:pb-32 lg:pt-24 lg:[grid-template-areas:'photo_head'_'photo_letter']">
         <div className="[grid-area:head]">
           <h2 id="fondateur-title" data-reveal="rule" className="tag">

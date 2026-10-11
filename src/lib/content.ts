@@ -769,4 +769,7 @@ export const menus: Record<"prestations" | "formations", Menu> = {
  */
 export const demo = typeset({
   title: "Voici comment passer commande.",
+  /** the pause button of the stage (read by screen readers only): proposed to her for validation */
+  pause: "Mettre la démo en pause",
+  play: "Relancer la démo",
 });
