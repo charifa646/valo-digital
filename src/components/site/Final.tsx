@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Link from "next/link";
 import { final, footer, nav } from "@/lib/content";
 import { DemandeButton } from "./Sheet";
 import { Anchor, NavLink } from "./Scroll";
@@ -22,15 +23,16 @@ const nom = footer.name.split(" ")[0];
  * slides over the page (held in place behind it, as before), as light as the page: its title very large, the way to
  * write to VALO, the numbers written large; then the brand, the services and trainings, and under them a band of
  * dots that thicken towards the bottom with the name VALO left clear in them; then the copyright, the menu and the way
- * back to the top. Only VALO's own words: no newsletter, no social networks (none given). `ton="nuit"` is the same
- * foot in night blue, at /apercu/pied/nuit.
+ * back to the top. Only VALO's own words: no newsletter, no social networks (none given). In night blue since 12 October
+ * 2026 (her choice), with smaller words in a light grey instead of pure white; `ton="clair"` is the light one, at
+ * /apercu/pied/trame.
  */
-export function Final({ ton = "clair" }: { ton?: "clair" | "nuit" }) {
+export function Final({ ton = "nuit" }: { ton?: "clair" | "nuit" }) {
   const nuit = ton === "nuit";
   return (
     <div data-ton={ton} data-dark={nuit || undefined} className={`feuille pied-trame ${nuit ? "on-dark" : ""}`}>
       <section id="contact" aria-labelledby="contact-title" className="gutter relative mx-auto max-w-page pt-12 sm:pt-16 lg:pt-20">
-        <h2 id="contact-title" data-reveal="words" className="text-[clamp(2.65rem,0.6rem+5.6vw,6.1rem)] font-medium leading-[0.98] tracking-[-0.045em]">
+        <h2 id="contact-title" data-reveal="words" className="text-[clamp(2.1rem,0.9rem+3.4vw,4.4rem)] font-medium leading-[1.02] tracking-[-0.04em]">
           <span className="block">
             <Words>{line1}</Words>
           </span>
@@ -40,7 +42,7 @@ export function Final({ ton = "clair" }: { ton?: "clair" | "nuit" }) {
         </h2>
         <div className="mt-10 grid gap-12 lg:mt-14 lg:grid-cols-12 lg:gap-10">
           <div data-reveal style={{ ["--d" as string]: "0.35s" } as CSSProperties} className="lg:col-span-5">
-            <p className="pretty pied-doux max-w-[26rem] text-[17px] font-medium leading-relaxed sm:text-[18px]">{final.text}</p>
+            <p className="pretty pied-doux max-w-[26rem] text-[15px] font-medium leading-relaxed sm:text-[16px]">{final.text}</p>
             <DemandeButton className={btn(nuit ? "white" : "electric", "mt-7")}>
               <BtnInner>{final.cta}</BtnInner>
             </DemandeButton>
@@ -64,18 +66,23 @@ export function Final({ ton = "clair" }: { ton?: "clair" | "nuit" }) {
         <div className="pied-trait border-t">
           <div className="gutter mx-auto flex max-w-page flex-col gap-5 py-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-8">
-              <p className="pied-sourd text-[13px] font-medium">{footer.copyright}</p>
+              <p className="pied-sourd text-[12.5px] font-medium">{footer.copyright}</p>
               <nav aria-label="Pied de page">
-                <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[13.5px] font-semibold">
+                <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[12.5px] font-semibold">
                   {nav.map((n) => (
                     <li key={n.id}>
                       <NavLink item={n} className="pied-menu transition" />
                     </li>
                   ))}
+                  <li>
+                    <Link href="/mentions-legales" className="pied-menu transition">
+                      {footer.legal}
+                    </Link>
+                  </li>
                 </ul>
               </nav>
             </div>
-            <Anchor to="top" className="pied-menu group inline-flex items-center gap-3 self-start text-[13.5px] font-semibold transition sm:self-auto">
+            <Anchor to="top" className="pied-menu group inline-flex items-center gap-3 self-start text-[12.5px] font-semibold transition sm:self-auto">
               <span>Retour en haut</span>
               <span className="pied-trait grid h-9 w-9 place-items-center rounded-full border transition duration-300 group-hover:-translate-y-0.5">
                 <ArrowUp className="h-4 w-4" />

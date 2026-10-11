@@ -982,12 +982,14 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   background: var(--pied-fond);
   color: var(--pied-texte);
 }
+/* the night one, the foot of every page since 12 October 2026: light grey words rather than pure white (« pour un
+   meilleur rendu épuré et premium »), white only under the pointer */
 .pied-trame[data-ton="nuit"] {
   --pied-fond: #040b52;
-  --pied-texte: #ffffff;
-  --pied-doux: rgba(255, 255, 255, 0.75);
-  --pied-sourd: rgba(255, 255, 255, 0.55);
-  --pied-menu: rgba(255, 255, 255, 0.85);
+  --pied-texte: #dfe3f0;
+  --pied-doux: rgba(223, 227, 240, 0.72);
+  --pied-sourd: rgba(223, 227, 240, 0.5);
+  --pied-menu: rgba(223, 227, 240, 0.8);
   --pied-survol: #ffffff;
   --pied-trait: rgba(255, 255, 255, 0.14);
   --pied-accent: #3551ff;

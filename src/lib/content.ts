@@ -58,8 +58,9 @@ export const nav: NavItem[] = typeset([
 
 export const hero = typeset({
   title: ["Faites du digital un véritable", "levier de croissance."],
-  /** the catalogue's own words (validated by Charifa, 7 October 2026): where VALO is and that it also trains */
-  lead: "Agence de croissance digitale et centre de formation aux métiers du numérique, à Ouagadougou.",
+  /** Charifa's own words from her copywriting (« VALO COPYWRITING + STRUCTURE »), put back on 12 October 2026 (« remets mon
+   * copywriting de début, surtout le texte du header »); the catalogue's words had replaced them on 7 October */
+  lead: "VALO DIGITAL accompagne les entrepreneurs et entreprises dans leur marketing, leur acquisition et leur développement.",
   cta: "Parlons de votre projet",
   tags: ["Marketing digital", "Publicité", "Vente", "Formation"],
 });
@@ -372,6 +373,31 @@ export const footer = typeset({
   tagline: "Agence de croissance digitale",
   tags: ["Marketing digital", "Publicité", "Vente", "Formation"],
   copyright: "© VALO DIGITAL",
+  legal: "Mentions légales",
+});
+
+/**
+ * The legal notice (Charifa, 12 October 2026: « ajoute la mention légale »). Only what is known: the publisher, its
+ * address and contacts, the person responsible, the host. The legal form, the RCCM and the IFU numbers are asked of her
+ * and added when she gives them. The two short paragraphs are proposed to her for validation.
+ */
+export const mentions = typeset({
+  title: "Mentions légales",
+  blocks: [
+    { h: "Éditeur du site", lines: ["VALO DIGITAL", "Wemtenga, Ouagadougou, Burkina Faso", "Téléphone : +226 54 27 77 52", "E-mail : contact@valodigitalbf.com"] },
+    { h: "Responsable de la publication", lines: ["Gueswendyam Valentin WAONGO"] },
+    { h: "Hébergement", lines: ["Vercel Inc.", "440 N Barranca Ave #4133, Covina, CA 91723, États-Unis", "vercel.com"] },
+    {
+      h: "Propriété intellectuelle",
+      lines: ["Les textes, le logo, les photos et les visuels de ce site appartiennent à VALO DIGITAL ou sont utilisés avec l’accord de leurs auteurs. Toute reproduction sans autorisation écrite est interdite."],
+    },
+    {
+      h: "Données personnelles",
+      lines: [
+        "Les informations envoyées par les formulaires (nom, numéro de téléphone, demande) servent uniquement à vous répondre. Elles ne sont ni vendues ni cédées. Pour les consulter, les corriger ou les faire supprimer, écrivez à contact@valodigitalbf.com.",
+      ],
+    },
+  ],
 });
 
 /* ---------------------------------------------------------------------------

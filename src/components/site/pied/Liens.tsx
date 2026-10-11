@@ -20,7 +20,7 @@ export function Contacts({ className = "" }: { className?: string }) {
           <a
             href={it.href}
             {...(it.ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            className="link-draw pied-texte break-words text-[clamp(1.35rem,0.95rem+1.35vw,2.15rem)] font-medium leading-tight tracking-[-0.03em]"
+            className="link-draw pied-texte break-words text-[clamp(1.1rem,0.85rem+0.8vw,1.55rem)] font-medium leading-tight tracking-[-0.02em]"
           >
             {it.label}
           </a>
@@ -36,10 +36,10 @@ export function Marque({ className = "" }: { className?: string }) {
     <div className={className}>
       <p className="flex items-center gap-3">
         <Monogram className="h-8 w-auto" />
-        <span className="text-[17px] font-bold tracking-[0.04em]">{footer.name}</span>
+        <span className="text-[15px] font-bold tracking-[0.04em]">{footer.name}</span>
       </p>
-      <p className="pied-doux mt-4 max-w-[17rem] text-[15px] font-medium leading-relaxed">{footer.tagline}</p>
-      <p className="pied-sourd mt-2 text-[13.5px] font-semibold">{footer.tags.join(" · ")}</p>
+      <p className="pied-doux mt-4 max-w-[17rem] text-[14px] font-medium leading-relaxed">{footer.tagline}</p>
+      <p className="pied-sourd mt-2 text-[12.5px] font-semibold">{footer.tags.join(" · ")}</p>
     </div>
   );
 }
@@ -53,17 +53,17 @@ export function Colonnes({ className = "" }: { className?: string }) {
     <div className={`grid grid-cols-2 gap-x-8 gap-y-10 ${className}`}>
       {(["prestations", "formations"] as const).map((id) => (
         <nav key={id} aria-label={columnTitle(id)}>
-          <p className="pied-sourd text-[14px] font-semibold">{columnTitle(id)}</p>
+          <p className="pied-sourd text-[12.5px] font-semibold">{columnTitle(id)}</p>
           <ul className="mt-4 grid gap-2.5">
             {menus[id].links.slice(0, 4).map((l) => (
               <li key={l.id} className="hidden sm:block">
-                <PageLink page={menus[id].page} to={l.id} className="pied-menu text-[14.5px] font-medium leading-snug transition">
+                <PageLink page={menus[id].page} to={l.id} className="pied-menu text-[13.5px] font-medium leading-snug transition">
                   {l.name}
                 </PageLink>
               </li>
             ))}
             <li className="sm:pt-1">
-              <Link href={menus[id].page} className="pied-tout text-[14.5px] font-semibold transition">
+              <Link href={menus[id].page} className="pied-tout text-[13.5px] font-semibold transition">
                 {menus[id].all}
               </Link>
             </li>
