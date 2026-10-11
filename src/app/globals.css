@@ -2229,13 +2229,12 @@ html .demo-scene .demo-seg i {
 .eventail-lueur {
   background: radial-gradient(closest-side, rgba(53, 81, 255, 0.2), rgba(143, 163, 255, 0.1) 55%, transparent);
 }
-/* the scene is drawn at 1000 by 560 px and scaled to the screen; its sides fade into the page */
+/* the scene is drawn at 1000 by 560 px and scaled to the screen. No mask on the whole scene: it made it be drawn again at
+   each frame (50 ms a frame on a slowed phone, 12 October 2026); the outer cards fade on their own */
 .eventail-scene {
   --k: 0.72;
   height: calc(560px * var(--k));
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14%, #000 86%, transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0, #000 14%, #000 86%, transparent 100%);
 }
 @media (min-width: 480px) {
   .eventail-scene {
@@ -2270,7 +2269,7 @@ html .demo-scene .demo-seg i {
   width: 256px;
   height: 540px;
   margin-left: -128px;
-  transform: translate3d(0, calc(var(--s, 0) * -36px), 0);
+  will-change: transform;
 }
 .eventail-tel-in {
   height: 100%;
@@ -2293,8 +2292,9 @@ html .demo-scene .demo-seg i {
   width: 200px;
   height: 272px;
   margin-left: -100px;
-  transform: translate3d(calc(var(--x) + var(--side) * var(--s, 0) * 40px), calc(var(--s, 0) * 18px), 0)
-    rotate(calc(var(--side) * var(--s, 0) * 2.5deg));
+  /* where it stands; the scroll adds its own move in \`transform\`, written by the component on this element only */
+  translate: var(--x) 0;
+  will-change: transform;
 }
 .eventail-loin {
   --x: calc(var(--side) * 208px);
@@ -2304,6 +2304,15 @@ html .demo-scene .demo-seg i {
   height: 222px;
   margin-left: -86px;
   opacity: 0.6;
+}
+/* the outer cards fade towards the edge of the page (a mask on the card itself: it moves with it, nothing is redrawn) */
+.eventail-loin[data-cote="-2"] .eventail-carte-in {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 75%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 75%);
+}
+.eventail-loin[data-cote="2"] .eventail-carte-in {
+  -webkit-mask-image: linear-gradient(270deg, transparent 0%, #000 75%);
+  mask-image: linear-gradient(270deg, transparent 0%, #000 75%);
 }
 /* on arrival they open out from behind the phone */
 .eventail-carte-in {

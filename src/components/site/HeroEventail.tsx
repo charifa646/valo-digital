@@ -33,19 +33,16 @@ const cards = [
 /** The small round badges floating around (the flags of the reference): the orbit's photos, and the networks. */
 const badges: { at: string; img?: string; icon?: ReactNode; tone?: string; t: string }[] = [
   { at: "left-[22%] top-[2%]", img: "/images/ui/post-tissu.webp", t: "[--r:-6deg] [--t:7s]" },
-  { at: "left-[71%] top-[-2%]", icon: <Facebook />, tone: "text-[#1877F2]", t: "[--r:5deg] [--t:8s] [--fd:-2s]" },
-  { at: "left-[80%] top-[9%]", img: "/images/ui/post-fura.webp", t: "[--r:-4deg] [--t:7.6s] [--fd:-4s]" },
-  { at: "left-[13%] top-[66%]", icon: <Instagram />, tone: "text-[#D62976]", t: "[--r:6deg] [--t:8.4s] [--fd:-1s]" },
-  { at: "left-[64%] top-[80%]", icon: <WhatsApp />, tone: "text-[#1FA35B]", t: "[--r:-5deg] [--t:7.2s] [--fd:-3s]" },
-  { at: "left-[33%] top-[86%]", img: "/images/ui/post-assiette.webp", t: "[--r:4deg] [--t:9s] [--fd:-5s]" },
-  { at: "left-[88%] top-[58%]", icon: <TikTok />, tone: "text-ink", t: "[--r:-6deg] [--t:8.8s] [--fd:-2.5s]" },
-];
+  { at: "left-[72%] top-[-1%]", icon: <Facebook />, tone: "text-[#1877F2]", t: "[--r:5deg] [--t:8s] [--fd:-2s]" },
+  { at: "left-[14%] top-[66%]", icon: <Instagram />, tone: "text-[#D62976]", t: "[--r:6deg] [--t:8.4s] [--fd:-1s]" },
+  { at: "left-[84%] top-[62%]", img: "/images/ui/post-fura.webp", t: "[--r:-4deg] [--t:7.6s] [--fd:-4s]" },
+]
 
 function Tag({ icon, children, light = false }: { icon: ReactNode; children: ReactNode; light?: boolean }) {
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10.5px] font-bold shadow-[0_4px_12px_-6px_rgba(11,18,51,.5)] backdrop-blur-md [&_svg]:h-3 [&_svg]:w-3 ${
-        light ? "bg-white/85 text-ink" : "bg-white/20 text-white"
+      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10.5px] font-bold shadow-[0_4px_12px_-6px_rgba(11,18,51,.5)] [&_svg]:h-3 [&_svg]:w-3 ${
+        light ? "bg-white/95 text-ink" : "bg-white/20 text-white"
       }`}
     >
       <span className="text-electric">{icon}</span>
@@ -70,7 +67,7 @@ function Carte({ img, tag, icon, name, price, sizes }: { img: string; tag: strin
             <span className="line-clamp-3">{name}</span>
             <IconChevronRight className="mb-0.5 h-3.5 w-3.5 shrink-0" stroke={2.4} aria-hidden />
           </span>
-          {price && <span className="mt-2 inline-block whitespace-nowrap rounded-full bg-white/20 px-2 py-0.5 text-[9.5px] font-semibold backdrop-blur-sm">{price}</span>}
+          {price && <span className="mt-2 inline-block whitespace-nowrap rounded-full bg-white/20 px-2 py-0.5 text-[9.5px] font-semibold">{price}</span>}
         </span>
       )}
     </div>
@@ -105,12 +102,12 @@ function Telephone({ slide }: { slide: number }) {
           </span>
         </div>
         {/* the offers, one after the other */}
-        <div className="relative mx-3 mt-4 h-[290px] shrink-0">
+        <div className="relative mx-3 mt-4 h-[320px] shrink-0">
           {slides.map((s, i) => (
             <div
               key={s.img}
-              className="absolute inset-0 transition-[opacity,transform] duration-700 [transition-timing-function:var(--ease)]"
-              style={{ opacity: i === slide ? 1 : 0, transform: i === slide ? "scale(1)" : "scale(.96)" }}
+              className="absolute inset-0 transition-opacity duration-700"
+              style={{ opacity: i === slide ? 1 : 0 }}
             >
               <Carte img={s.img} tag={s.tag} icon={s.icon} name={s.name} price={s.price} sizes="260px" />
             </div>
@@ -122,13 +119,12 @@ function Telephone({ slide }: { slide: number }) {
             <span key={s.img} className={`h-1.5 rounded-full transition-all duration-500 ${i === slide ? "w-4 bg-electric" : "w-1.5 bg-electric/25"}`} />
           ))}
         </div>
-        {/* a second row, half hidden under the foot of the scene, as in an app that goes on */}
-        <div className="mx-3 grid grid-cols-2 gap-2">
-          {["/images/formations/marketing.webp", "/images/formations/prive.webp"].map((src) => (
-            <span key={src} className="relative h-[120px] overflow-hidden rounded-[14px] bg-frost">
-              <Image src={src} alt="" fill sizes="120px" className="object-cover" />
-            </span>
-          ))}
+        {/* the app's bar, the four trades */}
+        <div className="mx-4 mt-auto mb-4 flex items-center justify-around rounded-[18px] bg-white py-3 text-mute shadow-[0_1px_3px_rgba(11,18,51,.08)] [&_svg]:h-[18px] [&_svg]:w-[18px]">
+          <span className="text-electric"><Megaphone /></span>
+          <Target />
+          <Cart />
+          <Cap />
         </div>
       </div>
     </div>
@@ -157,9 +153,18 @@ export function HeroEventail() {
     io.observe(el);
     const timer = still ? 0 : window.setInterval(() => shown && !document.hidden && setSlide((s) => (s + 1) % slides.length), 3200);
     let frame = 0;
+    // only the five pieces that move get a new transform: a variable set on the whole top restyled every element in it
+    // at each frame (50 ms a frame on a slowed phone, 12 October 2026)
+    const moving = Array.from(el.querySelectorAll<HTMLElement>("[data-cote]"));
     const update = () => {
       frame = 0;
-      el.style.setProperty("--s", Math.min(1, Math.max(0, window.scrollY / window.innerHeight)).toFixed(3));
+      const k = Math.min(1, Math.max(0, window.scrollY / window.innerHeight));
+      for (const m of moving) {
+        const side = Number(m.dataset.cote);
+        m.style.transform = side
+          ? `translate3d(${(side * k * 40).toFixed(1)}px, ${(k * 18).toFixed(1)}px, 0) rotate(${(side * k * 2.5).toFixed(2)}deg)`
+          : `translate3d(0, ${(-k * 36).toFixed(1)}px, 0)`;
+      }
     };
     const soon = () => {
       if (shown && !frame) frame = requestAnimationFrame(update);
@@ -236,6 +241,7 @@ export function HeroEventail() {
             {cards.map((c, i) => (
               <div
                 key={c.img}
+                data-cote={c.side}
                 className={`eventail-carte ${Math.abs(c.side) === 2 ? "eventail-loin" : ""}`}
                 style={{ ["--side" as string]: c.side, ["--d" as string]: `${0.9 + i * 0.08}s` } as CSSProperties}
               >
@@ -244,7 +250,7 @@ export function HeroEventail() {
                 </div>
               </div>
             ))}
-            <div className="eventail-tel">
+            <div data-cote={0} className="eventail-tel">
               <div className="eventail-tel-in">
                 <Telephone slide={slide} />
               </div>
