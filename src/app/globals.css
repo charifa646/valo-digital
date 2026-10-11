@@ -731,10 +731,23 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   -webkit-background-clip: text;
   background-clip: text;
   transition: background-position 1s var(--ease);
+  /* room for the last letter's ink, which the tight letter spacing leaves outside the word's box: its end stayed an
+     outline once the word was filled (seen 12 October 2026) */
+  padding-right: 0.08em;
+  margin-right: -0.08em;
 }
 @media (hover: hover) {
   .grand-titre:hover .contour {
     background-position: 0 0;
+  }
+}
+/* phones and tablets have no mouse to pass over the words: the outline fills with the scroll instead (`--fill`, 0 to 1,
+   set by `GrandTitre.tsx` while the title comes up the screen; Charifa, 12 October 2026: « fais le même effet sur
+   mobile »). No transition: the finger sets the pace. Left empty (an outline) with « reduce motion ». */
+@media (hover: none) {
+  .grand-titre .contour {
+    background-position: calc((1 - var(--fill, 0)) * 100%) 0;
+    transition: none;
   }
 }
 
@@ -1097,6 +1110,44 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   from {
     translate: 0 30%;
   }
+}
+
+/* the same band on the cards of « De quoi avez-vous besoin aujourd'hui ? » (`NeedsTrame.tsx`, proposed to Charifa on
+   12 October 2026, at /apercu/besoin): a short one at the foot of each card, the door's number left clear in the dots
+   instead of the name. At rest the dots are half strength; the door that is lit (under the mouse, or in the middle of
+   the screen on a phone: `data-on` on the card) has them at full strength. The card is white, like the sheet of the
+   foot, so the number is white. */
+.df-carte {
+  --df-h: 112px;
+  --pied-fond: #ffffff;
+  --pied-accent: #0714d8;
+}
+@media (min-width: 640px) {
+  .df-carte {
+    --df-h: 150px;
+  }
+}
+.df-carte .df-mark {
+  left: 0.9rem;
+  bottom: 0;
+  font-size: 6.5rem;
+  letter-spacing: -0.07em;
+}
+@media (min-width: 640px) {
+  .df-carte .df-mark {
+    font-size: 8.5rem;
+  }
+}
+.df-carte .df-dots {
+  opacity: 0.5;
+  transition: opacity 0.6s var(--ease);
+}
+[data-on] .df-carte .df-dots {
+  opacity: 1;
+}
+.df-carte .df-field.df-lit {
+  -webkit-mask-image: radial-gradient(circle 120px at var(--df-x, 50%) var(--df-y, 50%), #000 35%, rgba(0, 0, 0, 0.22) 100%);
+  mask-image: radial-gradient(circle 120px at var(--df-x, 50%) var(--df-y, 50%), #000 35%, rgba(0, 0, 0, 0.22) 100%);
 }
 
 /* the reportage (« Quelques clichés »): the photo shown closes in slowly, a line counts the time it stays */

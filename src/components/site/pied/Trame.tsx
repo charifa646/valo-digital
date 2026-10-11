@@ -7,8 +7,9 @@ import { useEffect, useRef, type PointerEvent } from "react";
  * 2026). The dots thicken towards the bottom, the name is the gap left in them (see `.df-band` in globals.css), and
  * they drift slowly: that stops when the band leaves the screen, and with « reduce motion ». With a mouse the dots
  * around the pointer keep their strength and the others dim; a finger or a pen gets the plain field. Decorative only.
+ * `className` adds a modifier of the band (`df-carte`: the small one on the cards of « De quoi avez-vous besoin »).
  */
-export function Trame({ nom }: { nom: string }) {
+export function Trame({ nom, className = "" }: { nom: string; className?: string }) {
   const band = useRef<HTMLDivElement>(null);
   const field = useRef<HTMLDivElement>(null);
   const frame = useRef(0);
@@ -41,7 +42,7 @@ export function Trame({ nom }: { nom: string }) {
   };
 
   return (
-    <div ref={band} aria-hidden className="df-band" onPointerMove={move} onPointerLeave={leave}>
+    <div ref={band} aria-hidden className={`df-band ${className}`} onPointerMove={move} onPointerLeave={leave}>
       <div ref={field} className="df-field">
         <div className="df-dots" />
       </div>
