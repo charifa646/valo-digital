@@ -1150,6 +1150,81 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   mask-image: radial-gradient(circle 120px at var(--df-x, 50%) var(--df-y, 50%), #000 35%, rgba(0, 0, 0, 0.22) 100%);
 }
 
+/* « De quoi avez-vous besoin aujourd'hui ? » as a story (`NeedsHistoire.tsx`), after the « story scroll » component
+   Charifa sent on 12 October 2026 (« je m'étais trompé, voici le code des cartes »), at /apercu/besoin/histoire: four
+   large cards, one on the other. Each card stays where it is, under the header, while the next comes up from below
+   and covers it, tilted from its lower left corner at first and flat at the end (`--p`, 0 to 1, set while scrolling by
+   the component). The original does it with GSAP's ScrollTrigger (a pin, and a rotation from 30 degrees to 0); this is
+   the same effect with `position: sticky` and one variable, so the page loads no library for it. Without the script,
+   or with « reduce motion », the cards are flat and simply one under the other. */
+.histoire {
+  position: relative;
+  isolation: isolate;
+}
+.histoire-feuille {
+  --hr: clamp(16px, 2.4vw, 32px);
+  position: sticky;
+  top: calc(var(--header) + 12px);
+  height: clamp(26rem, 68svh, 46rem);
+  margin-bottom: 14px;
+  overflow: hidden;
+  border-radius: var(--hr);
+  /* Safari does not clip a tilted child to rounded corners with `overflow` alone */
+  clip-path: inset(0 round var(--hr));
+}
+.histoire-feuille:last-child {
+  margin-bottom: 0;
+}
+.histoire-fond {
+  position: absolute;
+  inset: 0;
+  container-type: inline-size;
+  border-radius: var(--hr);
+  transform-origin: 0 100%;
+  transform: rotate(calc((1 - var(--p, 1)) * 30deg));
+}
+@media (max-width: 639px) {
+  .histoire-feuille {
+    height: clamp(24rem, 60svh, 40rem);
+  }
+}
+.histoire-feuille:not(:first-child) .histoire-fond {
+  will-change: transform;
+}
+/* the verb as large as the card's width lets the longest one be (« COMPRENDRE » is about 7.4 times its font size wide: 7.7 leaves room for another browser's letters) */
+.histoire-verbe {
+  /* the card's padding, and a little room, taken off its width */
+  --place: 3.5rem;
+  font-size: min(calc((100cqw - var(--place)) / 7.7), 11rem);
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+@media (min-width: 640px) {
+  .histoire-verbe {
+    --place: 5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .histoire-verbe {
+    --place: 6rem;
+  }
+}
+.histoire-cercle {
+  border: 1px solid currentColor;
+  border-color: color-mix(in srgb, currentColor 40%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .histoire-feuille {
+    position: relative;
+    top: auto;
+  }
+  .histoire-fond {
+    transform: none;
+  }
+}
+
 /* the reportage (« Quelques clichés »): the photo shown closes in slowly, a line counts the time it stays */
 @keyframes kenburns {
   from {

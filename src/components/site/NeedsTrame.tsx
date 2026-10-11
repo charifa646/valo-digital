@@ -1,46 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { needs, type DetailId } from "@/lib/content";
 import { Anchor } from "./Scroll";
 import { useSheet } from "./Sheet";
+import { Door, panels } from "./Door";
 import { Trame } from "./pied/Trame";
 import { Filigrane } from "@/components/ui/Filigrane";
 import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight } from "@/components/ui/Icons";
-
-type DoorProps = {
-  to: string;
-  onOpen?: () => void;
-  set: (el: HTMLElement | null) => void;
-  className: string;
-  style: CSSProperties;
-  children: ReactNode;
-  onMouseEnter: () => void;
-  onFocus: () => void;
-  "data-i": number;
-  "data-reveal": string;
-  "data-on"?: string;
-};
-
-/** A door: a link that glides to its section, or a button that opens its offer in the panel. */
-function Door({ to, onOpen, set, children, ...rest }: DoorProps) {
-  if (onOpen)
-    return (
-      <button type="button" ref={set} onClick={onOpen} aria-haspopup="dialog" data-carte {...rest} className={`${rest.className} w-full text-left`}>
-        {children}
-      </button>
-    );
-  return (
-    <Anchor to={to} ref={set} data-carte {...rest}>
-      {children}
-    </Anchor>
-  );
-}
-
-/** The doors whose offer left the homepage for /services (7 October 2026): they open its details in the panel instead. */
-const panels = new Set<string>(["diagnostic", "accompagnement"]);
 
 /**
  * « De quoi avez-vous besoin aujourd'hui ? » with the effect of the dithered footer, proposed to Charifa on 12 October
