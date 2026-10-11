@@ -1,6 +1,7 @@
 import {
   IconArrowLeft,
   IconArrowRight,
+  IconArrowUp,
   IconArrowUpRight,
   IconBolt,
   IconBrandFacebookFilled,
@@ -38,6 +39,7 @@ const stroke = 1.8;
 
 export const ArrowLeft = ({ className }: P) => <IconArrowLeft className={className} stroke={stroke} aria-hidden />;
 export const ArrowRight = ({ className }: P) => <IconArrowRight className={className} stroke={stroke} aria-hidden />;
+export const ArrowUp = ({ className }: P) => <IconArrowUp className={className} stroke={stroke} aria-hidden />;
 export const ArrowUpRight = ({ className }: P) => <IconArrowUpRight className={className} stroke={stroke} aria-hidden />;
 export const WhatsApp = ({ className }: P) => <IconBrandWhatsapp className={className} stroke={stroke} aria-hidden />;
 export const Phone = ({ className }: P) => <IconPhone className={className} stroke={stroke} aria-hidden />;

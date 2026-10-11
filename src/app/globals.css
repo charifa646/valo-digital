@@ -949,6 +949,156 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   animation-play-state: paused;
 }
 
+/* C « la trame »: the foot of the page after the « Dithered Footer » of 21st.dev that Charifa chose on 12 October 2026.
+   The last call is a sheet as light as the page, still sliding over it; under its links a band of dots thickens
+   towards the bottom, and the name VALO is not drawn there: it is the gap left in the dots, solid where they are dense
+   and fading into the sheet where they thin out. The dots drift slowly (only while the band is on screen, and not with
+   « reduce motion »); under a mouse, those around the pointer keep their strength and the others dim. Every colour is
+   a variable of the sheet, so the same foot comes in a night version (`data-ton="nuit"`). The pieces it shares with the
+   other feet (`pied/Liens.tsx`) take these variables and fall back to white on blue where there are none. */
+.pied-trame {
+  --pied-fond: #ffffff;
+  --pied-texte: #0b1233;
+  --pied-doux: #4a536b;
+  --pied-sourd: #667085;
+  --pied-menu: #0b1233;
+  --pied-survol: #0714d8;
+  --pied-trait: #e6eaf3;
+  --pied-accent: #0714d8;
+  --pied-mot: #0714d8;
+  background: var(--pied-fond);
+  color: var(--pied-texte);
+}
+.pied-trame[data-ton="nuit"] {
+  --pied-fond: #040b52;
+  --pied-texte: #ffffff;
+  --pied-doux: rgba(255, 255, 255, 0.75);
+  --pied-sourd: rgba(255, 255, 255, 0.55);
+  --pied-menu: rgba(255, 255, 255, 0.85);
+  --pied-survol: #ffffff;
+  --pied-trait: rgba(255, 255, 255, 0.14);
+  --pied-accent: #3551ff;
+  --pied-mot: #fdec05;
+}
+.pied-texte {
+  color: var(--pied-texte, #fff);
+}
+.pied-doux {
+  color: var(--pied-doux, rgba(255, 255, 255, 0.75));
+}
+.pied-sourd {
+  color: var(--pied-sourd, rgba(255, 255, 255, 0.55));
+}
+.pied-mot {
+  color: var(--pied-mot, #fdec05);
+}
+.pied-menu {
+  color: var(--pied-menu, rgba(255, 255, 255, 0.85));
+}
+.pied-menu:hover {
+  color: var(--pied-survol, #fff);
+}
+/* « all the services »: the accent colour, then the strong one under the pointer */
+.pied-tout {
+  color: var(--pied-mot, #fdec05);
+}
+.pied-tout:hover {
+  color: var(--pied-survol, #fff);
+}
+.pied-trait {
+  border-color: var(--pied-trait, rgba(255, 255, 255, 0.14));
+}
+
+/* the band: its height sets the size of the dither tile (a tile is one and a half times wider than high), so the dots
+   thin out from the bottom to the top whatever the screen */
+.df-band {
+  --df-h: clamp(11.5rem, 24vw, 21.5rem);
+  --df-w: calc(var(--df-h) * 1.5);
+  --df-grille: radial-gradient(circle, #000 0.9px, transparent 1.3px);
+  --df-trame: url('data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27360%27%20height%3D%27240%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%270%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270.04%27%20stop-color%3D%27%23000%27%2F%3E%3Cstop%20offset%3D%270.96%27%20stop-color%3D%27%23fff%27%2F%3E%3C%2FlinearGradient%3E%3Cfilter%20id%3D%27f%27%20x%3D%270%27%20y%3D%270%27%20width%3D%27100%25%27%20height%3D%27100%25%27%20color-interpolation-filters%3D%27sRGB%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.45%27%20numOctaves%3D%272%27%20seed%3D%277%27%20stitchTiles%3D%27stitch%27%20result%3D%27n%27%2F%3E%3CfeColorMatrix%20in%3D%27n%27%20type%3D%27matrix%27%20values%3D%271%200%200%200%200%201%200%200%200%200%201%200%200%200%200%200%200%200%200%201%27%20result%3D%27ng%27%2F%3E%3CfeComposite%20in%3D%27SourceGraphic%27%20in2%3D%27ng%27%20operator%3D%27arithmetic%27%20k2%3D%270.5%27%20k3%3D%270.5%27%20result%3D%27s%27%2F%3E%3CfeComponentTransfer%20in%3D%27s%27%20result%3D%27t%27%3E%3CfeFuncR%20type%3D%27discrete%27%20tableValues%3D%270%201%27%2F%3E%3C%2FfeComponentTransfer%3E%3CfeColorMatrix%20in%3D%27t%27%20type%3D%27matrix%27%20values%3D%270%200%200%200%201%200%200%200%200%200.5%200%200%200%200%200%201%200%200%200%200%27%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27url%28%23g%29%27%20filter%3D%27url%28%23f%29%27%2F%3E%3C%2Fsvg%3E');
+  position: relative;
+  height: var(--df-h);
+  overflow: hidden;
+}
+.df-field {
+  position: absolute;
+  inset: 0;
+}
+.df-field.df-lit {
+  -webkit-mask-image: radial-gradient(circle 190px at var(--df-x, 50%) var(--df-y, 50%), #000 35%, rgba(0, 0, 0, 0.22) 100%);
+  mask-image: radial-gradient(circle 190px at var(--df-x, 50%) var(--df-y, 50%), #000 35%, rgba(0, 0, 0, 0.22) 100%);
+}
+/* one tile wider than the band, slid left by exactly one tile, so the loop has no seam; the dots are the grid of
+   points where the noise says « on » */
+.df-dots {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(100% + var(--df-w));
+  background: var(--pied-accent);
+  -webkit-mask-image: var(--df-grille), var(--df-trame);
+  mask-image: var(--df-grille), var(--df-trame);
+  -webkit-mask-size:
+    4px 4px,
+    var(--df-w) var(--df-h);
+  mask-size:
+    4px 4px,
+    var(--df-w) var(--df-h);
+  -webkit-mask-repeat: repeat, repeat-x;
+  mask-repeat: repeat, repeat-x;
+  -webkit-mask-position:
+    0 0,
+    left bottom;
+  mask-position:
+    0 0,
+    left bottom;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+/* the name, in the colour of the sheet, standing on the content's left edge */
+.df-mark {
+  position: absolute;
+  left: calc((100% - min(100%, 1240px)) / 2 + var(--gutter));
+  bottom: -0.05em;
+  margin: 0;
+  font-size: clamp(6.75rem, 32vw, 20rem);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: var(--pied-fond);
+  pointer-events: none;
+  user-select: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .df-dots {
+    animation: df-drift 40s linear infinite;
+  }
+  .df-hors .df-dots {
+    animation-play-state: paused;
+  }
+  @supports (animation-timeline: view()) {
+    .df-band {
+      view-timeline: --df-band;
+    }
+    .df-mark {
+      animation: df-rise linear both;
+      animation-timeline: --df-band;
+      animation-range: entry 20% entry 100%;
+    }
+  }
+}
+@keyframes df-drift {
+  to {
+    translate: calc(var(--df-w) * -1) 0;
+  }
+}
+@keyframes df-rise {
+  from {
+    translate: 0 30%;
+  }
+}
+
 /* the reportage (« Quelques clichés »): the photo shown closes in slowly, a line counts the time it stays */
 @keyframes kenburns {
   from {
@@ -1796,20 +1946,21 @@ html[data-teinte="nuit"] .logos-rangs[data-reveal][data-in] {
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
-/* the pill is narrower than the line of the title above it (as in the reference): its words smaller than the title's
-   and close to its edge, on one line on a phone too. First drawn at 0.9 times the title, with wide margins, it came out
-   about a quarter wider than that line and two lines high on a phone (« trop gros et large », 11 October 2026). */
+/* the pill stands a little below the title's weight and only just wider than the line above it, on one line on a phone
+   too. Three sizes were seen: 0.9 times the title with wide margins came out a quarter wider than that line («trop gros
+   et large», 11 October 2026); 0.72 with almost no margin above and below the capitals looked like a thin sticker with
+   small words («ne rend pas bien», 12 October); 0.78 with room around the capitals, between the two, is the one kept. */
 .titre-pastille {
-  padding: 0.05em 0.34em 0.09em;
+  padding: 0.1em 0.4em 0.14em;
   border-radius: 9999px;
   transform: rotate(-2.4deg);
   background: linear-gradient(100deg, #0714d8 0%, #3551ff 100%);
   color: #fff;
   box-shadow:
-    0 0 0 0.05em rgba(143, 163, 255, 0.5) inset,
-    0 0 0.5em 0.02em rgba(53, 81, 255, 0.5),
-    0 0.25em 1.1em 0 rgba(7, 20, 216, 0.3);
-  font-size: 0.72em;
+    0 0 0 0.045em rgba(143, 163, 255, 0.5) inset,
+    0 0 0.6em 0.02em rgba(53, 81, 255, 0.5),
+    0 0.28em 1.2em 0 rgba(7, 20, 216, 0.3);
+  font-size: 0.78em;
   white-space: nowrap;
 }
 /* the light behind the pill breathes: opacity only, and only while the hero is on screen */

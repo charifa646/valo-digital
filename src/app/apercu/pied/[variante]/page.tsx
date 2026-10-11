@@ -11,14 +11,17 @@ import { Formations } from "@/components/site/Formations";
 import { Methode } from "@/components/site/Methode";
 import { Fondateur } from "@/components/site/Fondateur";
 import { Final } from "@/components/site/Final";
+import { Scene } from "@/components/site/pied/Scene";
 import { Appel } from "@/components/site/pied/Appel";
 
 /**
- * The two proposals for the foot of the page (7 October 2026), on the whole homepage, at hidden addresses:
- * /apercu/pied/scene (A, « la scène », chosen on 8 October 2026 and now the foot of every page) and
- * /apercu/pied/appel (B, « le grand appel », kept in reserve). Not indexed.
+ * The feet of the page tried on the whole homepage, at hidden addresses, not indexed: /apercu/pied/trame (the
+ * dithered one Charifa chose on 12 October 2026, now the foot of every page), /apercu/pied/nuit (the same in night
+ * blue), /apercu/pied/scene (« la scène », A of 7 October, her choice of 8 October until then) and /apercu/pied/appel
+ * (« le grand appel », B, kept in reserve).
  */
-const variantes = { scene: Final, appel: Appel };
+const NuitTrame = () => <Final ton="nuit" />;
+const variantes = { trame: Final, nuit: NuitTrame, scene: Scene, appel: Appel };
 
 export const dynamicParams = false;
 export const generateStaticParams = () => Object.keys(variantes).map((variante) => ({ variante }));
