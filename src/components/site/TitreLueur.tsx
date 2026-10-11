@@ -10,6 +10,8 @@ import { hero } from "@/lib/content";
  * Black and up to 69 px: « trop grasse et trop gros pour un site web » (Charifa, 11 October 2026), so Bold, and at most
  * 48 px (30 px on a phone).
  *
+ * The pill is a little narrower than the title's first line, as in her reference, and on one line on a phone too.
+ *
  * Light on phones: gradients and one soft glow that breathes (opacity only, and only while the hero is on screen).
  * From 1024 px the four windows stand on the orbit on either side of it: the size follows the width, so the title
  * stays between them at 1024, 1280 and 1440 px.
@@ -25,13 +27,11 @@ export function TitreLueur() {
             <span className="titre-mots blur-in inline-block" style={{ ["--d" as string]: `${0.15 + i * 0.07}s` } as CSSProperties}>
               {w}
             </span>{" "}
-            {/* on a phone the line breaks after « du » and « un »: FAITES DU / DIGITAL UN / VÉRITABLE, three even lines */}
-            {(i === 1 || i === 3) && <br className="sm:hidden" />}
           </span>
         ))}
       </span>
-      <span className="relative mt-[0.2em] inline-block">
-        <span data-anim aria-hidden className="titre-halo absolute -inset-x-[14%] -inset-y-[70%] -z-10" />
+      <span className="relative mt-[0.28em] inline-block">
+        <span data-anim aria-hidden className="titre-halo absolute -inset-x-[9%] -inset-y-[55%] -z-10" />
         <span className="titre-pastille bounce-in relative inline-block" style={{ ["--d" as string]: "0.55s" } as CSSProperties}>
           {second}
         </span>

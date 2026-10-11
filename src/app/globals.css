@@ -1850,22 +1850,26 @@ html[data-teinte="nuit"] .logos-rangs[data-reveal][data-in] {
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
+/* the pill is narrower than the line of the title above it (as in the reference): its words smaller than the title's
+   and close to its edge, on one line on a phone too. First drawn at 0.9 times the title, with wide margins, it came out
+   about a quarter wider than that line and two lines high on a phone (« trop gros et large », 11 October 2026). */
 .titre-pastille {
-  padding: 0.1em 0.5em 0.14em;
+  padding: 0.05em 0.34em 0.09em;
   border-radius: 9999px;
   transform: rotate(-2.4deg);
   background: linear-gradient(100deg, #0714d8 0%, #3551ff 100%);
   color: #fff;
   box-shadow:
-    0 0 0 0.04em rgba(143, 163, 255, 0.55) inset,
-    0 0 0.45em 0.03em rgba(53, 81, 255, 0.55),
-    0 0.3em 1.4em 0.05em rgba(7, 20, 216, 0.38);
-  font-size: 0.9em;
+    0 0 0 0.05em rgba(143, 163, 255, 0.5) inset,
+    0 0 0.5em 0.02em rgba(53, 81, 255, 0.5),
+    0 0.25em 1.1em 0 rgba(7, 20, 216, 0.3);
+  font-size: 0.72em;
+  white-space: nowrap;
 }
 /* the light behind the pill breathes: opacity only, and only while the hero is on screen */
 .titre-halo {
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(53, 81, 255, 0.34), rgba(53, 81, 255, 0.12) 55%, transparent);
+  background: radial-gradient(closest-side, rgba(53, 81, 255, 0.28), rgba(53, 81, 255, 0.1) 55%, transparent);
   animation: titre-halo 4.6s ease-in-out infinite;
 }
 @keyframes titre-halo {
