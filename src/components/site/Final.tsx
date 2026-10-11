@@ -32,7 +32,7 @@ export function Final({ ton = "nuit" }: { ton?: "clair" | "nuit" }) {
   return (
     <div data-ton={ton} data-dark={nuit || undefined} className={`feuille pied-trame ${nuit ? "on-dark" : ""}`}>
       <section id="contact" aria-labelledby="contact-title" className="gutter relative mx-auto max-w-page pt-12 sm:pt-16 lg:pt-20">
-        <h2 id="contact-title" data-reveal="words" className="text-[clamp(2.1rem,0.9rem+3.4vw,4.4rem)] font-medium leading-[1.02] tracking-[-0.04em]">
+        <h2 id="contact-title" data-reveal="words" className="text-[clamp(1.8rem,0.8rem+2.4vw,3.2rem)] font-medium leading-[1.05] tracking-[-0.035em]">
           <span className="block">
             <Words>{line1}</Words>
           </span>

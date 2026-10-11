@@ -972,7 +972,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 .pied-trame {
   --pied-fond: #ffffff;
   --pied-texte: #0b1233;
-  --pied-doux: #4a536b;
+  --pied-doux: #5a6379;
   --pied-sourd: #667085;
   --pied-menu: #0b1233;
   --pied-survol: #0714d8;
@@ -2333,4 +2333,15 @@ html .demo-scene .demo-seg i {
   .eventail-tel-in {
     animation: none;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* Softer running text (12 October 2026, Charifa: « diminue l'opacité  */
+/* pour avoir un rendu premium »)                                      */
+/* ------------------------------------------------------------------ */
+
+/* the titles stay as they are, clear; the running text is a lighter grey (`body` in tailwind.config.ts) and in Regular
+   rather than Medium. Named by attribute: Tailwind rewrites a rule that names its own classes. */
+[class~="text-body"][class~="font-medium"] {
+  font-weight: 400;
 }

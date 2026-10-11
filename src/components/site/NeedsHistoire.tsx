@@ -15,7 +15,7 @@ const feuilles = [
   { fond: "#0714D8", texte: "#ffffff", doux: "rgba(255,255,255,.82)" },
   { fond: "#040B52", texte: "#ffffff", doux: "rgba(255,255,255,.78)" },
   { fond: "#FDEC05", texte: "#0B1233", doux: "rgba(11,18,51,.78)" },
-  { fond: "#E7EDFF", texte: "#071F78", doux: "#4A536B" },
+  { fond: "#E7EDFF", texte: "#071F78", doux: "#5A6379" },
 ];
 
 /**

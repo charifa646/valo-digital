@@ -19,7 +19,8 @@ const config: Config = {
         night: "#040B52",
         abyss: "#02062E",
         ink: "#0B1233",
-        body: "#4A536B",
+        // softened on 12 October 2026 (« un rendu premium »): 5.6 to 1 on the page, 5.1 on the light blue cards, still easy to read
+        body: "#5A6379",
         line: "#DCE3F5",
         mist: "#F3F5FB",
         ice: "#F4F7FF",
