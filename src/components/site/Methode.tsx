@@ -6,12 +6,17 @@ import { FlecheMethode } from "./FlecheMethode";
 import { Filigrane } from "@/components/ui/Filigrane";
 import { Words, count } from "@/components/ui/Words";
 
-/** Each step is a stair, a little higher and a little bluer than the one before; on a phone the same colours serve the points. */
+/**
+ * Each step is a stair, higher and bluer than the one before; on a phone the same colours serve the points. The stairs
+ * rise by a little more each time (46, 70, 98 px, not 82 each time as before): the growth curve above them, through a
+ * point over each, then bends upward, as growth does, instead of running as a straight line (Charifa, 12 October 2026:
+ * « la courbe sur ordinateur est linéaire, on peut faire une courbe pas linéaire »).
+ */
 const stairs = [
-  { h: "md:h-[150px]", fill: "bg-frost", ink: "text-electric" },
-  { h: "md:h-[232px]", fill: "bg-[#C9D3FF]", ink: "text-electric" },
-  { h: "md:h-[314px]", fill: "bg-azure", ink: "text-white" },
-  { h: "md:h-[396px]", fill: "bg-electric", ink: "text-white" },
+  { h: "md:h-[116px]", fill: "bg-frost", ink: "text-electric" },
+  { h: "md:h-[162px]", fill: "bg-[#C9D3FF]", ink: "text-electric" },
+  { h: "md:h-[232px]", fill: "bg-azure", ink: "text-white" },
+  { h: "md:h-[330px]", fill: "bg-electric", ink: "text-white" },
 ];
 
 /**
@@ -72,12 +77,12 @@ export function Methode() {
 
         {/* tablets and computers: the staircase and its growth curve */}
         <div className="mt-4 hidden md:block">
-          {/* room above the stairs for the growth curve */}
-          <div data-reveal className="relative pt-[96px]">
+          {/* room above the stairs for the growth curve, which climbs higher at its end */}
+          <div data-reveal className="relative pt-[140px]">
             <ol className="grid grid-cols-4 items-end gap-3">
               {methode.steps.map((s, i) => (
                 <li key={s.n} className="flex flex-col">
-                  <div data-step className="stair-text pb-4 pr-4" style={{ transitionDelay: `${0.45 + i * 0.2}s` } as CSSProperties}>
+                  <div data-step className="stair-text flex min-h-[120px] flex-col justify-end pb-4 pr-4" style={{ transitionDelay: `${0.45 + i * 0.2}s` } as CSSProperties}>
                     <h3 className="text-[15px] font-bold tracking-[0.06em] text-ink">{s.name}</h3>
                     <p className="pretty mt-1.5 text-[14.5px] font-medium leading-relaxed text-body">{s.text}</p>
                   </div>

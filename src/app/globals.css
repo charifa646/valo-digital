@@ -119,13 +119,6 @@ html {
   .btn-ghost .dot {
     @apply bg-electric text-white;
   }
-  /* the yellow of the charte, for the button of the blue header (12 October 2026) */
-  .btn-sun {
-    @apply bg-sun text-navy shadow-[0_14px_30px_-14px_rgba(253,236,5,0.7)] hover:bg-[#fff35c];
-  }
-  .btn-sun .dot {
-    @apply bg-navy text-white;
-  }
 
   /* « → Découvrir les offres »: the arrow first, as in the copy */
   .go {
@@ -158,21 +151,6 @@ html {
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.22) inset,
       0 24px 50px -24px rgba(0, 0, 0, 0.55);
-  }
-  /* the header in blue (`Header bleu`): electric glass, and night blue glass over the dark parts of the page */
-  .glass-bleu {
-    background: linear-gradient(180deg, rgba(62, 90, 255, 0.95), rgba(7, 20, 216, 0.95));
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.38) inset,
-      0 24px 50px -22px rgba(7, 20, 216, 0.7);
-  }
-  .glass-bleu-nuit {
-    background: linear-gradient(180deg, rgba(22, 38, 160, 0.92), rgba(4, 11, 82, 0.94));
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.22) inset,
-      0 24px 50px -24px rgba(0, 0, 0, 0.6);
   }
   /* only the header blurs what passes under it */
   .blur-bar {
@@ -2375,8 +2353,8 @@ html .demo-scene .demo-seg i {
 
 /* Charifa: « le site est terne seulement en terme de couleur », and, on 2 October, « n'abuse pas avec le halo bleu sinon le
    blanc sera sale ». So not a haze across the white: a clean wash of blue at the edges of two parts, a touch of sky and of
-   the charte's yellow, cards of frosted glass on top of them, the figures' block lit from a corner, and the header blue
-   (`Header bleu`). Everything is under `main[data-couleur]`, so the homepage is unchanged until she chooses. The blur behind
+   the charte's yellow, cards of frosted glass on top of them, the figures' block lit from a corner. (The blue she meant was the top of the page itself, not the menu bar: `HeroEventail
+   ton`, below.) Everything here is under `main[data-couleur]`, so the homepage is unchanged until she chooses. The blur behind
    the glass is only for computers with a mouse (on phones the glass is its translucent colour alone: no blur to redo at
    each frame of the scroll). */
 main[data-couleur] #prestations {
@@ -2438,4 +2416,71 @@ main[data-couleur] [data-teinte="nuit"] ul > li::before {
     -webkit-backdrop-filter: blur(16px) saturate(1.25);
     backdrop-filter: blur(16px) saturate(1.25);
   }
+}
+
+/* « l'éventail » on a blue ground (`HeroEventail ton`, 12 October 2026: « le bleu dont je parlais c'était même le header, je
+   voulais voir si un bleu rendrait bien »). `bleu`: the electric blue of the charte lit from above, white words, the
+   italic ones in the charte's yellow, the menu in its dark glass over it. `ciel`: a soft blue, the words still dark. */
+.eventail[data-ton="bleu"] .eventail-fond {
+  background: radial-gradient(110% 80% at 50% 0%, #3551ff 0%, #0714d8 52%, #0510a8 100%);
+  border-color: transparent;
+}
+.eventail[data-ton="bleu"] .eventail-points {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+}
+.eventail[data-ton="bleu"] .eventail-lueur {
+  background: radial-gradient(closest-side, rgba(143, 163, 255, 0.42), rgba(53, 81, 255, 0.16) 55%, transparent);
+}
+.eventail[data-ton="bleu"] .eventail-titre {
+  color: #fff;
+}
+.eventail[data-ton="bleu"] .eventail-italique {
+  color: #fdec05;
+}
+.eventail[data-ton="bleu"] .eventail-lead {
+  color: rgba(255, 255, 255, 0.84);
+}
+.eventail[data-ton="bleu"] .eventail-metiers {
+  color: rgba(255, 255, 255, 0.74);
+}
+.eventail[data-ton="bleu"] .eventail-fondu {
+  background: linear-gradient(180deg, rgba(5, 16, 168, 0), #0510a8 78%);
+}
+.eventail[data-ton="ciel"] .eventail-fond {
+  background: linear-gradient(180deg, #e9efff 0%, #d2deff 58%, #bccdff 100%);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+.eventail[data-ton="ciel"] .eventail-lueur {
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.75), transparent);
+}
+.eventail[data-ton="ciel"] .eventail-lead,
+.eventail[data-ton="ciel"] .eventail-metiers {
+  color: #3b4560;
+}
+.eventail[data-ton="ciel"] .eventail-fondu {
+  background: linear-gradient(180deg, rgba(188, 205, 255, 0), #bccdff 78%);
+}
+
+/* VALO's trade icons (`Glyphes.tsx`): the shape follows the text colour, one accent in the charte's yellow */
+.glyphe {
+  fill: currentColor;
+  flex-shrink: 0;
+}
+.glyphe .al {
+  fill: none;
+  stroke: var(--glyphe-accent, #fdec05);
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.glyphe .af {
+  fill: var(--glyphe-accent, #fdec05);
+}
+/* the line of trades under the button: electric blue icons, white ones on the blue top */
+.eventail-metiers .glyphe {
+  color: #0714d8;
+}
+.eventail[data-ton="bleu"] .eventail-metiers .glyphe {
+  color: #fff;
 }

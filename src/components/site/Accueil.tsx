@@ -20,8 +20,8 @@ import { Teintes } from "@/components/site/Teintes";
  * /services. The hero is the light orbit, the client's choice of 7 October 2026. The homepage and the hidden versions
  * of its hero (`/apercu/...`) share this composition: only the hero changes. `scene`: the order demo on a blue stage, shown
  * at /apercu/demo; `sansCadre`: with the phone's frame reduced to a fine rim, at /apercu/demo/sans-cadre; `Besoin`: the
- * cards of « De quoi avez-vous besoin » with the dithered band of the foot, at /apercu/besoin; `couleur`: the blue header,
- * glass cards and colour in the backgrounds (`main[data-couleur]` in globals.css), at /apercu/couleur.
+ * cards of « De quoi avez-vous besoin » with the dithered band of the foot, at /apercu/besoin; `couleur`: glass cards and colour
+ * at the edges of two parts (`main[data-couleur]` in globals.css), at /apercu/couleur.
  */
 export function Accueil({
   Hero,
@@ -39,7 +39,7 @@ export function Accueil({
   return (
     <ScrollProvider>
       <SheetProvider>
-        <Header bleu={couleur} />
+        <Header />
         <main id="contenu" data-couleur={couleur ? "" : undefined}>
           <Hero />
           <Confiance />

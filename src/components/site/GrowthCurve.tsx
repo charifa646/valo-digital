@@ -21,7 +21,8 @@ function smooth(p: Pt[]) {
  * The growth curve over the method's staircase: a point above the name of
  * each step, rising to an arrow past the last one. It is measured from the steps
  * themselves, so it never touches their words, and drawn once the stairs
- * are up. Decorative only.
+ * are up. The stairs rise by more each time (`Methode.tsx`) and every step's words have the same height, so the points
+ * make a curve that bends upward, and past the last point it climbs faster than it did to reach it. Decorative only.
  */
 export function GrowthCurve() {
   const svg = useRef<SVGSVGElement>(null);
@@ -32,13 +33,17 @@ export function GrowthCurve() {
     if (!box) return;
     const draw = () => {
       const steps = [...box.querySelectorAll<HTMLElement>("[data-step]")];
-      if (steps.length < 2) return;
+      // hidden (a phone shows the points and their dotted arcs instead): nothing to measure
+      if (steps.length < 2 || !box.offsetWidth) return setC(null);
       // one point above the start of each step's name: the line rises, so it is lowest there and can never cut a word.
       // Layout positions (offsetTop), so the reveal's little slide does not move the points.
       const dots = steps.map((s) => [s.offsetLeft + 6, s.offsetTop - 18] as Pt);
-      const rise = (dots[0][1] - dots[dots.length - 1][1]) / (dots.length - 1);
       const last = dots[dots.length - 1];
-      const tip: Pt = [box.offsetWidth - 8, Math.max(last[1] - rise * 0.75, 12)];
+      const before = dots[dots.length - 2];
+      // growth speeds up: past the last point the line climbs 20 % steeper than between the last two
+      const slope = (before[1] - last[1]) / Math.max(1, last[0] - before[0]);
+      const tipX = box.offsetWidth - 8;
+      const tip: Pt = [tipX, Math.max(last[1] - slope * 1.2 * (tipX - last[0]), 12)];
       const line = smooth([...dots, tip]);
       // the arrow follows the last stretch of the line
       const a = Math.atan2(tip[1] - last[1], tip[0] - last[0]);
