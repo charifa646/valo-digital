@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { IconBrandWhatsapp, IconBuildingStore, IconEye, IconPlus, IconShoppingBag, IconSpeakerphone, IconUserPlus, IconWorld } from "@tabler/icons-react";
 import type { ReactNode } from "react";
-import { Chip, Panel, PanelHead } from "./kit";
+import { Chip, Curseur, Panel, PanelHead } from "./kit";
+import s from "./Campagnes.module.css";
 
 // the three goals the copy names: visibilité, prospects, ventes
 const campaigns: { name: string; goal: string; icon: ReactNode; live: boolean }[] = [
@@ -10,7 +11,11 @@ const campaigns: { name: string; goal: string; icon: ReactNode; live: boolean }[
   { name: "Boutique en ligne", goal: "Ventes", icon: <IconShoppingBag stroke={2} />, live: false },
 ];
 
-/** « Campagnes publicitaires pour attirer des clients »: the ad as people will see it, next to the campaigns behind it. */
+/**
+ * « Campagnes publicitaires pour attirer des clients »: the ad as people will see it, next to the campaigns behind it.
+ * On screen it plays one campaign going live (`Campagnes.module.css`): a click on « Créer » brings the last campaign,
+ * in review, then active, and the ad's message button stirs. Still, it is the campaigns as they stand.
+ */
 export function Campagnes() {
   return (
     <div className="relative h-full @[440px]:flex @[440px]:items-start">
@@ -32,8 +37,10 @@ export function Campagnes() {
         </div>
         <div className="flex items-center justify-between gap-1 bg-soft px-2 py-1.5">
           <span className="text-[8px] font-bold leading-tight text-ink">Envoyer un message</span>
-          <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[#25D366] text-white">
-            <IconBrandWhatsapp className="h-2.5 w-2.5" stroke={2.2} aria-hidden />
+          <span className="relative grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[#25D366] text-white">
+            {/* the soft ring of a message coming in, once the campaign is active */}
+            <span data-anim className={s.message} />
+            <IconBrandWhatsapp className="relative h-2.5 w-2.5" stroke={2.2} aria-hidden />
           </span>
         </div>
       </div>
@@ -41,14 +48,28 @@ export function Campagnes() {
       {/* the campaigns, in the ads manager */}
       <Panel className="relative z-[1] @[300px]:absolute @[300px]:right-0 @[300px]:top-9 @[300px]:w-[calc(100%-84px)] @[440px]:relative @[440px]:right-auto @[440px]:top-auto @[440px]:-ml-4 @[440px]:w-auto @[440px]:min-w-0 @[440px]:flex-1">
         <PanelHead icon={<IconSpeakerphone stroke={2} />} title="Campagnes">
-          <span className="inline-flex items-center gap-0.5 rounded-[6px] bg-electric py-[4px] pl-1 pr-2 text-[9.5px] font-bold text-white">
-            <IconPlus className="h-3 w-3" stroke={2.4} aria-hidden />
-            Créer
+          {/* the pointer is drawn from the button it clicks, which keeps the panel's top right corner at every width */}
+          <span className="relative inline-flex">
+            <span
+              data-anim
+              className={`inline-flex items-center gap-0.5 rounded-[6px] bg-electric py-[4px] pl-1 pr-2 text-[9.5px] font-bold text-white ${s.create}`}
+            >
+              <IconPlus className="h-3 w-3" stroke={2.4} aria-hidden />
+              Créer
+            </span>
+            <Curseur className={s.pointer}>
+              <span data-anim className={s.click} />
+            </Curseur>
           </span>
         </PanelHead>
         <ul className="divide-y divide-hair">
           {campaigns.map((c) => (
-            <li key={c.name} className="flex items-center gap-2 py-2 pl-3 pr-2.5 @[440px]:pl-7">
+            <li
+              key={c.name}
+              // the campaign being created: it comes in after the click, and leaves while hidden so the loop starts again
+              data-anim={!c.live || undefined}
+              className={`flex items-center gap-2 py-2 pl-3 pr-2.5 @[440px]:pl-7 ${c.live ? "" : s.row}`}
+            >
               <span className="grid h-6 w-6 shrink-0 place-items-center rounded-[6px] bg-soft text-ink [&_svg]:h-3.5 [&_svg]:w-3.5">{c.icon}</span>
               <span className="min-w-0 flex-1 leading-tight">
                 <span className="block truncate text-[9.5px] font-bold text-ink @[440px]:text-[10px]">{c.name}</span>
@@ -56,9 +77,25 @@ export function Campagnes() {
                   Objectif : <span className="font-semibold text-ink">{c.goal}</span>
                 </span>
               </span>
-              <Chip tone={c.live ? "green" : "amber"} dot>
-                {c.live ? "Active" : "En revue"}
-              </Chip>
+              {c.live ? (
+                <Chip tone="green" dot>
+                  Active
+                </Chip>
+              ) : (
+                // both statuses in one cell: « En revue » sets its size, « Active » only shows through the animation
+                <span className="grid items-center justify-items-end">
+                  <span data-anim className={`flex [grid-area:1/1] ${s.review}`}>
+                    <Chip tone="amber" dot>
+                      En revue
+                    </Chip>
+                  </span>
+                  <span data-anim className={`flex [grid-area:1/1] ${s.live}`}>
+                    <Chip tone="green" dot>
+                      Active
+                    </Chip>
+                  </span>
+                </span>
+              )}
             </li>
           ))}
         </ul>

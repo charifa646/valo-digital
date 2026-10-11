@@ -29,7 +29,7 @@ export function Competences() {
         </div>
 
         <figure data-reveal="zoom" className="relative mx-auto w-full max-w-[400px] lg:mx-0 lg:justify-self-end">
-          <div className="overflow-hidden rounded-2xl bg-night">
+          <div className="overflow-hidden rounded-2xl bg-frost">
             <Image
               src="/images/apropos/valentin-gilet.webp"
               alt=""

@@ -1,0 +1,220 @@
+/*
+ * « Campagnes »: a campaign is created and goes live, in one 9 s loop.
+ * 0 to 16%: the pointer comes up to « Créer » and clicks it. 17 to 28%: the last campaign comes in, « En revue ».
+ * 55%: it turns « Active », and just after (58%) the ad's message button sends one soft ring. 88 to 95%: the row fades out,
+ * the loop restarts.
+ * Every base style below is the still window (reduce motion, the blurred glimpse): three campaigns, the last one in review.
+ * The pointer, the click, the green chip and the message ring only exist inside the keyframes, so they start at opacity 0.
+ * One clock for all the parts: same duration, no delay, so they stay in step when the window pauses off screen.
+ * Only transform and opacity move: the row keeps its height, so nothing around it shifts.
+ */
+
+/* The pointer lives in the button's own box: its tip is at the top left corner of « Créer », whatever the width.
+   Coordinates are px from that corner. It rests on the middle of the word, comes from the second campaign's row
+   (inside the panel, which clips), and leaves a little down and left. The origin at the tip keeps it on target when it presses. */
+.pointer {
+  opacity: 0;
+  transform-origin: 0 0;
+  animation: pointer 9s infinite both;
+}
+@keyframes pointer {
+  0%,
+  3% {
+    opacity: 0;
+    transform: translate(-56px, 108px) scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  7% {
+    opacity: 1;
+  }
+  14%,
+  15.2% {
+    transform: translate(28px, 11px) scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  16.4% {
+    transform: translate(28px, 11px) scale(0.88);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  /* it rests on the button until the click ring is gone: the ring is its child, it would drift away with it */
+  18.4%,
+  20% {
+    opacity: 1;
+    transform: translate(28px, 11px) scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  30% {
+    opacity: 0;
+    transform: translate(14px, 50px) scale(1);
+  }
+  /* back to the start while hidden */
+  31%,
+  100% {
+    opacity: 0;
+    transform: translate(-56px, 108px) scale(1);
+  }
+}
+
+/* The click: a small ring around the tip. A light fill reads on the blue button, a blue hairline on the white panel. */
+.click {
+  position: absolute;
+  left: -6.5px;
+  top: -6.5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 1px rgba(7, 20, 216, 0.3);
+  opacity: 0;
+  animation: click 9s infinite both;
+}
+@keyframes click {
+  0%,
+  16% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  16.4% {
+    opacity: 1;
+    transform: scale(0.5);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  /* it stays readable a moment, and is gone before the pointer moves on (20%) */
+  18.2% {
+    opacity: 0.8;
+  }
+  21.5%,
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+/* The button gives under the click, a short press and back. */
+.create {
+  animation: create 9s infinite both;
+}
+@keyframes create {
+  0%,
+  15.2% {
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  16.4% {
+    transform: scale(0.95);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  19.5%,
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* The new campaign: absent until the click (its slot stays, the list does not jump), then it rises 6 px into place.
+   It starts as the button comes back up (17%), so it reads as the click's answer, not a beat later.
+   It fades out near the end and drops back while hidden, so the loop never rewinds in sight. */
+.row {
+  animation: row 9s infinite both;
+}
+@keyframes row {
+  0%,
+  17% {
+    opacity: 0;
+    transform: translateY(6px);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  28%,
+  88% {
+    opacity: 1;
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  95% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* « En revue » steps aside when the campaign is approved, and comes back while the row is hidden (96 to 97%).
+   It leaves fast (about 0.1 s): the two pills differ in width and colour, a long cross fade would read as a smudge. */
+.review {
+  animation: review 9s infinite both;
+}
+@keyframes review {
+  0%,
+  54.5% {
+    opacity: 1;
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  55.8%,
+  96% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  97%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* « Active » takes its place with a small pop, then leaves while the row is hidden. Right aligned like the other
+   « Active » chips of the list. */
+.live {
+  opacity: 0;
+  animation: live 9s infinite both;
+}
+@keyframes live {
+  0%,
+  55.2% {
+    opacity: 0;
+    transform: scale(0.85);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  60%,
+  96% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+/* Just after, in the feed: one soft ring from the message button, as if a message came in. No count, no badge.
+   It waits until « Active » has settled (58%): first the cause, then its effect, one place at a time for the eye.
+   It grows to 1.75 at most: the card clips at 6 px around the button. */
+.message {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1.5px solid #25d366;
+  background: rgba(37, 211, 102, 0.22);
+  opacity: 0;
+  animation: message 9s infinite both;
+}
+@keyframes message {
+  0%,
+  58% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  58.6% {
+    opacity: 1;
+    transform: scale(1.05);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.75);
+  }
+}

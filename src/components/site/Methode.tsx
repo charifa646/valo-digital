@@ -8,18 +8,19 @@ import { WaveSpace } from "@/components/ui/Wave";
 
 /** Each step is a stair, a little higher and a little bluer than the one before. */
 const stairs = [
-  { h: "h-[118px] md:h-[150px]", fill: "bg-frost", ink: "text-electric" },
-  { h: "h-[176px] md:h-[232px]", fill: "bg-[#C9D3FF]", ink: "text-electric" },
-  { h: "h-[234px] md:h-[314px]", fill: "bg-azure", ink: "text-white" },
-  { h: "h-[292px] md:h-[396px]", fill: "bg-electric", ink: "text-white" },
+  { h: "h-[76px] md:h-[150px]", w: "w-[46%]", fill: "bg-frost", ink: "text-electric" },
+  { h: "h-[76px] md:h-[232px]", w: "w-[64%]", fill: "bg-[#C9D3FF]", ink: "text-electric" },
+  { h: "h-[76px] md:h-[314px]", w: "w-[82%]", fill: "bg-azure", ink: "text-white" },
+  { h: "h-[76px] md:h-[396px]", w: "w-full", fill: "bg-electric", ink: "text-white" },
 ];
 
 /**
  * « Une méthode simple. Des actions concrètes. »: the four steps climb like a
  * staircase, each verb standing on its own stair. When it comes on screen the
  * stairs rise one after the other, then the words step onto them, then a
- * growth curve draws itself above them. On phones the staircase slides
- * sideways under the finger.
+ * growth curve draws itself above them. On phones the four steps are stacked, each stair a longer bar than the one
+ * before (8 October 2026: the staircase that slid sideways showed only two steps, the second cut at the edge, and
+ * nothing said the others were there).
  */
 export function Methode() {
   return (
@@ -37,17 +38,17 @@ export function Methode() {
           </h2>
         </div>
 
-        <div className="-mx-[var(--gutter)] mt-2 snap-x snap-mandatory overflow-x-auto px-[var(--gutter)] [scroll-padding-inline:var(--gutter)] [scrollbar-width:none] md:mx-0 md:mt-4 md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden">
+        <div className="mt-8 md:mt-4">
           {/* room above the stairs for the growth curve */}
-          <div data-reveal className="relative w-max pt-[76px] md:w-auto md:pt-[96px]">
-            <ol className="flex w-max items-end gap-2.5 md:grid md:w-auto md:grid-cols-4 md:gap-3">
+          <div data-reveal className="relative md:pt-[96px]">
+            <ol className="flex flex-col gap-7 md:grid md:grid-cols-4 md:items-end md:gap-3">
               {methode.steps.map((s, i) => (
-                <li key={s.n} className="flex w-[226px] shrink-0 snap-start flex-col md:w-auto">
+                <li key={s.n} className="flex flex-col">
                   <div data-step className="stair-text pb-4 pr-4" style={{ transitionDelay: `${0.45 + i * 0.2}s` } as CSSProperties}>
                     <h3 className="text-[15px] font-bold tracking-[0.06em] text-ink">{s.name}</h3>
                     <p className="pretty mt-1.5 text-[14.5px] font-medium leading-relaxed text-body">{s.text}</p>
                   </div>
-                  <div className={`relative flex items-end p-5 ${stairs[i].h}`}>
+                  <div className={`relative flex items-end p-5 ${stairs[i].h} ${stairs[i].w} md:w-auto`}>
                     <span
                       aria-hidden
                       className={`stair absolute inset-0 rounded-t-2xl ${stairs[i].fill}`}
@@ -72,7 +73,9 @@ export function Methode() {
                 </li>
               ))}
             </ol>
-            <GrowthCurve />
+            <div className="hidden md:contents">
+              <GrowthCurve />
+            </div>
           </div>
         </div>
       </div>

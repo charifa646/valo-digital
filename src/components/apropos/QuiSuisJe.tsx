@@ -17,7 +17,7 @@ export function QuiSuisJe() {
     <section id="fondateur" aria-labelledby="fondateur-title" className={`paper halo-tr relative isolate bg-ice ${waveTop("rise", false, true)}`}>
       <div className="gutter mx-auto grid max-w-page items-center gap-14 pb-20 pt-24 lg:grid-cols-[0.92fr_1.08fr] lg:gap-20 lg:pb-28 lg:pt-32">
         <figure data-reveal="tilt" className="relative mx-auto w-full max-w-[440px]">
-          <div className="overflow-hidden rounded-2xl bg-night">
+          <div className="overflow-hidden rounded-2xl bg-frost">
             <Image
               src="/images/apropos/valentin-portrait.webp"
               alt={`${fondateur.name}, ${fondateur.roles[2]}`}

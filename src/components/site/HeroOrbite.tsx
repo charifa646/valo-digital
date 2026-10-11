@@ -8,6 +8,7 @@ import { BtnInner, btn } from "@/components/ui/Action";
 import { Cap, Cart, Facebook, Instagram, Megaphone, Target, TikTok, WhatsApp } from "@/components/ui/Icons";
 import { Chip } from "@/components/previews/kit";
 import { Wave } from "@/components/ui/Wave";
+import { TitreLueur } from "./TitreLueur";
 
 const [marketing, publicite, vente, formation] = hero.tags;
 const course = formations.items[0];
@@ -212,24 +213,28 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
           <div className="spin-in" style={{ ["--d" as string]: "0.05s" } as CSSProperties}>
             <Tile className="mx-auto h-14 w-14 sm:h-16 sm:w-16" />
           </div>
-          <h1
-            className={`balance mx-auto mt-7 max-w-[20ch] text-[clamp(2.1rem,4.4vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.03em] xl:max-w-none ${blue ? "text-white" : "text-ink"}`}
-          >
-            {hero.title.map((line, li) => (
-              <span key={li} className="xl:block">
-                {line.split(" ").map((w, wi) => (
-                  <span key={wi}>
-                    <span
-                      className={`blur-in inline-block ${li ? (blue ? "text-sun" : "text-electric") : ""}`}
-                      style={{ ["--d" as string]: `${0.15 + (li * 5 + wi) * 0.07}s` } as CSSProperties}
-                    >
-                      {w}
-                    </span>{" "}
-                  </span>
-                ))}
-              </span>
-            ))}
-          </h1>
+          {blue ? (
+            <h1
+              className={`balance mx-auto mt-7 max-w-[20ch] text-[clamp(2.1rem,4.4vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.03em] xl:max-w-none ${blue ? "text-white" : "text-ink"}`}
+            >
+              {hero.title.map((line, li) => (
+                <span key={li} className="xl:block">
+                  {line.split(" ").map((w, wi) => (
+                    <span key={wi}>
+                      <span
+                        className={`blur-in inline-block ${li ? (blue ? "text-sun" : "text-electric") : ""}`}
+                        style={{ ["--d" as string]: `${0.15 + (li * 5 + wi) * 0.07}s` } as CSSProperties}
+                      >
+                        {w}
+                      </span>{" "}
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </h1>
+          ) : (
+            <TitreLueur />
+          )}
           <p
             className={`fade-in pretty mx-auto mt-5 max-w-[34rem] text-[16px] font-medium leading-relaxed sm:text-[17px] ${blue ? "text-white/85" : "text-body"}`}
             style={{ ["--d" as string]: "0.75s" } as CSSProperties}

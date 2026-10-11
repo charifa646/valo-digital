@@ -47,6 +47,12 @@ export function Final() {
     const s = stage.current;
     if (!c || !s) return;
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Valentin's portrait is fetched a few seconds after the page settles, not when the stage is two screens away:
+    // arriving at the bottom at once, the stage showed the name without him (8 October 2026)
+    const portrait = s.querySelector<HTMLImageElement>("img");
+    const fetchLater = window.setTimeout(() => {
+      if (portrait) portrait.loading = "eager";
+    }, 3500);
     let frame = 0;
     const update = () => {
       frame = 0;
@@ -63,6 +69,7 @@ export function Final() {
     window.addEventListener("scroll", soon, { passive: true });
     window.addEventListener("resize", soon);
     return () => {
+      window.clearTimeout(fetchLater);
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", soon);
       window.removeEventListener("resize", soon);

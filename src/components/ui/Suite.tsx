@@ -8,11 +8,11 @@ import type { CSSProperties, ReactNode } from "react";
  * What lies under the blur is only a glimpse: hidden from screen readers, out of reach of the mouse and the keyboard
  * (`inert`), and drawn without its buttons by the sections that use it. `className` sets how much of it shows.
  */
+// two layers, not four (8 October 2026): each one blurs everything under it on every frame, and four of them on both
+// glimpses made the page stutter on computers (56 ms a frame, 25 ms without them) with nearly the same fade
 const layers = [
-  { blur: 1, from: 0, to: 30 },
-  { blur: 3, from: 18, to: 58 },
-  { blur: 7, from: 42, to: 84 },
-  { blur: 14, from: 64, to: 100 },
+  { blur: 3, from: 6, to: 52 },
+  { blur: 11, from: 44, to: 100 },
 ];
 
 const fade = "linear-gradient(180deg, #000 25%, transparent 96%)";

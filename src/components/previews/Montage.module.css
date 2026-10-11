@@ -1,0 +1,221 @@
+/*
+ * « Montage »: the video plays while it is edited, in one 8 s loop (1 % = 80 ms).
+ * 0 to 84 %: the white bar runs the whole track, like a video playing.
+ * 3 %, 27 %, 51 %: the subtitle lights up beat by beat in VALO yellow, then goes back to white at 77 %.
+ * 27 %, 51 %, 75 %: as each beat ends, a format turns blue (9:16, 1:1, 16:9), as if exported.
+ * All along: the step « Montage et sous-titrage » sends a soft ring every 1.6 s, the way an app shows what is live.
+ * 90 to 96 %: the bar and the three blue formats fade out together, the video starts again from an empty track.
+ *
+ * Every piece carries data-anim: it waits until the window is on screen, and stands still with
+ * « reduce motion » or under the homepage's blur (globals.css). Without its animation each piece is the
+ * static design: the bar shows 38 %, the yellow beats, the ring and the blue formats are invisible.
+ * So the base styles below only hide what the loop adds, and keep the bar where it stood.
+ *
+ * Eight moving pieces: the bar, three beats, the ring, three formats. The subtitle lights by beats of
+ * a few words, not word by word: eight words would mean eight more pieces, and the beats still follow the bar.
+ * Only transform and opacity move, so the browser does it on the compositor, light on phones.
+ * Arrivals ease out (.16, 1, .3, 1): fast then settled. Departures ease in out (.65, 0, .35, 1).
+ * One clock for all the parts: same duration, no delay, so they stay in step when the window pauses off screen.
+ * Nothing here depends on the width: the video, its subtitle and the steps show at every width. The formats
+ * only show from 300 px; below that the loop simply has no formats, and still tells the edit.
+ * A hidden row runs no animation: if the window grows past 300 px after it loaded (a phone turned), its formats
+ * start their loop then, a little off the beats. Each part still loops cleanly, and the next load is in step again.
+ */
+
+/*
+ * The playing bar is a full width bar slid left inside its track, which clips it. A slide keeps its round end
+ * round; a scaleX would squash it. Still, it is slid by 62 % so 38 % shows, as before.
+ * Playback is linear, like a real player. It ends full, fades, and comes back from the left, hidden by the track:
+ * nothing rewinds on screen.
+ */
+.bar {
+  transform: translateX(-62%);
+  animation: bar 8s infinite both;
+}
+@keyframes bar {
+  0% {
+    opacity: 1;
+    transform: translateX(-100%);
+    animation-timing-function: linear;
+  }
+  84%,
+  90% {
+    opacity: 1;
+    transform: translateX(0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
+/*
+ * The karaoke: the same words in yellow lie over the white subtitle (the markup gives them the same box, so
+ * they wrap the same). A beat fades in over its white words and back out: the white words never change.
+ * Each beat hands over to the next in 160 ms, so one beat at a time is yellow.
+ */
+.beat1,
+.beat2,
+.beat3 {
+  color: #fdec05;
+  opacity: 0;
+}
+.beat1 {
+  animation: beat1 8s infinite both;
+}
+@keyframes beat1 {
+  0%,
+  3% {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  5%,
+  27% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  29%,
+  100% {
+    opacity: 0;
+  }
+}
+.beat2 {
+  animation: beat2 8s infinite both;
+}
+@keyframes beat2 {
+  0%,
+  27% {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  29%,
+  51% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  53%,
+  100% {
+    opacity: 0;
+  }
+}
+.beat3 {
+  animation: beat3 8s infinite both;
+}
+@keyframes beat3 {
+  0%,
+  51% {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  53%,
+  75% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  77%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/*
+ * The step in progress breathes: a soft blue ring leaves its circle and fades, five times per loop (1.6 s each), the
+ * way an app marks what is live. Not a turning arc: that read as a loader, which Charifa never wants on her sites.
+ */
+.spin {
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 1.5px rgba(7, 20, 216, 0.45);
+  opacity: 0;
+  animation: spin 1.6s cubic-bezier(0.16, 1, 0.3, 1) infinite both;
+}
+@keyframes spin {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+
+/*
+ * The formats: a blue chip lies over each gray one. It comes in with a short pop and no overshoot as a beat
+ * ends, stays, and all three fade back to gray with the bar. Exported formats stay lit, so the row fills up.
+ */
+.export1,
+.export2,
+.export3 {
+  opacity: 0;
+}
+.export1 {
+  animation: export1 8s infinite both;
+}
+@keyframes export1 {
+  0%,
+  27% {
+    opacity: 0;
+    transform: scale(0.9);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  30%,
+  90% {
+    opacity: 1;
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+.export2 {
+  animation: export2 8s infinite both;
+}
+@keyframes export2 {
+  0%,
+  51% {
+    opacity: 0;
+    transform: scale(0.9);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  54%,
+  90% {
+    opacity: 1;
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+.export3 {
+  animation: export3 8s infinite both;
+}
+@keyframes export3 {
+  0%,
+  75% {
+    opacity: 0;
+    transform: scale(0.9);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  78%,
+  90% {
+    opacity: 1;
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}

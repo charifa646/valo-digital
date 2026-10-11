@@ -61,6 +61,10 @@ body {
 main {
   overflow-x: clip;
 }
+/* the scroll bar's place is kept when the panel or the phone menu locks the page: no 7 px jump on computers that show one */
+html {
+  scrollbar-gutter: stable;
+}
 
 .gutter {
   padding-left: var(--gutter);
@@ -644,6 +648,12 @@ main {
 :root {
   --teinte-ease: cubic-bezier(0.45, 0, 0.2, 1);
   --teinte-temps: 0.9s;
+  /* the words turn light at once, a third of the way into the colour's fade, when the background is in the middle of
+     its change and either ink reads on it: faded along the 0.9 s they kept crossing the background's own fade (titles
+     at 1.1 to 1.4 contrast for 120 to 220 ms), and hundreds of words repainted for 54 frames (the page stuttered around
+     the figures: 83 ms a frame at the 90th percentile, 33 ms once cut; measured 8 and 11 October 2026). A duration of
+     0 with a delay holds the old colour, then switches. */
+  --teinte-texte: 0s linear 0.34s;
 }
 html[data-teinte="nuit"] {
   --teinte: #040b52;
@@ -659,6 +669,12 @@ html[data-teinte] body,
 html[data-teinte] #contenu > section {
   background-color: var(--teinte);
   --halo: none;
+}
+/* a part with no colour of its own shows the page's: at rest it takes that same colour, so the fade goes from one
+   plain colour to another. From « transparent », it darkened over the page's own fade, twice as fast, and the words,
+   still dark, fell to 1.2 contrast (11 October 2026) */
+html[data-teintes]:not([data-teinte]) #contenu > section:not([class*="bg-"]) {
+  background-color: #f4f7ff;
 }
 html[data-teinte] #contenu > .wave-line {
   background-image: none;
@@ -685,8 +701,8 @@ html[data-teintes]
   > section
   :is([class~="text-ink"], [class~="text-body"], [class~="text-mute"], [class~="text-electric"], [class~="tag"], h2, h3, [class~="border-hair"]) {
   transition:
-    color var(--teinte-temps) var(--teinte-ease),
-    border-color var(--teinte-temps) var(--teinte-ease);
+    color var(--teinte-texte),
+    border-color var(--teinte-texte);
 }
 html[data-teinte]
   #contenu
@@ -737,8 +753,8 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 @media (max-width: 1023px) {
   html[data-teintes] #besoin :is([data-i], [data-i] *) {
     transition:
-      color var(--teinte-temps) var(--teinte-ease),
-      border-color var(--teinte-temps) var(--teinte-ease);
+      color var(--teinte-texte),
+      border-color var(--teinte-texte);
   }
   html[data-teinte] #besoin [data-i],
   html[data-teinte] #besoin [data-i] [class~="text-ink"] {
@@ -1747,9 +1763,9 @@ html[data-teinte="nuit"] .logos-rangs[data-reveal][data-in] {
 /* the name of the short menu grows into the page's title             */
 /* ------------------------------------------------------------------ */
 
-.entete {
-  view-transition-name: entete;
-}
+/* the menu bar's name is set by `Transitions.tsx` only during the change of page: an element that carries a
+   view-transition-name becomes the root of its own backdrop, and the bar's glass blurred nothing (the words passing
+   under it showed through, 8 October 2026) */
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root) {
     animation: page-sortie 0.42s cubic-bezier(0.65, 0, 0.35, 1) both;
@@ -1817,5 +1833,47 @@ html[data-teinte="nuit"] .logos-rangs[data-reveal][data-in] {
 @media (prefers-reduced-motion: reduce) {
   .js .zoom-photo {
     --z: 1;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* The main title « à la lueur », after Charifa's reference of 11      */
+/* October 2026 (`TitreLueur.tsx`): thick capitals fading from navy    */
+/* to blue at the foot, and a pill that gives off a blue light         */
+/* ------------------------------------------------------------------ */
+
+/* each word: deep navy at the top of the letters, electric blue at their foot (the glow of the pill under them) */
+.titre-mots {
+  background: linear-gradient(180deg, #0b1233 0%, #0b1233 46%, #0714d8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.titre-pastille {
+  padding: 0.1em 0.5em 0.14em;
+  border-radius: 9999px;
+  transform: rotate(-2.4deg);
+  background: linear-gradient(100deg, #0714d8 0%, #3551ff 100%);
+  color: #fff;
+  box-shadow:
+    0 0 0 0.04em rgba(143, 163, 255, 0.55) inset,
+    0 0 0.45em 0.03em rgba(53, 81, 255, 0.55),
+    0 0.3em 1.4em 0.05em rgba(7, 20, 216, 0.38);
+  font-size: 0.9em;
+}
+/* the light behind the pill breathes: opacity only, and only while the hero is on screen */
+.titre-halo {
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(53, 81, 255, 0.34), rgba(53, 81, 255, 0.12) 55%, transparent);
+  animation: titre-halo 4.6s ease-in-out infinite;
+}
+@keyframes titre-halo {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
   }
 }

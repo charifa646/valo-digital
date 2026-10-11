@@ -1,0 +1,101 @@
+/*
+ * « Plan marketing »: the plan comes alive without changing what it says. Nothing new is written, nothing moves place.
+ * Once, when the window first plays: the work done fills each channel up to today, lane after lane (0.8 to 2.3 s).
+ * Then the « Aujourd’hui » marker pulses every 3.5 s from 3.2 s. (A light running along the fills was dropped on
+ * 8 October 2026: it read as a loading shimmer, and Charifa wants nothing that looks like a loader.)
+ *
+ * Every piece carries data-anim: it waits until the window is on screen, and stands still with « reduce motion » or
+ * under the homepage's blur (globals.css). Without its animation each piece is the static design: the fills at their
+ * width, the glow and the halo invisible. So the base styles below only hide what the story adds.
+ *
+ * Only transform and opacity move, so the browser does it on the compositor, light on phones.
+ * Arrivals ease out (.16, 1, .3, 1): fast then settled, like a product UI.
+ * Every move is a share of the element's own box, so the story reads the same at 300, 450 or 640 px.
+ * The fills end exactly on today's line: they are the work done up to now.
+ */
+
+/*
+ * The fill grows from its left end, from nothing to its width. It plays once (fill mode both: empty while it waits,
+ * then it keeps its width), so the loop below never empties the plan again. Each lane starts 0.15 s after the one above.
+ * Its round right end stretches a little while it grows: with this ease it lasts a fraction of a second.
+ * It waits 0.8 s, not less: the window starts playing as soon as its top edge shows at the bottom of the screen, while
+ * the lanes are still about 100 to 215 px lower and the card's own wipe (globals.css) unveils the window last. Sooner,
+ * most of the growth played unseen.
+ */
+.fill {
+  transform-origin: 0 50%;
+  animation: grow 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1 both;
+  animation-delay: calc(0.8s + var(--lane, 0) * 0.15s);
+}
+@keyframes grow {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/*
+ * The pulse of the marker: a soft blue halo behind the label's text (z-index -1 inside the label, which is isolated).
+ * Over the pill's own blue it is blue on blue, so it only shows around the pill, and never over the text.
+ * The halo is 4 px larger than the pill on every side. It starts at the pill's own outline (66 by 14 px in Montserrat:
+ * « Aujourd’hui » in bold 8 px, plus its padding), and widens to about 5 px around it while it fades.
+ * The two scales differ so the ring grows as much in height as in width.
+ * A short loop with a delay: it waits for the fills to be done (3.2 s), then comes back every 3.5 s.
+ */
+.halo {
+  position: absolute;
+  inset: -4px;
+  z-index: -1;
+  border-radius: 9999px;
+  background: rgba(7, 20, 216, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(7, 20, 216, 0.28);
+  opacity: 0;
+  animation: halo 3.5s infinite both;
+  animation-delay: 3.2s;
+}
+@keyframes halo {
+  0% {
+    opacity: 0;
+    transform: scale(0.89, 0.636);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  6% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  40%,
+  100% {
+    opacity: 0;
+    transform: scale(1.04, 1.14);
+  }
+}
+
+/*
+ * The line answers the same pulse: a 10 px glow under it, darkest on the line, that blooms from its middle and fades.
+ * Over the fills it is blue on blue and vanishes; over the frost and the white it reads as the line catching the light.
+ * Same clock as the halo, so the line and its label pulse as one.
+ */
+.glow {
+  background: linear-gradient(90deg, rgba(7, 20, 216, 0), rgba(7, 20, 216, 0.16), rgba(7, 20, 216, 0));
+  opacity: 0;
+  animation: glow 3.5s infinite both;
+  animation-delay: 3.2s;
+}
+@keyframes glow {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.4);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  8% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  40%,
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}

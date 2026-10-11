@@ -41,6 +41,10 @@ export function Transitions() {
       e.preventDefault();
       e.stopPropagation();
 
+      // the menu bar stays where it is: named only for this change (a name kept on it stops its glass from blurring)
+      const bar = document.querySelector<HTMLElement>(".entete");
+      if (bar) bar.style.viewTransitionName = "entete";
+
       // the name that grows into the page's title, when it is on screen
       const from = a.closest("#sous-menu")?.querySelector<HTMLElement>("[data-titre]");
       const seen = from && from.getBoundingClientRect().bottom > 0;
@@ -69,6 +73,7 @@ export function Transitions() {
           }),
       );
       vt.finished.finally(() => {
+        if (bar) bar.style.viewTransitionName = "";
         if (from) from.style.viewTransitionName = "";
         const title = document.getElementById("page-title");
         if (title) title.style.viewTransitionName = "";

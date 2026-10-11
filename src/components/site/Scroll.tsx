@@ -15,7 +15,11 @@ type Scroll = {
 const Ctx = createContext<Scroll>({ go: () => {}, lock: () => {} });
 export const useScroll = () => useContext(Ctx);
 
-/** Smooth scrolling with Lenis on computers only; phones keep their native scroll. */
+/**
+ * Smooth scrolling with Lenis on computers only; phones keep their native scroll. Quicker since 8 October 2026
+ * (Charifa: « augmente la vitesse de défilement »): the page follows the wheel closely (`lerp`) and a notch of the wheel
+ * goes a little further, where it used to glide for over a second after each notch.
+ */
 export function ScrollProvider({ children }: { children: ReactNode }) {
   const lenis = useRef<Lenis | null>(null);
 
@@ -27,7 +31,7 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
     import("lenis").then(({ default: L }) => {
       if (cancelled) return;
-      instance = new L({ duration: 1.1, easing: (t) => 1 - Math.pow(1 - t, 4), autoRaf: true });
+      instance = new L({ lerp: 0.16, wheelMultiplier: 1.25, autoRaf: true });
       lenis.current = instance;
     });
     return () => {
@@ -57,7 +61,7 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
     // never past the point where the page is held: the sheet would cover what the visitor came to see
     if (held) top = Math.min(top, main!.offsetHeight - window.innerHeight);
     if (held) main!.style.position = "";
-    if (lenis.current) lenis.current.scrollTo(top, { duration: 1.3 });
+    if (lenis.current) lenis.current.scrollTo(top, { duration: 0.9 });
     else {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       window.scrollTo({ top, behavior: reduce ? "auto" : "smooth" });

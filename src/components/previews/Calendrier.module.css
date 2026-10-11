@@ -132,10 +132,16 @@
 /*
  * The track is a box the size of the card. A translate in percents moves it by a share of its own
  * size, so the pointer's tip lands on the same spot of the card at 300, 450 or 640 px.
- * Stops: low right in the card, the slot's plus (its middle), the chip, then out low right.
- * The chip stop is its left part, inside it at every width: the chip runs from 83 % to 92 % of the
- * card's height and starts at 7 px. The track jumps back to the entry while the pointer is hidden.
+ * Stops: low right in the slot, the slot's plus (its middle), the chip, then up right, away from it.
+ * The chip stop is its left part, inside it at every width: the chip starts at 7 px, and from a
+ * 250 to a 900 px window its top sits between 78 % and 86.5 % of the card's height and its bottom
+ * between 91.5 % and 95 %. So 88 % is on it, at least 3 px from its edges.
+ * The track jumps back to the entry while the pointer is hidden.
  * No @container rule is needed: the percents already follow the card.
+ * The entry and the exit stay inside the card: the window ends 12 px under it and cuts off what
+ * passes its edge, so a pointer parked below the card showed as a sliver while it faded.
+ * The exit goes up and right at about 45 degrees: the arrow hangs below its tip, so going up takes
+ * it off the chip quickest and leaves « Programmé » readable.
  */
 .track {
   animation: track 10s infinite both;
@@ -143,7 +149,7 @@
 @keyframes track {
   0%,
   4% {
-    transform: translate(76%, 104%);
+    transform: translate(84%, 92%);
     animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
   }
   13%,
@@ -153,12 +159,12 @@
   }
   40%,
   54% {
-    transform: translate(30%, 87%);
+    transform: translate(30%, 88%);
     animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
   }
   64%,
   100% {
-    transform: translate(92%, 112%);
+    transform: translate(70%, 56%);
   }
 }
 
