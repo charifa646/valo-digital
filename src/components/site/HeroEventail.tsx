@@ -7,7 +7,7 @@ import { formations, hero, prestations } from "@/lib/content";
 import { DemandeButton } from "./Sheet";
 import { Monogram } from "@/components/brand/Logo";
 import { BtnInner, btn } from "@/components/ui/Action";
-import { Cap, Cart, ChevronDown, Facebook, Instagram, Megaphone, Target, TikTok, WhatsApp } from "@/components/ui/Icons";
+import { Cap, Cart, Facebook, Instagram, Megaphone, Target, TikTok, WhatsApp } from "@/components/ui/Icons";
 
 const [marketing, publicite, vente, formation] = hero.tags;
 const offer = (id: string) => prestations.offers.find((o) => o.id === id)!;
@@ -267,15 +267,8 @@ export function HeroEventail() {
               </span>
             ))}
           </div>
-          {/* the scene fades into the page at its foot, where a thin line and a round mark ask to go on */}
+          {/* the scene fades into the page at its foot (the thin line and its round mark were taken off, 12 October 2026) */}
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(180deg,rgba(247,249,255,0),#F7F9FF_72%)]" />
-          <div className="absolute inset-x-0 bottom-5 flex items-center gap-4 px-6 lg:px-10">
-            <span className="h-px flex-1 bg-[linear-gradient(90deg,transparent,rgba(7,20,216,.25))]" />
-            <span className="grid h-8 w-8 place-items-center rounded-full border border-hair bg-white text-electric shadow-panel">
-              <ChevronDown className="h-4 w-4" />
-            </span>
-            <span className="h-px flex-1 bg-[linear-gradient(90deg,rgba(7,20,216,.25),transparent)]" />
-          </div>
         </div>
       </div>
     </section>

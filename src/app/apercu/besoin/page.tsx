@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Accueil } from "@/components/site/Accueil";
-import { HeroOrbite } from "@/components/site/HeroOrbite";
+import { HeroEventail } from "@/components/site/HeroEventail";
 import { NeedsTrame } from "@/components/site/NeedsTrame";
 
 /**
@@ -10,5 +10,5 @@ import { NeedsTrame } from "@/components/site/NeedsTrame";
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default function Apercu() {
-  return <Accueil Hero={HeroOrbite} Besoin={NeedsTrame} />;
+  return <Accueil Hero={HeroEventail} Besoin={NeedsTrame} />;
 }
