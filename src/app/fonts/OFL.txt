@@ -1,3 +1,5 @@
+Instrument Serif (instrument-serif-italic-latin.woff2): Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif), under the same SIL Open Font License, Version 1.1.
+
 Copyright 2024 The Montserrat.Git Project Authors (https://github.com/JulietaUla/Montserrat.git)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

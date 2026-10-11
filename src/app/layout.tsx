@@ -25,6 +25,14 @@ const contour = localFont({
   variable: "--font-contour",
 });
 
+// Instrument Serif in italic, only for the words set apart in the homepage's title (« levier de croissance. », Charifa's
+// choice of a serif face for them, 12 October 2026, after her reference « Travel stress-free… »). SIL Open Font License.
+const serif = localFont({
+  src: [{ path: "./fonts/instrument-serif-italic-latin.woff2", weight: "400", style: "italic" }],
+  display: "swap",
+  variable: "--font-serif",
+});
+
 const plain = (s: string) => s.replace(/[  ]/g, " ");
 const description = plain(hero.lead);
 
@@ -61,7 +69,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${montserrat.variable} ${contour.variable}`} suppressHydrationWarning>
+    <html lang="fr" className={`${montserrat.variable} ${contour.variable} ${serif.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

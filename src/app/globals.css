@@ -2204,3 +2204,122 @@ html .demo-scene .demo-seg {
 html .demo-scene .demo-seg i {
   background: #fff;
 }
+
+/* ------------------------------------------------------------------ */
+/* The homepage's top « l'éventail » (`HeroEventail.tsx`, 12 October   */
+/* 2026, after Charifa's reference « Travel stress-free… »)           */
+/* ------------------------------------------------------------------ */
+
+/* her title in Montserrat, its last words in an italic serif (Instrument Serif, her choice), a little larger */
+.eventail-titre {
+  font-size: clamp(2rem, 1.1rem + 3.6vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+.eventail-italique {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.16em;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  padding-bottom: 0.06em;
+}
+.eventail-lueur {
+  background: radial-gradient(closest-side, rgba(53, 81, 255, 0.2), rgba(143, 163, 255, 0.1) 55%, transparent);
+}
+/* the scene is drawn at 1000 by 560 px and scaled to the screen; its sides fade into the page */
+.eventail-scene {
+  --k: 0.72;
+  height: calc(560px * var(--k));
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 14%, #000 86%, transparent 100%);
+}
+@media (min-width: 480px) {
+  .eventail-scene {
+    --k: 0.8;
+  }
+}
+@media (min-width: 768px) {
+  .eventail-scene {
+    --k: 0.9;
+  }
+}
+@media (min-width: 1024px) {
+  .eventail-scene {
+    --k: 1;
+  }
+}
+.eventail-plan {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1000px;
+  height: 560px;
+  transform: translateX(-50%) scale(var(--k));
+  transform-origin: 50% 0;
+}
+/* the phone rises a little as the page goes by */
+.eventail-tel {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 3;
+  width: 256px;
+  height: 540px;
+  margin-left: -128px;
+  transform: translate3d(0, calc(var(--s, 0) * -36px), 0);
+}
+.eventail-tel-in {
+  height: 100%;
+  animation: eventail-tel 1.2s var(--spring) both;
+  animation-delay: 0.55s;
+}
+@keyframes eventail-tel {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 70px, 0) scale(0.94);
+  }
+}
+/* the cards stand on either side (`--side`: -2 to 2) and spread a little more, tilting, as the page goes by */
+.eventail-carte {
+  --x: calc(var(--side) * 236px);
+  position: absolute;
+  left: 50%;
+  top: 74px;
+  z-index: 2;
+  width: 200px;
+  height: 272px;
+  margin-left: -100px;
+  transform: translate3d(calc(var(--x) + var(--side) * var(--s, 0) * 40px), calc(var(--s, 0) * 18px), 0)
+    rotate(calc(var(--side) * var(--s, 0) * 2.5deg));
+}
+.eventail-loin {
+  --x: calc(var(--side) * 208px);
+  top: 112px;
+  z-index: 1;
+  width: 172px;
+  height: 222px;
+  margin-left: -86px;
+  opacity: 0.6;
+}
+/* on arrival they open out from behind the phone */
+.eventail-carte-in {
+  height: 100%;
+  animation: eventail-carte 1.25s var(--spring) both;
+  animation-delay: var(--d, 0.9s);
+}
+@keyframes eventail-carte {
+  from {
+    opacity: 0;
+    transform: translate3d(calc(var(--side) * -110px), 30px, 0) rotate(calc(var(--side) * -6deg)) scale(0.82);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eventail-carte-in,
+  .eventail-tel-in {
+    animation: none;
+  }
+}
