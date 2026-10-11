@@ -84,7 +84,7 @@ export function Terrain() {
 
         <div
           role="region"
-          aria-roledescription="carousel"
+          aria-roledescription="carrousel"
           aria-label={t.title}
           className="mt-8 lg:mt-12"
           // a mouse over it holds the photo; a finger does not (phones fake a hover on every tap)

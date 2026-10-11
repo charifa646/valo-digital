@@ -24,7 +24,8 @@ export function Solutions() {
             <Words>{solutions.title}</Words>
           </h2>
           <div className="mt-8">
-            <DemandeButton className={btn("electric")}>
+            {/* on the services page it opens the order of a service directly (12 October 2026) */}
+            <DemandeButton id="demande-prestation" className={btn("electric")}>
               <BtnInner>{solutions.cta}</BtnInner>
             </DemandeButton>
           </div>

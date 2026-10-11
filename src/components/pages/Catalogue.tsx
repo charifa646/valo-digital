@@ -4,7 +4,7 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import { demande, formations } from "@/lib/content";
 import { useSheet } from "@/components/site/Sheet";
-import { formationPhotos } from "@/components/site/Formations";
+import { formationPhotos } from "@/lib/photos";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Words } from "@/components/ui/Words";
 

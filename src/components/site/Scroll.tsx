@@ -208,10 +208,18 @@ type NavLinkProps = { item: { id: string; label: string; href?: string; page?: s
  * A menu entry: a page (« Accueil », « À propos ») opens with a client-side
  * link, or glides back to its top when it is the page already open; a section
  * of the homepage goes through Anchor, except on its own page (« Services » on
- * /services), where it glides back to the top.
+ * /services), where it glides back to the top. From any other page, an entry that has a page of its own opens that page
+ * (« Services » on /a-propos opens /services, where everything is shown, not the homepage's short part: 12 October 2026).
  */
 export function NavLink({ item, className, onClick, children, ...rest }: NavLinkProps & { children?: ReactNode }) {
   const pathname = usePathname();
+  const away = item.page && pathname !== "/" && pathname !== item.page ? item.page : undefined;
+  if (away)
+    return (
+      <Link href={away} className={className} onClick={onClick} {...rest}>
+        {children ?? item.label}
+      </Link>
+    );
   if (item.href && item.href !== pathname)
     return (
       <Link href={item.href} className={className} onClick={onClick} {...rest}>

@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion } from "framer-motion";
 import {
@@ -7,6 +9,7 @@ import {
   detailLabels,
   details,
   formations,
+  planId,
   prestations,
   solutions,
   type DemandeKind,
@@ -18,9 +21,11 @@ import { useScroll } from "./Scroll";
 import { ArrowRight, Check, Close } from "@/components/ui/Icons";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { DemandeChoix, DemandeForm } from "./Demande";
+import { formationPhotos } from "@/lib/photos";
 
-/** `focus`: the training to show, or the offer already chosen in a form; `back`: the form was reached from the choice. */
-type State = { id: SheetId; focus?: string; back?: boolean } | null;
+/** `focus`: the training to show, or the offer already chosen in a form; `back`: the form was reached from the choice;
+ * `from`: the offer or training panel a form was opened from, to go back to it. */
+type State = { id: SheetId; focus?: string; back?: boolean; from?: { id: SheetId; focus?: string } } | null;
 type Open = (id: SheetId, focus?: string, back?: boolean) => void;
 
 const Ctx = createContext<{ open: Open }>({ open: () => {} });
@@ -57,7 +62,13 @@ export function SheetProvider({ children }: { children: ReactNode }) {
   const open = useCallback<Open>((id, focus, back) => {
     // moving between the screens of the forms keeps the element that opened the panel, to give it the focus back
     if (!document.querySelector("[data-sheet]")) opener.current = document.activeElement as HTMLElement | null;
-    setState({ id, focus, back });
+    // a form opened from an offer's or a training's panel remembers it, for « Retour »
+    setState((prev) => ({
+      id,
+      focus,
+      back,
+      from: isDemande(id) && !back && prev && !isDemande(prev.id) ? { id: prev.id, focus: prev.focus } : undefined,
+    }));
   }, []);
   const close = useCallback(() => setState(null), []);
 
@@ -72,7 +83,9 @@ export function SheetProvider({ children }: { children: ReactNode }) {
       {children}
       <LazyMotion features={domAnimation} strict>
         <AnimatePresence onExitComplete={() => opener.current?.focus({ preventScroll: true })}>
-          {state && <Panel key={isDemande(state.id) ? "demande" : state.id} state={state} onClose={close} />}
+          {/* one panel whose content changes: with a key per screen, the old one's exit gave the focus back to the page
+              while the new one was open (12 October 2026) */}
+          {state && <Panel key="sheet" state={state} onClose={close} />}
         </AnimatePresence>
       </LazyMotion>
     </Ctx.Provider>
@@ -98,7 +111,7 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
 
   useEffect(() => {
     closeButton.current?.focus({ preventScroll: true });
-    if (isDemande(state.id) && box.current) box.current.scrollTop = 0;
+    if ((isDemande(state.id) || state.id !== "formations") && box.current) box.current.scrollTop = 0;
     else if (state.focus) {
       const el = box.current?.querySelector<HTMLElement>(`[data-item="${state.focus}"]`);
       if (el && box.current) box.current.scrollTop = el.offsetTop - 96;
@@ -136,7 +149,14 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
   const id = state.id;
   const kind: DemandeKind | null = id === "demande-prestation" ? "prestation" : id === "demande-formation" ? "formation" : null;
   const eyebrow = isDemande(id) ? demande.label : id === "formations" ? formations.label : fromPrestations(id) ? prestations.label : solutions.label;
-  const title = isDemande(id) ? (kind ? demande[kind].title : demande.title) : id === "formations" ? formations.title.join(" ") : details[id as DetailId].title;
+  const one = id === "formations" && state.focus ? formations.items.find((f) => f.id === state.focus) : undefined;
+  const title = isDemande(id)
+    ? kind
+      ? demande[kind].title
+      : demande.title
+    : id === "formations"
+      ? (one?.name ?? formations.title.join(" "))
+      : details[id as DetailId].title;
   const cta = demande.order;
 
   let body: ReactNode;
@@ -147,10 +167,11 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
         key={`${kind}-${state.focus ?? ""}`}
         kind={kind}
         preset={state.focus}
-        onBack={state.back ? () => open("demande") : undefined}
+        onBack={state.back ? () => open("demande") : state.from ? () => open(state.from!.id, state.from!.focus) : undefined}
         onClose={onClose}
       />
     );
+  else if (one) body = <FormationOne f={one} />;
   else if (id === "formations") body = <FormationList focus={state.focus} />;
   else body = <DetailBody id={id as DetailId} d={details[id as DetailId]} cta={cta} />;
 
@@ -217,21 +238,20 @@ function Points({ points, dark = false, className = "mt-5" }: { points: string[]
 }
 
 /** The offer each panel's button chooses in the form: the three social media plans in order, the others by name. */
-const plans = ["essentiel", "developpement", "premium"];
-
 function DetailBody({ id, d, cta }: { id: DetailId; d: Detail; cta: string }) {
   const { open } = useSheet();
   if (d.formules) {
     return (
       <div className="grid gap-4">
         {d.formules.map((f, i) => {
-          const featured = i === 1;
+          // the first plan, where the offer starts, stands out
+          const featured = i === 0;
           return (
             <article key={f.name} className={`rounded-2xl p-6 sm:p-7 ${featured ? "bg-electric text-white shadow-glow" : "bg-white text-ink shadow-card"}`}>
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <h3 className="text-[21px] font-extrabold tracking-[-0.02em]">{f.name}</h3>
                 <p className={`text-[12.5px] font-semibold ${featured ? "text-white/75" : "text-body"}`}>
-                  {detailLabels.for} : {f.for}
+                  {detailLabels.for} : {f.for}
                 </p>
               </div>
               <p className={`mt-3 text-[15.5px] leading-relaxed ${featured ? "text-white/85" : "text-body"}`}>{f.pitch}</p>
@@ -240,7 +260,7 @@ function DetailBody({ id, d, cta }: { id: DetailId; d: Detail; cta: string }) {
                 <p className="text-[18px] font-extrabold tracking-[-0.02em]">{f.price}</p>
                 <button
                   type="button"
-                  onClick={() => open("demande-prestation", plans[i])}
+                  onClick={() => open("demande-prestation", planId(f.name))}
                   className={btn(featured ? "white" : "electric", "min-h-[48px] pl-5 text-[14px] [&_.dot]:h-9 [&_.dot]:w-9")}
                 >
                   <BtnInner>{cta}</BtnInner>
@@ -277,6 +297,43 @@ function DetailBody({ id, d, cta }: { id: DetailId; d: Detail; cta: string }) {
           <BtnInner>{cta}</BtnInner>
         </button>
       </div>
+    </div>
+  );
+}
+
+/**
+ * One training, opened from its card on the homepage (12 October 2026: the panel listed all eight, under the slogan): its
+ * photo, format, main modules and price, the enrolment button as « Commander cette offre » is for a service, and the way
+ * to all the trainings.
+ */
+function FormationOne({ f }: { f: (typeof formations.items)[number] }) {
+  const { open } = useSheet();
+  const c = formations.columns;
+  return (
+    <div>
+      <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-frost">
+        <Image src={`/images/formations/${formationPhotos[f.id] ?? f.id}.webp`} alt="" fill sizes="(min-width: 768px) 560px, 92vw" className="object-cover" />
+      </div>
+      <dl className="mt-6 grid gap-3 rounded-2xl bg-white p-6 text-[14.5px] shadow-card sm:grid-cols-[150px_1fr] sm:gap-x-5">
+        <dt className="font-semibold text-body">{c.format}</dt>
+        <dd className="font-medium text-ink">{f.format}</dd>
+        <dt className="font-semibold text-body">{c.modules}</dt>
+        <dd className="font-medium leading-relaxed text-ink">{f.modules}</dd>
+      </dl>
+      <div className="mt-6 flex flex-col gap-5 rounded-2xl bg-night p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-7">
+        <p className="text-[20px] font-extrabold leading-tight tracking-[-0.02em]">{f.price}</p>
+        <button
+          type="button"
+          onClick={() => open("demande-formation", f.id)}
+          className={btn("white", "min-h-[50px] pl-6 text-[14px] [&_.dot]:h-9 [&_.dot]:w-9")}
+        >
+          <BtnInner>{demande.enroll}</BtnInner>
+        </button>
+      </div>
+      <Link href="/formations" className="mt-6 inline-flex items-center gap-2 text-[14px] font-bold text-electric hover:text-navy">
+        <span className="underline decoration-2 underline-offset-[6px]">{formations.cta}</span>
+        <ArrowRight className="h-4 w-4" />
+      </Link>
     </div>
   );
 }

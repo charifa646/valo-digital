@@ -17,7 +17,7 @@ type Slide = { tag: string; icon: ReactNode; img: string; name: string; price: s
 
 /** What the phone shows, one after the other: three real offers of VALO, with their own names and prices. */
 const slides: Slide[] = [
-  { tag: publicite, icon: <Target />, img: "/images/formations/ads.webp", name: offer("publicite").name, price: offer("publicite").price },
+  { tag: publicite, icon: <Target />, img: "/images/formations/ads.webp", name: offer("publicite").name, price: `${offer("publicite").price} ${offer("publicite").note!.toLowerCase()}` },
   { tag: marketing, icon: <Megaphone />, img: "/images/formations/contenu.webp", name: offer("video").name, price: offer("video").price },
   { tag: formation, icon: <Cap />, img: "/images/formations/cohorte.webp", name: course("marketing").name, price: course("marketing").price },
 ];
@@ -67,7 +67,7 @@ function Carte({ img, tag, icon, name, price, sizes }: { img: string; tag: strin
             <span className="line-clamp-3">{name}</span>
             <IconChevronRight className="mb-0.5 h-3.5 w-3.5 shrink-0" stroke={2.4} aria-hidden />
           </span>
-          {price && <span className="mt-2 inline-block whitespace-nowrap rounded-full bg-white/20 px-2 py-0.5 text-[9.5px] font-semibold">{price}</span>}
+          {price && <span className="mt-2 inline-block rounded-[8px] bg-white/20 px-2 py-0.5 text-[9.5px] font-semibold leading-snug">{price}</span>}
         </span>
       )}
     </div>

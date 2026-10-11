@@ -4,11 +4,11 @@ import type { ReactNode } from "react";
 import { Chip, Curseur, Panel, PanelHead } from "./kit";
 import s from "./Campagnes.module.css";
 
-// the three goals the copy names: visibilité, prospects, ventes
+// the three goals the copy names: visibilité, prospects, ventes (the campaigns named after them, not invented names)
 const campaigns: { name: string; goal: string; icon: ReactNode; live: boolean }[] = [
-  { name: "Nouvelle collection", goal: "Visibilité", icon: <IconEye stroke={2} />, live: true },
-  { name: "Demande de devis", goal: "Prospects", icon: <IconUserPlus stroke={2} />, live: true },
-  { name: "Boutique en ligne", goal: "Ventes", icon: <IconShoppingBag stroke={2} />, live: false },
+  { name: "Campagne visibilité", goal: "Visibilité", icon: <IconEye stroke={2} />, live: true },
+  { name: "Campagne prospects", goal: "Prospects", icon: <IconUserPlus stroke={2} />, live: true },
+  { name: "Campagne ventes", goal: "Ventes", icon: <IconShoppingBag stroke={2} />, live: false },
 ];
 
 /**

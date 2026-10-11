@@ -183,7 +183,8 @@ export const prestations = typeset({
       id: "reseaux",
       name: "Gestion des réseaux sociaux",
       text: "Une présence professionnelle, régulière et pensée pour votre activité.",
-      price: "À partir de 80 000 F CFA / mois",
+      /** VALO asked not to put the 80 000 F CFA formula forward (12 October 2026): the offer starts at the Développement one */
+      price: "À partir de 150 000 F CFA / mois",
       link: "Découvrir les offres",
       sheet: "reseaux",
     },
@@ -379,7 +380,7 @@ export const footer = typeset({
 /**
  * The legal notice (Charifa, 12 October 2026: « ajoute la mention légale »). Only what is known: the publisher, its
  * address and contacts, the person responsible, the host. The legal form, the RCCM and the IFU numbers are asked of her
- * and added when she gives them. The two short paragraphs are proposed to her for validation.
+ * and added when she gives them. The two short paragraphs were validated by her on 12 October 2026.
  */
 export const mentions = typeset({
   title: "Mentions légales",
@@ -389,12 +390,12 @@ export const mentions = typeset({
     { h: "Hébergement", lines: ["Vercel Inc.", "440 N Barranca Ave #4133, Covina, CA 91723, États-Unis", "vercel.com"] },
     {
       h: "Propriété intellectuelle",
-      lines: ["Les textes, le logo, les photos et les visuels de ce site appartiennent à VALO DIGITAL ou sont utilisés avec l’accord de leurs auteurs. Toute reproduction sans autorisation écrite est interdite."],
+      lines: ["Les textes, le logo et les visuels de ce site appartiennent à VALO DIGITAL. Les photos sont celles de VALO DIGITAL ou proviennent de banques d’images libres de droits. Toute reproduction des textes, du logo et des visuels sans autorisation écrite est interdite."],
     },
     {
       h: "Données personnelles",
       lines: [
-        "Les informations envoyées par les formulaires (nom, numéro de téléphone, demande) servent uniquement à vous répondre. Elles ne sont ni vendues ni cédées. Pour les consulter, les corriger ou les faire supprimer, écrivez à contact@valodigitalbf.com.",
+        "Les informations envoyées par les formulaires (nom, entreprise ou activité, numéro de téléphone, e-mail, demande) servent uniquement à vous recontacter. Elles ne sont ni vendues ni cédées. Pour les consulter, les corriger ou les faire supprimer, écrivez à contact@valodigitalbf.com.",
       ],
     },
   ],
@@ -425,14 +426,14 @@ export const apropos = typeset({
     label: "FONDATEUR",
     title: "Qui suis-je ?",
     text: [
-      "**Gueswendyam Valentin WAONGO** est le Fondateur et Directeur Stratégique de **VALO DIGITAL**, une **agence de croissance digitale** et un **centre de formation aux métiers du numérique** basés à Ouagadougou (Wemtenga), Burkina Faso. Il se positionne professionnellement comme **Consultant Formateur aux Métiers du Digital, Média Buyer et Spécialiste certifié en Facebook Ads.**",
+      "**Gueswendyam Valentin WAONGO** est le fondateur et directeur stratégique de **VALO DIGITAL**, une **agence de croissance digitale** et un **centre de formation aux métiers du numérique** basés à Ouagadougou (Wemtenga), Burkina Faso. Il se positionne professionnellement comme **consultant formateur aux métiers du digital, média buyer et spécialiste certifié en Facebook Ads.**",
       "**Autodidacte et praticien** de terrain, il accompagne depuis 2022 **les entrepreneurs, PME, institutions publiques, ONG et écoles** d’Afrique de l’Ouest dans leur **croissance digitale,** à travers des **stratégies publicitaires sur mesure, la gestion de leur présence en ligne et la formation pratique aux outils du marketing digital.**",
     ],
   },
 
   parcours: {
     label: "MON PARCOURS DIGITAL",
-    text: "J’ai découvert internet ==en 2010==, je me suis formé dans plusieurs disciplines en ==autodidacte==. Aujourd’hui, j’ai formé et accompagné de 2022 à nos jours ==+1000 entrepreneurs== (débutants-confirmés) aux métiers du digital et ==accompagné au lancement de +100 projets digitaux==.",
+    text: "J’ai découvert internet ==en 2010==, je me suis formé dans plusieurs disciplines en ==autodidacte==. Aujourd’hui, j’ai formé et accompagné de 2022 à nos jours ==+1000 entrepreneurs== (débutants à confirmés) aux métiers du digital et ==accompagné au lancement de +100 projets digitaux==.",
   },
 
   competences: {
@@ -503,7 +504,7 @@ export const apropos = typeset({
         height: 596,
       },
       {
-        title: "IA & Marketing Digital",
+        title: "IA & marketing digital",
         date: "20 décembre 2026",
         place: "Pavillon K1 de l’Université Joseph Ki-Zerbo",
         photo: "universite-ki-zerbo",
@@ -591,20 +592,6 @@ export const details: Record<DetailId, Detail> = typeset({
     title: "Gestion des réseaux sociaux",
     formules: [
       {
-        name: "Essentiel",
-        for: "Entreprises souhaitant être régulières",
-        pitch: "Pour maintenir une présence professionnelle et régulière.",
-        points: [
-          "Stratégie éditoriale de base",
-          "Calendrier de contenu",
-          "Publications régulières",
-          "Création de visuels",
-          "Animation et modération",
-          "Suivi mensuel",
-        ],
-        price: "À partir de 80 000 F CFA / mois",
-      },
-      {
         name: "Développement",
         for: "Entreprises en développement",
         pitch: "Pour transformer les réseaux sociaux en outil de communication et d’acquisition.",
@@ -691,7 +678,7 @@ export const details: Record<DetailId, Detail> = typeset({
  * inside an offer or a training open the right form with it already chosen.
  * VALO prefers the forms to WhatsApp. The two lines under the choices are the
  * homepage's own (« DÉLÉGUER » and « APPRENDRE »); the confirmation is
- * Charifa's; the rest is proposed to her for validation.
+ * Charifa's; the rest was proposed to her and validated by her on 12 October 2026.
  * ------------------------------------------------------------------------- */
 
 export type DemandeKind = "prestation" | "formation";
@@ -752,9 +739,17 @@ export const demande = typeset({
   },
 });
 
-/** The services, in the catalogue's order, the three social media plans first. */
+/** A social media plan's id from its name (« Développement » → « developpement »): the form is opened on it. */
+export const planId = (name: string) =>
+  name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+/** The services, in the catalogue's order, the social media plans first (two since 12 October 2026: Développement and
+ * Premium, VALO not putting the 80 000 F CFA one forward). */
 export const prestationChoices: DemandeChoice[] = [
-  ...(details.reseaux.formules ?? []).map((f, i) => ({ id: ["essentiel", "developpement", "premium"][i], label: `${details.reseaux.title}, ${f.name}` })),
+  ...(details.reseaux.formules ?? []).map((f) => ({ id: planId(f.name), label: `${details.reseaux.title}, ${f.name}` })),
   { id: "video", label: details.video.title },
   { id: "publicite", label: details.publicite.title },
   { id: "diagnostic", label: details.diagnostic.title },
@@ -778,7 +773,8 @@ export const menus: Record<"prestations" | "formations", Menu> = {
     page: "/services",
     all: prestations.all,
     links: [
-      ...prestations.offers.map((o) => ({ id: o.id, name: o.name, price: o.price })),
+      // the price with its note (« hors budget publicitaire » for the ads), as on the card and in the catalogue
+      ...prestations.offers.map((o) => ({ id: o.id, name: o.name, price: o.note ? `${o.price} ${o.note.toLowerCase()}` : o.price })),
       ...(["diagnostic", "accompagnement"] as const).map((id) => ({ id, name: details[id].title, price: details[id].price })),
     ],
   },
@@ -791,11 +787,11 @@ export const menus: Record<"prestations" | "formations", Menu> = {
 
 /**
  * The order shown on a phone, playing by itself, right after « De quoi avez-vous besoin aujourd'hui ? » (Charifa,
- * 8 October 2026). Everything on its screen is the site's own words; the title is proposed to her for validation.
+ * 8 October 2026). Everything on its screen is the site's own words; the title was validated by her on 12 October 2026.
  */
 export const demo = typeset({
   title: "Voici comment passer commande.",
-  /** the pause button of the stage (read by screen readers only): proposed to her for validation */
+  /** the pause button of the stage (read by screen readers only): validated by her on 12 October 2026 */
   pause: "Mettre la démo en pause",
   play: "Relancer la démo",
 });

@@ -10,18 +10,10 @@ import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight } from "@/components/ui/Icons";
 import { Suite } from "@/components/ui/Suite";
 import { GrandTitre } from "@/components/ui/GrandTitre";
+import { formationPhotos } from "@/lib/photos";
 
-/** One photo per training (file names change when a photo is replaced, so no cache can show the old one). */
-export const formationPhotos: Record<string, string> = {
-  ads: "ads",
-  vente: "boutique",
-  marketing: "marketing",
-  ia: "ia",
-  contenu: "contenu",
-  cm: "cm",
-  cohorte: "cohorte",
-  prive: "prive",
-};
+export { formationPhotos };
+
 
 const card =
   "group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-hair bg-white text-left transition duration-300 hover:-translate-y-1 hover:border-electric/25 hover:shadow-panel";
