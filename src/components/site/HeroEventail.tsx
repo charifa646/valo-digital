@@ -7,12 +7,10 @@ import { DemandeButton } from "./Sheet";
 import { Monogram } from "@/components/brand/Logo";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Glyphe, type Metier } from "@/components/ui/Glyphes";
-import { Facebook, Instagram } from "@/components/ui/Icons";
 
 const [marketing, publicite, vente, formation] = hero.tags;
 /** The four trades, in the order of `hero.tags`, each with its own icon. */
 const metiers: Metier[] = ["marketing", "publicite", "vente", "formation"];
-const glypheOf = (tag: string): Metier => metiers[hero.tags.indexOf(tag)] ?? "marketing";
 const offer = (id: string) => prestations.offers.find((o) => o.id === id)!;
 const course = (id: string) => formations.items.find((f) => f.id === id)!;
 
@@ -34,28 +32,26 @@ const cards = [
 ];
 
 /**
- * The small badges floating around (the flags of the reference): two real photos of VALO's work, round, and the two
- * networks VALO works on, drawn as the app icons people know (a rounded square in the network's colours) rather than a
- * thin glyph in a white circle (Charifa, 12 October 2026: « les icônes font trop IA… fais mieux »).
+ * The four trades, floating around the phone as glass labels, each pointed at by a small cursor in a blue of the
+ * charte, as several people working on one design (after Charifa's visual « Favorite User Interface Typefaces », 13
+ * October 2026). They replace the line of trades under the button (three lines on a phone: « ce n'est pas stylé ») and
+ * the round badges. Placed in the scene, so they keep their places when it is scaled down on a phone.
  */
-type Badge = { at: string; t: string; img?: string; app?: "facebook" | "instagram" };
-const badges: Badge[] = [
-  { at: "left-[22%] top-[2%]", img: "/images/ui/post-tissu.webp", t: "[--r:-6deg] [--t:7s]" },
-  { at: "left-[72%] top-[4%]", app: "facebook", t: "[--r:5deg] [--t:8s] [--fd:-2s]" },
-  { at: "left-[14%] top-[66%]", app: "instagram", t: "[--r:6deg] [--t:8.4s] [--fd:-1s]" },
-  { at: "left-[84%] top-[62%]", img: "/images/ui/post-fura.webp", t: "[--r:-4deg] [--t:7.6s] [--fd:-4s]" },
+const etiquettes: { metier: Metier; curseur: string; t: string }[] = [
+  { metier: "marketing", curseur: "#0714D8", t: "[--r:-3deg] [--t:7.4s]" },
+  { metier: "publicite", curseur: "#3551FF", t: "[--r:3deg] [--t:8.2s] [--fd:-2s]" },
+  { metier: "vente", curseur: "#0E7CFC", t: "[--r:-2deg] [--t:7.8s] [--fd:-4s]" },
+  { metier: "formation", curseur: "#071F78", t: "[--r:2deg] [--t:8.8s] [--fd:-1s]" },
 ];
 
-/** The trade as a small label, its own icon in front. */
-function Tag({ metier, children, light = false }: { metier: Metier; children: ReactNode; light?: boolean }) {
+function Etiquette({ metier, curseur }: { metier: Metier; curseur: string }) {
   return (
-    <span
-      className={`inline-flex items-center gap-1.5 rounded-full py-1 pl-2 pr-3 text-[10.5px] font-bold tracking-[0.02em] shadow-[0_4px_12px_-6px_rgba(11,18,51,.5)] ${
-        light ? "bg-white/95 text-ink" : "bg-white/20 text-white"
-      }`}
-    >
-      <Glyphe metier={metier} className="h-[14px] w-[14px] text-electric" />
-      {children}
+    <span className="etiquette">
+      <svg aria-hidden viewBox="0 0 16 16" className="etiquette-curseur">
+        <path d="M1.5 1.2 14.6 6.4c.5.2.5.9 0 1.1L9.3 9.3 7.5 14.6c-.2.5-.9.5-1.1 0L1.2 1.5c-.1-.2.1-.4.3-.3Z" fill={curseur} stroke="#fff" strokeWidth="1.3" strokeLinejoin="round" />
+      </svg>
+      <Glyphe metier={metier} className="h-[17px] w-[17px] text-electric" />
+      {hero.tags[metiers.indexOf(metier)]}
     </span>
   );
 }
@@ -65,11 +61,6 @@ function Carte({ img, tag, name, price, sizes }: { img: string; tag: string; nam
   return (
     <div className="relative h-full w-full overflow-hidden rounded-[18px] bg-frost shadow-[0_30px_60px_-30px_rgba(7,20,216,.55),0_2px_6px_rgba(11,18,51,.08)]">
       <Image src={img} alt="" fill sizes={sizes} className="object-cover" />
-      <span className="absolute inset-x-0 top-3 flex justify-center">
-        <Tag metier={glypheOf(tag)} light>
-          {tag}
-        </Tag>
-      </span>
       {name && (
         <span className="absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,transparent,rgba(4,11,82,.82))] px-3.5 pb-3.5 pt-12 text-left text-white">
           <span className="line-clamp-3 block text-[13px] font-bold leading-snug">{name}</span>
@@ -214,15 +205,20 @@ function Telephone({ slide }: { slide: number }) {
  * friends »: « bluffe-moi », keeping the little blue dots of the current ground): her title, its last words in an italic
  * serif; her sentence, the button, the four trades in a line of small capitals; then a phone in the middle passing three
  * real offers of VALO, and photo cards fanned out on either side, the outer ones fading into the page, with the orbit's
- * photos and the two networks floating around as badges. Its icons are VALO's own (`Glyphes.tsx`): a first try with the
+ * the four trades floating around it as glass labels pointed at by small cursors. Its icons are VALO's own (`Glyphes.tsx`): a first try with the
  * stock icons « fait trop IA » (12 October 2026), taking them off was not what she asked: « fais mieux ». The blue grounds tried on 12
  * October 2026 were set aside: the top stays white. `formes`: translucent blue shapes thrown behind it (`.formes` in
  * globals.css); `carres`: patches of fine squares instead of the dots, a few filled and out of focus (`.carres`); both
- * at /apercu/formes. On arrival the cards open out from behind the phone; while the page goes
+ * at /apercu/formes. `titre`: the title in her italic serif (`serif`, the homepage), or lighter and in navy with « levier de
+ * croissance. » set off by a yellow marker (`marqueur`), a hand-drawn yellow line (`trait`) or a light passing through it
+ * (`brillance`), or in her italic serif selected as in a design tool, a blue line with its handles under it and a text
+ * cursor at its end (`selection`, after her visual « Favorite User Interface Typefaces »), at /apercu/titre/<style> (13 October 2026: « la police est trop grasse, c'est trop noir »). On arrival the cards open out from behind the phone; while the page goes
  * by they spread a little more and the phone rises (`--s`, 0 to 1 over the first screen). Phones get the same scene,
  * scaled down, the outer cards cut by the edges. Still with « reduce motion ».
  */
-export function HeroEventail({ formes = false, carres = false }: { formes?: boolean; carres?: boolean }) {
+export type StyleTitre = "serif" | "marqueur" | "trait" | "brillance" | "selection";
+
+export function HeroEventail({ formes = false, carres = false, titre = "serif" }: { formes?: boolean; carres?: boolean; titre?: StyleTitre }) {
   const [slide, setSlide] = useState(0);
   const root = useRef<HTMLElement>(null);
 
@@ -282,7 +278,7 @@ export function HeroEventail({ formes = false, carres = false }: { formes?: bool
         {formes && <Formes />}
 
         <div className="relative px-5 pt-[112px] text-center sm:pt-[128px] lg:pt-[136px]">
-          <h1 className="eventail-titre mx-auto max-w-[19ch] text-ink sm:max-w-none">
+          <h1 className={`eventail-titre mx-auto max-w-[19ch] sm:max-w-none ${titre === "serif" ? "text-ink" : titre === "selection" ? "titre-doux" : "titre-leger"}`}>
             <span className="balance block">
               {first.split(" ").map((w, i) => (
                 <span key={i}>
@@ -292,9 +288,30 @@ export function HeroEventail({ formes = false, carres = false }: { formes?: bool
                 </span>
               ))}
             </span>
-            <span className="eventail-italique blur-in block text-electric" style={{ ["--d" as string]: "0.5s" } as CSSProperties}>
-              {second}
-            </span>
+            {titre === "selection" ? (
+              <span className="eventail-italique blur-in block" style={{ ["--d" as string]: "0.5s" } as CSSProperties}>
+                <span className="titre-selection">
+                  <span className="titre-selection-mots">{second}</span>
+                  <span aria-hidden className="titre-selection-ligne" />
+                  <span aria-hidden className="titre-selection-curseur" />
+                </span>
+              </span>
+            ) : titre === "serif" ? (
+              <span className="eventail-italique blur-in block text-electric" style={{ ["--d" as string]: "0.5s" } as CSSProperties}>
+                {second}
+              </span>
+            ) : (
+              <span className="blur-in mt-[0.08em] block" style={{ ["--d" as string]: "0.5s" } as CSSProperties}>
+                <span className={`titre-${titre} relative inline-block`}>
+                  {second}
+                  {titre === "trait" && (
+                    <svg aria-hidden viewBox="0 0 400 24" preserveAspectRatio="none" className="titre-trait-svg">
+                      <path d="M4 16C70 7 150 5 230 8c58 2 112 6 166 3" />
+                    </svg>
+                  )}
+                </span>
+              </span>
+            )}
           </h1>
           <p className="eventail-lead fade-in pretty mx-auto mt-5 max-w-[34rem] text-[16px] font-medium leading-relaxed text-body sm:text-[17px]" style={{ ["--d" as string]: "0.7s" } as CSSProperties}>
             {hero.lead}
@@ -304,18 +321,6 @@ export function HeroEventail({ formes = false, carres = false }: { formes?: bool
               <BtnInner>{hero.cta}</BtnInner>
             </DemandeButton>
           </div>
-          {/* the four trades as a line of small capitals, each with its own icon */}
-          <ul
-            className="eventail-metiers fade-in mx-auto mt-6 flex max-w-[19rem] flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[11.5px] font-bold uppercase tracking-[0.14em] text-body sm:max-w-none sm:gap-x-9"
-            style={{ ["--d" as string]: "1s" } as CSSProperties}
-          >
-            {hero.tags.map((t, i) => (
-              <li key={t} className="flex items-center gap-2.5">
-                <Glyphe metier={metiers[i]} className="h-[19px] w-[19px]" />
-                {t}
-              </li>
-            ))}
-          </ul>
         </div>
 
         {/* the scene: drawn at 1000 px wide and scaled to the screen */}
@@ -338,24 +343,12 @@ export function HeroEventail({ formes = false, carres = false }: { formes?: bool
                 <Telephone slide={slide} />
               </div>
             </div>
-            {badges.map((b, i) => (
-              <span key={i} className={`absolute ${b.at}`}>
-                <span className="drop-in block" style={{ ["--d" as string]: `${1.3 + i * 0.08}s` } as CSSProperties}>
-                  {b.img ? (
-                    <span
-                      className={`float block h-11 w-11 overflow-hidden rounded-full border-[3px] border-white bg-white shadow-[0_10px_24px_-10px_rgba(7,20,216,.55)] ${b.t}`}
-                    >
-                      <Image src={b.img} alt="" width={44} height={44} className="h-full w-full rounded-full object-cover" />
-                    </span>
-                  ) : (
-                    <span
-                      className={`float grid h-11 w-11 place-items-center rounded-[13px] text-white shadow-[0_10px_24px_-10px_rgba(7,20,216,.6)] [&_svg]:h-[22px] [&_svg]:w-[22px] ${
-                        b.app === "facebook" ? "bg-[#1877F2]" : "bg-[linear-gradient(45deg,#FEDA75_0%,#FA7E1E_26%,#D62976_52%,#962FBF_78%,#4F5BD5_100%)]"
-                      } ${b.t}`}
-                    >
-                      {b.app === "facebook" ? <Facebook /> : <Instagram />}
-                    </span>
-                  )}
+            {etiquettes.map((e, i) => (
+              <span key={e.metier} className={`etiquette-place etiquette-${e.metier}`}>
+                <span className="drop-in block" style={{ ["--d" as string]: `${1.3 + i * 0.1}s` } as CSSProperties}>
+                  <span className={`float block ${e.t}`}>
+                    <Etiquette metier={e.metier} curseur={e.curseur} />
+                  </span>
                 </span>
               </span>
             ))}
