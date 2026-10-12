@@ -80,6 +80,47 @@ function Carte({ img, tag, name, price, sizes }: { img: string; tag: string; nam
   );
 }
 
+/**
+ * The thrown shapes: three spheres around the edges (the far one out of focus), and two bands of light crossing the foot
+ * of the top like a wave, out of focus too, with a fine bright line along them. Sizes in the screen's width so they keep
+ * their place on a phone.
+ */
+function Formes() {
+  return (
+    <div aria-hidden className="formes">
+      <svg className="forme-vague" viewBox="0 0 1440 600" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="vague-a" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stopColor="#8fb2ff" stopOpacity="0" />
+            <stop offset="0.45" stopColor="#3551ff" stopOpacity="0.38" />
+            <stop offset="1" stopColor="#0e7cfc" stopOpacity="0.75" />
+          </linearGradient>
+          <linearGradient id="vague-b" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stopColor="#0714d8" stopOpacity="0.5" />
+            <stop offset="0.55" stopColor="#3551ff" stopOpacity="0.22" />
+            <stop offset="1" stopColor="#8fd3ff" stopOpacity="0" />
+          </linearGradient>
+          <filter id="vague-flou" x="-10%" y="-40%" width="120%" height="180%">
+            <feGaussianBlur stdDeviation="14" />
+          </filter>
+        </defs>
+        <path filter="url(#vague-flou)" fill="url(#vague-a)" d="M-60 520C340 470 720 560 1000 380C1180 265 1320 210 1500 190L1500 330C1330 340 1200 420 1030 500C760 620 360 560 -60 600Z" />
+        <path filter="url(#vague-flou)" fill="url(#vague-b)" d="M-60 300C200 360 420 470 640 520C820 560 1000 540 1500 470L1500 520C1000 610 800 620 600 580C380 535 180 430 -60 380Z" />
+        <path fill="none" stroke="#ffffff" strokeOpacity="0.85" strokeWidth="1.6" d="M-60 545C340 500 720 580 1010 405C1190 300 1330 245 1500 225" />
+      </svg>
+      <span className="forme forme-un float [--r:4deg] [--t:11s]">
+        <i />
+      </span>
+      <span className="forme float left-[-6vw] top-[56%] h-[clamp(96px,12vw,180px)] w-[clamp(96px,12vw,180px)] [--fd:-4s] [--r:-6deg] [--t:9s] [--o:0.6] [--flou:1px]">
+        <i />
+      </span>
+      <span className="forme float left-[7%] top-[12%] hidden h-[clamp(60px,6.5vw,100px)] w-[clamp(60px,6.5vw,100px)] [--flou:7px] [--o:0.5] [--fd:-2s] [--t:13s] sm:block">
+        <i />
+      </span>
+    </div>
+  );
+}
+
 /** The phone in the middle: VALO's offers passing one after the other, as in an app. */
 function Telephone({ slide }: { slide: number }) {
   return (
@@ -136,13 +177,13 @@ function Telephone({ slide }: { slide: number }) {
  * serif; her sentence, the button, the four trades in a line of small capitals; then a phone in the middle passing three
  * real offers of VALO, and photo cards fanned out on either side, the outer ones fading into the page, with the orbit's
  * photos and the two networks floating around as badges. Its icons are VALO's own (`Glyphes.tsx`): a first try with the
- * stock icons « fait trop IA » (12 October 2026), taking them off was not what she asked: « fais mieux ». `ton`: the ground, white as on the
- * homepage (`clair`), electric blue with white words and the italic ones in yellow (`bleu`) or a soft sky blue (`ciel`):
- * Charifa wanted to see whether a blue top would look good (12 October 2026), at /apercu/couleur and /apercu/couleur-ciel. On arrival the cards open out from behind the phone; while the page goes
+ * stock icons « fait trop IA » (12 October 2026), taking them off was not what she asked: « fais mieux ». The blue grounds tried on 12
+ * October 2026 were set aside: the top stays white. `formes`: translucent blue shapes thrown behind it (`.formes` in
+ * globals.css), at /apercu/formes. On arrival the cards open out from behind the phone; while the page goes
  * by they spread a little more and the phone rises (`--s`, 0 to 1 over the first screen). Phones get the same scene,
  * scaled down, the outer cards cut by the edges. Still with « reduce motion ».
  */
-export function HeroEventail({ ton = "clair" }: { ton?: "clair" | "bleu" | "ciel" }) {
+export function HeroEventail({ formes = false }: { formes?: boolean }) {
   const [slide, setSlide] = useState(0);
   const root = useRef<HTMLElement>(null);
 
@@ -186,18 +227,16 @@ export function HeroEventail({ ton = "clair" }: { ton?: "clair" | "bleu" | "ciel
   const [first, second] = hero.title;
 
   return (
-    <section ref={root} id="top" data-ton={ton} className="eventail relative px-[var(--frame)] pt-[var(--frame)]">
-      {/* `data-dark` on the electric blue: the menu turns to its dark glass over it */}
-      <div
-        data-dark={ton === "bleu" || undefined}
-        className="eventail-fond relative isolate overflow-hidden rounded-[18px] border border-hair bg-[linear-gradient(180deg,#ffffff_0%,#F7F9FF_100%)] lg:rounded-[22px]"
-      >
+    <section ref={root} id="top" className="eventail relative">
+      {/* one band, edge to edge: the framed card set on the page looked like a row on a row (12 October 2026) */}
+      <div className="eventail-fond relative isolate overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#F4F7FF_100%)]">
         {/* the dotted ground of the current top, stronger towards the edges, and a soft blue light behind the phone */}
         <div
           aria-hidden
           className="dots eventail-points absolute inset-0 -z-10 [-webkit-mask-image:radial-gradient(70%_60%_at_50%_40%,transparent_15%,#000_100%)] [mask-image:radial-gradient(70%_60%_at_50%_40%,transparent_15%,#000_100%)]"
         />
         <div aria-hidden className="eventail-lueur absolute left-1/2 top-[58%] -z-10 h-[620px] w-[1100px] -translate-x-1/2 rounded-full" />
+        {formes && <Formes />}
 
         <div className="relative px-5 pt-[112px] text-center sm:pt-[128px] lg:pt-[136px]">
           <h1 className="eventail-titre mx-auto max-w-[19ch] text-ink sm:max-w-none">
@@ -218,7 +257,7 @@ export function HeroEventail({ ton = "clair" }: { ton?: "clair" | "bleu" | "ciel
             {hero.lead}
           </p>
           <div className="bounce-in mt-7" style={{ ["--d" as string]: "0.85s" } as CSSProperties}>
-            <DemandeButton className={btn(ton === "bleu" ? "white" : "electric")}>
+            <DemandeButton className={btn("electric")}>
               <BtnInner>{hero.cta}</BtnInner>
             </DemandeButton>
           </div>
@@ -279,7 +318,7 @@ export function HeroEventail({ ton = "clair" }: { ton?: "clair" | "bleu" | "ciel
             ))}
           </div>
           {/* the scene fades into the page at its foot (the thin line and its round mark were taken off, 12 October 2026) */}
-          <div className="eventail-fondu pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(180deg,rgba(247,249,255,0),#F7F9FF_72%)]" />
+          <div className="eventail-fondu pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(180deg,rgba(244,247,255,0),#F4F7FF_72%)]" />
         </div>
       </div>
     </section>

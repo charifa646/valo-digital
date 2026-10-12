@@ -2347,121 +2347,6 @@ html .demo-scene .demo-seg i {
   font-weight: 400;
 }
 
-/* ------------------------------------------------------------------ */
-/* More colour (`couleur`, /apercu/couleur, 12 October 2026)           */
-/* ------------------------------------------------------------------ */
-
-/* Charifa: « le site est terne seulement en terme de couleur », and, on 2 October, « n'abuse pas avec le halo bleu sinon le
-   blanc sera sale ». So not a haze across the white: a clean wash of blue at the edges of two parts, a touch of sky and of
-   the charte's yellow, cards of frosted glass on top of them, the figures' block lit from a corner. (The blue she meant was the top of the page itself, not the menu bar: `HeroEventail
-   ton`, below.) Everything here is under `main[data-couleur]`, so the homepage is unchanged until she chooses. The blur behind
-   the glass is only for computers with a mouse (on phones the glass is its translucent colour alone: no blur to redo at
-   each frame of the scroll). */
-main[data-couleur] #prestations {
-  --halo:
-    radial-gradient(42% 46% at 4% 8%, rgba(53, 81, 255, 0.2), transparent 72%),
-    radial-gradient(36% 40% at 98% 62%, rgba(14, 124, 252, 0.16), transparent 72%),
-    radial-gradient(24% 26% at 86% 6%, rgba(253, 236, 5, 0.2), transparent 72%);
-}
-main[data-couleur] #formations {
-  background-image: linear-gradient(180deg, #ffffff 0%, #e4ecff 62%, #f4f7ff 100%);
-  --halo:
-    radial-gradient(40% 44% at 96% 4%, rgba(53, 81, 255, 0.24), transparent 72%),
-    radial-gradient(36% 40% at 2% 78%, rgba(14, 124, 252, 0.2), transparent 72%),
-    radial-gradient(22% 24% at 10% 6%, rgba(253, 236, 5, 0.16), transparent 72%);
-}
-/* the offers' cards and the trainings' cards: frosted glass over the colour behind them */
-main[data-couleur] #prestations article[class~="bg-white"],
-main[data-couleur] #formations .group[class~="bg-white"] {
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.5));
-  border-color: rgba(255, 255, 255, 0.92);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.95) inset,
-    0 28px 56px -34px rgba(7, 20, 216, 0.42);
-}
-main[data-couleur] #formations .group[class~="bg-white"]:hover {
-  border-color: rgba(53, 81, 255, 0.4);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.95) inset,
-    0 34px 60px -30px rgba(7, 20, 216, 0.55);
-}
-/* the figures' block: lit from a corner, each figure on a pane of glass (a pane drawn behind the figure, so the block's
-   layout does not move) */
-main[data-couleur] [data-teinte="nuit"] {
-  /* contained lights: each one fades before it reaches the block's edge, so no edge is cut once the page is night too */
-  background-image:
-    radial-gradient(closest-side ellipse at 72% 30%, rgba(53, 81, 255, 0.5), transparent),
-    radial-gradient(closest-side ellipse at 22% 78%, rgba(14, 124, 252, 0.28), transparent);
-}
-main[data-couleur] [data-teinte="nuit"] ul > li {
-  position: relative;
-  isolation: isolate;
-}
-main[data-couleur] [data-teinte="nuit"] ul > li::before {
-  content: "";
-  position: absolute;
-  inset: -14px -12px;
-  z-index: -1;
-  border-radius: 18px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.24) inset,
-    0 20px 40px -24px rgba(0, 0, 0, 0.5);
-}
-@media (min-width: 1024px) and (hover: hover) {
-  main[data-couleur] #prestations article[class~="bg-white"],
-  main[data-couleur] #formations .group[class~="bg-white"],
-  main[data-couleur] [data-teinte="nuit"] ul > li::before {
-    -webkit-backdrop-filter: blur(16px) saturate(1.25);
-    backdrop-filter: blur(16px) saturate(1.25);
-  }
-}
-
-/* « l'éventail » on a blue ground (`HeroEventail ton`, 12 October 2026: « le bleu dont je parlais c'était même le header, je
-   voulais voir si un bleu rendrait bien »). `bleu`: the electric blue of the charte lit from above, white words, the
-   italic ones in the charte's yellow, the menu in its dark glass over it. `ciel`: a soft blue, the words still dark. */
-.eventail[data-ton="bleu"] .eventail-fond {
-  background: radial-gradient(110% 80% at 50% 0%, #3551ff 0%, #0714d8 52%, #0510a8 100%);
-  border-color: transparent;
-}
-.eventail[data-ton="bleu"] .eventail-points {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1.2px);
-  background-size: 26px 26px;
-}
-.eventail[data-ton="bleu"] .eventail-lueur {
-  background: radial-gradient(closest-side, rgba(143, 163, 255, 0.42), rgba(53, 81, 255, 0.16) 55%, transparent);
-}
-.eventail[data-ton="bleu"] .eventail-titre {
-  color: #fff;
-}
-.eventail[data-ton="bleu"] .eventail-italique {
-  color: #fdec05;
-}
-.eventail[data-ton="bleu"] .eventail-lead {
-  color: rgba(255, 255, 255, 0.84);
-}
-.eventail[data-ton="bleu"] .eventail-metiers {
-  color: rgba(255, 255, 255, 0.74);
-}
-.eventail[data-ton="bleu"] .eventail-fondu {
-  background: linear-gradient(180deg, rgba(5, 16, 168, 0), #0510a8 78%);
-}
-.eventail[data-ton="ciel"] .eventail-fond {
-  background: linear-gradient(180deg, #e9efff 0%, #d2deff 58%, #bccdff 100%);
-  border-color: rgba(255, 255, 255, 0.7);
-}
-.eventail[data-ton="ciel"] .eventail-lueur {
-  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.75), transparent);
-}
-.eventail[data-ton="ciel"] .eventail-lead,
-.eventail[data-ton="ciel"] .eventail-metiers {
-  color: #3b4560;
-}
-.eventail[data-ton="ciel"] .eventail-fondu {
-  background: linear-gradient(180deg, rgba(188, 205, 255, 0), #bccdff 78%);
-}
-
 /* VALO's trade icons (`Glyphes.tsx`): the shape follows the text colour, one accent in the charte's yellow */
 .glyphe {
   fill: currentColor;
@@ -2477,10 +2362,65 @@ main[data-couleur] [data-teinte="nuit"] ul > li::before {
 .glyphe .af {
   fill: var(--glyphe-accent, #fdec05);
 }
-/* the line of trades under the button: electric blue icons, white ones on the blue top */
+/* the line of trades under the button: electric blue icons */
 .eventail-metiers .glyphe {
   color: #0714d8;
 }
-.eventail[data-ton="bleu"] .eventail-metiers .glyphe {
-  color: #fff;
+
+/* ------------------------------------------------------------------ */
+/* « Formes jetées » behind the homepage's top (`HeroEventail formes`, */
+/* /apercu/formes, 12 October 2026)                                    */
+/* ------------------------------------------------------------------ */
+
+/* After Charifa's visuals (a soft blue wave on white, blurred blue spheres, a glow under large letters): translucent blue
+   shapes thrown around the edges of the top, some sharp, some out of focus as if far away, and a wave of light across its
+   foot, behind the phone and the cards. Painted gradients, a blur only on the far ones and only once (the float moves the
+   layer around it): nothing is recomputed while the page scrolls. They keep clear of the title. Still with « reduce
+   motion » (`.float` stops). */
+.formes {
+  position: absolute;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+}
+.forme {
+  position: absolute;
+  will-change: transform;
+}
+.forme > i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  /* glass more than ball: a light on its top left, a soft rim of light on its lower right, the edge melting away */
+  background:
+    radial-gradient(circle at 70% 76%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 22%),
+    radial-gradient(circle at 32% 27%, rgba(255, 255, 255, 0.92) 0%, rgba(224, 233, 255, 0.78) 12%, rgba(170, 192, 255, 0.55) 30%, rgba(110, 142, 255, 0.46) 48%, rgba(66, 98, 250, 0.42) 60%, rgba(66, 98, 250, 0.2) 66%, rgba(66, 98, 250, 0.06) 70%, rgba(66, 98, 250, 0) 72%);
+  filter: blur(var(--flou, 0px));
+  opacity: var(--o, 1);
+}
+.forme-un {
+  right: -9vw;
+  top: 13%;
+  width: clamp(170px, 26vw, 380px);
+  height: clamp(170px, 26vw, 380px);
+  --flou: 1.5px;
+  --o: 0.7;
+}
+/* on a phone the large one stays in the top corner, mostly off the screen, out of the title's way */
+@media (max-width: 767px) {
+  .forme-un {
+    right: -30vw;
+    top: -2%;
+    width: 52vw;
+    height: 52vw;
+    --o: 0.45;
+  }
+}
+.forme-vague {
+  position: absolute;
+  opacity: 0.72;
+  inset: auto 0 0 0;
+  height: 70%;
+  width: 100%;
 }

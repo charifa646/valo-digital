@@ -4,13 +4,13 @@ import { HeroEventail } from "@/components/site/HeroEventail";
 import { NeedsHistoire } from "@/components/site/NeedsHistoire";
 
 /**
- * The same as /apercu/couleur with the top on a soft sky blue instead of the electric blue (Charifa, 12 October 2026).
- * Hidden address, not indexed.
+ * The homepage with translucent blue shapes thrown behind its top (Charifa, 12 October 2026, after her visuals: a soft
+ * blue wave, blurred blue spheres). Kept at a hidden address until she chooses. Not indexed.
  */
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
-const HeroCiel = () => <HeroEventail ton="ciel" />;
+const HeroFormes = () => <HeroEventail formes />;
 
 export default function Apercu() {
-  return <Accueil Hero={HeroCiel} Besoin={NeedsHistoire} scene sansCadre couleur />;
+  return <Accueil Hero={HeroFormes} Besoin={NeedsHistoire} scene sansCadre />;
 }
