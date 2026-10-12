@@ -121,6 +121,44 @@ function Formes() {
   );
 }
 
+/** Which squares of each patch are filled: column, row, strength, blur, and whether it slowly lights up and goes out. */
+type Case = { x: number; y: number; a?: number; f?: number; vit?: boolean; d?: number };
+const coinGauche: Case[] = [
+  { x: 2, y: 2, a: 0.16 },
+  { x: 4, y: 1, a: 0.1, vit: true },
+  { x: 3, y: 4, a: 0.22, f: 6 },
+  { x: 6, y: 3, a: 0.12, vit: true, d: -2 },
+  { x: 1, y: 6, a: 0.1 },
+  { x: 7, y: 6, a: 0.18, f: 10 },
+];
+const coinDroit: Case[] = [
+  { x: 8, y: 2, a: 0.14, vit: true, d: -1 },
+  { x: 10, y: 3, a: 0.2, f: 8 },
+  { x: 6, y: 4, a: 0.1 },
+  { x: 9, y: 6, a: 0.16 },
+  { x: 11, y: 7, a: 0.12, vit: true, d: -3.5 },
+  { x: 7, y: 8, a: 0.22, f: 12 },
+  { x: 4, y: 7, a: 0.1, vit: true, d: -4.5 },
+];
+
+function Carres() {
+  const cases = (list: Case[]) =>
+    list.map((c, i) => (
+      <i
+        key={i}
+        className={c.vit ? "vit" : undefined}
+        style={{ ["--x" as string]: c.x, ["--y" as string]: c.y, ["--a" as string]: c.a, ["--f" as string]: `${c.f ?? 0}px`, ["--d" as string]: `${c.d ?? 0}s` } as CSSProperties}
+      />
+    ));
+  return (
+    <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden">
+      <div className="carres left-[-8%] top-[-3%] h-[calc(var(--c)*7)] w-[calc(var(--c)*7)] sm:left-[-2%] sm:top-[-4%] sm:h-[calc(var(--c)*10)] sm:w-[calc(var(--c)*10)]">{cases(coinGauche)}</div>
+      {/* not on phones: there it would stand behind the sentence */}
+      <div className="carres right-[-3%] top-[14%] hidden h-[calc(var(--c)*11)] w-[calc(var(--c)*14)] sm:block">{cases(coinDroit)}</div>
+    </div>
+  );
+}
+
 /** The phone in the middle: VALO's offers passing one after the other, as in an app. */
 function Telephone({ slide }: { slide: number }) {
   return (
@@ -179,11 +217,12 @@ function Telephone({ slide }: { slide: number }) {
  * photos and the two networks floating around as badges. Its icons are VALO's own (`Glyphes.tsx`): a first try with the
  * stock icons « fait trop IA » (12 October 2026), taking them off was not what she asked: « fais mieux ». The blue grounds tried on 12
  * October 2026 were set aside: the top stays white. `formes`: translucent blue shapes thrown behind it (`.formes` in
- * globals.css), at /apercu/formes. On arrival the cards open out from behind the phone; while the page goes
+ * globals.css); `carres`: patches of fine squares instead of the dots, a few filled and out of focus (`.carres`); both
+ * at /apercu/formes. On arrival the cards open out from behind the phone; while the page goes
  * by they spread a little more and the phone rises (`--s`, 0 to 1 over the first screen). Phones get the same scene,
  * scaled down, the outer cards cut by the edges. Still with « reduce motion ».
  */
-export function HeroEventail({ formes = false }: { formes?: boolean }) {
+export function HeroEventail({ formes = false, carres = false }: { formes?: boolean; carres?: boolean }) {
   const [slide, setSlide] = useState(0);
   const root = useRef<HTMLElement>(null);
 
@@ -231,10 +270,14 @@ export function HeroEventail({ formes = false }: { formes?: boolean }) {
       {/* one band, edge to edge: the framed card set on the page looked like a row on a row (12 October 2026) */}
       <div className="eventail-fond relative isolate overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#F4F7FF_100%)]">
         {/* the dotted ground of the current top, stronger towards the edges, and a soft blue light behind the phone */}
+        {carres ? (
+          <Carres />
+        ) : (
         <div
           aria-hidden
           className="dots eventail-points absolute inset-0 -z-10 [-webkit-mask-image:radial-gradient(70%_60%_at_50%_40%,transparent_15%,#000_100%)] [mask-image:radial-gradient(70%_60%_at_50%_40%,transparent_15%,#000_100%)]"
         />
+        )}
         <div aria-hidden className="eventail-lueur absolute left-1/2 top-[58%] -z-10 h-[620px] w-[1100px] -translate-x-1/2 rounded-full" />
         {formes && <Formes />}
 

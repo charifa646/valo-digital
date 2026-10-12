@@ -5,12 +5,12 @@ import { NeedsHistoire } from "@/components/site/NeedsHistoire";
 
 /**
  * The homepage with translucent blue shapes thrown behind its top (Charifa, 12 October 2026, after her visuals: a soft
- * blue wave, blurred blue spheres). Kept at a hidden address until she chooses. Not indexed.
+ * blue wave, blurred blue spheres), on patches of fine squares, a few filled and out of focus, with the menu in blue (13 October 2026). Kept at a hidden address until she chooses. Not indexed.
  */
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
-const HeroFormes = () => <HeroEventail formes />;
+const HeroFormes = () => <HeroEventail formes carres />;
 
 export default function Apercu() {
-  return <Accueil Hero={HeroFormes} Besoin={NeedsHistoire} scene sansCadre />;
+  return <Accueil Hero={HeroFormes} Besoin={NeedsHistoire} scene sansCadre menuBleu />;
 }

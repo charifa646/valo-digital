@@ -23,7 +23,11 @@ function Wordmark({ className = "" }: { className?: string }) {
   );
 }
 
-export function Header() {
+/**
+ * The menu. `bleu` (Charifa, 12 October 2026, asked again the next day): the bar in electric blue glass with white words
+ * and the charte's yellow button, night blue glass over the dark parts; shown at /apercu/formes until she chooses.
+ */
+export function Header({ bleu = false }: { bleu?: boolean }) {
   const [light, setLight] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
@@ -127,7 +131,7 @@ export function Header() {
     };
   }, [open, lock]);
 
-  const clair = light;
+  const clair = light && !bleu;
   const ink = clair ? "text-ink" : "text-white";
 
   return (
@@ -136,7 +140,7 @@ export function Header() {
         <div ref={bar} className="relative mx-auto max-w-[1200px]">
           <div
             className={`pointer-events-auto flex h-[58px] items-center justify-between gap-4 rounded-full pl-5 pr-2 transition-[background,box-shadow,color] duration-500 sm:h-[64px] sm:pl-6 ${
-              light ? "glass blur-bar text-ink" : "glass-dark blur-bar text-white"
+              bleu ? (light ? "glass-bleu blur-bar text-white" : "glass-bleu-nuit blur-bar text-white") : light ? "glass blur-bar text-ink" : "glass-dark blur-bar text-white"
             }`}
           >
             {home ? (
@@ -189,7 +193,7 @@ export function Header() {
                 onClick={() => demande("demande")}
                 aria-haspopup="dialog"
                 className={btn(
-                  light ? "electric" : "white",
+                  bleu ? "sun" : light ? "electric" : "white",
                   "hidden min-h-[46px] pl-5 text-[13.5px] sm:inline-flex [&_.dot]:h-[34px] [&_.dot]:w-[34px] [&_.dot_svg]:h-4 [&_.dot_svg]:w-4",
                 )}
               >
