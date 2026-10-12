@@ -11,7 +11,8 @@ import { useEffect, useRef } from "react";
  * have no mouse, with the scroll (`--fill`, from 0 to 1 as the title comes up the screen; Charifa, 12 October 2026:
  * « fais le même effet sur mobile »).
  */
-export function GrandTitre({ id, children, className = "" }: { id: string; children: string; className?: string }) {
+/** `clair`: in white, for a section in colour (the outline too). */
+export function GrandTitre({ id, children, className = "", clair = false }: { id: string; children: string; className?: string; clair?: boolean }) {
   const ref = useRef<HTMLHeadingElement>(null);
   const [first, ...rest] = children.split(" ");
 
@@ -45,7 +46,7 @@ export function GrandTitre({ id, children, className = "" }: { id: string; child
   }, []);
 
   return (
-    <h2 ref={ref} id={id} data-reveal="rise" className={`grand-titre text-electric ${className}`}>
+    <h2 ref={ref} id={id} data-reveal="rise" className={`grand-titre ${clair ? "grand-titre-clair text-white" : "text-electric"} ${className}`}>
       <span className="line-mask">
         <span className="rise-in block">
           <span className="grand-titre-ligne">

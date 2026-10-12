@@ -20,8 +20,8 @@ import { Teintes } from "@/components/site/Teintes";
  * /services. The hero is the light orbit, the client's choice of 7 October 2026. The homepage and the hidden versions
  * of its hero (`/apercu/...`) share this composition: only the hero changes. `scene`: the order demo on a blue stage, shown
  * at /apercu/demo; `sansCadre`: with the phone's frame reduced to a fine rim, at /apercu/demo/sans-cadre; `Besoin`: the
- * cards of « De quoi avez-vous besoin » with the dithered band of the foot, at /apercu/besoin; `menuBleu`: the menu in blue, at
- * /apercu/formes.
+ * cards of « De quoi avez-vous besoin » with the dithered band of the foot, at /apercu/besoin; `menuBleu`: the menu in blue;
+ * `servicesBleu`: the services on a band of electric blue, at /apercu/services-bleu.
  */
 export function Accueil({
   Hero,
@@ -29,12 +29,14 @@ export function Accueil({
   scene = false,
   sansCadre = false,
   menuBleu = false,
+  servicesBleu = false,
 }: {
   Hero: ComponentType;
   Besoin?: ComponentType;
   scene?: boolean;
   sansCadre?: boolean;
   menuBleu?: boolean;
+  servicesBleu?: boolean;
 }) {
   return (
     <ScrollProvider>
@@ -44,7 +46,7 @@ export function Accueil({
           <Hero />
           <Confiance />
           <Besoin />
-          <Prestations />
+          <Prestations bleu={servicesBleu} />
           <Formations />
           <DemoCommande scene={scene} sansCadre={sansCadre} />
           <Methode />

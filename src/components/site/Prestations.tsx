@@ -21,7 +21,7 @@ const previews: Record<string, () => JSX.Element> = { reseaux: Calendrier, publi
 const spans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7"];
 
 /** `still`: drawn under the glimpse of the homepage, without its button; `anchor`: on the page of all the services, where the menu leads to each offer. */
-function OfferCard({ o, i, still = false, anchor = false }: { o: Offer; i: number; still?: boolean; anchor?: boolean }) {
+function OfferCard({ o, i, still = false, anchor = false, bleu = false }: { o: Offer; i: number; still?: boolean; anchor?: boolean; bleu?: boolean }) {
   const { open } = useSheet();
   const Preview = previews[o.id];
   const lead = o.id === "direction"; // the complete offer, in blue
@@ -44,7 +44,12 @@ function OfferCard({ o, i, still = false, anchor = false }: { o: Offer; i: numbe
       data-reveal="wipe"
       style={{ ["--d" as string]: `${(i % 2) * 0.14}s` } as CSSProperties}
       className={`flex flex-col overflow-hidden rounded-2xl ${spans[i]} ${
-        lead ? "bg-[linear-gradient(160deg,#3551FF_0%,#0714D8_46%,#0A12A8_100%)] text-white" : "border border-hair bg-white text-ink"
+        lead
+          ? // on the blue section the complete offer turns night blue, so it stands out from the ground
+            bleu
+            ? "bg-[linear-gradient(160deg,#16239A_0%,#040B52_60%,#02062E_100%)] text-white ring-1 ring-white/15"
+            : "bg-[linear-gradient(160deg,#3551FF_0%,#0714D8_46%,#0A12A8_100%)] text-white"
+          : `border border-hair bg-white text-ink ${bleu ? "border-white shadow-[0_30px_60px_-30px_rgba(2,6,46,.6)]" : ""}`
       }`}
     >
       <div
@@ -83,26 +88,37 @@ function OfferCard({ o, i, still = false, anchor = false }: { o: Offer; i: numbe
  * (Charifa, 7 October 2026: the homepage says less, and the visitor sees there is more). `full`: that page, every
  * offer whole.
  */
-export function Prestations({ full = false }: { full?: boolean }) {
+export function Prestations({ full = false, bleu = false }: { full?: boolean; bleu?: boolean }) {
   const offers = prestations.offers;
   return (
-    <section id="prestations" aria-labelledby="prestations-title" className={`paper relative ${full ? "" : "halo-tl"}`}>
-      <div className="gutter mx-auto max-w-page pb-14 pt-8 lg:pb-20 lg:pt-10">
+    <section
+      id="prestations"
+      aria-labelledby="prestations-title"
+      // `bleu`: the section in the electric blue of the charte, white cards on it (Charifa, 13 October 2026: « casser la
+      // neutralité du blanc »). Not marked dark: the menu keeps its white glass, which reads on the blue and on the white
+      // cards alike (its dark glass, white words, vanished over the cards)
+      className={`relative ${bleu ? "on-dark services-bleu isolate overflow-hidden text-white" : `paper ${full ? "" : "halo-tl"}`}`}
+    >
+      <div className={`gutter mx-auto max-w-page ${bleu ? "pb-20 pt-16 lg:pb-28 lg:pt-24" : "pb-14 pt-8 lg:pb-20 lg:pt-10"}`}>
         {/* on the homepage the part opens on a very large title; the page of all the services has its own */}
-        {!full && <GrandTitre id="prestations-title">{prestations.grand}</GrandTitre>}
+        {!full && (
+          <GrandTitre id="prestations-title" clair={bleu}>
+            {prestations.grand}
+          </GrandTitre>
+        )}
         <div className={`max-w-[40rem] ${full ? "" : "mt-8 lg:mt-12"}`}>
           {full ? (
             <h2 id="prestations-title" data-reveal="words" className="h2 balance text-ink">
               <Words>{prestations.title}</Words>
             </h2>
           ) : (
-            <h3 data-reveal="words" className="h2 balance text-ink">
+            <h3 data-reveal="words" className={`h2 balance ${bleu ? "text-white" : "text-ink"}`}>
               <Words>{prestations.title}</Words>
             </h3>
           )}
           <p
             data-reveal
-            className="pretty mt-4 text-[16.5px] font-medium leading-relaxed text-body lg:text-[17.5px]"
+            className={`pretty mt-4 text-[16.5px] font-medium leading-relaxed lg:text-[17.5px] ${bleu ? "text-white/80" : "text-body"}`}
             style={{ ["--d" as string]: "0.3s" } as CSSProperties}
           >
             {prestations.lead}
@@ -111,7 +127,7 @@ export function Prestations({ full = false }: { full?: boolean }) {
 
         <div className="mt-10 grid gap-4 lg:mt-14 lg:grid-cols-12 lg:gap-5">
           {(full ? offers : offers.slice(0, 2)).map((o, i) => (
-            <OfferCard key={o.id} o={o} i={i} anchor={full} />
+            <OfferCard key={o.id} o={o} i={i} anchor={full} bleu={bleu} />
           ))}
         </div>
 
@@ -119,14 +135,14 @@ export function Prestations({ full = false }: { full?: boolean }) {
           <Suite
             className="mt-4 h-[210px] sm:h-[250px] lg:mt-5"
             action={
-              <Link href="/services" className={btn("electric")}>
+              <Link href="/services" className={btn(bleu ? "white" : "electric")}>
                 <BtnInner>{prestations.all}</BtnInner>
               </Link>
             }
           >
             <div className="grid gap-4 lg:grid-cols-12 lg:gap-5">
               {offers.slice(2).map((o, i) => (
-                <OfferCard key={o.id} o={o} i={i + 2} still />
+                <OfferCard key={o.id} o={o} i={i + 2} still bleu={bleu} />
               ))}
             </div>
           </Suite>
