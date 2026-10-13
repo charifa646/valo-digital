@@ -23,7 +23,7 @@ export function References() {
               style={{ ["--d" as string]: `${(i % 6) * 0.05}s` } as CSSProperties}
               className="w-[calc((100%-1.25rem)/3)] sm:w-[calc((100%-2.25rem)/4)] lg:w-[calc((100%-5rem)/6)]"
             >
-              <LogoTile logo={l} className="h-[76px] w-full sm:h-[96px]" />
+              <LogoTile logo={l} sizes="(min-width: 1024px) 200px, 40vw" className="h-[76px] w-full sm:h-[96px]" />
             </li>
           ))}
         </ul>

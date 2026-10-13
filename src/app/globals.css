@@ -646,7 +646,10 @@ html[data-teinte] [data-teinte-plat]::before {
   opacity: 1;
 }
 /* the words of the page, not those of the cards, the coloured parts or the buttons. Classes are named here by
-   attribute (`[class~=…]`): Tailwind rewrites a rule that names one of its classes, copying it for each @apply */
+   attribute (`[class~=…]`): Tailwind rewrites a rule that names one of its classes, copying it for each @apply.
+   Only in the parts on screen when the colour comes (`data-teinte-on`, set by `Teintes.tsx` on the part that holds the
+   colour and the one before and after it): hung on `html`, these rules made the phone restyle every element of the page
+   at once (1 372 on the homepage, 190 ms on a slowed phone, 14 October 2026) */
 html[data-teintes]
   #contenu
   > section
@@ -655,9 +658,8 @@ html[data-teintes]
     color var(--teinte-texte),
     border-color var(--teinte-texte);
 }
-html[data-teinte]
-  #contenu
-  > section
+#contenu
+  > section[data-teinte-on]
   :is([class~="text-ink"], h2, h3):not(
     :is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte], [class*="bg-[linear-gradient"]) *,
     [class~="text-electric"],
@@ -665,30 +667,26 @@ html[data-teinte]
   ) {
   color: #fff;
 }
-html[data-teinte]
-  #contenu
-  > section
+#contenu
+  > section[data-teinte-on]
   [class~="text-body"]:not(:is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *) {
   color: rgba(255, 255, 255, 0.75);
 }
-html[data-teinte]
-  #contenu
-  > section
+#contenu
+  > section[data-teinte-on]
   [class~="text-mute"]:not(:is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *) {
   color: rgba(255, 255, 255, 0.55);
 }
-html[data-teinte]
-  #contenu
-  > section
+#contenu
+  > section[data-teinte-on]
   :is([class~="text-electric"], [class~="tag"]):not(
     :is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *,
     [class~="btn"]
   ) {
   color: #fdec05;
 }
-html[data-teinte]
-  #contenu
-  > section
+#contenu
+  > section[data-teinte-on]
   [class~="border-hair"]:not(:is([data-dark], [class~="bg-white"], article, [data-carte]) *, [class~="bg-white"], [data-carte]) {
   border-color: rgba(255, 255, 255, 0.18);
 }
@@ -1588,6 +1586,11 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 }
 .js .play-when-in[data-play] [data-anim] {
   animation-play-state: running;
+}
+/* the endless motions (the shapes and squares of the top, the title's cursor, the logos going by) stop while their part
+   is off screen: they kept the phone drawing at every frame all the way down the page (14 October 2026) */
+.js .play-when-in:not([data-play]) :is(.float, .carres > i.vit, .titre-selection-curseur, .logos-track) {
+  animation-play-state: paused;
 }
 /* the windows of the offers drawn under the homepage's blur stay still */
 [data-still] [data-anim] {

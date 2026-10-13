@@ -267,7 +267,7 @@ export function HeroEventail({ formes = false, carres = false, titre = "serif" }
   const [first, second] = hero.title;
 
   return (
-    <section ref={root} id="top" className="eventail relative">
+    <section ref={root} id="top" className="eventail play-when-in relative">
       {/* one band, edge to edge: the framed card set on the page looked like a row on a row (12 October 2026) */}
       <div className="eventail-fond relative isolate overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#F4F7FF_100%)]">
         {/* the dotted ground of the current top, stronger towards the edges, and a soft blue light behind the phone */}

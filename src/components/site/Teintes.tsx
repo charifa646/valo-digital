@@ -9,6 +9,9 @@ import { useEffect } from "react";
  * on each side of the middle keeps the colour from flickering when the page stops right at the edge of a part. The
  * fades are only switched on (`html[data-teintes]`) after the first frame, so a page opened on a coloured part does not
  * fade into it under the eyes. The colours are in globals.css. The header is told, so its glass turns dark.
+ *
+ * The words turn light only in the part that holds the colour and the one before and after it (`data-teinte-on`), the
+ * only ones on screen then: the whole page restyled at once made a slowed phone stop for 190 ms (14 October 2026).
  */
 export function Teintes() {
   useEffect(() => {
@@ -16,6 +19,13 @@ export function Teintes() {
     const marks = Array.from(document.querySelectorAll<HTMLElement>("#contenu [data-teinte]"));
     let frame = 0;
     let current: HTMLElement | undefined;
+    let zone: Element[] = [];
+    const setZone = (mark: HTMLElement | undefined) => {
+      zone.forEach((z) => z.removeAttribute("data-teinte-on"));
+      const part = mark?.closest("#contenu > section");
+      zone = part ? [part.previousElementSibling, part, part.nextElementSibling].filter((z): z is Element => !!z) : [];
+      zone.forEach((z) => z.setAttribute("data-teinte-on", ""));
+    };
     const update = () => {
       frame = 0;
       const mid = window.innerHeight / 2;
@@ -28,6 +38,7 @@ export function Teintes() {
       if (!current || !holds(current, margin)) current = marks.find((m) => holds(m, -margin));
       const t = current?.dataset.teinte;
       if (root.dataset.teinte === t) return;
+      setZone(t ? current : undefined);
       if (t) root.dataset.teinte = t;
       else delete root.dataset.teinte;
       window.dispatchEvent(new Event("teinte"));
@@ -44,6 +55,7 @@ export function Teintes() {
       cancelAnimationFrame(start);
       window.removeEventListener("scroll", soon);
       window.removeEventListener("resize", soon);
+      setZone(undefined);
       delete root.dataset.teintes;
       delete root.dataset.teinte;
     };

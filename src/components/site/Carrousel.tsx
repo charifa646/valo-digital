@@ -142,7 +142,7 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
               </span>
               <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5 sm:p-6">
                 {it.price ? (
-                  <span className="rounded-full bg-white/15 px-4 py-2 text-[13px] font-semibold text-white ring-1 ring-white/25 backdrop-blur-md">{it.price}</span>
+                  <span className="rounded-full bg-night/55 px-4 py-2 text-[13px] font-semibold text-white ring-1 ring-white/25">{it.price}</span>
                 ) : (
                   <span />
                 )}

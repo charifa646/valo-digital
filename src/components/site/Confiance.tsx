@@ -9,14 +9,16 @@ import { Chiffres } from "./Chiffres";
  * (14 October 2026, Charifa: « mettre le logo en gris, ou enlever les backgrounds derrière le logo »), its colours coming
  * back under the hand. The light parts of a logo melt into the page (`mix-blend-multiply`).
  */
-export function LogoTile({ logo, hidden = false, className = "" }: { logo: ClientLogo; hidden?: boolean; className?: string }) {
+export function LogoTile({ logo, hidden = false, className = "", sizes = "(min-width: 640px) 128px, 96px" }: { logo: ClientLogo; hidden?: boolean; className?: string; sizes?: string }) {
   return (
     <span className={`group/logo relative block ${className}`}>
       <Image
         src={logo.src}
         alt={hidden ? "" : logo.name || "Client de VALO DIGITAL"}
         fill
-        sizes="160px"
+        // light: grey and faded, a logo needs no more (37 of them come with the page: about 1 MB before, 14 October 2026)
+        sizes={sizes}
+        quality={60}
         className="object-contain p-2 opacity-60 mix-blend-multiply grayscale transition duration-500 group-hover/logo:opacity-100 group-hover/logo:grayscale-0 sm:p-3"
       />
     </span>
@@ -112,7 +114,7 @@ export function Confiance({ premium = false }: { premium?: boolean } = {}) {
       <div
         data-reveal
         data-preload
-        className="logos-rangs relative mt-8 grid gap-3 [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] sm:gap-4 lg:mt-10"
+        className="logos-rangs play-when-in relative mt-8 grid gap-3 [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] sm:gap-4 lg:mt-10"
       >
         <Row logos={logos.slice(0, half)} />
         <Row logos={logos.slice(half)} reverse />
