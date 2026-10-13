@@ -10,7 +10,7 @@ import { BtnInner, btn } from "@/components/ui/Action";
 import { Price } from "@/components/ui/Price";
 import { Words } from "@/components/ui/Words";
 import { GrandTitre } from "@/components/ui/GrandTitre";
-import { Carrousel } from "./Carrousel";
+import { Rail } from "./Carrousel";
 import { Calendrier } from "@/components/previews/Calendrier";
 import { Campagnes } from "@/components/previews/Campagnes";
 import { Montage } from "@/components/previews/Montage";
@@ -31,8 +31,9 @@ const photos: Record<string, { src: string; pos: string }> = {
 };
 
 /**
- * The photo of each service in the homepage's carousel (14 October 2026): VALO's own team, so the services never show the
- * trainings' photos (Charifa: « tu as mélangé les cartes de service avec les cartes de formation »).
+ * The photo of each service in the carousel tried at /apercu/propositions (14 October 2026): VALO's own team. Not on the
+ * homepage: there the carousel keeps the services' own cards and their little animated windows (Charifa: « j'ai pas dit de
+ * mettre des photos », « garder les animations au niveau des services »).
  */
 export const photoService: Record<string, { img: string; pos?: string }> = {
   reseaux: { img: "/images/apropos/equipe-casquettes.webp", pos: "50% 35%" },
@@ -46,7 +47,8 @@ const spans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7
 
 /** `still`: drawn under the glimpse of the homepage, without its button; `anchor`: on the page of all the services, where the menu leads to each offer. */
 /** `glisse`: one card of the row that slides under the finger on phones and tablets (the homepage, 13 October 2026). */
-function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium = false, glisse = false }: { o: Offer; i: number; still?: boolean; anchor?: boolean; bleu?: boolean; premium?: boolean; glisse?: boolean }) {
+/** `rail`: one card of the services' carousel on the homepage, on every screen (14 October 2026). */
+function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium = false, glisse = false, rail = false }: { o: Offer; i: number; still?: boolean; anchor?: boolean; bleu?: boolean; premium?: boolean; glisse?: boolean; rail?: boolean }) {
   const { open } = useSheet();
   const Preview = previews[o.id];
   const lead = o.id === "direction"; // the complete offer, in blue
@@ -67,8 +69,9 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
       id={anchor ? o.id : undefined}
       data-pulse={anchor || undefined}
       data-reveal="wipe"
-      style={{ ["--d" as string]: `${(i % 2) * 0.14}s` } as CSSProperties}
-      className={`flex flex-col overflow-hidden ${glisse ? "w-[86%] shrink-0 snap-start sm:w-[62%] lg:w-auto" : ""} ${premium ? "rounded-lg" : "rounded-2xl"} ${spans[i]} ${
+      data-carte-rail={rail || undefined}
+      style={{ ["--d" as string]: `${(rail ? Math.min(i, 3) : i % 2) * 0.14}s` } as CSSProperties}
+      className={`flex flex-col overflow-hidden ${glisse ? "w-[86%] shrink-0 snap-start sm:w-[62%] lg:w-auto" : ""} ${rail ? "w-[84vw] max-w-[420px] shrink-0 snap-start sm:w-[400px]" : spans[i]} ${premium ? "rounded-lg" : "rounded-2xl"} ${
         lead
           ? premium
             ? "bg-night text-white ring-1 ring-white/15"
@@ -170,20 +173,11 @@ export function Prestations({ full = false, bleu = false, premium = false, carro
 
         {carrousel && !full ? (
           <div className="mt-10 lg:mt-14">
-            <Carrousel
-              label={prestations.grand}
-              bleu={bleu}
-              items={offers.map((o) => ({
-                id: o.id,
-                img: photoService[o.id]?.img ?? photoService.reseaux.img,
-                pos: photoService[o.id]?.pos,
-                label: "",
-                title: o.name,
-                text: o.text,
-                price: `${o.price}${o.note && o.note.startsWith("/") ? ` ${o.note}` : ""}`,
-                onOpen: () => (o.sheet ? open(o.sheet) : open("demande-prestation", "responsable")),
-              }))}
-            />
+            <Rail label={prestations.grand} bleu={bleu}>
+              {offers.map((o, i) => (
+                <OfferCard key={o.id} o={o} i={i} bleu={bleu} rail />
+              ))}
+            </Rail>
           </div>
         ) : (
           <>
