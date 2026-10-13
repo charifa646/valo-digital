@@ -1,43 +1,38 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef } from "react";
 import { figures, figuresBloc, formations, hero, needs, prestations } from "@/lib/content";
 import { DemandeButton, useSheet } from "./Sheet";
 import { Anchor } from "./Scroll";
 import { Monogram } from "@/components/brand/Logo";
-import { Price } from "@/components/ui/Price";
 
-const d = (s: number) => ({ ["--d" as string]: `${s}s` }) as CSSProperties;
 const door = (id: string) => needs.doors.find((x) => x.id === id)!;
 const reseaux = prestations.offers.find((o) => o.id === "reseaux")!;
 const [marketing, publicite] = hero.tags;
 const formes = figures[0];
 const projets = figures[1];
+/** « À partir de 150 000 F CFA / mois » cut in three, every word kept */
+const [prixDebut, prixReste] = [reseaux.price.slice(0, reseaux.price.indexOf("150")).trim(), reseaux.price.slice(reseaux.price.indexOf("150"))];
+const [prixMontant, prixPar] = [prixReste.slice(0, prixReste.indexOf("/")).trim(), prixReste.slice(prixReste.indexOf("/"))];
 
-function Fleche({ className = "h-3 w-3" }: { className?: string }) {
+function Fleche({ className = "" }: { className?: string }) {
   return (
-    <svg aria-hidden viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 17 17 7M8 7h9v9" />
+    <svg aria-hidden viewBox="0 0 24 24" className={`ciel-fleche ${className}`} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 19 19 5M5 5h14v14" />
     </svg>
   );
 }
 
 /**
- * The top « ciel », after the top of Charifa's ChatGPT mock-up (the blue parrot, 14 October 2026: « c'est exactement ça
- * que je veux »), redrawn for VALO: the sky, the subject cut out in the middle and melting into the blue, the glass card on
- * the left joined to her by a fine line, the stack of three cards, the round figure, the white button with its halo, the
- * notch at the foot. A woman instead of the parrot, laughing, her phone in hand (the photo Charifa chose, cut out with a
- * portrait model so no edge shows on the sky). Only her own words and VALO's real figures and offers: the mock-up's own
- * sentences are not hers and are not used; the homepage's two doors give the cards their words.
- *
- * As the mock-up, the whole top holds in one screen, nothing cut, nothing running over (« il a dézoomé »): the part is the
- * height of the screen, the photo takes the room left by the words, and the cards are placed from her, in units of the
- * scene's height (`cqh`), so they keep their places on her on every screen. On a computer, as the mock-up's: the woman
- * smaller in the middle, the cards drawn out towards the edges, and a deep notch whose white shoulders carry VALO's
- * mission and its link on the left, « +100 projets réalisés » and its link on the right. `ordre`: « titre », her title
- * above the photo, which bites into it (her idea), her sentence in the sky's tongue on a computer; « image », the photo
- * first and the title at the foot, in the tongue on a computer, as the mock-up's.
+ * The top « ciel », drawn from the code of Charifa's ChatGPT mock-up (« Astra », the blue parrot, 14 October 2026: « c'est
+ * exactement ça que je veux »; its `glacier.css` handed over the same day): the same scene, the same places to the pixel at
+ * each width (1600, 1150, 850, 600, 360), the same small type around a large subject (« il a dézoomé la section »). Her
+ * changes: a woman laughing, her phone in hand, in the parrot's place (the photo she chose, cut out); only her own words and
+ * VALO's real figures and offers (the mock-up's sentences are not hers and are not used); the round photo of a VALO
+ * training where the mock-up had a globe. `ordre`: « titre », her title where the mock-up wrote « VALO DIGITAL », cut on
+ * either side of the head as the two words were, her sentence under the button; « image », the top left to the sky, her
+ * title under the button as the mock-up's last words.
  */
 export function HeroCiel({ ordre = "titre" }: { ordre?: "titre" | "image" }) {
   const root = useRef<HTMLElement>(null);
@@ -47,207 +42,137 @@ export function HeroCiel({ ordre = "titre" }: { ordre?: "titre" | "image" }) {
   const deleguer = door("deleguer");
   const titreHaut = ordre === "titre";
 
-  // while the page goes up, the woman rises a little slower than it and the cards part: transforms only
+  // the mock-up's slight depth: the woman follows the pointer a little (not on touch screens, not for reduced motion)
   useEffect(() => {
     const el = root.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let shown = true;
-    const io = new IntersectionObserver(([e]) => (shown = e.isIntersecting));
-    io.observe(el);
-    const moving = Array.from(el.querySelectorAll<HTMLElement>("[data-par]"));
+    if (!el || !window.matchMedia("(hover: hover) and (pointer: fine)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let frame = 0;
-    const update = () => {
-      frame = 0;
-      const k = Math.min(1, Math.max(0, window.scrollY / window.innerHeight));
-      for (const m of moving) {
-        const [x, y] = m.dataset.par!.split(",").map(Number);
-        m.style.transform = `translate3d(${(x * k).toFixed(1)}px, ${(y * k).toFixed(1)}px, 0)`;
-      }
+    const move = (e: PointerEvent) => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const r = el.getBoundingClientRect();
+        el.style.setProperty("--scene-x", `${(((e.clientX - r.left) / r.width - 0.5) * 14).toFixed(1)}px`);
+        el.style.setProperty("--scene-y", `${(((e.clientY - r.top) / r.height - 0.5) * 8).toFixed(1)}px`);
+      });
     };
-    const soon = () => {
-      if (shown && !frame) frame = requestAnimationFrame(update);
-    };
-    window.addEventListener("scroll", soon, { passive: true });
+    el.addEventListener("pointermove", move);
     return () => {
-      io.disconnect();
+      el.removeEventListener("pointermove", move);
       cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", soon);
     };
   }, []);
 
   return (
-    <section ref={root} id="top" className={`ciel play-when-in ${titreHaut ? "ciel-titre-haut" : "ciel-image-haut"}`}>
-      <div className="ciel-fond">
-        <div aria-hidden className="ciel-lumiere" />
+    <section ref={root} id="top" aria-labelledby="ciel-titre" className={`ciel play-when-in ${titreHaut ? "ciel-a" : "ciel-b"}`}>
+      <div className="ciel-sky" aria-hidden />
 
-        <div className="ciel-tete">
-          <p className="ciel-surtitre fade-in" style={d(0.05)}>
-            {hero.tags.join(" · ")}
-          </p>
-          {titreHaut && (
-            <h1 className="ciel-titre">
-              <span className="balance block">
-                {first.split(" ").map((w, i) => (
-                  <span key={i}>
-                    <span className="blur-in inline-block" style={d(0.12 + i * 0.06)}>
-                      {w}
-                    </span>{" "}
-                  </span>
-                ))}
-              </span>
-              <span className="ciel-italique blur-in block" style={d(0.5)}>
-                {second}
-              </span>
-            </h1>
-          )}
-        </div>
+      {titreHaut && (
+        <h1 id="ciel-titre" className="ciel-mot">
+          <span className="ciel-mot-gauche blur-in">{first}</span>{" "}
+          <span className="ciel-mot-droite blur-in">{second}</span>
+        </h1>
+      )}
+      <p className="ciel-kicker fade-in">{hero.tags.join(" · ")}</p>
 
-        {/* the scene: as tall as the room left, the woman in the middle, the cards placed from her */}
-        <div className="ciel-scene">
-          <div data-par="0,-30" className="ciel-cadre">
-            <div className="ciel-femme-entree h-full w-full">
-              <Image
-                src="/images/hero/femme-rire.webp"
-                alt=""
-                width={1060}
-                height={1254}
-                priority
-                sizes="(min-width: 1024px) 480px, 80vw"
-                className="h-full w-full object-contain object-bottom"
-              />
-            </div>
-          </div>
+      <Image
+        src="/images/hero/femme-rire.webp"
+        alt=""
+        width={1060}
+        height={1254}
+        priority
+        sizes="(max-width: 600px) 92vw, 520px"
+        className="ciel-femme"
+      />
 
-          <span aria-hidden className="ciel-ligne" />
-          <span aria-hidden className="ciel-point" />
+      <svg className="ciel-liens-trait" viewBox="0 0 1200 220" fill="none" aria-hidden>
+        <path d="M0 152H534Q550 152 550 136V127Q550 111 566 111H854Q870 111 870 95V36Q870 20 886 20H1140" stroke="white" strokeOpacity=".65" strokeWidth="1.3" />
+        <circle cx="550" cy="152" r="7" fill="white" />
+        <circle cx="550" cy="152" r="16" stroke="white" strokeOpacity=".2" strokeWidth="6" />
+      </svg>
 
-          {/* +1 000 entrepreneurs trained, with three real moments of VALO's trainings */}
-          <div data-par="-14,-40" className="ciel-pos ciel-pos-pastille">
-            <div className="pop-in" style={d(1.05)}>
-              <Anchor to="formations" className="ciel-pastille float [--fd:-1s] [--r:-2deg] [--t:9s]">
-                <span aria-hidden className="ciel-avatars">
-                  {["universite-ki-zerbo", "entreprendre-au-feminin", "vendeurs-en-ligne"].map((p) => (
-                    <span key={p}>
-                      <Image src={`/images/terrain/${p}.webp`} alt="" fill sizes="32px" className="object-cover" />
-                    </span>
-                  ))}
-                </span>
-                <span className="text-left leading-none">
-                  <span className="ciel-pastille-chiffre">{formes.value}</span>
-                  <span className="ciel-pastille-mot">{formes.caption}</span>
-                </span>
-                <Fleche className="ciel-pastille-fleche" />
-              </Anchor>
-            </div>
-          </div>
+      <Anchor to="formations" className="ciel-preuve pop-in">
+        <span className="ciel-portraits" aria-hidden>
+          {["universite-ki-zerbo", "entreprendre-au-feminin", "vendeurs-en-ligne"].map((p) => (
+            <Image key={p} src={`/images/terrain/${p}.webp`} alt="" width={48} height={48} />
+          ))}
+        </span>
+        <span>
+          <b>{formes.value}</b>
+          <small>{formes.caption}</small>
+        </span>
+        <Fleche className="ciel-preuve-fleche" />
+      </Anchor>
 
-          {/* left: « Apprendre », the trainings, a real photo of a VALO training in the place of the mock-up's globe */}
-          <div data-par="-30,10" className="ciel-pos ciel-pos-gauche">
-            <div className="drop-in" style={d(0.9)}>
-              <Anchor to="formations" className="ciel-verre float [--fd:-3s] [--r:-4deg] [--t:10s]">
-                <span aria-hidden className="ciel-bulle">
-                  <Image src="/images/terrain/universite-ki-zerbo.webp" alt="" fill sizes="96px" className="object-cover" />
-                </span>
-                <span className="ciel-petit">{apprendre.name}</span>
-                <span className="ciel-verre-texte">{apprendre.text}</span>
-                <span className="ciel-verre-lien">
-                  {formations.grand}
-                  <Fleche className="h-2.5 w-2.5" />
-                </span>
-              </Anchor>
-            </div>
-          </div>
+      <Anchor to="formations" className="ciel-carte drop-in">
+        <span className="ciel-carte-photo" aria-hidden>
+          <Image src="/images/terrain/universite-ki-zerbo.webp" alt="" fill sizes="150px" className="object-cover" />
+        </span>
+        <span className="ciel-carte-index">{apprendre.name}</span>
+        <strong>{apprendre.text}</strong>
+        <span className="ciel-carte-lien">
+          {formations.grand} <Fleche />
+        </span>
+      </Anchor>
 
-          {/* right: « Déléguer », three cards stacked, the front one a real offer with its price */}
-          <div data-par="30,-20" className="ciel-pos ciel-pos-droite">
-            <div className="drop-in" style={d(1)}>
-              <div className="ciel-pile float [--fd:-5s] [--r:3deg] [--t:11s]">
-                <span aria-hidden className="ciel-pile-fond ciel-pile-nuit">
-                  {publicite}
-                  <Fleche className="h-2 w-2" />
-                </span>
-                <span aria-hidden className="ciel-pile-fond ciel-pile-blanche">
-                  {marketing}
-                  <Fleche className="h-2 w-2" />
-                </span>
-                <button type="button" onClick={() => open("reseaux")} aria-haspopup="dialog" className="ciel-pile-face">
-                  <span className="flex items-start justify-between gap-2">
-                    <Monogram className="ciel-pile-logo" />
-                    <span className="ciel-petit ciel-petit-clair">{deleguer.name}</span>
-                  </span>
-                  <span className="ciel-pile-titre">{reseaux.name}</span>
-                  <span className="ciel-pile-prix">
-                    <Price price={reseaux.price} light size="sm" />
-                    <Fleche className="h-3 w-3 shrink-0" />
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* the button with its halo; under it, in the « image » order, her title as the mock-up's last words */}
-        <div className="ciel-bas">
-          <div className="bounce-in" style={d(1.2)}>
-            <span className="ciel-halo">
-              <DemandeButton className="ciel-bouton">
-                {hero.cta}
-                <Fleche className="h-4 w-4" />
-              </DemandeButton>
+      <div className="ciel-offres drop-in">
+        <span className="ciel-offre ciel-offre-fond" aria-hidden>
+          <span>{publicite}</span>
+          <Fleche />
+        </span>
+        <span className="ciel-offre ciel-offre-milieu" aria-hidden>
+          <span>{marketing}</span>
+          <Fleche />
+        </span>
+        <button type="button" onClick={() => open("reseaux")} aria-haspopup="dialog" className="ciel-offre ciel-offre-face">
+          <span className="ciel-offre-haut">
+            <Monogram className="ciel-offre-logo" />
+            <span>{deleguer.name}</span>
+          </span>
+          <strong>{reseaux.name}</strong>
+          <span className="ciel-offre-bas">
+            <span>
+              {prixDebut} <b>{prixMontant}</b> {prixPar}
             </span>
-          </div>
-        </div>
+            <Fleche className="ciel-offre-fleche" />
+          </span>
+        </button>
+      </div>
 
-        {/* in the « image » order her title, as the mock-up's last words: in the sky above the notch on a phone, in the
-            sky's tongue on a computer; in the « titre » order, her sentence there on a computer */}
+      <div className="ciel-centre">
+        <DemandeButton className="ciel-bouton bounce-in">
+          {hero.cta} <Fleche />
+        </DemandeButton>
         {titreHaut ? (
-          <p className="ciel-langue-texte fade-in" style={d(1.35)}>
-            {hero.lead}
-          </p>
+          <p className="ciel-phrase fade-in">{hero.lead}</p>
         ) : (
-          <h1 className="ciel-titre-bas fade-up" style={d(1.3)}>
+          <h1 id="ciel-titre" className="ciel-titre-bas fade-up">
             {first} {second}
           </h1>
         )}
+        <Anchor to="besoin" aria-label="Descendre" className="ciel-bas-fleche">
+          ↓
+        </Anchor>
       </div>
 
-      {/* the notch at the foot: the sky goes on in the middle; on its white shoulders, on a computer, VALO's mission and
-          « +100 projets réalisés », each with its way in (on a phone, only the two ways in) */}
-      <div className="ciel-liens">
-        <div className="ciel-epaule">
-          <span aria-hidden className="ciel-ronds">
-            <span>
-              <Fleche className="h-2.5 w-2.5" />
-            </span>
-            <span>
-              <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-                <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4" />
-              </svg>
-            </span>
-          </span>
-          <p className="ciel-epaule-texte">{figuresBloc.text}</p>
-          <Anchor to="prestations" className="ciel-lien">
-            {prestations.grand}
-            <Fleche className="h-2.5 w-2.5" />
-          </Anchor>
+      <div className="ciel-aile ciel-aile-gauche">
+        <span className="ciel-ronds" aria-hidden>
+          <i>↗</i>
+          <i>✳</i>
+        </span>
+        <p>{figuresBloc.text}</p>
+        <Anchor to="prestations">
+          {prestations.grand} <span aria-hidden>↗</span>
+        </Anchor>
+      </div>
+      <div className="ciel-aile ciel-aile-droite">
+        <div className="ciel-nombre">
+          <b>{projets.value}</b>
+          <p>{projets.caption}</p>
         </div>
-        <div className="ciel-langue">
-          <Anchor to="besoin" aria-label="Descendre" className="ciel-descendre">
-            <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 5v14M6 13l6 6 6-6" />
-            </svg>
-          </Anchor>
-        </div>
-        <div className="ciel-epaule ciel-epaule-droite">
-          <p className="ciel-chiffre">
-            <span className="ciel-chiffre-nombre">{projets.value}</span>
-            <span className="ciel-chiffre-mot">{projets.caption}</span>
-          </p>
-          <Anchor to="formations" className="ciel-lien">
-            {formations.grand}
-            <Fleche className="h-2.5 w-2.5" />
-          </Anchor>
-        </div>
+        <Anchor to="formations">
+          {formations.grand} <span aria-hidden>↗</span>
+        </Anchor>
       </div>
     </section>
   );
