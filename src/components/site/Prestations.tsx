@@ -71,7 +71,7 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
       data-reveal="wipe"
       data-carte-rail={rail || undefined}
       style={{ ["--d" as string]: `${(rail ? Math.min(i, 3) : i % 2) * 0.14}s` } as CSSProperties}
-      className={`flex flex-col overflow-hidden ${glisse ? "w-[86%] shrink-0 snap-start sm:w-[62%] lg:w-auto" : ""} ${rail ? "w-[84vw] max-w-[420px] shrink-0 snap-start sm:w-[400px]" : spans[i]} ${premium ? "rounded-lg" : "rounded-2xl"} ${
+      className={`flex flex-col overflow-hidden ${glisse ? "w-[86%] shrink-0 snap-start sm:w-[62%] lg:w-auto" : ""} ${rail ? "w-[76vw] max-w-[380px] shrink-0 snap-start sm:w-[360px] lg:w-[372px]" : spans[i]} ${premium ? "rounded-lg" : "rounded-2xl"} ${
         lead
           ? premium
             ? "bg-night text-white ring-1 ring-white/15"
@@ -98,15 +98,23 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
         aria-hidden
         // the window plays only while on screen, and never under the glimpse's blur (`data-still`)
         data-still={still || undefined}
-        className={`@container relative h-[262px] overflow-hidden px-4 pt-5 sm:px-6 sm:pt-6 ${still ? "" : "play-when-in"} ${lead ? "" : "m-2 mb-0 rounded-[4px] bg-[linear-gradient(180deg,#EDF1FF_0%,#F6F8FF_100%)]"}`}
+        className={`@container relative overflow-hidden ${rail ? "h-[196px] px-3 pt-4 sm:h-[214px] sm:px-4" : "h-[262px] px-4 pt-5 sm:px-6 sm:pt-6"} ${still ? "" : "play-when-in"} ${lead ? "" : "m-2 mb-0 rounded-[4px] bg-[linear-gradient(180deg,#EDF1FF_0%,#F6F8FF_100%)]"}`}
       >
-        <Preview />
+        {/* in the carousel the window is lower and its little scene drawn a little smaller, so the card stays short
+            (Charifa, 14 October 2026: « la partie verticale, c'est trop long ») */}
+        {rail ? (
+          <div className="[zoom:0.8] sm:[zoom:0.84]">
+            <Preview />
+          </div>
+        ) : (
+          <Preview />
+        )}
       </div>
       )}
-      <div className="flex flex-1 flex-col px-6 pb-6 pt-5 sm:px-7 sm:pb-7">
-        <h3 className="text-[19px] font-semibold leading-snug tracking-[-0.02em] sm:text-[21px]">{o.name}</h3>
-        <p className={`pretty mt-2 max-w-[34rem] text-[14.5px] font-medium leading-relaxed ${lead ? "text-white/75" : "text-body"}`}>{o.text}</p>
-        <div className="mt-auto flex flex-wrap items-end justify-between gap-x-6 gap-y-4 pt-6">
+      <div className={`flex flex-1 flex-col ${rail ? "px-5 pb-5 pt-4 sm:px-6 sm:pb-6" : "px-6 pb-6 pt-5 sm:px-7 sm:pb-7"}`}>
+        <h3 className={`font-semibold leading-snug tracking-[-0.02em] ${rail ? "text-[18px] sm:text-[19px]" : "text-[19px] sm:text-[21px]"}`}>{o.name}</h3>
+        <p className={`pretty max-w-[34rem] font-medium leading-relaxed ${rail ? "mt-1.5 text-[14px]" : "mt-2 text-[14.5px]"} ${lead ? "text-white/75" : "text-body"}`}>{o.text}</p>
+        <div className={`mt-auto flex flex-wrap items-end justify-between gap-x-6 ${rail ? "gap-y-3 pt-4" : "gap-y-4 pt-6"}`}>
           <Price price={o.price} note={o.note} light={lead} />
           {still ? (
             <span className={link}>{label}</span>
