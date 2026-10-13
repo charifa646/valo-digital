@@ -132,8 +132,9 @@ export const figures: KeyFigure[] = typeset([
     prefix: "+",
     count: 70000,
     suffix: "\u00a0$",
-    label: "BUDGETS DE CAMPAGNES PUBLICITAIRES (FB & INST) GÉRÉS",
-    caption: "Budgets de campagnes publicitaires (FB & INST) gérés",
+    label: "BUDGETS DE CAMPAGNES PUBLICITAIRES (FACEBOOK ET INSTAGRAM) GÉRÉS",
+    // « Facebook et Instagram » written out (14 October 2026, Charifa: « Facebook et Instagram au lieu de FB »)
+    caption: "Budgets de campagnes publicitaires (Facebook et Instagram) gérés",
   },
 ]);
 
