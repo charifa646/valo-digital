@@ -1524,7 +1524,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 2px rgba(7, 20, 216, 0.55);
   opacity: 0;
   pointer-events: none;
 }

@@ -121,9 +121,9 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
           style={{ ["--d" as string]: `${Math.min(i, 4) * 0.08}s` } as CSSProperties}
           className={`group relative shrink-0 snap-start overflow-hidden text-left ${
             apple
-              ? "aspect-[3/4.4] w-[78vw] max-w-[380px] rounded-[30px] sm:w-[340px]"
+              ? "aspect-[3/4.3] w-[76vw] max-w-[360px] rounded-[26px] sm:w-[320px]"
               : "aspect-[4/5] w-[74vw] max-w-[340px] rounded-[24px] sm:w-[300px]"
-          } bg-night shadow-[0_30px_60px_-34px_rgba(4,11,82,.7)]`}
+          } ${apple ? "border border-hair bg-white shadow-[0_24px_50px_-30px_rgba(4,11,82,.35)]" : "bg-night shadow-[0_30px_60px_-34px_rgba(4,11,82,.7)]"}`}
         >
           {!apple && (
             <Image
@@ -137,34 +137,27 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
           )}
           {apple ? (
             <span className="absolute inset-0 flex flex-col">
-              {/* the words on their own band of night blue at the top, the photo under it: the title never crosses a face
-                  any more, and is a little smaller so it takes fewer lines (14 October 2026, after a review Charifa agreed with) */}
-              <span className="relative z-[1] block bg-night px-6 pb-2 pt-6 sm:px-7 sm:pt-7">
-                {it.label && <span className="mb-2.5 block text-[11px] font-semibold uppercase tracking-[0.18em] text-white/65">{it.label}</span>}
-                <span className="block text-[21px] font-semibold leading-[1.15] tracking-[-0.025em] text-white sm:text-[24px]">{it.title}</span>
-              </span>
-              <span className="relative block min-h-0 flex-1">
+              {/* the photo alone at the top, clean, no veil and no words on it; the words under it on white (14 October
+                  2026, Charifa: neither the title on the photo nor the night-blue band fading into it, « pas beau ») */}
+              <span className="relative m-2 mb-0 block min-h-0 flex-[1.25] overflow-hidden rounded-[20px] bg-frost">
                 <Image
                   src={it.img}
                   alt=""
                   fill
                   sizes="(min-width: 640px) 380px, 80vw"
-                  className="object-cover transition duration-700 [transition-timing-function:var(--ease)] group-hover:scale-[1.05]"
-                  style={{ objectPosition: it.pos ?? "50% 35%" }}
+                  className="object-cover transition duration-700 [transition-timing-function:var(--ease)] group-hover:scale-[1.04]"
+                  style={{ objectPosition: it.pos ?? "50% 30%" }}
                 />
-                <span aria-hidden className="absolute inset-x-0 top-0 h-[32%] bg-[linear-gradient(180deg,#040B52_0%,rgba(4,11,82,.5)_45%,transparent_100%)]" />
-                <span aria-hidden className="absolute inset-x-0 bottom-0 h-[32%] bg-[linear-gradient(0deg,rgba(4,11,82,.6)_0%,transparent_100%)]" />
-                {/* the price in plain white and the way in, in electric blue: both read at a glance */}
-                <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5 sm:p-6">
-                  {it.price ? (
-                    <span className="whitespace-nowrap rounded-full bg-white px-4 py-2 text-[13.5px] font-bold text-night shadow-[0_8px_20px_-10px_rgba(0,0,0,.5)] sm:text-[14px]">{it.price}</span>
-                  ) : (
-                    <span />
-                  )}
-                  {/* `carte-signe`: when the card comes on screen, a ring of light leaves the button once and its arrow nudges
-                      twice towards the corner, so the visitor sees the card opens (Charifa, 14 October 2026: « on ne sait
-                      pas qu'il faut cliquer », her choice « signe à l'arrivée »). Once only, never in a loop */}
-                  <span aria-hidden className="carte-signe relative grid h-12 w-12 shrink-0 place-items-center rounded-full bg-electric text-white shadow-[0_10px_24px_-10px_rgba(7,20,216,.9)] transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+              </span>
+              <span className="flex flex-1 flex-col px-5 pb-5 pt-4 sm:px-6 sm:pb-6">
+                {it.label && <span className="block text-[10.5px] font-semibold uppercase tracking-[0.18em] text-electric">{it.label}</span>}
+                <span className="mt-2 block text-[18px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink sm:text-[19px]">{it.title}</span>
+                <span className="mt-auto flex items-center justify-between gap-3 pt-4">
+                  {it.price ? <span className="text-[16px] font-bold tracking-[-0.01em] text-ink">{it.price}</span> : <span />}
+                  {/* `carte-signe`: when the card comes on screen, a ring leaves the button once and its arrow nudges twice
+                      towards the corner, so the visitor sees the card opens (Charifa, 14 October 2026, « signe à
+                      l'arrivée »). Once only, never in a loop */}
+                  <span aria-hidden className="carte-signe relative grid h-11 w-11 shrink-0 place-items-center rounded-full bg-electric text-white shadow-[0_10px_24px_-12px_rgba(7,20,216,.9)] transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
                     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M7 17 17 7M8 7h9v9" />
                     </svg>
