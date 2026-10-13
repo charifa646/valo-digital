@@ -59,12 +59,12 @@ export const nav: NavItem[] = typeset([
 export const hero = typeset({
   title: ["Faites du digital un véritable", "levier de croissance."],
   /** Charifa's own words from her copywriting (« VALO COPYWRITING + STRUCTURE »), put back on 12 October 2026 (« remets mon
-   * copywriting de début, surtout le texte du header »); on 14 October 2026 she allowed it to be reformulated « pour que les
-   * personnes comprennent ce que fait Valo »: it said « dans leur marketing, leur acquisition et leur développement », three
-   * vague words, « acquisition » being jargon. The new sentence uses only words of her own offers (« trouver des clients en
-   * ligne » is her training's title, the four trades are her services and trainings), so it promises nothing new. It is also
-   * the site's description for search engines and shared links. */
-  lead: "VALO DIGITAL accompagne les entrepreneurs et les entreprises pour trouver des clients en ligne : réseaux sociaux, publicité, vidéos et formations.",
+   * copywriting de début, surtout le texte du header »); the catalogue's words had replaced them on 7 October. On 14 October
+   * 2026 a reformulation was tried (« pour trouver des clients en ligne : réseaux sociaux, publicité, vidéos et formations »)
+   * and given up: the sentence covers three kinds of visitor, those who want to get clients (« acquisition »), those who have
+   * some and want to grow (« développement ») and those who want training, and the shorter wordings lost two of the three.
+   * She kept this one: « regardez la version de base dans le copywriting ». It is also the site's description for search engines. */
+  lead: "VALO DIGITAL accompagne les entrepreneurs et entreprises dans leur marketing, leur acquisition et leur développement.",
   cta: "Parlons de votre projet",
   tags: ["Marketing digital", "Publicité", "Vente", "Formation"],
 });
