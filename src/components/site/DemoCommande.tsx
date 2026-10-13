@@ -515,7 +515,9 @@ export function DemoCommande({ scene = false, sansCadre = false }: { scene?: boo
   if (scene)
     return (
       <section id="demo" aria-labelledby="demo-title" className="paper grain relative isolate overflow-hidden bg-ice">
-        <div className="gutter mx-auto grid max-w-page items-center gap-9 py-20 lg:grid-cols-12 lg:gap-12 lg:py-24">
+        {/* the whole page turns night blue while the demo holds the screen, as if the visitor stepped onto its dark stage,
+            and is light again after (14 October 2026, Charifa: the night blue moved here from the figures) */}
+        <div data-teinte="nuit" className="gutter mx-auto grid max-w-page items-center gap-9 py-20 lg:grid-cols-12 lg:gap-12 lg:py-24">
           <div className="text-center lg:col-span-5 lg:text-left">
             <h2 id="demo-title" data-reveal="words" className="h2 balance mx-auto max-w-[16ch] text-ink lg:mx-0">
               <Words>{demo.title}</Words>

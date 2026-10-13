@@ -592,7 +592,7 @@ html {
 /* ------------------------------------------------------------------ */
 
 /* No new colour (« utiliser les sections déjà en couleur »). While a part marked `data-teinte` crosses the middle of
-   the screen (the figures' night blue on the homepage; on « À propos » the blue top, the blue band of « Mon parcours
+   the screen (the order demo's night blue on the homepage, since 14 October 2026, in place of the figures'; on « À propos » the blue top, the blue band of « Mon parcours
    digital » and the night photo of « Être visible ne suffit pas. »), the whole page takes its colour in a short fade:
    every part of the page, and their words turn light, the cards keeping their
    own colours. The foot of the page is left out. `html[data-teinte]` names the colour on; without the script, or once
@@ -2231,6 +2231,13 @@ html[data-teinte="nuit"] .logos-rangs[data-reveal][data-in] {
 .demo-pause:focus-visible {
   outline: 2px solid #fdec05;
   outline-offset: 3px;
+}
+/* on the night page the stage, of the same blue, keeps a fine edge of light so it still reads as a stage */
+.demo-scene {
+  transition: box-shadow var(--teinte-temps) var(--teinte-ease);
+}
+html[data-teinte] .demo-scene {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 40px 90px -50px rgba(83, 110, 255, 0.55);
 }
 html .demo-scene .demo-seg {
   height: 2px;

@@ -121,8 +121,9 @@ export function Confiance({ premium = false }: { premium?: boolean } = {}) {
       <div className="gutter mx-auto mt-12 max-w-page lg:mt-16">
         <div className="relative">
           {!premium && <Mur />}
-          {/* the sober figures since 13 October 2026 (Charifa: « beaucoup plus sobre »), the page still turning night blue on the homepage */}
-          <Chiffres premium teinte={!premium} className="relative z-[1]" />
+          {/* the sober figures since 13 October 2026 (Charifa: « beaucoup plus sobre »); the page no longer turns night blue
+              here but on the order demo (14 October 2026, Charifa: « mets-le sur la démo de commande ») */}
+          <Chiffres premium className="relative z-[1]" />
         </div>
       </div>
     </section>
