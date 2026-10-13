@@ -34,6 +34,7 @@ export function Accueil({
   menuBleu = false,
   servicesBleu = false,
   servicesCarrousel = false,
+  servicesTon = "glace",
   formationsVariante = "actuel",
   premium = false,
 }: {
@@ -44,6 +45,7 @@ export function Accueil({
   menuBleu?: boolean;
   servicesBleu?: boolean;
   servicesCarrousel?: boolean;
+  servicesTon?: "glace" | "nuit";
   formationsVariante?: "actuel" | "etiquette" | "liste" | "carrousel";
   premium?: boolean;
 }) {
@@ -55,7 +57,7 @@ export function Accueil({
           <Hero />
           <Confiance premium={premium} />
           <Besoin />
-          <Prestations bleu={servicesBleu} premium={premium} carrousel={servicesCarrousel} />
+          <Prestations bleu={servicesBleu} premium={premium} carrousel={servicesCarrousel} ton={servicesTon} />
           <Formations variante={formationsVariante} grand={!premium} />
           <DemoCommande scene={scene} sansCadre={sansCadre} />
           <Methode premium={premium} />

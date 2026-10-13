@@ -5,21 +5,21 @@ import { Monogram } from "@/components/brand/Logo";
 import { Chiffres } from "./Chiffres";
 
 /**
- * One client's logo, kept whole whatever its shape: in grey and a little faded on the page itself, with no card behind
- * (14 October 2026, Charifa: « mettre le logo en gris, ou enlever les backgrounds derrière le logo »), its colours coming
- * back under the hand. The light parts of a logo melt into the page (`mix-blend-multiply`).
+ * One client's logo, kept whole whatever its shape, in its own colours and with no card behind (14 October 2026: first in
+ * grey, then back in colour at the client's request, « ça sert de preuve sociale, il ne faut pas le cacher »). The light
+ * parts of a logo melt into the page (`mix-blend-multiply`), so no white square shows around it.
  */
-export function LogoTile({ logo, hidden = false, className = "", sizes = "(min-width: 640px) 128px, 96px" }: { logo: ClientLogo; hidden?: boolean; className?: string; sizes?: string }) {
+export function LogoTile({ logo, hidden = false, className = "", sizes = "(min-width: 640px) 128px, 112px" }: { logo: ClientLogo; hidden?: boolean; className?: string; sizes?: string }) {
   return (
     <span className={`group/logo relative block ${className}`}>
       <Image
         src={logo.src}
         alt={hidden ? "" : logo.name || "Client de VALO DIGITAL"}
         fill
-        // light: grey and faded, a logo needs no more (37 of them come with the page: about 1 MB before, 14 October 2026)
+        // light: 37 of them come with the page (about 1 MB at their first size, 14 October 2026)
         sizes={sizes}
-        quality={60}
-        className="object-contain p-2 opacity-60 mix-blend-multiply grayscale transition duration-500 group-hover/logo:opacity-100 group-hover/logo:grayscale-0 sm:p-3"
+        quality={72}
+        className="object-contain p-2 mix-blend-multiply sm:p-3"
       />
     </span>
   );
@@ -32,7 +32,7 @@ function Row({ logos, reverse = false }: { logos: ClientLogo[]; reverse?: boolea
     <ul className={`logos-track flex w-max ${reverse ? "logos-reverse" : ""}`}>
       {row.map((l, i) => (
         <li key={i} aria-hidden={i >= logos.length || undefined} className="shrink-0 pr-3 sm:pr-4">
-          <LogoTile logo={l} hidden={i >= logos.length} className="h-[64px] w-[112px] sm:h-[78px] sm:w-[140px]" />
+          <LogoTile logo={l} hidden={i >= logos.length} className="h-[72px] w-[124px] sm:h-[78px] sm:w-[140px]" />
         </li>
       ))}
     </ul>

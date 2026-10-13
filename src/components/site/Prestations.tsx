@@ -48,12 +48,20 @@ const spans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7
 /** `still`: drawn under the glimpse of the homepage, without its button; `anchor`: on the page of all the services, where the menu leads to each offer. */
 /** `glisse`: one card of the row that slides under the finger on phones and tablets (the homepage, 13 October 2026). */
 /** `rail`: one card of the services' carousel on the homepage, on every screen (14 October 2026). */
-function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium = false, glisse = false, rail = false }: { o: Offer; i: number; still?: boolean; anchor?: boolean; bleu?: boolean; premium?: boolean; glisse?: boolean; rail?: boolean }) {
+/**
+ * `ton`, in the carousel on the blue band (14 October 2026, Charifa: « le blanc est trop blanc, ça ne met pas en valeur la
+ * rangée, c'est difficile à lire »): `glace`, the cards in a pale ice blue with their little window in white; `nuit`, every
+ * card in night blue like the complete offer, the window kept light.
+ */
+type Ton = "blanc" | "glace" | "nuit";
+function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium = false, glisse = false, rail = false, ton = "blanc" }: { o: Offer; i: number; still?: boolean; anchor?: boolean; bleu?: boolean; premium?: boolean; glisse?: boolean; rail?: boolean; ton?: Ton }) {
   const { open } = useSheet();
   const Preview = previews[o.id];
   const lead = o.id === "direction"; // the complete offer, in blue
+  const sombre = lead || (rail && ton === "nuit");
+  const glace = rail && ton === "glace" && !lead;
   const link = `group/link inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-[13.5px] font-semibold transition duration-300 ${
-    lead
+    sombre || glace
       ? "border-white bg-white text-electric hover:border-sun hover:bg-sun hover:text-navy"
       : "border-electric/15 bg-frost text-electric hover:border-electric hover:bg-electric hover:text-white"
   }`;
@@ -72,7 +80,9 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
       data-carte-rail={rail || undefined}
       style={{ ["--d" as string]: `${(rail ? Math.min(i, 3) : i % 2) * 0.14}s` } as CSSProperties}
       className={`flex flex-col overflow-hidden ${glisse ? "w-[86%] shrink-0 snap-start sm:w-[62%] lg:w-auto" : ""} ${rail ? "w-[76vw] max-w-[380px] shrink-0 snap-start sm:w-[360px] lg:w-[372px]" : spans[i]} ${premium ? "rounded-lg" : "rounded-2xl"} ${
-        lead
+        glace
+          ? "bg-[#E8EEFF] text-ink ring-1 ring-white/70 shadow-[0_30px_60px_-30px_rgba(2,6,46,.6)]"
+          : sombre
           ? premium
             ? "bg-night text-white ring-1 ring-white/15"
             : // on the blue section the complete offer turns night blue, so it stands out from the ground
@@ -98,7 +108,7 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
         aria-hidden
         // the window plays only while on screen, and never under the glimpse's blur (`data-still`)
         data-still={still || undefined}
-        className={`@container relative overflow-hidden ${rail ? "h-[196px] px-3 pt-4 sm:h-[214px] sm:px-4" : "h-[262px] px-4 pt-5 sm:px-6 sm:pt-6"} ${still ? "" : "play-when-in"} ${lead ? "" : "m-2 mb-0 rounded-[4px] bg-[linear-gradient(180deg,#EDF1FF_0%,#F6F8FF_100%)]"}`}
+        className={`@container relative overflow-hidden ${rail ? "h-[196px] px-3 pt-4 sm:h-[214px] sm:px-4" : "h-[262px] px-4 pt-5 sm:px-6 sm:pt-6"} ${still ? "" : "play-when-in"} ${lead ? "" : `m-2 mb-0 rounded-[4px] ${glace ? "bg-white" : "bg-[linear-gradient(180deg,#EDF1FF_0%,#F6F8FF_100%)]"}`}`}
       >
         {/* in the carousel the window is lower and its little scene drawn a little smaller, so the card stays short
             (Charifa, 14 October 2026: « la partie verticale, c'est trop long ») */}
@@ -113,9 +123,9 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
       )}
       <div className={`flex flex-1 flex-col ${rail ? "px-5 pb-5 pt-4 sm:px-6 sm:pb-6" : "px-6 pb-6 pt-5 sm:px-7 sm:pb-7"}`}>
         <h3 className={`font-semibold leading-snug tracking-[-0.02em] ${rail ? "text-[18px] sm:text-[19px]" : "text-[19px] sm:text-[21px]"}`}>{o.name}</h3>
-        <p className={`pretty max-w-[34rem] font-medium leading-relaxed ${rail ? "mt-1.5 text-[14px]" : "mt-2 text-[14.5px]"} ${lead ? "text-white/75" : "text-body"}`}>{o.text}</p>
+        <p className={`pretty max-w-[34rem] font-medium leading-relaxed ${rail ? "mt-1.5 text-[14px]" : "mt-2 text-[14.5px]"} ${sombre ? "text-white/75" : "text-body"}`}>{o.text}</p>
         <div className={`mt-auto flex flex-wrap items-end justify-between gap-x-6 ${rail ? "gap-y-3 pt-4" : "gap-y-4 pt-6"}`}>
-          <Price price={o.price} note={o.note} light={lead} />
+          <Price price={o.price} note={o.note} light={sombre} />
           {still ? (
             <span className={link}>{label}</span>
           ) : o.sheet ? (
@@ -141,7 +151,7 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
  */
 /** `carrousel`: on the homepage, the four offers in the carousel of tall photo cards (14 October 2026, Charifa: « les
  * carousels, le minimum c'est 3 », « j'aime beaucoup les carousels »), each opening its details in the window. */
-export function Prestations({ full = false, bleu = false, premium = false, carrousel = false }: { full?: boolean; bleu?: boolean; premium?: boolean; carrousel?: boolean }) {
+export function Prestations({ full = false, bleu = false, premium = false, carrousel = false, ton = "glace" }: { full?: boolean; bleu?: boolean; premium?: boolean; carrousel?: boolean; ton?: Ton }) {
   const offers = prestations.offers;
   const { open } = useSheet();
   return (
@@ -183,7 +193,7 @@ export function Prestations({ full = false, bleu = false, premium = false, carro
           <div className="mt-10 lg:mt-14">
             <Rail label={prestations.grand} bleu={bleu}>
               {offers.map((o, i) => (
-                <OfferCard key={o.id} o={o} i={i} bleu={bleu} rail />
+                <OfferCard key={o.id} o={o} i={i} bleu={bleu} rail ton={ton} />
               ))}
             </Rail>
           </div>

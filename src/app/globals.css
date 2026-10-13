@@ -2523,6 +2523,14 @@ html .demo-scene .demo-seg i {
   background: rgba(53, 81, 255, var(--a, 0.14));
   filter: blur(var(--f, 0px));
 }
+/* on a phone the top keeps its title, its phone, its fan and its labels, without the grid, the squares and the glass
+   spheres around them: too many things at once on a small screen (14 October 2026, after a review Charifa agreed with) */
+@media (max-width: 767px) {
+  .eventail .carres,
+  .eventail .formes > .forme {
+    display: none;
+  }
+}
 .carres > i.vit {
   animation: carre 6s ease-in-out infinite;
   animation-delay: var(--d, 0s);
@@ -2856,4 +2864,742 @@ html .demo-scene .demo-seg i {
 }
 .titres-reduits .grand-titre-ligne {
   font-size: min(11cqw, 7.25rem);
+}
+
+/* ------------------------------------------------------------------ */
+/* The top « ciel » (`HeroCiel.tsx`, 14 October 2026, after the top of */
+/* Charifa's ChatGPT mock-up, the parrot replaced by a woman). It     */
+/* holds in one screen: the part is the screen's height, the photo    */
+/* takes the room the words leave, and every piece is placed from the */
+/* woman: `--cw` her width, `--ch` her height, in the scene's units.  */
+/* ------------------------------------------------------------------ */
+.ciel {
+  --enc: 46px; /* the notch's height */
+  --tab: 17vw; /* half the sky's tongue at its foot */
+  --pente: 26px; /* how far its sides lean */
+  --haut: 84px; /* room for the menu */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100svh;
+  min-height: 600px;
+  max-height: 1080px;
+}
+@media (min-width: 768px) {
+  .ciel {
+    --enc: clamp(112px, 16svh, 168px);
+    --tab: 19vw;
+    --pente: 5vw;
+    --haut: 100px;
+    min-height: 640px;
+  }
+}
+.ciel-fond {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--haut) 0 calc(var(--enc) + 10px);
+  background: linear-gradient(180deg, #e8f0f9 0%, #d8e6f4 28%, #adcaec 56%, #7099da 78%, #4470c7 100%);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--enc)),
+    calc(50% + var(--tab) + var(--pente)) calc(100% - var(--enc)),
+    calc(50% + var(--tab)) 100%,
+    calc(50% - var(--tab)) 100%,
+    calc(50% - var(--tab) - var(--pente)) calc(100% - var(--enc)),
+    0 calc(100% - var(--enc))
+  );
+}
+@media (min-width: 768px) {
+  .ciel-fond {
+    padding-bottom: calc(var(--enc) + 4px);
+    background: linear-gradient(180deg, #e8f0f9 0%, #d6e5f4 30%, #a7c6eb 60%, #6c97da 82%, #4470c7 100%);
+  }
+}
+.ciel-lumiere {
+  position: absolute;
+  inset: -10% -20% auto;
+  height: 70%;
+  z-index: -1;
+  background: radial-gradient(50% 55% at 50% 36%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 70%);
+  pointer-events: none;
+}
+.ciel-tete {
+  position: relative;
+  flex: none;
+  padding: 0 18px;
+  text-align: center;
+}
+.ciel-surtitre {
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #284a72;
+}
+@media (max-width: 380px) {
+  .ciel-surtitre {
+    font-size: 7.5px;
+    letter-spacing: 0.16em;
+  }
+}
+@media (min-width: 768px) {
+  .ciel-surtitre {
+    font-size: 10.5px;
+    letter-spacing: 0.3em;
+  }
+  /* as the mock-up's, the line of trades on the left when the photo comes first */
+  .ciel-image-haut .ciel-tete {
+    text-align: left;
+    padding: 0 var(--gutter);
+  }
+}
+/* her title above the photo (« titre »): light, in a deep blue of the sky, the end in her italic */
+.ciel-titre {
+  margin: 1.4svh auto 0;
+  max-width: 12ch;
+  font-size: min(8.4vw, 4.3svh);
+  font-weight: 400;
+  line-height: 1.03;
+  letter-spacing: -0.045em;
+  color: #102a4c;
+}
+@media (min-width: 768px) {
+  .ciel-titre {
+    max-width: none;
+    font-size: min(5vw, 6.2svh);
+    font-weight: 300;
+  }
+}
+.ciel-italique {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-size: 1.12em;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  color: #0714d8;
+  padding-bottom: 0.04em;
+}
+/* the scene takes the room left; every piece in it is placed from the woman */
+.ciel-scene {
+  --cw: min(76cqh, 90cqw);
+  --ch: calc(var(--cw) * 1.183);
+  --wp: 166px;
+  --wg: 122px;
+  --ws: 122px;
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-height: 0;
+  container-type: size;
+}
+@media (min-width: 768px) {
+  .ciel-scene {
+    --cw: min(80cqh, 37cqw);
+    --wp: 236px;
+    --wg: 180px;
+    --ws: 214px;
+  }
+}
+.ciel-image-haut .ciel-scene {
+  margin-top: 1.2svh;
+}
+/* the photo bites into the end of the title */
+.ciel-titre-haut .ciel-scene {
+  margin-top: -1.6svh;
+}
+.ciel-cadre {
+  position: absolute;
+  bottom: 0;
+  left: calc(50% - var(--cw) / 2);
+  width: var(--cw);
+  height: var(--ch);
+}
+.ciel-femme-entree {
+  animation: ciel-femme 1.4s var(--ease) 0.25s both;
+}
+@keyframes ciel-femme {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0) scale(0.97);
+  }
+}
+/* her face is left of the middle and high, her phone right and low: nothing is laid on them */
+.ciel-pos {
+  position: absolute;
+  z-index: 2;
+}
+.ciel-pos-pastille {
+  left: max(6px, calc(50% - 0.1 * var(--cw) - var(--wp)));
+  top: calc(100cqh - var(--ch) * 0.98);
+}
+.ciel-titre-haut .ciel-pos-pastille {
+  top: calc(100cqh - var(--ch) * 0.93);
+}
+.ciel-pos-droite {
+  left: calc(50% + 0.16 * var(--cw));
+  top: calc(100cqh - var(--ch) * 0.98);
+}
+.ciel-pos-gauche {
+  left: max(8px, calc(50% - 0.28 * var(--cw) - var(--wg)));
+  top: calc(100cqh - var(--ch) * 0.54);
+}
+.ciel-ligne {
+  position: absolute;
+  z-index: 2;
+  left: calc(50% - 0.42 * var(--cw));
+  width: calc(0.38 * var(--cw));
+  top: calc(100cqh - var(--ch) * 0.36);
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9) 35%);
+  transform-origin: 0 50%;
+  animation: ciel-trait 1.2s var(--ease) 1.3s both;
+}
+.ciel-point {
+  position: absolute;
+  z-index: 2;
+  left: calc(50% - 0.04 * var(--cw) - 5px);
+  top: calc(100cqh - var(--ch) * 0.36 - 5px);
+  width: 11px;
+  height: 11px;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.35),
+    0 2px 8px rgba(16, 42, 76, 0.25);
+  animation: pop-in 0.8s var(--ease) 2.2s both;
+}
+/* on a computer, as the mock-up's: the cards drawn out to the edges, the line running from one to the other through her */
+@media (min-width: 768px) {
+  .ciel-pos-pastille {
+    left: calc(50% + 0.15 * var(--cw));
+    top: calc(100cqh - var(--ch) * 0.9);
+  }
+  .ciel-titre-haut .ciel-pos-pastille {
+    top: calc(100cqh - var(--ch) * 0.86);
+  }
+  .ciel-pos-droite {
+    left: auto;
+    right: 5cqw;
+    top: calc(100cqh - var(--ch) * 0.7);
+  }
+  .ciel-pos-gauche {
+    left: 6cqw;
+    top: calc(100cqh - var(--ch) * 0.64);
+  }
+  .ciel-ligne {
+    left: calc(6cqw + var(--wg));
+    width: auto;
+    right: calc(5cqw + var(--ws));
+    top: calc(100cqh - var(--ch) * 0.38);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.85) 40%, rgba(255, 255, 255, 0.85) 60%, rgba(255, 255, 255, 0.2));
+  }
+  .ciel-point {
+    left: calc(50% - 0.03 * var(--cw) - 6px);
+    top: calc(100cqh - var(--ch) * 0.38 - 5px);
+  }
+}
+@keyframes ciel-trait {
+  from {
+    transform: scaleX(0);
+  }
+}
+.ciel-petit {
+  display: block;
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #4a6386;
+}
+.ciel-petit-clair {
+  color: rgba(255, 255, 255, 0.82);
+}
+@media (min-width: 768px) {
+  .ciel-petit {
+    font-size: 9px;
+  }
+}
+/* the round figure */
+.ciel-pastille {
+  width: var(--wp);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px 6px 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 14px 30px -16px rgba(16, 42, 76, 0.45);
+}
+.ciel-avatars {
+  display: flex;
+}
+.ciel-avatars > span {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin-left: -6px;
+  overflow: hidden;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 2px #fff;
+}
+.ciel-avatars > span:first-child {
+  margin-left: 0;
+}
+.ciel-pastille-chiffre {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 620;
+  letter-spacing: -0.02em;
+  color: #102a4c;
+}
+.ciel-pastille-mot {
+  display: block;
+  margin-top: 2px;
+  white-space: nowrap;
+  font-size: 8px;
+  font-weight: 500;
+  color: #4a6386;
+}
+.ciel-pastille-fleche {
+  display: none;
+  margin-left: auto;
+  width: 12px;
+  height: 12px;
+  color: #102a4c;
+}
+@media (min-width: 768px) {
+  .ciel-pastille {
+    gap: 10px;
+    padding: 7px 16px 7px 7px;
+  }
+  .ciel-avatars > span {
+    width: 28px;
+    height: 28px;
+    margin-left: -9px;
+  }
+  .ciel-pastille-chiffre {
+    font-size: 16px;
+  }
+  .ciel-pastille-mot {
+    font-size: 10.5px;
+  }
+  .ciel-pastille-fleche {
+    display: block;
+  }
+}
+/* the glass card on the left, a round photo standing on it as the mock-up's globe */
+.ciel-verre {
+  position: relative;
+  display: block;
+  width: var(--wg);
+  padding: 38px 10px 9px;
+  border-radius: 14px;
+  text-align: left;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.56));
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 20px 38px -22px rgba(16, 42, 76, 0.55);
+}
+.ciel-verre-texte {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
+  font-weight: 560;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #102a4c;
+}
+.ciel-verre-lien {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 8.5px;
+  font-weight: 560;
+  color: #4a6386;
+}
+.ciel-bulle {
+  position: absolute;
+  left: 50%;
+  top: -30px;
+  width: 58px;
+  height: 58px;
+  overflow: hidden;
+  border-radius: 9999px;
+  transform: translateX(-50%);
+  border: 2px solid #fff;
+  box-shadow: 0 12px 24px -12px rgba(16, 42, 76, 0.55);
+}
+@media (min-width: 768px) {
+  .ciel-verre {
+    padding: 56px 15px 13px;
+    border-radius: 16px;
+  }
+  .ciel-verre-texte {
+    margin-top: 7px;
+    font-size: 14px;
+  }
+  .ciel-verre-lien {
+    margin-top: 12px;
+    font-size: 10.5px;
+  }
+  .ciel-bulle {
+    top: -44px;
+    width: 88px;
+    height: 88px;
+    border-width: 3px;
+  }
+}
+/* the stack: two cards behind, only their top showing, and a real offer in front */
+.ciel-pile {
+  position: relative;
+  width: var(--ws);
+  padding-top: 30px;
+}
+.ciel-pile-fond {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 46px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 6px 9px;
+  border-radius: 10px;
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ciel-pile-nuit {
+  top: 0;
+  transform: translateX(-5px) rotate(-2deg);
+  background: #0f2a4f;
+  color: rgba(255, 255, 255, 0.82);
+}
+.ciel-pile-blanche {
+  top: 15px;
+  transform: translateX(3px);
+  background: #fff;
+  color: #284a72;
+  box-shadow: 0 10px 22px -16px rgba(16, 42, 76, 0.6);
+}
+.ciel-pile-face {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 11px;
+  text-align: left;
+  color: #fff;
+  background: linear-gradient(155deg, #3551ff 0%, #0714d8 70%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 22px 40px -20px rgba(7, 20, 216, 0.75);
+  transition: transform 0.4s var(--ease);
+}
+.ciel-pile-face:hover {
+  transform: translateY(-3px);
+}
+.ciel-pile-logo {
+  height: 11px;
+  width: auto;
+}
+.ciel-pile-titre {
+  display: block;
+  margin-top: 7px;
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.ciel-pile-prix {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 6px;
+}
+.ciel-pile-prix p span {
+  font-size: 8px !important;
+}
+.ciel-pile-prix p span:nth-child(2) {
+  font-size: 11.5px !important;
+}
+@media (min-width: 768px) {
+  .ciel-pile {
+    padding-top: 46px;
+  }
+  .ciel-pile-fond {
+    height: 70px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 9px;
+  }
+  .ciel-pile-blanche {
+    top: 23px;
+  }
+  .ciel-pile-face {
+    padding: 14px 16px;
+    border-radius: 15px;
+  }
+  .ciel-pile-logo {
+    height: 15px;
+  }
+  .ciel-pile-titre {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+  .ciel-pile-prix {
+    margin-top: 10px;
+  }
+  .ciel-pile-prix p span {
+    font-size: 10.5px !important;
+  }
+  .ciel-pile-prix p span:nth-child(2) {
+    font-size: 15px !important;
+  }
+}
+/* the button with its halo, over the foot of the photo where it melts into the blue */
+.ciel-bas {
+  position: relative;
+  z-index: 3;
+  flex: none;
+  margin-top: -3svh;
+  padding: 0 18px;
+  text-align: center;
+}
+.ciel-halo {
+  display: inline-block;
+  padding: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.26);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.45) inset;
+}
+.ciel-bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  height: 48px;
+  padding: 0 22px 0 28px;
+  border-radius: 9999px;
+  background: #fff;
+  color: #102a4c;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  box-shadow: 0 14px 30px -14px rgba(16, 42, 76, 0.55);
+  transition:
+    transform 0.4s var(--ease),
+    background-color 0.3s ease;
+}
+.ciel-bouton:hover {
+  transform: translateY(-2px);
+  background: #fdec05;
+}
+@media (min-width: 768px) {
+  .ciel-bas {
+    margin-top: -5svh;
+  }
+  .ciel-bouton {
+    height: 50px;
+    font-size: 15.5px;
+    padding: 0 24px 0 30px;
+  }
+}
+/* her title as the last words (« image »), in white capitals: above the notch on a phone, in the sky's tongue on a
+   computer; her sentence in the tongue (« titre », a computer only) */
+.ciel-titre-bas {
+  position: relative;
+  z-index: 3;
+  flex: none;
+  margin: 2.2svh auto 0;
+  padding: 0 18px;
+  max-width: 21ch;
+  font-size: min(5.6vw, 3.1svh);
+  font-weight: 620;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 18px rgba(16, 42, 76, 0.25);
+}
+.ciel-langue-texte {
+  display: none;
+}
+@media (min-width: 768px) {
+  .ciel-titre-bas,
+  .ciel-langue-texte {
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    bottom: 38px;
+    width: calc(2 * var(--tab));
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  .ciel-titre-bas {
+    width: calc(2 * var(--tab) - 2vw);
+    bottom: 34px;
+    font-size: min(1.95vw, 3svh);
+    text-wrap: balance;
+  }
+  /* with the title in the tongue, the button stands a little higher */
+  .ciel-image-haut .ciel-bas {
+    margin-top: -7svh;
+    margin-bottom: 2svh;
+  }
+  .ciel-langue-texte {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.94);
+    text-shadow: 0 1px 12px rgba(16, 42, 76, 0.25);
+  }
+}
+/* the notch: the two shoulders on the page's own colour, the sky's tongue in the middle */
+.ciel-liens {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  height: var(--enc);
+  margin-top: calc(-1 * var(--enc));
+  padding: 0 var(--gutter);
+}
+.ciel-epaule {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.ciel-epaule-droite {
+  align-items: flex-end;
+}
+.ciel-ronds,
+.ciel-epaule-texte,
+.ciel-chiffre {
+  display: none;
+}
+.ciel-langue {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+}
+.ciel-lien {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: max-content;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(16, 42, 76, 0.25);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #102a4c;
+  transition: color 0.3s ease;
+}
+.ciel-lien:hover {
+  color: #0714d8;
+}
+@media (min-width: 768px) {
+  .ciel-liens {
+    grid-template-columns: 1fr calc(2 * var(--tab) + 2 * var(--pente)) 1fr;
+    padding: 0 4vw;
+  }
+  .ciel-epaule {
+    justify-content: center;
+    gap: 10px;
+    padding-top: 6px;
+  }
+  .ciel-epaule-droite {
+    align-items: flex-start;
+    padding-left: 3vw;
+  }
+  .ciel-ronds {
+    display: flex;
+    gap: 6px;
+  }
+  .ciel-ronds > span {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 9999px;
+    background: #102a4c;
+    color: #fff;
+  }
+  .ciel-epaule-texte {
+    display: block;
+    max-width: 24ch;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #4a6386;
+  }
+  .ciel-chiffre {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ciel-chiffre-nombre {
+    font-size: clamp(2.2rem, 1rem + 2.6vw, 3.4rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: #2a64c9;
+  }
+  .ciel-chiffre-mot {
+    max-width: 9ch;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #4a6386;
+  }
+  .ciel-lien {
+    font-size: 10px;
+  }
+}
+.ciel-descendre {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  color: #fff;
+  animation: ciel-descendre 2.4s ease-in-out 2s 3;
+}
+@keyframes ciel-descendre {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ciel-femme-entree,
+  .ciel-ligne,
+  .ciel-point,
+  .ciel-descendre {
+    animation: none;
+  }
 }

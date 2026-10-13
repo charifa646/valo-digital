@@ -60,7 +60,9 @@ export function Final() {
             <h2
               id="contact-title"
               data-reveal="words"
-              className="mt-7 text-[clamp(2.3rem,1.2rem+3.6vw,4.4rem)] font-bold uppercase leading-[0.98] tracking-[-0.04em] text-ink"
+              // in the hand of the other titles (14 October 2026, after a review Charifa agreed with: the bold capitals
+              // stood apart from the rest of the page): her words as written, medium weight, the second line in blue
+              className="mt-7 text-[clamp(2.3rem,1.3rem+3.2vw,4rem)] font-medium leading-[1.04] tracking-[-0.04em] text-ink"
             >
               <span className="block">
                 <Words>{line1}</Words>
