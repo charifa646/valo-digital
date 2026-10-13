@@ -42,6 +42,15 @@ export const photoService: Record<string, { img: string; pos?: string }> = {
   direction: { img: "/images/apropos/valentin-gilet.webp", pos: "50% 22%" },
 };
 
+/**
+ * A real photo in the window of a card of the homepage's carousel, in place of its drawn scene (14 October 2026, Charifa:
+ * « j'aime pas ce que tu as dessiné, choisis une des photos que je t'ai envoyées »). Only the video offer for now; the
+ * other cards keep their animated windows. The photo is a young woman filming herself on her phone.
+ */
+const photoCarte: Record<string, { src: string; pos: string }> = {
+  video: { src: "/images/services/video.webp", pos: "50% 30%" },
+};
+
 /** Two rows, the wide card changing sides. */
 const spans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7"];
 
@@ -112,7 +121,16 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
       >
         {/* in the carousel the window is lower and its little scene drawn a little smaller, so the card stays short
             (Charifa, 14 October 2026: « la partie verticale, c'est trop long ») */}
-        {rail ? (
+        {rail && photoCarte[o.id] ? (
+          <Image
+            src={photoCarte[o.id].src}
+            alt=""
+            fill
+            sizes="(min-width: 640px) 360px, 76vw"
+            className="object-cover"
+            style={{ objectPosition: photoCarte[o.id].pos }}
+          />
+        ) : rail ? (
           <div className="[zoom:0.8] sm:[zoom:0.84]">
             <Preview />
           </div>
