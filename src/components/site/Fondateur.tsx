@@ -31,19 +31,21 @@ export function Fondateur({ premium = false }: { premium?: boolean } = {}) {
           </p>
         </div>
 
-        <div className="mt-12 [grid-area:photo] lg:mt-0">
-          <figure className="mx-auto w-full max-w-[340px] sm:max-w-[400px] lg:mx-0">
+        <div className="mt-10 [grid-area:photo] lg:mt-0">
+          {/* phones: the portrait smaller, his name and titles beside it; computers: 340 px wide so the two columns end
+              together (13 October 2026, Charifa: the title and the text were not in line) */}
+          <figure className="grid w-full grid-cols-[42%_minmax(0,1fr)] items-center gap-5 sm:grid-cols-[36%_minmax(0,1fr)] lg:mx-0 lg:block lg:max-w-[340px]">
             {/* Valentin's portrait, chosen by Charifa on 8 October 2026, zooming out as it comes up */}
             <PhotoZoom
               src="/images/v3/valentin-montre.webp"
               alt={`${fondateur.name}, ${fondateur.roles[2]}`}
               width={900}
               height={1166}
-              sizes="(min-width: 1024px) 400px, (min-width: 640px) 400px, 92vw"
+              sizes="(min-width: 1024px) 340px, (min-width: 640px) 36vw, 42vw"
               className={`aspect-[900/1166] w-full ${premium ? "rounded-lg" : "rounded-2xl"} bg-[#6b3a1c]`}
             />
             {/* his name and his titles, the way the catalogue signs the letter */}
-            <figcaption data-reveal className="mt-7">
+            <figcaption data-reveal className="pb-1 lg:mt-7 lg:pb-0">
               <span className="block text-[19px] font-semibold leading-snug tracking-[-0.02em] text-ink">{fondateur.name}</span>
               <span aria-hidden className="mt-3 block h-[3px] w-10 rounded-full bg-sun" />
               <span className="mt-3 block text-[14.5px] font-bold text-electric">{fondateur.roles[0]}</span>
@@ -56,13 +58,14 @@ export function Fondateur({ premium = false }: { premium?: boolean } = {}) {
           </figure>
         </div>
 
-        <div className="mt-12 [grid-area:letter] lg:mt-10">
+        <div className="mt-10 [grid-area:letter] lg:mt-10">
           <div data-reveal style={{ ["--d" as string]: "0.2s" } as CSSProperties} className={text}>
             <p className="pretty">{first}</p>
           </div>
           <Suite
             text
-            className="mt-5 h-[124px] sm:h-[146px]"
+            doux
+            className="mt-5 h-[82px] sm:h-[92px]"
             action={
               <Link href="/a-propos#mot" className={btn("electric")}>
                 <BtnInner>{fondateur.cta}</BtnInner>

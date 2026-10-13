@@ -35,7 +35,7 @@ const config: Config = {
         sans: ["var(--font-montserrat, Montserrat)", "system-ui", "sans-serif"],
       },
       maxWidth: {
-        page: "1240px",
+        page: "1180px",
       },
       // square corners for blocks and cards (Charifa, 7 October 2026: an agency site, not a sales page); pills stay round
       borderRadius: {

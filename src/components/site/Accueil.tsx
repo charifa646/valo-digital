@@ -54,7 +54,7 @@ export function Accueil({
           <Confiance premium={premium} />
           <Besoin />
           <Prestations bleu={servicesBleu} premium={premium} />
-          <Formations variante={formationsVariante} />
+          <Formations variante={formationsVariante} grand={!premium} />
           <DemoCommande scene={scene} sansCadre={sansCadre} />
           <Methode premium={premium} />
           <Fondateur premium={premium} />

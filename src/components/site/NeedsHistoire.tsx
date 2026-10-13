@@ -5,7 +5,6 @@ import { needs, type DetailId } from "@/lib/content";
 import { Anchor } from "./Scroll";
 import { useSheet } from "./Sheet";
 import { Door, panels } from "./Door";
-import { Filigrane } from "@/components/ui/Filigrane";
 import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight } from "@/components/ui/Icons";
@@ -86,8 +85,8 @@ export function NeedsHistoire({ premium = false }: { premium?: boolean } = {}) {
   }, []);
 
   return (
-    <section id="besoin" aria-labelledby="besoin-title" className={`paper grain relative isolate ${premium ? "histoire-premium" : ""}`}>
-      {!premium && <Filigrane word={needs.filigrane} className="left-1/2 top-[0.02em] -translate-x-1/2" />}
+    // no large faded word behind the title any more (13 October 2026: fewer words behind the page); the verbs set as words
+    <section id="besoin" aria-labelledby="besoin-title" className={`paper grain histoire-doux relative isolate ${premium ? "histoire-premium" : ""}`}>
       <div className="gutter mx-auto max-w-page pb-20 pt-16 lg:pb-28 lg:pt-20">
         <div className="text-center">
           <h2 id="besoin-title" data-reveal="words" className="h2 balance mx-auto max-w-[18ch] text-ink">

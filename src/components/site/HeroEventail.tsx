@@ -6,7 +6,7 @@ import { formations, hero, prestations } from "@/lib/content";
 import { DemandeButton } from "./Sheet";
 import { Monogram } from "@/components/brand/Logo";
 import { BtnInner, btn } from "@/components/ui/Action";
-import { Glyphe, type Metier } from "@/components/ui/Glyphes";
+import type { Metier } from "@/components/ui/Glyphes";
 
 const [marketing, publicite, vente, formation] = hero.tags;
 /** The four trades, in the order of `hero.tags`, each with its own icon. */
@@ -37,20 +37,25 @@ const cards = [
  * October 2026). They replace the line of trades under the button (three lines on a phone: « ce n'est pas stylé ») and
  * the round badges. Placed in the scene, so they keep their places when it is scaled down on a phone.
  */
-const etiquettes: { metier: Metier; curseur: string; t: string }[] = [
-  { metier: "marketing", curseur: "#0714D8", t: "[--r:-3deg] [--t:7.4s]" },
-  { metier: "publicite", curseur: "#3551FF", t: "[--r:3deg] [--t:8.2s] [--fd:-2s]" },
-  { metier: "vente", curseur: "#0E7CFC", t: "[--r:-2deg] [--t:7.8s] [--fd:-4s]" },
-  { metier: "formation", curseur: "#071F78", t: "[--r:2deg] [--t:8.8s] [--fd:-1s]" },
+/**
+ * The labels as collaborators' cursors in a design tool (Charifa, 13 October 2026: keep the cursor, but the glass label,
+ * its bold capitals and its icon looked made by a machine): a cursor in a colour of the charte, and right at its tip a
+ * small solid label of the same colour with the trade in plain words, as Figma shows the people working on a file. It
+ * echoes the title, selected as in the same tool. Upright now; they still float gently. `texte`: the words' colour.
+ */
+const etiquettes: { metier: Metier; curseur: string; texte: string; t: string }[] = [
+  { metier: "marketing", curseur: "#0714D8", texte: "#ffffff", t: "[--r:0deg] [--t:7.4s]" },
+  { metier: "publicite", curseur: "#3551FF", texte: "#ffffff", t: "[--r:0deg] [--t:8.2s] [--fd:-2s]" },
+  { metier: "vente", curseur: "#FDEC05", texte: "#071F78", t: "[--r:0deg] [--t:7.8s] [--fd:-4s]" },
+  { metier: "formation", curseur: "#071F78", texte: "#ffffff", t: "[--r:0deg] [--t:8.8s] [--fd:-1s]" },
 ];
 
-function Etiquette({ metier, curseur }: { metier: Metier; curseur: string }) {
+function Etiquette({ metier, curseur, texte }: { metier: Metier; curseur: string; texte: string }) {
   return (
-    <span className="etiquette">
+    <span className="etiquette" style={{ ["--c" as string]: curseur, ["--ct" as string]: texte } as CSSProperties}>
       <svg aria-hidden viewBox="0 0 16 16" className="etiquette-curseur">
         <path d="M1.5 1.2 14.6 6.4c.5.2.5.9 0 1.1L9.3 9.3 7.5 14.6c-.2.5-.9.5-1.1 0L1.2 1.5c-.1-.2.1-.4.3-.3Z" fill={curseur} stroke="#fff" strokeWidth="1.3" strokeLinejoin="round" />
       </svg>
-      <Glyphe metier={metier} className="h-[17px] w-[17px] text-electric" />
       {hero.tags[metiers.indexOf(metier)]}
     </span>
   );
@@ -347,7 +352,7 @@ export function HeroEventail({ formes = false, carres = false, titre = "serif" }
               <span key={e.metier} className={`etiquette-place etiquette-${e.metier}`}>
                 <span className="drop-in block" style={{ ["--d" as string]: `${1.3 + i * 0.1}s` } as CSSProperties}>
                   <span className={`float block ${e.t}`}>
-                    <Etiquette metier={e.metier} curseur={e.curseur} />
+                    <Etiquette metier={e.metier} curseur={e.curseur} texte={e.texte} />
                   </span>
                 </span>
               </span>

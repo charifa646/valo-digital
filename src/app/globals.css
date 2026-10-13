@@ -2,22 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* the margins and the width of the content (13 October 2026, Charifa: « que la page puisse respirer », after the
+   layout of a sober site she sent): wider margins at every size, and the content no wider than 1180 px with them */
 :root {
   --header: 72px;
-  --gutter: 20px;
+  --gutter: 24px;
   --frame: 8px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 @media (min-width: 640px) {
   :root {
-    --gutter: 32px;
+    --gutter: 36px;
     --frame: 12px;
   }
 }
 @media (min-width: 1024px) {
   :root {
     --header: 88px;
-    --gutter: 40px;
+    --gutter: 48px;
   }
 }
 
@@ -182,7 +184,7 @@ html {
 
   /* section titles: medium weight, calm and airy */
   .h2 {
-    @apply text-[clamp(2rem,1.35rem+2.2vw,3rem)] font-medium leading-[1.1] tracking-[-0.025em];
+    @apply text-[clamp(2rem,1.35rem+2.2vw,3rem)] font-medium leading-[1.1] tracking-[-0.035em];
   }
   /* a section's name, only where it is the section's own title (« Mot du fondateur », « Mon parcours digital »): small
      bold capitals and nothing after them, as Wpromote does. No fading line any more, and no name above the other
@@ -532,6 +534,9 @@ html {
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
+}
+.filigrane-doux > span {
+  color: rgba(7, 20, 216, 0.03) !important;
 }
 .filigrane > span {
   position: absolute;
@@ -1209,8 +1214,9 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   transform: rotate(calc((1 - var(--p, 1)) * 30deg));
 }
 @media (max-width: 639px) {
+  /* a little lower since 13 October 2026, so the homepage is shorter on phones */
   .histoire-feuille {
-    height: clamp(24rem, 60svh, 40rem);
+    height: clamp(21rem, 50svh, 34rem);
   }
 }
 .histoire-feuille:not(:first-child) .histoire-fond {
@@ -2576,35 +2582,31 @@ html .demo-scene .demo-seg i {
   }
 }
 
-/* the trades floating around the phone (`Etiquette` in HeroEventail.tsx): a glass label, its icon, its name in small
-   capitals, and a cursor pointing at it from its top left corner */
+/* the trades floating around the phone (`Etiquette` in HeroEventail.tsx), as collaborators' cursors in a design tool
+   (13 October 2026): a solid label in the cursor's colour (--c, its words in --ct), its corner by the cursor's tip
+   left square, the trade in plain words at a medium weight, no glass, no icon */
 .etiquette {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
   white-space: nowrap;
-  padding: 9px 16px 9px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(236, 241, 255, 0.88));
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    0 0 0 1px rgba(7, 20, 216, 0.06),
-    0 14px 30px -14px rgba(7, 20, 216, 0.5);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #071f78;
+  padding: 6px 11px 6px 10px;
+  border-radius: 2px 9px 9px 9px;
+  background: var(--c, #0714d8);
+  color: var(--ct, #ffffff);
+  box-shadow: 0 10px 22px -12px rgba(4, 11, 82, 0.6);
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
 }
 .etiquette-curseur {
   position: absolute;
-  left: -15px;
-  top: -14px;
-  width: 20px;
-  height: 20px;
-  filter: drop-shadow(0 3px 4px rgba(7, 20, 216, 0.3));
+  left: -14px;
+  top: -15px;
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 2px 3px rgba(4, 11, 82, 0.28));
 }
 /* where the labels stand in the scene (1000 px wide); on a phone only its middle shows, so they come in close to the
    phone, over the edges of the cards around it */
@@ -2630,8 +2632,8 @@ html .demo-scene .demo-seg i {
 }
 @media (max-width: 767px) {
   .etiquette {
-    font-size: 17px;
-    padding: 11px 19px 11px 14px;
+    font-size: 15.5px;
+    padding: 7px 12px 7px 11px;
   }
   .etiquette-marketing {
     left: 25%;
@@ -2763,20 +2765,21 @@ html .demo-scene .demo-seg i {
   --trait: #ffffff;
 }
 
-/* the premium pass (13 October 2026, /apercu/premium): the « besoin » cards with softer corners, their verb set as a
-   word (« Apprendre ») in a lighter weight, larger since lowercase letters take less room */
+/* the « besoin » cards' verb set as a word (« Apprendre ») in a lighter weight, larger since lowercase letters take less
+   room (the premium pass of 13 October 2026, on the homepage too since: Charifa found the premium's type more beautiful);
+   on /apercu/premium the corners are softer as well */
 .histoire-premium .histoire-feuille,
 .histoire-premium .histoire-fond {
   --hr: 10px;
 }
-.histoire-premium .histoire-verbe {
+.histoire-doux .histoire-verbe {
   font-size: min(calc((100cqw - var(--place)) / 6.1), 11rem);
   font-weight: 600;
   letter-spacing: -0.045em;
   line-height: 0.95;
   text-transform: lowercase;
 }
-.histoire-premium .histoire-verbe::first-letter {
+.histoire-doux .histoire-verbe::first-letter {
   text-transform: uppercase;
 }
 

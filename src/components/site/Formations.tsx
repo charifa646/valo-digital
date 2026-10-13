@@ -208,24 +208,31 @@ function Liste() {
   );
 }
 
-export function Formations({ variante = "actuel" }: { variante?: "actuel" | "etiquette" | "liste" } = {}) {
+/** `grand`: the list under the very large « Nos formations », which fills as it comes (the homepage, 13 October 2026). */
+export function Formations({ variante = "actuel", grand = false }: { variante?: "actuel" | "etiquette" | "liste"; grand?: boolean } = {}) {
   const items = formations.items;
   const etiquette = variante === "etiquette";
   if (variante === "liste") {
     return (
       <section id="formations" aria-labelledby="formations-title" className="paper relative bg-white">
         <div className="gutter mx-auto max-w-page pb-20 pt-24 lg:pb-28 lg:pt-32">
-          <div className="max-w-[40rem]">
-            <h2 id="formations-title" data-reveal="words" className="h2 balance text-ink">
-              {formations.title.map((w, i) => (
-                <span key={w}>
-                  <Words from={i} className={i === 2 ? "text-electric" : ""}>
-                    {w}
-                  </Words>
-                  {i < formations.title.length - 1 ? " " : ""}
-                </span>
-              ))}
-            </h2>
+          {grand && <GrandTitre id="formations-title">{formations.grand}</GrandTitre>}
+          <div className={`max-w-[40rem] ${grand ? "mt-8 lg:mt-12" : ""}`}>
+            {(() => {
+              const Titre = grand ? "h3" : "h2";
+              return (
+                <Titre id={grand ? undefined : "formations-title"} data-reveal="words" className="h2 balance text-ink">
+                  {formations.title.map((w, i) => (
+                    <span key={w}>
+                      <Words from={i} className={i === 2 ? "text-electric" : ""}>
+                        {w}
+                      </Words>
+                      {i < formations.title.length - 1 ? " " : ""}
+                    </span>
+                  ))}
+                </Titre>
+              );
+            })()}
             <p data-reveal className="pretty mt-4 text-[16.5px] font-medium leading-relaxed text-body lg:text-[17.5px]" style={{ ["--d" as string]: "0.3s" } as CSSProperties}>
               {formations.lead}
             </p>

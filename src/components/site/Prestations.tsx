@@ -8,7 +8,6 @@ import { useSheet } from "./Sheet";
 import { ArrowRight } from "@/components/ui/Icons";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { Price } from "@/components/ui/Price";
-import { Suite } from "@/components/ui/Suite";
 import { Words } from "@/components/ui/Words";
 import { GrandTitre } from "@/components/ui/GrandTitre";
 import { Calendrier } from "@/components/previews/Calendrier";
@@ -34,7 +33,8 @@ const photos: Record<string, { src: string; pos: string }> = {
 const spans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7"];
 
 /** `still`: drawn under the glimpse of the homepage, without its button; `anchor`: on the page of all the services, where the menu leads to each offer. */
-function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium = false }: { o: Offer; i: number; still?: boolean; anchor?: boolean; bleu?: boolean; premium?: boolean }) {
+/** `glisse`: one card of the row that slides under the finger on phones and tablets (the homepage, 13 October 2026). */
+function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium = false, glisse = false }: { o: Offer; i: number; still?: boolean; anchor?: boolean; bleu?: boolean; premium?: boolean; glisse?: boolean }) {
   const { open } = useSheet();
   const Preview = previews[o.id];
   const lead = o.id === "direction"; // the complete offer, in blue
@@ -56,7 +56,7 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
       data-pulse={anchor || undefined}
       data-reveal="wipe"
       style={{ ["--d" as string]: `${(i % 2) * 0.14}s` } as CSSProperties}
-      className={`flex flex-col overflow-hidden ${premium ? "rounded-lg" : "rounded-2xl"} ${spans[i]} ${
+      className={`flex flex-col overflow-hidden ${glisse ? "w-[86%] shrink-0 snap-start sm:w-[62%] lg:w-auto" : ""} ${premium ? "rounded-lg" : "rounded-2xl"} ${spans[i]} ${
         lead
           ? premium
             ? "bg-night text-white ring-1 ring-white/15"
@@ -89,7 +89,7 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
       </div>
       )}
       <div className="flex flex-1 flex-col px-6 pb-6 pt-5 sm:px-7 sm:pb-7">
-        <h3 className="text-[19px] font-bold leading-snug tracking-[-0.02em] sm:text-[21px]">{o.name}</h3>
+        <h3 className="text-[19px] font-semibold leading-snug tracking-[-0.02em] sm:text-[21px]">{o.name}</h3>
         <p className={`pretty mt-2 max-w-[34rem] text-[14.5px] font-medium leading-relaxed ${lead ? "text-white/75" : "text-body"}`}>{o.text}</p>
         <div className="mt-auto flex flex-wrap items-end justify-between gap-x-6 gap-y-4 pt-6">
           <Price price={o.price} note={o.note} light={lead} />
@@ -153,28 +153,29 @@ export function Prestations({ full = false, bleu = false, premium = false }: { f
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 lg:mt-14 lg:grid-cols-12 lg:gap-5">
+        {/* on the homepage the first offers whole, then the button to all of them, and no blurred row under them any more
+            (13 October 2026, Charifa: « le flou au niveau des services, c'est trop »); on phones and tablets the cards slide
+            under the finger, the next one showing at the edge */}
+        <div
+          className={
+            full
+              ? "mt-10 grid gap-4 lg:mt-14 lg:grid-cols-12 lg:gap-5"
+              : "-mx-[var(--gutter)] mt-10 flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-3 overflow-x-auto px-[var(--gutter)] pb-3 [scrollbar-width:none] lg:mx-0 lg:mt-14 lg:grid lg:grid-cols-12 lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0 [&::-webkit-scrollbar]:hidden"
+          }
+        >
           {(full ? offers : offers.slice(0, 2)).map((o, i) => (
-            <OfferCard key={o.id} o={o} i={i} anchor={full} bleu={bleu} premium={premium} />
+            <OfferCard key={o.id} o={o} i={i} anchor={full} bleu={bleu} premium={premium} glisse={!full} />
           ))}
         </div>
 
         {!full && (
-          <Suite
-            className="mt-4 h-[210px] sm:h-[250px] lg:mt-5"
-            action={
-              <Link href="/services" className={btn(bleu ? "white" : "electric")}>
-                <BtnInner>{prestations.all}</BtnInner>
-              </Link>
-            }
-          >
-            <div className="grid gap-4 lg:grid-cols-12 lg:gap-5">
-              {offers.slice(2).map((o, i) => (
-                <OfferCard key={o.id} o={o} i={i + 2} still bleu={bleu} premium={premium} />
-              ))}
-            </div>
-          </Suite>
+          <div className="mt-8 flex justify-center lg:mt-12">
+            <Link href="/services" className={btn(bleu ? "white" : "electric")}>
+              <BtnInner>{prestations.all}</BtnInner>
+            </Link>
+          </div>
         )}
+
       </div>
     </section>
   );

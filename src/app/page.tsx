@@ -14,5 +14,6 @@ import { NeedsHistoire } from "@/components/site/NeedsHistoire";
 const Haut = () => <HeroEventail formes carres titre="selection" />;
 
 export default function Page() {
-  return <Accueil Hero={Haut} Besoin={NeedsHistoire} scene sansCadre servicesBleu />;
+  // the trainings as a list under « Nos formations » (13 October 2026, from the premium pass)
+  return <Accueil Hero={Haut} Besoin={NeedsHistoire} scene sansCadre servicesBleu formationsVariante="liste" />;
 }

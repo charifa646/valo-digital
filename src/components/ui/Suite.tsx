@@ -21,6 +21,8 @@ const fade = "linear-gradient(180deg, #000 25%, transparent 96%)";
 // them smudged, as if in bold with a shadow
 const softText = "linear-gradient(180deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,.7) 30%, transparent 58%)";
 const blurText = "linear-gradient(180deg, transparent 30%, rgba(0,0,0,.55) 50%, transparent 80%)";
+// `doux`: the first lines nearly sharp, the rest fading out rather than blurring
+const softTextDoux = "linear-gradient(180deg, #000 0%, rgba(0,0,0,.85) 35%, transparent 92%)";
 
 // React 18 writes `inert` only as a string attribute (its types expect a boolean, which it would drop)
 const inert = { inert: "" } as unknown as { inert: boolean };
@@ -32,10 +34,13 @@ export function Suite({
   action,
   className = "h-[220px] sm:h-[260px]",
   text = false,
+  doux = false,
 }: {
   children: ReactNode;
   action: ReactNode;
   className?: string;
+  /** with `text`: a lighter blur over fewer lines (13 October 2026, Charifa: the founder's blur « fait trop bizarre ») */
+  doux?: boolean;
   /** the glimpse of a text: a little blurred, then more, then gone, and the button under it at the start of the line */
   text?: boolean;
 }) {
@@ -44,11 +49,11 @@ export function Suite({
       {text ? (
         <div aria-hidden {...inert} className={`pointer-events-none relative select-none overflow-hidden ${className}`}>
           {/* each mask on a layer the size of the window, so its fade is measured on what shows, not on the whole text */}
-          <div className="absolute inset-0" style={masked(softText)}>
-            <div style={{ filter: "blur(1.6px)" }}>{children}</div>
+          <div className="absolute inset-0" style={masked(doux ? softTextDoux : softText)}>
+            <div style={{ filter: doux ? "blur(0.6px)" : "blur(1.6px)" }}>{children}</div>
           </div>
           <div className="absolute inset-0" style={masked(blurText)}>
-            <div style={{ filter: "blur(4.5px)" }}>{children}</div>
+            <div style={{ filter: doux ? "blur(2px)" : "blur(4.5px)" }}>{children}</div>
           </div>
         </div>
       ) : (

@@ -28,7 +28,8 @@ export function Parcours() {
           >
             <Rich text={p.text} words mark="text-sun" />
           </blockquote>
-          <Chiffres className="mt-14 lg:mt-20" />
+          {/* the same sober figures as the homepage (13 October 2026), the page still turning night blue */}
+          <Chiffres premium teinte className="mt-14 lg:mt-20" />
         </div>
       </div>
     </section>

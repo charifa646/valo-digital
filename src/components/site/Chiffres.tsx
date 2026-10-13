@@ -12,14 +12,16 @@ import { Counter } from "@/components/ui/Counter";
  * `premium` (the premium pass of 13 October 2026, at /apercu/premium): the same words in a light bento that belongs to
  * the page instead of a dark block laid on it: the title and its sentence over a real photo of a VALO training, the
  * first two figures in white cells with a fine border, the third across a cell in the charte's electric blue, the one
- * coloured moment of the section. The title keeps its words; only its capitals are set as a sentence.
+ * coloured moment of the section. The title keeps its words; only its capitals are set as a sentence. `teinte`: the page
+ * still turns night blue while it holds the screen (on the homepage since 13 October 2026, Charifa: keep the change of
+ * colour), the light cells standing out on it.
  */
 const plus = ["text-sun", "text-[#8FA3FF]", "text-sun"];
 
-export function Chiffres({ className = "", premium = false }: { className?: string; premium?: boolean }) {
+export function Chiffres({ className = "", premium = false, teinte = false }: { className?: string; premium?: boolean; teinte?: boolean }) {
   if (premium) {
     return (
-      <div data-reveal className={`grid gap-3 sm:gap-4 lg:grid-cols-12 lg:gap-5 ${className}`}>
+      <div data-reveal data-teinte={teinte ? "nuit" : undefined} className={`grid gap-3 sm:gap-4 lg:grid-cols-12 lg:gap-5 ${className}`}>
         <div className="flex flex-col rounded-lg border border-hair bg-white p-6 sm:p-8 lg:col-span-5">
           <p className="text-[clamp(1.45rem,1.1rem+1.1vw,2.1rem)] font-semibold lowercase leading-[1.1] tracking-[-0.025em] text-ink first-letter:uppercase">
             {figuresBloc.title}
@@ -35,22 +37,24 @@ export function Chiffres({ className = "", premium = false }: { className?: stri
             />
           </div>
         </div>
-        <ul className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:col-span-7 lg:gap-5">
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-7 lg:gap-5">
           {figures.map((f, i) => {
             const fort = i === 2;
             return (
               <li
                 key={f.label}
                 style={{ ["--d" as string]: `${0.1 + i * 0.12}s` } as CSSProperties}
-                className={`flex min-h-[190px] flex-col justify-between rounded-lg p-6 sm:p-8 lg:min-h-[230px] ${
-                  fort ? "bg-electric text-white sm:col-span-2" : "border border-hair bg-white text-ink"
+                className={`flex min-h-[150px] flex-col justify-between rounded-lg p-5 sm:min-h-[190px] sm:p-8 lg:min-h-[230px] ${
+                  fort ? "col-span-2 bg-electric text-white" : "border border-hair bg-white"
                 }`}
               >
-                <p className="whitespace-nowrap text-[clamp(2.6rem,1.8rem+3.2vw,4.6rem)] font-light leading-none tracking-[-0.045em] tabular-nums">
+                {/* the ink set on the figure, inside its white cell: when the page turns night blue, the page's rule turns
+                    every dark text white except inside a white cell (the cell itself would have turned it white on white) */}
+                <p className={`whitespace-nowrap text-[clamp(2rem,1.2rem+3.6vw,4.6rem)] font-light leading-none tracking-[-0.045em] tabular-nums ${fort ? "" : "text-ink"}`}>
                   <span className={fort ? "text-sun" : "text-electric"}>{f.prefix}</span>
                   <Counter value={f.value.slice(f.prefix.length)} to={f.count} suffix={f.suffix} />
                 </p>
-                <p className={`mt-6 text-[14.5px] font-medium leading-snug ${fort ? "text-white/85" : "text-body"}`}>
+                <p className={`mt-5 text-[14px] font-medium leading-snug sm:mt-6 sm:text-[14.5px] ${fort ? "text-white/85" : "text-body"}`}>
                   {f.caption}
                   {f.note && <span className={`block whitespace-nowrap ${fort ? "text-white/60" : "text-mute"}`}>{f.note}</span>}
                 </p>
