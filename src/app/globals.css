@@ -4035,3 +4035,13 @@ html .demo-scene .demo-seg i {
     transition: none;
   }
 }
+
+/* the phone menu (`Header.tsx`, 14 October 2026), the panel of Charifa's ChatGPT mock-up in VALO's colours: a light
+   frosted glass, a fine border, a soft shadow */
+.menu-panneau {
+  background: rgba(246, 247, 255, 0.94);
+  border: 1px solid #d6dcf5;
+  box-shadow: 0 24px 50px -18px rgba(4, 11, 82, 0.28);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}

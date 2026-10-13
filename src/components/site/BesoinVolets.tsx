@@ -76,18 +76,19 @@ export function BesoinVolets({ look = "volets", id }: { look?: "volets" | "liste
                     to={x.d.target}
                     onMouseEnter={() => setActif(i)}
                     onFocus={() => setActif(i)}
-                    className="group flex items-center gap-5 py-7 sm:py-9"
+                    className="group flex items-center gap-3.5 py-6 sm:gap-5 sm:py-9"
                   >
-                    <span className="relative block h-20 w-20 shrink-0 overflow-hidden rounded-2xl lg:hidden">
+                    <span className="relative block h-14 w-14 shrink-0 overflow-hidden rounded-2xl sm:h-20 sm:w-20 lg:hidden">
                       <Image src={x.photo} alt="" fill sizes="80px" className="object-cover" style={{ objectPosition: x.pos }} />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className={`block text-[clamp(2.6rem,1.4rem+4vw,5.4rem)] font-medium lowercase leading-none tracking-[-0.05em] transition-colors duration-300 first-letter:uppercase ${actif === i ? "text-electric" : "text-ink"}`}>
+                      <span className={`block text-[clamp(2.1rem,1.3rem+4vw,5.4rem)] font-medium lowercase leading-none tracking-[-0.05em] transition-colors duration-300 first-letter:uppercase ${actif === i ? "text-electric" : "text-ink"}`}>
                         {x.d.name}
                       </span>
-                      <span className="mt-3 block max-w-[30rem] text-[15.5px] leading-relaxed text-body">{x.d.text}</span>
+                      <span className="mt-2.5 block max-w-[30rem] text-[14.5px] leading-relaxed text-body sm:mt-3 sm:text-[15.5px]">{x.d.text}</span>
                     </span>
-                    <span className={`hidden h-14 w-14 shrink-0 place-items-center rounded-full transition duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 sm:grid ${actif === i ? "bg-electric text-white" : "bg-white text-ink ring-1 ring-hair"}`}>
+                    {/* the arrow on phones too, a size smaller (14 October 2026, Charifa: « sur mobile, on ne voit pas les flèches ») */}
+                    <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-full transition duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 sm:h-14 sm:w-14 ${actif === i ? "bg-electric text-white" : "bg-white text-ink ring-1 ring-hair"}`}>
                       <Fleche />
                     </span>
                   </Anchor>

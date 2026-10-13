@@ -8,18 +8,31 @@ import { contact, hero, menus, nav, type NavItem } from "@/lib/content";
 import { Anchor, NavLink, PageLink, useScroll } from "./Scroll";
 import { useSheet } from "./Sheet";
 import { Monogram } from "@/components/brand/Logo";
-import { BtnInner, btn } from "@/components/ui/Action";
-import { ArrowRight, ChevronDown, Close, Mail, Menu, Phone, Pin } from "@/components/ui/Icons";
+import { ArrowRight, ChevronDown, Mail, Phone, Pin } from "@/components/ui/Icons";
 
 type MenuId = keyof typeof menus;
 const subOf = (n: NavItem) => (n.id in menus ? (n.id as MenuId) : null);
 
+/** The mark and the name, after Charifa's ChatGPT mock-up (14 October 2026): « Valo » full, « Digital » light, a blue point. */
 function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
       <Monogram className="h-[22px] w-auto sm:h-[24px]" />
-      <span className="text-[16px] font-bold tracking-[-0.01em] sm:text-[17px]">ValoDigital</span>
+      <span className="text-[17px] tracking-[-0.035em] sm:text-[19px]">
+        <span className="font-bold">Valo</span>
+        <span className="font-normal">Digital</span>
+        <span className="text-[#3551FF]">.</span>
+      </span>
     </span>
+  );
+}
+
+/** The thin arrow ↗ of the mock-up's links and buttons. */
+function Oblique({ className = "h-3.5 w-3.5" }: { className?: string }) {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 18 18 6M8 6h10v10" />
+    </svg>
   );
 }
 
@@ -29,6 +42,8 @@ function Wordmark({ className = "" }: { className?: string }) {
  */
 export function Header({ bleu = false }: { bleu?: boolean }) {
   const [light, setLight] = useState(false);
+  // at the very top of the homepage the bar has no glass, the mock-up's way: the logo, the words and the button on the sky
+  const [haut, setHaut] = useState(true);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   // the short menu open under « Services » or « Formations » (computers), and the one unfolded in the phone menu
@@ -79,6 +94,7 @@ export function Header({ bleu = false }: { bleu?: boolean }) {
     let frame = 0;
     const check = () => {
       frame = 0;
+      setHaut(window.scrollY < 24);
       const strip = innerHeight * 0.03;
       setLight(
         // the page itself in colour (`Teintes.tsx`): dark glass too
@@ -133,14 +149,23 @@ export function Header({ bleu = false }: { bleu?: boolean }) {
 
   const clair = light && !bleu;
   const ink = clair ? "text-ink" : "text-white";
+  const nu = home && haut && !open;
 
   return (
     <LazyMotion features={domAnimation} strict>
       <header className="entete pointer-events-none fixed inset-x-0 top-0 z-50 px-[calc(var(--frame)+6px)] pt-[calc(var(--frame)+6px)] sm:pt-[calc(var(--frame)+10px)]">
         <div ref={bar} className="relative mx-auto max-w-[1200px]">
           <div
-            className={`pointer-events-auto flex h-[58px] items-center justify-between gap-4 rounded-full pl-5 pr-2 transition-[background,box-shadow,color] duration-500 sm:h-[64px] sm:pl-6 ${
-              bleu ? (light ? "glass-bleu blur-bar text-white" : "glass-bleu-nuit blur-bar text-white") : light ? "glass blur-bar text-ink" : "glass-dark blur-bar text-white"
+            className={`pointer-events-auto flex h-[58px] items-center justify-between gap-4 rounded-full border pl-5 pr-2 transition-[background,box-shadow,color,border-color] duration-500 sm:h-[64px] sm:pl-6 ${
+              nu
+                ? "border-transparent bg-transparent text-ink shadow-none"
+                : bleu
+                  ? light
+                    ? "glass-bleu blur-bar text-white"
+                    : "glass-bleu-nuit blur-bar text-white"
+                  : light
+                    ? "glass blur-bar text-ink"
+                    : "glass-dark blur-bar text-white"
             }`}
           >
             {home ? (
@@ -158,7 +183,7 @@ export function Header({ bleu = false }: { bleu?: boolean }) {
                 {nav.map((n) => {
                   const g = subOf(n);
                   const on = current(n.id) || (g !== null && sub === g);
-                  const cls = `relative block whitespace-nowrap rounded-full py-2 text-[14px] font-semibold transition ${g ? "pl-3.5 pr-8" : "px-3.5"} ${ink} ${
+                  const cls = `relative block whitespace-nowrap rounded-full py-2 text-[13.5px] font-medium tracking-[-0.005em] transition ${g ? "pl-3.5 pr-8" : "px-3.5"} ${ink} ${
                     on ? (clair ? "bg-frost text-electric" : "bg-white/15") : clair ? "hover:text-electric" : "opacity-85 hover:opacity-100"
                   }`;
                   return (
@@ -188,27 +213,30 @@ export function Header({ bleu = false }: { bleu?: boolean }) {
             </nav>
 
             <div className="flex items-center gap-2">
+              {/* the mock-up's button: a slim pill, its words and a thin arrow ↗ */}
               <button
                 type="button"
                 onClick={() => demande("demande")}
                 aria-haspopup="dialog"
-                className={btn(
-                  bleu ? "sun" : light ? "electric" : "white",
-                  "hidden min-h-[46px] pl-5 text-[13.5px] sm:inline-flex [&_.dot]:h-[34px] [&_.dot]:w-[34px] [&_.dot_svg]:h-4 [&_.dot_svg]:w-4",
-                )}
+                className={`hidden h-[44px] items-center gap-5 rounded-full px-6 text-[13px] font-semibold tracking-[-0.005em] shadow-[0_8px_22px_-10px_rgba(7,20,216,.6)] transition duration-300 hover:-translate-y-0.5 sm:inline-flex ${
+                  bleu ? "bg-sun text-navy" : light || nu ? "bg-electric text-white hover:bg-[#0610ae]" : "bg-white text-electric"
+                }`}
               >
-                <BtnInner>{hero.cta}</BtnInner>
+                {hero.cta}
+                <Oblique className="h-4 w-4" />
               </button>
               <button
                 ref={menuButton}
                 type="button"
-                onClick={() => setOpen(true)}
+                onClick={() => setOpen(!open)}
                 aria-expanded={open}
                 aria-controls="menu"
-                aria-label="Menu"
-                className={`grid h-[46px] w-[46px] place-items-center rounded-full transition lg:hidden ${clair ? "bg-electric text-white" : "bg-white text-electric"}`}
+                aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+                className={`relative grid h-[46px] w-[46px] place-items-center rounded-full transition lg:hidden ${clair || nu || open ? "text-ink" : "text-white"}`}
               >
-                <Menu className="h-5 w-5" />
+                {/* two lines, the mock-up's; they cross into an X while the menu is open */}
+                <span aria-hidden className={`absolute h-[1.6px] w-[22px] rounded-full bg-current transition-transform duration-300 ${open ? "rotate-45" : "-translate-y-[4px]"}`} />
+                <span aria-hidden className={`absolute h-[1.6px] w-[22px] rounded-full bg-current transition-transform duration-300 ${open ? "-rotate-45" : "translate-y-[4px]"}`} />
               </button>
             </div>
           </div>
@@ -265,64 +293,67 @@ export function Header({ bleu = false }: { bleu?: boolean }) {
         </div>
       </header>
 
+      {/* the phone menu, the mock-up's: a light frosted panel dropping under the bar, its entries large with a thin
+          arrow and a fine line between them, then the button and VALO's contacts (14 October 2026, in place of the
+          night-blue curtain) */}
       <AnimatePresence>
         {open && (
-          <m.div
-            id="menu"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Menu"
-            className="on-dark fixed inset-0 z-[60] overflow-y-auto bg-night text-white"
-            initial={reduce ? { opacity: 0 } : { clipPath: "circle(0% at calc(100% - 44px) 44px)" }}
-            animate={reduce ? { opacity: 1 } : { clipPath: "circle(150% at calc(100% - 44px) 44px)" }}
-            exit={reduce ? { opacity: 0 } : { clipPath: "circle(0% at calc(100% - 44px) 44px)" }}
-            transition={{ duration: 0.7, ease: [0.7, 0, 0.2, 1] }}
-            data-lenis-prevent
-          >
-            <div className="curtain opacity-70" />
-            <div className="relative flex min-h-full flex-col px-6 pb-10 pt-6">
-              <div className="flex items-center justify-between">
-                <Wordmark />
-                <button
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  aria-label="Fermer"
-                  autoFocus
-                  className="grid h-[46px] w-[46px] place-items-center rounded-full bg-white text-electric"
-                >
-                  <Close className="h-5 w-5" />
-                </button>
-              </div>
-              <nav aria-label="Navigation principale" className="mt-12">
-                <ul className="grid gap-1">
+          <>
+            <m.div
+              key="voile"
+              aria-hidden
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 z-40 bg-[#040B52]/25 lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+            <m.div
+              key="panneau"
+              id="menu"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Menu"
+              className="menu-panneau fixed inset-x-3 top-[calc(var(--frame)+72px)] z-[45] max-h-[calc(100svh-var(--frame)-88px)] overflow-y-auto rounded-[20px] px-5 pb-6 pt-2 text-ink lg:hidden"
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: -14, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.98 }}
+              transition={reduce ? { duration: 0.15 } : { type: "spring", stiffness: 100, damping: 20 }}
+              data-lenis-prevent
+            >
+              <nav aria-label="Navigation principale">
+                <ul>
                   {nav.map((n, i) => {
                     const g = subOf(n);
                     return (
                       <m.li
                         key={n.id}
-                        className="border-b border-white/10"
-                        initial={reduce ? false : { opacity: 0, y: 24 }}
+                        className="border-b border-[#D6DCF5]"
+                        initial={reduce ? false : { opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.25 + i * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{ delay: 0.06 + i * 0.04, type: "spring", stiffness: 100, damping: 20 }}
                       >
-                        <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center justify-between gap-3">
                           <NavLink
                             item={n}
                             onClick={() => setOpen(false)}
                             aria-current={current(n.id) ? (n.href || n.page === pathname ? "page" : "true") : undefined}
-                            className={`block min-w-0 flex-1 py-3.5 text-[clamp(1.35rem,6.4vw,1.9rem)] font-semibold leading-tight tracking-[-0.025em] ${current(n.id) ? "text-sun" : ""}`}
+                            className={`flex min-w-0 flex-1 items-center justify-between gap-3 py-4 text-[18px] font-medium tracking-[-0.02em] ${current(n.id) ? "text-electric" : "text-ink"}`}
                           />
-                          {g && (
+                          {g ? (
                             <button
                               type="button"
                               onClick={() => setUnfolded(unfolded === g ? null : g)}
                               aria-expanded={unfolded === g}
                               aria-controls={`sous-menu-${g}`}
                               aria-label={`Menu ${n.label}`}
-                              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 text-white"
+                              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-ink"
                             >
                               <ChevronDown className={`h-[18px] w-[18px] transition-transform duration-300 ${unfolded === g ? "rotate-180" : ""}`} />
                             </button>
+                          ) : (
+                            <Oblique className="h-4 w-4 shrink-0 text-ink" />
                           )}
                         </div>
                         {g && unfolded === g && (
@@ -333,18 +364,15 @@ export function Header({ bleu = false }: { bleu?: boolean }) {
                                   page={menus[g].page}
                                   to={l.id}
                                   onClick={() => setOpen(false)}
-                                  className="block py-2 text-[15.5px] font-medium leading-snug text-white/80"
+                                  className="flex items-center justify-between gap-3 py-2 text-[14.5px] font-medium leading-snug text-body"
                                 >
                                   {l.name}
+                                  {l.price && <span className="shrink-0 text-[12.5px] text-mute">{l.price}</span>}
                                 </PageLink>
                               </li>
                             ))}
                             <li className="pt-2">
-                              <Link
-                                href={menus[g].page}
-                                onClick={() => setOpen(false)}
-                                className="inline-flex items-center gap-2 text-[15.5px] font-bold text-sun"
-                              >
+                              <Link href={menus[g].page} onClick={() => setOpen(false)} className="inline-flex items-center gap-2 text-[14.5px] font-semibold text-electric">
                                 {menus[g].all}
                                 <ArrowRight className="h-4 w-4" />
                               </Link>
@@ -356,46 +384,40 @@ export function Header({ bleu = false }: { bleu?: boolean }) {
                   })}
                 </ul>
               </nav>
-              <m.div
-                className="mt-auto pt-10"
-                initial={reduce ? false : { opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  demande("demande");
+                }}
+                aria-haspopup="dialog"
+                className="mt-6 flex h-[50px] w-full items-center justify-between rounded-full bg-electric px-6 text-[14.5px] font-semibold text-white shadow-[0_10px_24px_-12px_rgba(7,20,216,.8)]"
               >
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOpen(false);
-                    demande("demande");
-                  }}
-                  aria-haspopup="dialog"
-                  className={btn("white", "w-full")}
-                >
-                  <BtnInner>{hero.cta}</BtnInner>
-                </button>
-                <ul className="mt-7 grid gap-3 text-[15px] font-medium text-white/80">
-                  <li>
-                    <a href={contact.phoneHref} className="inline-flex items-center gap-3">
-                      <Phone className="h-5 w-5 text-white" />
-                      {contact.phone}
-                    </a>
-                  </li>
-                  <li>
-                    <a href={`mailto:${contact.email}`} className="inline-flex items-center gap-3">
-                      <Mail className="h-5 w-5 text-white" />
-                      {contact.email}
-                    </a>
-                  </li>
-                  <li>
-                    <a href={contact.mapHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3">
-                      <Pin className="h-5 w-5 text-white" />
-                      {contact.address}
-                    </a>
-                  </li>
-                </ul>
-              </m.div>
-            </div>
-          </m.div>
+                {hero.cta}
+                <Oblique className="h-4 w-4" />
+              </button>
+              <ul className="mt-5 grid gap-2.5 text-[13.5px] font-medium text-body">
+                <li>
+                  <a href={contact.phoneHref} className="inline-flex items-center gap-2.5">
+                    <Phone className="h-4 w-4 text-electric" />
+                    {contact.phone}
+                  </a>
+                </li>
+                <li>
+                  <a href={`mailto:${contact.email}`} className="inline-flex items-center gap-2.5">
+                    <Mail className="h-4 w-4 text-electric" />
+                    {contact.email}
+                  </a>
+                </li>
+                <li>
+                  <a href={contact.mapHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2.5">
+                    <Pin className="h-4 w-4 text-electric" />
+                    {contact.address}
+                  </a>
+                </li>
+              </ul>
+            </m.div>
+          </>
         )}
       </AnimatePresence>
     </LazyMotion>
