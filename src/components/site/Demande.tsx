@@ -43,11 +43,10 @@ type Errors = Partial<Record<keyof Values, string>>;
 const field =
   "block w-full rounded-[4px] border border-hair bg-white px-4 py-3 text-[15.5px] font-medium text-ink transition placeholder:font-normal placeholder:text-mute/90 focus:border-electric focus:outline-none focus:ring-4 focus:ring-electric/10 aria-[invalid=true]:border-[#C62828]";
 
-function Label({ htmlFor, children, optional = false }: { htmlFor?: string; children: ReactNode; optional?: boolean }) {
+function Label({ htmlFor, children }: { htmlFor?: string; children: ReactNode }) {
   return (
     <label htmlFor={htmlFor} className="mb-2 block text-[14px] font-semibold text-ink">
       {children}
-      {optional && <span className="ml-1.5 font-medium text-mute">({demande.optional})</span>}
     </label>
   );
 }
@@ -96,10 +95,12 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
     const e: Errors = {};
     if (!v.choice) e.choice = demande.errors.pick;
     if (!v.situation) e.situation = demande.errors.pick;
+    if (!v.project.trim()) e.project = demande.errors.required;
     if (!v.name.trim()) e.name = demande.errors.required;
     if (kind === "prestation" && !v.business.trim()) e.business = demande.errors.required;
     if (phoneDigits(v.phone) < 8) e.phone = demande.errors.phone;
-    if (v.email.trim() && !emailOk(v.email.trim())) e.email = demande.errors.email;
+    if (!v.email.trim()) e.email = demande.errors.required;
+    else if (!emailOk(v.email.trim())) e.email = demande.errors.email;
     return e;
   };
 
@@ -227,7 +228,7 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
       </fieldset>
 
       <div>
-        <Label htmlFor={id("project")} optional>
+        <Label htmlFor={id("project")}>
           {t.project}
         </Label>
         <textarea
@@ -236,8 +237,11 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
           value={v.project}
           onChange={(e) => set("project")(e.target.value)}
           placeholder={t.projectHint}
+          aria-invalid={!!errors.project}
+          aria-describedby={errors.project ? id("project-error") : undefined}
           className={`${field} resize-y`}
         />
+        <Problem id={id("project-error")} text={errors.project} />
       </div>
 
       <div className={`grid gap-6 ${kind === "prestation" ? "sm:grid-cols-2 sm:gap-4" : ""}`}>
@@ -260,6 +264,7 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
             <Label htmlFor={id("business")}>{demande.business}</Label>
             <input
               id={id("business")}
+            placeholder={demande.businessHint}
               type="text"
               autoComplete="organization"
               value={v.business}
@@ -290,11 +295,12 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
           <Problem id={id("phone-error")} text={errors.phone} />
         </div>
         <div>
-          <Label htmlFor={id("email")} optional>
+          <Label htmlFor={id("email")}>
             {demande.email}
           </Label>
           <input
             id={id("email")}
+            placeholder={demande.emailHint}
             type="email"
             inputMode="email"
             autoComplete="email"

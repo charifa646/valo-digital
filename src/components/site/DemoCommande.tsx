@@ -81,11 +81,10 @@ const inert = { inert: "" } as unknown as { inert: boolean };
 
 const field = "block w-full rounded-[4px] border border-hair bg-white px-4 py-3 text-[15.5px] font-medium text-ink";
 
-function Label({ children, optional = false }: { children: string; optional?: boolean }) {
+function Label({ children }: { children: string }) {
   return (
     <span className="mb-2 block text-[14px] font-semibold text-ink">
       {children}
-      {optional && <span className="ml-1.5 font-medium text-mute">({demande.optional})</span>}
     </span>
   );
 }
@@ -414,7 +413,7 @@ export function DemoCommande({ scene = false, sansCadre = false }: { scene?: boo
                       </div>
 
                       <div>
-                        <Label optional>{t.project}</Label>
+                        <Label>{t.project}</Label>
                         <span
                           {...p("project")}
                           className={`${field} demo-press relative min-h-[98px] leading-relaxed ${s.typing ? "border-electric ring-4 ring-electric/10" : ""}`}
@@ -452,8 +451,14 @@ export function DemoCommande({ scene = false, sansCadre = false }: { scene?: boo
                         </span>
                       </div>
                       <div>
-                        <Label optional>{demande.email}</Label>
-                        <span className={`${field} block h-[50px]`} />
+                        <Label>{demande.email}</Label>
+                        <span className={`${field} flex h-[50px] items-center`}>
+                          <span
+                            className="demo-bar"
+                            data-on={s.bars ? "" : undefined}
+                            style={{ ["--w" as string]: "52%", ["--d" as string]: "0.84s" } as CSSProperties}
+                          />
+                        </span>
                       </div>
 
                       <div className="grid gap-3">

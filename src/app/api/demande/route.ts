@@ -33,8 +33,8 @@ export async function POST(req: Request) {
   const email = clip(b.email, 160);
   const project = clip(b.project, 1500);
   const page = clip(b.page, 200);
-  if (!choice || !situation || !name || (kind === "prestation" && !business)) return refused();
-  if (phone.replace(/\D/g, "").length < 8 || (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) return refused();
+  if (!choice || !situation || !name || !project || (kind === "prestation" && !business)) return refused();
+  if (phone.replace(/\D/g, "").length < 8 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return refused();
 
   const row = {
     type: kind === "prestation" ? "Prestation" : "Formation",
