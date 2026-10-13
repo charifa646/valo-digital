@@ -59,8 +59,12 @@ export const nav: NavItem[] = typeset([
 export const hero = typeset({
   title: ["Faites du digital un véritable", "levier de croissance."],
   /** Charifa's own words from her copywriting (« VALO COPYWRITING + STRUCTURE »), put back on 12 October 2026 (« remets mon
-   * copywriting de début, surtout le texte du header »); the catalogue's words had replaced them on 7 October */
-  lead: "VALO DIGITAL accompagne les entrepreneurs et entreprises dans leur marketing, leur acquisition et leur développement.",
+   * copywriting de début, surtout le texte du header »); on 14 October 2026 she allowed it to be reformulated « pour que les
+   * personnes comprennent ce que fait Valo »: it said « dans leur marketing, leur acquisition et leur développement », three
+   * vague words, « acquisition » being jargon. The new sentence uses only words of her own offers (« trouver des clients en
+   * ligne » is her training's title, the four trades are her services and trainings), so it promises nothing new. It is also
+   * the site's description for search engines and shared links. */
+  lead: "VALO DIGITAL accompagne les entrepreneurs et les entreprises pour trouver des clients en ligne : réseaux sociaux, publicité, vidéos et formations.",
   cta: "Parlons de votre projet",
   tags: ["Marketing digital", "Publicité", "Vente", "Formation"],
 });
@@ -360,7 +364,8 @@ export const fondateur = typeset({
   closing: "Bienvenue chez VALO DIGITAL.",
   name: "Gueswendyam Valentin WAONGO",
   roles: ["Digital manager", "Consultant et formateur aux métiers du digital", "Fondateur de VALO DIGITAL"],
-  cta: "En savoir plus",
+  // « Lire la suite » since 14 October 2026 (Charifa: without the blur, the visitor must know there is more to read)
+  cta: "Lire la suite",
 });
 
 export const final = typeset({
