@@ -64,7 +64,7 @@ export function NeedsTrame() {
                 style={{ ["--d" as string]: `${i * 0.1}s` } as CSSProperties}
                 onMouseEnter={() => setActive(i)}
                 onFocus={() => setActive(i)}
-                className={`group relative z-[1] flex flex-col overflow-hidden rounded-2xl border bg-white text-ink shadow-[0_1px_0_rgba(255,255,255,.9)_inset] transition-[border-color,box-shadow] duration-500 ${on ? "border-electric/35 shadow-[0_26px_44px_-30px_rgba(15, 111, 208,.5)]" : "border-hair"}`}
+                className={`group relative z-[1] flex flex-col overflow-hidden rounded-2xl border bg-white text-ink shadow-[0_1px_0_rgba(255,255,255,.9)_inset] transition-[border-color,box-shadow] duration-500 ${on ? "border-electric/35 shadow-[0_26px_44px_-30px_rgba(7,20,216,.5)]" : "border-hair"}`}
               >
                 <span className="flex flex-1 flex-col p-5 pb-4 lg:p-6 lg:pb-5">
                   <span className="flex items-start justify-between gap-3">

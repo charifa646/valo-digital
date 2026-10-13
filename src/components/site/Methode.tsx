@@ -14,7 +14,7 @@ import { Words, count } from "@/components/ui/Words";
  */
 const stairs = [
   { h: "md:h-[116px]", fill: "bg-frost", ink: "text-electric" },
-  { h: "md:h-[162px]", fill: "bg-[#c3ddf0]", ink: "text-electric" },
+  { h: "md:h-[162px]", fill: "bg-[#C9D3FF]", ink: "text-electric" },
   { h: "md:h-[232px]", fill: "bg-azure", ink: "text-white" },
   { h: "md:h-[330px]", fill: "bg-electric", ink: "text-white" },
 ];
@@ -58,7 +58,7 @@ export function Methode({ premium = false }: { premium?: boolean } = {}) {
               <li key={s.n} className={`relative ${i < stairs.length - 1 ? "min-h-[136px]" : ""}`}>
                 <span
                   data-point
-                  className={`absolute top-0 grid h-11 w-11 place-items-center rounded-full ${i % 2 ? "right-0" : "left-0"} ${stairs[i].fill} ${stairs[i].ink} shadow-[0_8px_18px_-8px_rgba(15, 111, 208,.45)]`}
+                  className={`absolute top-0 grid h-11 w-11 place-items-center rounded-full ${i % 2 ? "right-0" : "left-0"} ${stairs[i].fill} ${stairs[i].ink} shadow-[0_8px_18px_-8px_rgba(7,20,216,.45)]`}
                 >
                   <span
                     className="stair-text text-[15px] font-bold leading-none tracking-[-0.02em]"

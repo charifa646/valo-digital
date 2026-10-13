@@ -272,9 +272,9 @@ export function DemoCommande({ scene = false, sansCadre = false }: { scene?: boo
         <div className="demo-frame">
           <div ref={screen} className="demo-screen">
             {/* the site, as on a phone */}
-            <div className="dots absolute inset-0 bg-[#f5f9fc]" />
+            <div className="dots absolute inset-0 bg-[#F7F9FF]" />
             <div className="relative px-3 pt-[46px]">
-              <div className="flex h-[54px] items-center justify-between rounded-2xl bg-white pl-4 pr-1.5 text-electric shadow-[0_10px_30px_-18px_rgba(15, 111, 208,.35)]">
+              <div className="flex h-[54px] items-center justify-between rounded-2xl bg-white pl-4 pr-1.5 text-electric shadow-[0_10px_30px_-18px_rgba(7,20,216,.35)]">
                 <span className="inline-flex items-center gap-2">
                   <Monogram className="h-[19px] w-auto" />
                   <span className="text-[15px] font-bold tracking-[-0.01em]">ValoDigital</span>
@@ -338,7 +338,7 @@ export function DemoCommande({ scene = false, sansCadre = false }: { scene?: boo
                         <span
                           key={c.kind}
                           {...p(i === 0 ? "prestation" : "formation")}
-                          className="demo-press flex items-center gap-4 rounded-2xl border border-electric/25 bg-white p-[18px] text-left shadow-[0_14px_30px_-20px_rgba(15, 111, 208,.45)]"
+                          className="demo-press flex items-center gap-4 rounded-2xl border border-electric/25 bg-white p-[18px] text-left shadow-[0_14px_30px_-20px_rgba(7,20,216,.45)]"
                         >
                           <span className="min-w-0 flex-1">
                             <span className="block text-[16.5px] font-semibold leading-snug tracking-[-0.015em] text-ink">{c.title}</span>

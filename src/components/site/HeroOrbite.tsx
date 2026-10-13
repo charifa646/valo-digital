@@ -175,8 +175,8 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
         data-dark={blue || undefined}
         className={`relative isolate overflow-hidden lg:h-[880px] ${
           blue
-            ? "on-dark bg-[radial-gradient(110%_80%_at_50%_0%,#3f9ae8_0%,#0f6fd0_52%,#0c2a3c_100%)] text-white"
-            : "rounded-[18px] border border-hair bg-[linear-gradient(180deg,#ffffff_0%,#f5f9fc_100%)] lg:rounded-[22px]"
+            ? "on-dark bg-[radial-gradient(110%_80%_at_50%_0%,#3551FF_0%,#0714D8_52%,#0510A8_100%)] text-white"
+            : "rounded-[18px] border border-hair bg-[linear-gradient(180deg,#ffffff_0%,#F7F9FF_100%)] lg:rounded-[22px]"
         }`}
       >
         {blue ? (
@@ -190,7 +190,7 @@ export function HeroOrbite({ blue = false }: { blue?: boolean }) {
             />
             <div
               aria-hidden
-              className="absolute left-1/2 top-[30%] -z-10 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(63, 154, 232,.10),transparent)]"
+              className="absolute left-1/2 top-[30%] -z-10 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(53,81,255,.10),transparent)]"
             />
           </>
         )}

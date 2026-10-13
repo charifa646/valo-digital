@@ -44,10 +44,10 @@ const cards = [
  * echoes the title, selected as in the same tool. Upright now; they still float gently. `texte`: the words' colour.
  */
 const etiquettes: { metier: Metier; curseur: string; texte: string; t: string }[] = [
-  { metier: "marketing", curseur: "#0f6fd0", texte: "#ffffff", t: "[--r:0deg] [--t:7.4s]" },
-  { metier: "publicite", curseur: "#3f9ae8", texte: "#ffffff", t: "[--r:0deg] [--t:8.2s] [--fd:-2s]" },
-  { metier: "vente", curseur: "#FDEC05", texte: "#174863", t: "[--r:0deg] [--t:7.8s] [--fd:-4s]" },
-  { metier: "formation", curseur: "#174863", texte: "#ffffff", t: "[--r:0deg] [--t:8.8s] [--fd:-1s]" },
+  { metier: "marketing", curseur: "#0714D8", texte: "#ffffff", t: "[--r:0deg] [--t:7.4s]" },
+  { metier: "publicite", curseur: "#3551FF", texte: "#ffffff", t: "[--r:0deg] [--t:8.2s] [--fd:-2s]" },
+  { metier: "vente", curseur: "#FDEC05", texte: "#071F78", t: "[--r:0deg] [--t:7.8s] [--fd:-4s]" },
+  { metier: "formation", curseur: "#071F78", texte: "#ffffff", t: "[--r:0deg] [--t:8.8s] [--fd:-1s]" },
 ];
 
 function Etiquette({ metier, curseur, texte }: { metier: Metier; curseur: string; texte: string }) {
@@ -64,10 +64,10 @@ function Etiquette({ metier, curseur, texte }: { metier: Metier; curseur: string
 /** A photo card: the trade at the top, the offer's name and price at the foot over a dark fade. */
 function Carte({ img, tag, name, price, sizes }: { img: string; tag: string; name?: string; price?: string; sizes: string }) {
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-[18px] bg-frost shadow-[0_30px_60px_-30px_rgba(15, 111, 208,.55),0_2px_6px_rgba(16, 52, 74,.08)]">
+    <div className="relative h-full w-full overflow-hidden rounded-[18px] bg-frost shadow-[0_30px_60px_-30px_rgba(7,20,216,.55),0_2px_6px_rgba(11,18,51,.08)]">
       <Image src={img} alt="" fill sizes={sizes} className="object-cover" />
       {name && (
-        <span className="absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,transparent,rgba(17, 54, 76,.82))] px-3.5 pb-3.5 pt-12 text-left text-white">
+        <span className="absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,transparent,rgba(4,11,82,.82))] px-3.5 pb-3.5 pt-12 text-left text-white">
           <span className="line-clamp-3 block text-[13px] font-bold leading-snug">{name}</span>
           {price && <span className="mt-2 inline-block rounded-[8px] bg-white/20 px-2 py-0.5 text-[9.5px] font-semibold leading-snug">{price}</span>}
         </span>
@@ -87,13 +87,13 @@ function Formes() {
       <svg className="forme-vague" viewBox="0 0 1440 600" preserveAspectRatio="none">
         <defs>
           <linearGradient id="vague-a" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0" stopColor="#8fbfe8" stopOpacity="0" />
-            <stop offset="0.45" stopColor="#3f9ae8" stopOpacity="0.38" />
+            <stop offset="0" stopColor="#8fb2ff" stopOpacity="0" />
+            <stop offset="0.45" stopColor="#3551ff" stopOpacity="0.38" />
             <stop offset="1" stopColor="#0e7cfc" stopOpacity="0.75" />
           </linearGradient>
           <linearGradient id="vague-b" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0" stopColor="#0f6fd0" stopOpacity="0.5" />
-            <stop offset="0.55" stopColor="#3f9ae8" stopOpacity="0.22" />
+            <stop offset="0" stopColor="#0714d8" stopOpacity="0.5" />
+            <stop offset="0.55" stopColor="#3551ff" stopOpacity="0.22" />
             <stop offset="1" stopColor="#8fd3ff" stopOpacity="0" />
           </linearGradient>
           <filter id="vague-flou" x="-10%" y="-40%" width="120%" height="180%">
@@ -158,8 +158,8 @@ function Carres() {
 /** The phone in the middle: VALO's offers passing one after the other, as in an app. */
 function Telephone({ slide }: { slide: number }) {
   return (
-    <div className="eventail-phone relative h-full w-full rounded-[40px] bg-white p-[7px] shadow-[0_50px_90px_-40px_rgba(15, 111, 208,.6),0_0_0_1px_rgba(16, 52, 74,.06)]">
-      <div className="relative flex h-full flex-col overflow-hidden rounded-[33px] bg-[#f5f9fc]">
+    <div className="eventail-phone relative h-full w-full rounded-[40px] bg-white p-[7px] shadow-[0_50px_90px_-40px_rgba(7,20,216,.6),0_0_0_1px_rgba(11,18,51,.06)]">
+      <div className="relative flex h-full flex-col overflow-hidden rounded-[33px] bg-[#F6F8FF]">
         {/* status bar */}
         <div className="flex items-center justify-between px-6 pt-3.5 text-[11px] font-bold text-ink">
           <span>9:41</span>
@@ -174,7 +174,7 @@ function Telephone({ slide }: { slide: number }) {
         </div>
         {/* tabs */}
         <div className="mt-4 flex items-center justify-between px-4">
-          <span className="flex gap-1 rounded-full bg-white p-1 text-[10.5px] font-bold shadow-[0_1px_3px_rgba(16, 52, 74,.08)]">
+          <span className="flex gap-1 rounded-full bg-white p-1 text-[10.5px] font-bold shadow-[0_1px_3px_rgba(11,18,51,.08)]">
             <span className="rounded-full bg-frost px-3 py-1 text-electric">Services</span>
             <span className="px-3 py-1 text-mute">Formations</span>
           </span>
@@ -269,7 +269,7 @@ export function HeroEventail({ formes = false, carres = false, titre = "serif" }
   return (
     <section ref={root} id="top" className="eventail play-when-in relative">
       {/* one band, edge to edge: the framed card set on the page looked like a row on a row (12 October 2026) */}
-      <div className="eventail-fond relative isolate overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#f0f6fa_100%)]">
+      <div className="eventail-fond relative isolate overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#F4F7FF_100%)]">
         {/* the dotted ground of the current top, stronger towards the edges, and a soft blue light behind the phone */}
         {carres ? (
           <Carres />
@@ -359,7 +359,7 @@ export function HeroEventail({ formes = false, carres = false, titre = "serif" }
             ))}
           </div>
           {/* the scene fades into the page at its foot (the thin line and its round mark were taken off, 12 October 2026) */}
-          <div className="eventail-fondu pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(180deg,rgba(244,247,255,0),#f0f6fa_72%)]" />
+          <div className="eventail-fondu pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(180deg,rgba(244,247,255,0),#F4F7FF_72%)]" />
         </div>
       </div>
     </section>

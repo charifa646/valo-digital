@@ -33,7 +33,7 @@ export function NeedsPortes() {
                 data-reveal="photo"
                 style={{ ["--d" as string]: `${i * 0.12}s` } as CSSProperties}
                 className={`group flex flex-col overflow-hidden rounded-[28px] transition duration-500 [transition-timing-function:var(--ease)] hover:-translate-y-1 ${
-                  p.nuit ? "bg-night text-white shadow-[0_30px_70px_-35px_rgba(17, 54, 76,.85)]" : "bg-white text-ink ring-1 ring-hair shadow-[0_30px_70px_-45px_rgba(17, 54, 76,.4)]"
+                  p.nuit ? "bg-night text-white shadow-[0_30px_70px_-35px_rgba(4,11,82,.85)]" : "bg-white text-ink ring-1 ring-hair shadow-[0_30px_70px_-45px_rgba(4,11,82,.4)]"
                 }`}
               >
                 <span className="relative m-2.5 block aspect-[16/10] overflow-hidden rounded-[20px] bg-soft">

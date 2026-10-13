@@ -129,7 +129,7 @@ export function Terrain() {
               )}
               <div
                 aria-hidden
-                className="absolute inset-x-0 bottom-0 hidden h-3/4 bg-gradient-to-t from-[rgba(11, 37, 54,.88)] via-[rgba(11, 37, 54,.4)] to-transparent sm:block"
+                className="absolute inset-x-0 bottom-0 hidden h-3/4 bg-gradient-to-t from-[rgba(2,6,46,.88)] via-[rgba(2,6,46,.4)] to-transparent sm:block"
               />
             </div>
 

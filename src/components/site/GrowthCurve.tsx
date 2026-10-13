@@ -64,12 +64,12 @@ export function GrowthCurve() {
         <>
           <defs>
             <linearGradient id="curve-ink" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={c.w} y2="0">
-              <stop offset="0" stopColor="#a9cdea" />
-              <stop offset="0.55" stopColor="#3f9ae8" />
-              <stop offset="1" stopColor="#0f6fd0" />
+              <stop offset="0" stopColor="#AEBBFF" />
+              <stop offset="0.55" stopColor="#3551FF" />
+              <stop offset="1" stopColor="#0714D8" />
             </linearGradient>
           </defs>
-          <path d={c.line} pathLength={1} className="curve-draw" fill="none" stroke="#3f9ae8" strokeOpacity="0.14" strokeWidth="10" strokeLinecap="round" />
+          <path d={c.line} pathLength={1} className="curve-draw" fill="none" stroke="#3551FF" strokeOpacity="0.14" strokeWidth="10" strokeLinecap="round" />
           <path d={c.line} pathLength={1} className="curve-draw" fill="none" stroke="url(#curve-ink)" strokeWidth="2.5" strokeLinecap="round" />
           {c.dots.map(([x, y], i) => (
             <circle
@@ -79,8 +79,8 @@ export function GrowthCurve() {
               r="5"
               className="curve-dot"
               style={{ transitionDelay: `${1.4 + i * 0.32}s` }}
-              fill={i === c.dots.length - 1 ? "#0f6fd0" : "#fff"}
-              stroke="#0f6fd0"
+              fill={i === c.dots.length - 1 ? "#0714D8" : "#fff"}
+              stroke="#0714D8"
               strokeWidth="2"
             />
           ))}
@@ -89,7 +89,7 @@ export function GrowthCurve() {
             className="curve-dot"
             style={{ transitionDelay: "2.8s" }}
             fill="none"
-            stroke="#0f6fd0"
+            stroke="#0714D8"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"

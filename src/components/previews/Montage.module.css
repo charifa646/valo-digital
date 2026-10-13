@@ -128,7 +128,7 @@
   position: absolute;
   inset: -2px;
   border-radius: 9999px;
-  box-shadow: 0 0 0 1.5px rgba(15, 111, 208, 0.45);
+  box-shadow: 0 0 0 1.5px rgba(7, 20, 216, 0.45);
   opacity: 0;
   animation: spin 1.6s cubic-bezier(0.16, 1, 0.3, 1) infinite both;
 }

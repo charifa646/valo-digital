@@ -16,7 +16,7 @@ import { Counter } from "@/components/ui/Counter";
  * still turns night blue while it holds the screen (on the homepage since 13 October 2026, Charifa: keep the change of
  * colour), the light cells standing out on it.
  */
-const plus = ["text-sun", "text-[#8fbfe8]", "text-sun"];
+const plus = ["text-sun", "text-[#8FA3FF]", "text-sun"];
 
 export function Chiffres({ className = "", premium = false, teinte = false }: { className?: string; premium?: boolean; teinte?: boolean }) {
   if (premium) {

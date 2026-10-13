@@ -144,11 +144,11 @@ export function Header({ bleu = false }: { bleu?: boolean }) {
             }`}
           >
             {home ? (
-              <Anchor to="top" aria-label="VALO DIGITAL, retour en haut" className={`shrink-0 ${clair ? "text-brand" : "text-white"}`}>
+              <Anchor to="top" aria-label="VALO DIGITAL, retour en haut" className={`shrink-0 ${clair ? "text-electric" : "text-white"}`}>
                 <Wordmark />
               </Anchor>
             ) : (
-              <Link href="/" aria-label="VALO DIGITAL, accueil" className={`shrink-0 ${clair ? "text-brand" : "text-white"}`}>
+              <Link href="/" aria-label="VALO DIGITAL, accueil" className={`shrink-0 ${clair ? "text-electric" : "text-white"}`}>
                 <Wordmark />
               </Link>
             )}

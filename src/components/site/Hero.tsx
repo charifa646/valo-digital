@@ -57,7 +57,7 @@ export function Hero() {
           <defs>
             <linearGradient id="wordmark" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor="#ffffff" />
-              <stop offset="1" stopColor="#bcd8ee" />
+              <stop offset="1" stopColor="#bccbff" />
             </linearGradient>
           </defs>
           <text
@@ -67,7 +67,7 @@ export function Hero() {
             textLength="980"
             lengthAdjust="spacingAndGlyphs"
             fill="url(#wordmark)"
-            stroke="rgba(15, 111, 208,.09)"
+            stroke="rgba(7,20,216,.09)"
             strokeWidth="1.5"
             className="letter"
             style={{ fontFamily: "var(--font-montserrat)", fontWeight: 800, fontSize: 272, ["--d" as string]: "0.3s" } as CSSProperties}
@@ -101,7 +101,7 @@ export function Hero() {
             return (
               <li key={t} className={`absolute ${spots[i]}`}>
                 <div className="pop-in" style={{ ["--d" as string]: `${0.8 + i * 0.1}s` } as CSSProperties}>
-                  <div className="float flex items-center gap-2.5 rounded-[10px] bg-white py-2 pl-2 pr-3.5 shadow-[0_18px_40px_-18px_rgba(15, 111, 208,.45)] sm:gap-3 sm:py-2.5 sm:pl-2.5 sm:pr-4">
+                  <div className="float flex items-center gap-2.5 rounded-[10px] bg-white py-2 pl-2 pr-3.5 shadow-[0_18px_40px_-18px_rgba(7,20,216,.45)] sm:gap-3 sm:py-2.5 sm:pl-2.5 sm:pr-4">
                     <span className="grid h-8 w-8 place-items-center rounded-[8px] bg-electric text-white sm:h-9 sm:w-9">
                       <Icon className="h-[17px] w-[17px] sm:h-[18px] sm:w-[18px]" />
                     </span>

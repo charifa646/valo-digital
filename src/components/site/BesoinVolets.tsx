@@ -54,7 +54,7 @@ export function BesoinVolets({ look = "volets", id }: { look?: "volets" | "liste
                 style={{ ["--g" as string]: actif === i ? 1.55 : 1 } as CSSProperties}
               >
                 <Image src={x.photo} alt="" fill sizes="(min-width: 768px) 700px, 92vw" className="object-cover transition duration-700 group-hover:scale-[1.03]" style={{ objectPosition: x.pos }} />
-                <span aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,rgba(17, 54, 76,.88)_0%,rgba(17, 54, 76,.35)_45%,rgba(17, 54, 76,.05)_100%)]" />
+                <span aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,rgba(4,11,82,.88)_0%,rgba(4,11,82,.35)_45%,rgba(4,11,82,.05)_100%)]" />
                 <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-7 sm:p-9">
                   <span>
                     <span className="block text-[clamp(2.4rem,1.6rem+2.6vw,4rem)] font-medium lowercase leading-none tracking-[-0.045em] text-white first-letter:uppercase">{x.d.name}</span>
