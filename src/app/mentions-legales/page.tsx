@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/site";
 import { mentions } from "@/lib/content";
 import { ScrollProvider } from "@/components/site/Scroll";
 import { SheetProvider } from "@/components/site/Sheet";
@@ -6,7 +7,11 @@ import { Header } from "@/components/site/Header";
 import { Final } from "@/components/site/Final";
 import { PageTitle } from "@/components/pages/PageTitle";
 
-export const metadata: Metadata = { title: "Mentions légales · VALO DIGITAL" };
+export const metadata: Metadata = pageMeta({
+  path: "/mentions-legales",
+  title: "Mentions légales · VALO DIGITAL",
+  description: "Mentions légales de VALO DIGITAL : éditeur du site, hébergeur, données personnelles.",
+});
 
 /** The legal notice (12 October 2026), reached from the foot of every page: its title as on the other pages, then the
  * blocks of `mentions` in content.ts, plainly, two columns on computers. */

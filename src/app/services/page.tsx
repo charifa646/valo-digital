@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/site";
 import { nav, prestations } from "@/lib/content";
 import { ScrollProvider } from "@/components/site/Scroll";
 import { SheetProvider } from "@/components/site/Sheet";
@@ -11,10 +12,7 @@ import { PageTitle } from "@/components/pages/PageTitle";
 const plain = (s: string) => s.replace(/[  ]/g, " ");
 const title = nav.find((n) => n.id === "prestations")!.label;
 
-export const metadata: Metadata = {
-  title: `${title} · VALO DIGITAL`,
-  description: plain(prestations.lead),
-};
+export const metadata: Metadata = pageMeta({ path: "/services", title: `${title} de marketing digital à Ouagadougou · VALO DIGITAL`, description: plain(prestations.lead) });
 
 /**
  * The page of all the services (7 October 2026): the four offers whole, then the three solutions that left the

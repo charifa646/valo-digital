@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/site";
 import { formations, nav } from "@/lib/content";
 import { ScrollProvider } from "@/components/site/Scroll";
 import { SheetProvider } from "@/components/site/Sheet";
@@ -10,10 +11,7 @@ import { Catalogue } from "@/components/pages/Catalogue";
 const plain = (s: string) => s.replace(/[  ]/g, " ");
 const title = nav.find((n) => n.id === "formations")!.label;
 
-export const metadata: Metadata = {
-  title: `${title} · VALO DIGITAL`,
-  description: plain(formations.lead),
-};
+export const metadata: Metadata = pageMeta({ path: "/formations", title: `${title} au digital à Ouagadougou · VALO DIGITAL`, description: plain(formations.lead) });
 
 /** The page of all the trainings (7 October 2026): the homepage shows four and leads here; the menu leads to each one. */
 export default function Formations() {

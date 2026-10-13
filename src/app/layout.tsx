@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { contact, fondateur, footer, hero } from "@/lib/content";
+import { contact, fondateur, footer, formations, hero, prestations } from "@/lib/content";
+import { INDEXABLE, SITE_NAME, SITE_URL } from "@/lib/site";
 import { RevealObserver } from "@/components/ui/RevealObserver";
 import { Transitions } from "@/components/site/Transitions";
 import { Aimants } from "@/components/site/Aimants";
@@ -37,16 +38,24 @@ const plain = (s: string) => s.replace(/[  ]/g, " ");
 const description = plain(hero.lead);
 
 export const metadata: Metadata = {
-  title: `VALO DIGITAL · ${plain(footer.tagline)}`,
+  metadataBase: new URL(SITE_URL),
+  // the trades and the city in the title, as on the « À propos » page (« agence de marketing et de publicité digitale et centre
+  // de formation aux métiers du numérique, à Ouagadougou »): what a visitor types into a search engine
+  title: `VALO DIGITAL · ${plain(hero.tags[0])} et formation à Ouagadougou`,
   description,
-  // a test site for the client: kept out of search engines until it is theirs
-  robots: { index: false, follow: false },
+  // the homepage's own address; every other page names its own (`pageMeta`, src/lib/site.ts)
+  alternates: { canonical: "/" },
+  // out of search engines until the domain is live (`INDEXABLE`, src/lib/site.ts)
+  robots: INDEXABLE ? { index: true, follow: true } : { index: false, follow: false },
   openGraph: {
     title: `VALO DIGITAL · ${plain(hero.title.join(" "))}`,
     description,
+    url: "/",
+    siteName: SITE_NAME,
     locale: "fr_FR",
     type: "website",
   },
+  twitter: { card: "summary_large_image", title: `VALO DIGITAL · ${plain(hero.title.join(" "))}`, description },
 };
 
 export const viewport: Viewport = {
@@ -55,16 +64,28 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Only what VALO itself says on the site: its name, its words, its telephone, its address, the names of its services and
+// trainings (no price, no opening hours, no network address: none has been given for them, so none is made up).
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   name: "VALO DIGITAL",
+  url: SITE_URL,
+  logo: `${SITE_URL}/icon.svg`,
   description,
   telephone: contact.phone.replace(/\s/g, ""),
   email: contact.email,
   address: { "@type": "PostalAddress", streetAddress: "Wemtenga", addressLocality: "Ouagadougou", addressCountry: "BF" },
   founder: { "@type": "Person", name: contact.name, jobTitle: plain(fondateur.roles[0]) },
   areaServed: "Ouagadougou",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "VALO DIGITAL",
+    itemListElement: [
+      ...prestations.offers.map((o) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: plain(o.name) } })),
+      ...formations.items.map((f) => ({ "@type": "Offer", itemOffered: { "@type": "Course", name: plain(f.name), provider: { "@type": "Organization", name: "VALO DIGITAL" } } })),
+    ],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

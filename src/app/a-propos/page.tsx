@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/site";
 import { apropos } from "@/lib/content";
 import { ScrollProvider } from "@/components/site/Scroll";
 import { SheetProvider } from "@/components/site/Sheet";
@@ -17,10 +18,7 @@ import { References } from "@/components/apropos/References";
 
 const plain = (s: string) => s.replace(/[  ]/g, " ");
 
-export const metadata: Metadata = {
-  title: "À propos · VALO DIGITAL",
-  description: plain(apropos.meta),
-};
+export const metadata: Metadata = pageMeta({ path: "/a-propos", title: "À propos de VALO DIGITAL, agence à Ouagadougou", description: plain(apropos.meta) });
 
 /**
  * The « À propos » page, from the portfolio: the agency, its founder and his whole letter (the homepage shows its
