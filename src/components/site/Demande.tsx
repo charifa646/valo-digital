@@ -2,8 +2,8 @@
 
 import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { contact, demande, formationChoices, formations, prestationChoices, type DemandeChoice, type DemandeKind } from "@/lib/content";
-import { ArrowLeft, ArrowRight, Check, ChevronDown } from "@/components/ui/Icons";
-import { BtnInner, btn } from "@/components/ui/Action";
+import { ArrowLeft, Check, ChevronDown, WhatsApp } from "@/components/ui/Icons";
+import { PiluleInner, pilule } from "@/components/ui/Action";
 
 /**
  * The two forms of « Parlons de votre projet », shown in the details panel (`Sheet.tsx`): first the choice between a
@@ -12,36 +12,50 @@ import { BtnInner, btn } from "@/components/ui/Action";
  * /api/demande, which passes it on to VALO's Google Sheet once it is connected.
  */
 
-export function DemandeChoix({ onPick }: { onPick: (kind: DemandeKind) => void }) {
+/**
+ * The two ways in, after Charifa's ChatGPT mock-up (14 October 2026): two large tiles side by side, the first in night blue,
+ * the second white with a fine edge, each with its words, its line and a thin arrow ↗. Used at the foot of every page and
+ * as the first screen of « Parlons de votre projet ». `active`: inside a form, the one being filled.
+ */
+export function Portes({ onPick, active, className = "", compact = false }: { onPick: (kind: DemandeKind) => void; active?: DemandeKind; className?: string; compact?: boolean }) {
   return (
-    <div className="grid gap-3.5">
-      {demande.choices.map((c) => (
-        // a card that reads as a button on every screen: blue edge, and the arrow in its blue circle, as on the site's buttons
-        // (no icon tile: the words say it, Charifa, 7 October 2026)
-        <button
-          key={c.kind}
-          type="button"
-          onClick={() => onPick(c.kind)}
-          className="group flex items-center gap-4 rounded-2xl border border-electric/25 bg-white p-5 text-left shadow-[0_14px_30px_-20px_rgba(7,20,216,.45)] transition duration-300 hover:border-electric/60 hover:shadow-card active:scale-[.985] sm:gap-5 sm:p-6"
-        >
-          <span className="min-w-0 flex-1">
-            <span className="block text-[17.5px] font-semibold leading-snug tracking-[-0.015em] text-ink sm:text-[19px]">{c.title}</span>
-            <span className="mt-1 block text-[14.5px] font-medium leading-snug text-body">{c.text}</span>
-          </span>
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-electric text-white transition-transform duration-300 group-hover:translate-x-0.5">
-            <ArrowRight className="h-[18px] w-[18px]" />
-          </span>
-        </button>
-      ))}
+    <div className={`grid gap-3 sm:grid-cols-2 ${className}`}>
+      {demande.choices.map((c, i) => {
+        const on = active ? active === c.kind : i === 0;
+        return (
+          <button
+            key={c.kind}
+            type="button"
+            onClick={() => onPick(c.kind)}
+            aria-pressed={active ? on : undefined}
+            className={`group flex flex-col justify-between rounded-[20px] text-left transition duration-300 active:scale-[.985] ${compact ? "min-h-[64px] p-4" : "min-h-[150px] p-5 sm:p-6"} ${
+              on ? "bg-night text-white shadow-[0_18px_40px_-24px_rgba(4,11,82,.9)]" : "bg-white text-ink ring-1 ring-hair hover:ring-electric/50"
+            }`}
+          >
+            <span className="flex items-start justify-between gap-3">
+              <span className={`font-semibold leading-snug tracking-[-0.015em] ${compact ? "text-[15px]" : "text-[17px] sm:text-[18px]"}`}>{c.title}</span>
+              <svg aria-hidden viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7 17 17 7M8 7h9v9" />
+              </svg>
+            </span>
+            {!compact && <span className={`mt-5 block text-[14px] font-medium leading-snug ${on ? "text-white/75" : "text-body"}`}>{c.text}</span>}
+          </button>
+        );
+      })}
     </div>
   );
+}
+
+export function DemandeChoix({ onPick }: { onPick: (kind: DemandeKind) => void }) {
+  return <Portes onPick={onPick} />;
 }
 
 type Values = { choice: string; situation: string; project: string; name: string; business: string; phone: string; email: string; site: string };
 type Errors = Partial<Record<keyof Values, string>>;
 
+// underlined fields rather than boxes (Charifa's ChatGPT mock-up, 14 October 2026); the line thickens in blue on focus
 const field =
-  "block w-full rounded-[4px] border border-hair bg-white px-4 py-3 text-[15.5px] font-medium text-ink transition placeholder:font-normal placeholder:text-mute/90 focus:border-electric focus:outline-none focus:ring-4 focus:ring-electric/10 aria-[invalid=true]:border-[#C62828]";
+  "block w-full rounded-none border-0 border-b border-[#CBD3EC] bg-transparent px-0.5 py-3 text-[16px] font-medium text-ink transition placeholder:font-normal placeholder:text-mute/90 focus:border-electric focus:shadow-[0_1px_0_0_#0714D8] focus:outline-none focus:ring-0 aria-[invalid=true]:border-[#C62828]";
 
 function Label({ htmlFor, children }: { htmlFor?: string; children: ReactNode }) {
   return (
@@ -63,7 +77,20 @@ function Problem({ id, text }: { id: string; text?: string }) {
 const phoneDigits = (s: string) => s.replace(/\D/g, "").length;
 const emailOk = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 
-export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKind; preset?: string; onBack?: () => void; onClose: () => void }) {
+export function DemandeForm({
+  kind,
+  preset,
+  onBack,
+  onClose,
+  onSwitch,
+}: {
+  kind: DemandeKind;
+  preset?: string;
+  onBack?: () => void;
+  onClose: () => void;
+  /** to the other form (service or training), from the two tiles at the top */
+  onSwitch?: (kind: DemandeKind) => void;
+}) {
   const t = demande[kind];
   const choices: DemandeChoice[] = kind === "prestation" ? prestationChoices : formationChoices;
   const uid = useId();
@@ -128,18 +155,21 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
   };
 
   if (status === "sent") {
+    // the message ready for WhatsApp: a first line, then what the visitor chose and their name, in the form's own words
+    const sent = choices.find((c) => c.id === v.choice);
+    const message = [demande.sent.whatsappIntro, `${t.title} : ${sent ? sent.label : ""}`, `${demande.name} : ${v.name.trim()}`].join("\n");
+    const whatsapp = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(message)}`;
     return (
-      <div role="status" className="rounded-2xl bg-white px-6 py-10 text-center shadow-card sm:px-10">
+      <div role="status" className="rounded-[22px] bg-soft px-6 py-10 text-center sm:px-10">
         <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-electric text-white shadow-glow">
           <Check className="h-6 w-6" />
         </span>
         <p className="balance mt-6 text-[21px] font-semibold leading-snug tracking-[-0.02em] text-ink sm:text-[23px]">{demande.sent.title}</p>
         <p className="pretty mx-auto mt-3 max-w-[26rem] text-[16px] font-medium leading-relaxed text-body">{demande.sent.text}</p>
-        <button
-          type="button"
-          onClick={onClose}
-          className="mt-8 inline-flex min-h-[48px] items-center rounded-full border border-electric/15 bg-frost px-7 text-[14.5px] font-bold text-electric transition hover:bg-[#DCE4FF]"
-        >
+        <a href={whatsapp} target="_blank" rel="noopener noreferrer" className={pilule("electric", "mx-auto mt-8 max-w-[22rem]")}>
+          <PiluleInner icon={<WhatsApp className="h-6 w-6" />}>{demande.sent.whatsapp}</PiluleInner>
+        </a>
+        <button type="button" onClick={onClose} className="mt-4 inline-flex min-h-[44px] items-center px-4 text-[14.5px] font-bold text-electric transition hover:text-navy">
           {demande.sent.close}
         </button>
       </div>
@@ -149,7 +179,7 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
   const picked = choices.find((c) => c.id === v.choice);
 
   return (
-    <form noValidate onSubmit={submit} className="grid gap-6">
+    <form noValidate onSubmit={submit} className="grid gap-7">
       {onBack && (
         <button
           type="button"
@@ -160,6 +190,8 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
           {demande.back}
         </button>
       )}
+
+      {onSwitch && <Portes compact active={kind} onPick={(k) => k !== kind && onSwitch(k)} />}
 
       <div>
         <Label htmlFor={id("choice")}>{t.choice}</Label>
@@ -184,13 +216,13 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
           </select>
           <div
             aria-hidden
-            className={`${field} pr-12 leading-snug peer-hover:border-electric/40 peer-focus-visible:border-electric peer-focus-visible:ring-4 peer-focus-visible:ring-electric/10 ${
+            className={`${field} pr-12 text-[17px] leading-snug peer-hover:border-electric/40 peer-focus-visible:border-electric peer-focus-visible:shadow-[0_1px_0_0_#0714D8] ${
               errors.choice ? "border-[#C62828]" : ""
             } ${picked ? "" : "font-normal text-mute/90"}`}
           >
             {picked?.label ?? demande.pick}
           </div>
-          <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-electric" />
+          <ChevronDown className="pointer-events-none absolute right-1 top-1/2 h-5 w-5 -translate-y-1/2 text-ink" />
         </div>
         {picked?.price && (
           <p className="mt-2 text-[13.5px] font-semibold text-body">
@@ -201,12 +233,12 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
       </div>
 
       <fieldset aria-describedby={errors.situation ? id("situation-error") : undefined}>
-        <legend className="mb-2 text-[14px] font-semibold text-ink">{t.situation}</legend>
-        <div className={kind === "formation" ? "flex flex-wrap gap-2.5" : "grid gap-2.5"}>
+        <legend className="mb-3 text-[14px] font-semibold text-ink">{t.situation}</legend>
+        <div className="flex flex-wrap gap-2.5">
           {t.situations.map((s, i) => (
             <label
               key={s}
-              className="group flex cursor-pointer items-center gap-3 rounded-[4px] border border-hair bg-white px-4 py-3 text-[14.5px] font-semibold leading-snug text-ink transition has-[:checked]:border-electric has-[:checked]:bg-frost has-[:checked]:text-electric has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-electric/15"
+              className="group flex cursor-pointer items-center rounded-full border border-hair bg-white px-4 py-2.5 text-[14px] font-semibold leading-snug text-ink transition hover:border-electric/40 has-[:checked]:border-night has-[:checked]:bg-night has-[:checked]:text-white has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-electric/20"
             >
               <input
                 id={i === 0 ? id("situation") : undefined}
@@ -217,9 +249,6 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
                 onChange={() => set("situation")(s)}
                 className="sr-only"
               />
-              <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 border-hair bg-white transition group-has-[:checked]:border-electric">
-                <span className="h-2.5 w-2.5 scale-0 rounded-full bg-electric transition group-has-[:checked]:scale-100" />
-              </span>
               {s}
             </label>
           ))}
@@ -239,7 +268,7 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
           placeholder={t.projectHint}
           aria-invalid={!!errors.project}
           aria-describedby={errors.project ? id("project-error") : undefined}
-          className={`${field} resize-y`}
+          className={`${field} min-h-[96px] resize-y`}
         />
         <Problem id={id("project-error")} text={errors.project} />
       </div>
@@ -330,10 +359,10 @@ export function DemandeForm({ kind, preset, onBack, onClose }: { kind: DemandeKi
             .
           </p>
         )}
-        <button type="submit" disabled={status === "sending"} className={btn("electric", "w-full disabled:opacity-70 sm:w-auto sm:justify-self-start")}>
-          <BtnInner>{status === "sending" ? demande.sending : t.submit}</BtnInner>
+        <button type="submit" disabled={status === "sending"} className={pilule("night")}>
+          <PiluleInner>{status === "sending" ? demande.sending : t.submit}</PiluleInner>
         </button>
-        <p className="text-[13px] font-medium text-mute">{demande.privacy}</p>
+        <p className="text-[13px] font-medium leading-relaxed text-mute">{demande.privacy}</p>
       </div>
     </form>
   );

@@ -735,6 +735,11 @@ export const demande = typeset({
     title: "Merci, votre demande est bien envoyée.",
     text: "L’équipe VALO DIGITAL vous recontacte dans les prochaines heures.",
     close: "Fermer",
+    /** after the request reached the CRM, the way to write to VALO on WhatsApp with a message already written (Charifa,
+     * 14 October 2026: « CRM + WhatsApp »). PROPOSED BY CLAUDE, TO BE VALIDATED BY CHARIFA: the button's words and the
+     * first line of the message; the rest of the message is the visitor's own choices from the form. */
+    whatsapp: "Écrire sur WhatsApp",
+    whatsappIntro: "Bonjour VALO DIGITAL, je viens d’envoyer ma demande sur votre site.",
   },
   errors: {
     required: "Ce champ est à remplir.",

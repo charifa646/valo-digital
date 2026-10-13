@@ -10,7 +10,7 @@ import { Prestations } from "@/components/site/Prestations";
 import { Formations } from "@/components/site/Formations";
 import { Methode } from "@/components/site/Methode";
 import { Fondateur } from "@/components/site/Fondateur";
-import { Final } from "@/components/site/Final";
+import { FinalTrame } from "@/components/site/pied/FinalTrame";
 import { Scene } from "@/components/site/pied/Scene";
 import { Appel } from "@/components/site/pied/Appel";
 
@@ -20,8 +20,9 @@ import { Appel } from "@/components/site/pied/Appel";
  * blue), /apercu/pied/scene (« la scène », A of 7 October, her choice of 8 October until then) and /apercu/pied/appel
  * (« le grand appel », B, kept in reserve).
  */
-const NuitTrame = () => <Final ton="nuit" />;
-const variantes = { trame: Final, nuit: NuitTrame, scene: Scene, appel: Appel };
+const NuitTrame = () => <FinalTrame ton="nuit" />;
+const ClaireTrame = () => <FinalTrame ton="clair" />;
+const variantes = { trame: ClaireTrame, nuit: NuitTrame, scene: Scene, appel: Appel };
 
 export const dynamicParams = false;
 export const generateStaticParams = () => Object.keys(variantes).map((variante) => ({ variante }));

@@ -1,6 +1,6 @@
 import { Accueil } from "@/components/site/Accueil";
 import { HeroEventail } from "@/components/site/HeroEventail";
-import { NeedsHistoire } from "@/components/site/NeedsHistoire";
+import { NeedsPortes } from "@/components/site/NeedsPortes";
 
 /**
  * The homepage: the composition of `Accueil.tsx` under « l'éventail » (Charifa's choice of 12 October 2026, in place of
@@ -15,5 +15,5 @@ const Haut = () => <HeroEventail formes carres titre="selection" />;
 
 export default function Page() {
   // the trainings as a list under « Nos formations » (13 October 2026, from the premium pass)
-  return <Accueil Hero={Haut} Besoin={NeedsHistoire} scene sansCadre servicesBleu formationsVariante="liste" />;
+  return <Accueil Hero={Haut} Besoin={NeedsPortes} scene sansCadre servicesBleu formationsVariante="liste" />;
 }

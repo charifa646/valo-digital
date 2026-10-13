@@ -40,7 +40,7 @@ html.lenis body {
 
 body {
   background: #f4f7ff;
-  color: #0b1233;
+  color: #1e2944;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -2664,8 +2664,9 @@ html .demo-scene .demo-seg i {
    selected as in a design tool: a fine blue line under it with a round handle at each end, drawn from the left, and a
    text cursor at its end with its two handles, blinking a few times. */
 .titre-doux {
-  font-weight: 500;
-  color: #20232e;
+  font-weight: 480;
+  /* the same ink as the rest of the site since 14 October 2026 */
+  color: #1e2944;
   letter-spacing: -0.03em;
 }
 .titre-selection {

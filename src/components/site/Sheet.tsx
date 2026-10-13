@@ -19,8 +19,8 @@ import {
 } from "@/lib/content";
 import { useScroll } from "./Scroll";
 import { ArrowRight, Check, Close } from "@/components/ui/Icons";
-import { BtnInner, btn } from "@/components/ui/Action";
-import { DemandeChoix, DemandeForm } from "./Demande";
+import { PiluleInner, pilule } from "@/components/ui/Action";
+import { DemandeChoix, DemandeForm, Portes } from "./Demande";
 import { formationPhotos } from "@/lib/photos";
 
 /** `focus`: the training to show, or the offer already chosen in a form; `back`: the form was reached from the choice;
@@ -53,7 +53,18 @@ export function DemandeButton({
   );
 }
 
-/** The details panel: from the right on computers, from the bottom on phones. */
+/** The two ways in of « Parlons de votre projet » at the foot of every page (14 October 2026, Charifa: « au footer, on met
+ * les deux portes d'entrée qui, une fois cliquées, s'ouvrent sur notre formulaire »). */
+export function PortesDemande({ className = "" }: { className?: string }) {
+  const { open } = useSheet();
+  return <Portes className={className} onPick={(k) => open(`demande-${k}`)} />;
+}
+
+/**
+ * The details window, in the middle of the screen since 14 October 2026 (Charifa, after her ChatGPT mock-up: « au lieu
+ * que les trucs s'affichent en latéral », « c'est beaucoup plus sobre »): a white card with large rounded corners over the
+ * page darkened and softly blurred, a round close button, the content scrolling inside it. Before, it slid in from the right.
+ */
 export function SheetProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<State>(null);
   const opener = useRef<HTMLElement | null>(null);
@@ -143,8 +154,9 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
     return () => document.removeEventListener("keydown", onKey);
   }, [state, onClose]);
 
-  const hidden = reduce ? { opacity: 0 } : wide ? { x: "104%" } : { y: "104%" };
-  const shown = reduce ? { opacity: 1 } : { x: 0, y: 0 };
+  // rises a little and settles, with the site's spring (stiffness 100, damping 20); on phones it comes up a little further
+  const hidden = reduce ? { opacity: 0 } : { opacity: 0, y: wide ? 26 : 40, scale: 0.97 };
+  const shown = reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 };
 
   const id = state.id;
   const kind: DemandeKind | null = id === "demande-prestation" ? "prestation" : id === "demande-formation" ? "formation" : null;
@@ -167,6 +179,7 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
         key={`${kind}-${state.focus ?? ""}`}
         kind={kind}
         preset={state.focus}
+        onSwitch={(k) => open(`demande-${k}`, undefined, state.back)}
         onBack={state.back ? () => open("demande") : state.from ? () => open(state.from!.id, state.from!.focus) : undefined}
         onClose={onClose}
       />
@@ -174,15 +187,21 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
   else if (one) body = <FormationOne f={one} />;
   else if (id === "formations") body = <FormationList focus={state.focus} />;
   else body = <DetailBody id={id as DetailId} d={details[id as DetailId]} cta={cta} />;
+  // the training's photo opens its window, above its name, as in the mock-up
+  const media = one ? (
+    <div className="relative aspect-[16/9] overflow-hidden rounded-[20px] bg-frost">
+      <Image src={`/images/formations/${formationPhotos[one.id] ?? one.id}.webp`} alt="" fill sizes="(min-width: 768px) 580px, 90vw" className="object-cover" />
+    </div>
+  ) : null;
 
   return (
-    <div className="fixed inset-0 z-[80]" role="presentation">
+    <div className="fixed inset-0 z-[80] grid place-items-center p-3 sm:p-6" role="presentation">
       <m.div
-        className="absolute inset-0 bg-abyss/60 backdrop-blur-[3px]"
+        className="absolute inset-0 bg-[#0A1640]/55 backdrop-blur-[6px]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.35 }}
+        transition={{ duration: 0.3 }}
         onClick={onClose}
       />
       <m.div
@@ -192,31 +211,33 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
         data-sheet
         aria-labelledby="sheet-title"
         data-lenis-prevent
-        className="absolute inset-x-0 bottom-0 max-h-[90svh] overflow-y-auto overscroll-contain rounded-t-2xl bg-ice shadow-[0_-30px_80px_-20px_rgba(2,6,46,.6)] md:inset-y-0 md:left-auto md:right-0 md:max-h-none md:w-[min(620px,94vw)] md:rounded-l-2xl md:rounded-tr-none"
+        className="relative max-h-[calc(100svh-24px)] w-full max-w-[640px] overflow-y-auto overscroll-contain rounded-[28px] bg-white shadow-[0_40px_120px_-30px_rgba(2,6,46,.7)] sm:max-h-[calc(100svh-48px)]"
         initial={hidden}
         animate={shown}
         exit={hidden}
-        transition={reduce ? { duration: 0.2 } : { type: "spring", stiffness: 240, damping: 32, mass: 0.9 }}
+        transition={reduce ? { duration: 0.2 } : { type: "spring", stiffness: 100, damping: 20 }}
       >
-        <div className="sticky top-0 z-10 flex items-start justify-between gap-6 bg-ice/90 px-6 pb-5 pt-6 backdrop-blur-md sm:px-9 sm:pt-8">
-          <div>
-            <p className="label text-electric">{eyebrow}</p>
-            <h2 id="sheet-title" className="mt-3 text-[26px] font-semibold leading-[1.08] tracking-[-0.025em] text-ink sm:text-[32px]">
-              {title}
-            </h2>
-          </div>
+        {/* the round close button stays in its corner while the content scrolls (a sticky strip with no height) */}
+        <div className="sticky top-0 z-10 flex h-0 justify-end">
           <button
             ref={closeButton}
             type="button"
             onClick={onClose}
             aria-label="Fermer"
-            className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white text-ink shadow-card transition hover:bg-electric hover:text-white"
+            className="mr-4 mt-4 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white text-ink shadow-[0_6px_20px_-8px_rgba(2,6,46,.45)] ring-1 ring-hair transition hover:bg-night hover:text-white sm:mr-5 sm:mt-5"
           >
             <Close className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="px-6 pb-10 sm:px-9">{body}</div>
+        {media && <div className="px-4 pt-4 sm:px-7 sm:pt-7">{media}</div>}
+        <div className={`px-6 pb-8 sm:px-10 sm:pb-10 ${media ? "pt-7" : "pt-7 sm:pt-9"}`}>
+          <p className="label text-electric">{eyebrow}</p>
+          <h2 id="sheet-title" className={`mt-3 text-[26px] font-bold leading-[1.08] tracking-[-0.03em] text-ink sm:text-[34px] ${media ? "" : "pr-14"}`}>
+            {title}
+          </h2>
+          <div className="mt-6 sm:mt-7">{body}</div>
+        </div>
       </m.div>
     </div>
   );
@@ -247,7 +268,7 @@ function DetailBody({ id, d, cta }: { id: DetailId; d: Detail; cta: string }) {
           // the first plan, where the offer starts, stands out
           const featured = i === 0;
           return (
-            <article key={f.name} className={`rounded-2xl p-6 sm:p-7 ${featured ? "bg-electric text-white shadow-glow" : "bg-white text-ink shadow-card"}`}>
+            <article key={f.name} className={`rounded-[22px] p-6 sm:p-7 ${featured ? "bg-electric text-white shadow-glow" : "bg-soft text-ink"}`}>
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <h3 className="text-[21px] font-extrabold tracking-[-0.02em]">{f.name}</h3>
                 <p className={`text-[12.5px] font-semibold ${featured ? "text-white/75" : "text-body"}`}>
@@ -256,14 +277,10 @@ function DetailBody({ id, d, cta }: { id: DetailId; d: Detail; cta: string }) {
               </div>
               <p className={`mt-3 text-[15.5px] leading-relaxed ${featured ? "text-white/85" : "text-body"}`}>{f.pitch}</p>
               <Points points={f.points} dark={featured} />
-              <div className={`mt-6 flex flex-wrap items-center justify-between gap-4 border-t pt-5 ${featured ? "border-white/20" : "border-line"}`}>
-                <p className="text-[18px] font-extrabold tracking-[-0.02em]">{f.price}</p>
-                <button
-                  type="button"
-                  onClick={() => open("demande-prestation", planId(f.name))}
-                  className={btn(featured ? "white" : "electric", "min-h-[48px] pl-5 text-[14px] [&_.dot]:h-9 [&_.dot]:w-9")}
-                >
-                  <BtnInner>{cta}</BtnInner>
+              <div className={`mt-6 border-t pt-5 ${featured ? "border-white/20" : "border-line"}`}>
+                <p className="text-[22px] font-bold tracking-[-0.025em]">{f.price}</p>
+                <button type="button" onClick={() => open("demande-prestation", planId(f.name))} className={pilule(featured ? "white" : "electric", "mt-4")}>
+                  <PiluleInner>{cta}</PiluleInner>
                 </button>
               </div>
             </article>
@@ -277,60 +294,56 @@ function DetailBody({ id, d, cta }: { id: DetailId; d: Detail; cta: string }) {
     <div>
       {d.pitch && <p className="text-[19px] font-semibold leading-snug tracking-[-0.01em] text-ink sm:text-[21px]">{d.pitch}</p>}
       {d.for && (
-        <p className="mt-5 inline-flex flex-wrap items-center gap-2 rounded-full bg-white px-4 py-2 text-[13px] font-semibold text-body shadow-card">
+        <p className="mt-5 inline-flex flex-wrap items-center gap-2 rounded-full bg-soft px-4 py-2 text-[13px] font-semibold text-body">
           <span className="text-electric">{detailLabels.for}</span>
           {d.for}
         </p>
       )}
       {d.points && (
-        <div className="mt-6 rounded-2xl bg-white p-6 shadow-card sm:p-7">
+        <div className="mt-6 rounded-[22px] bg-soft p-6 sm:p-7">
           <Points points={d.points} className="" />
         </div>
       )}
-      <div className="mt-6 flex flex-col gap-5 rounded-2xl bg-night p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-7">
-        {d.price && <p className="text-[20px] font-extrabold leading-tight tracking-[-0.02em]">{d.price}</p>}
-        <button
-          type="button"
-          onClick={() => open("demande-prestation", id)}
-          className={btn("white", "min-h-[50px] pl-6 text-[14px] [&_.dot]:h-9 [&_.dot]:w-9")}
-        >
-          <BtnInner>{cta}</BtnInner>
-        </button>
-      </div>
+      {d.price && <p className="mt-8 text-[28px] font-bold leading-tight tracking-[-0.03em] text-ink sm:text-[32px]">{d.price}</p>}
+      <button type="button" onClick={() => open("demande-prestation", id)} className={pilule("electric", "mt-6")}>
+        <PiluleInner>{cta}</PiluleInner>
+      </button>
     </div>
   );
 }
 
 /**
- * One training, opened from its card on the homepage (12 October 2026: the panel listed all eight, under the slogan): its
- * photo, format, main modules and price, the enrolment button as « Commander cette offre » is for a service, and the way
- * to all the trainings.
+ * One training, opened from its card or its line (12 October 2026; laid out after Charifa's ChatGPT mock-up on 14 October
+ * 2026): its photo at the top of the window (`media` in `Panel`), its name, its format, its price written large, its main
+ * modules as a list, the enrolment button across the window, and the way to all the trainings.
  */
 function FormationOne({ f }: { f: (typeof formations.items)[number] }) {
   const { open } = useSheet();
   const c = formations.columns;
+  // the main modules as a list, split where the catalogue separates them by commas (the words are the catalogue's)
+  const modules = f.modules
+    .replace(/\.$/, "")
+    .split(/,\s*/)
+    .map((x) => x.charAt(0).toUpperCase() + x.slice(1));
   return (
     <div>
-      <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-frost">
-        <Image src={`/images/formations/${formationPhotos[f.id] ?? f.id}.webp`} alt="" fill sizes="(min-width: 768px) 560px, 92vw" className="object-cover" />
-      </div>
-      <dl className="mt-6 grid gap-3 rounded-2xl bg-white p-6 text-[14.5px] shadow-card sm:grid-cols-[150px_1fr] sm:gap-x-5">
-        <dt className="font-semibold text-body">{c.format}</dt>
-        <dd className="font-medium text-ink">{f.format}</dd>
-        <dt className="font-semibold text-body">{c.modules}</dt>
-        <dd className="font-medium leading-relaxed text-ink">{f.modules}</dd>
-      </dl>
-      <div className="mt-6 flex flex-col gap-5 rounded-2xl bg-night p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-7">
-        <p className="text-[20px] font-extrabold leading-tight tracking-[-0.02em]">{f.price}</p>
-        <button
-          type="button"
-          onClick={() => open("demande-formation", f.id)}
-          className={btn("white", "min-h-[50px] pl-6 text-[14px] [&_.dot]:h-9 [&_.dot]:w-9")}
-        >
-          <BtnInner>{demande.enroll}</BtnInner>
-        </button>
-      </div>
-      <Link href="/formations" className="mt-6 inline-flex items-center gap-2 text-[14px] font-bold text-electric hover:text-navy">
+      <p className="text-[13px] font-semibold text-body">
+        {c.format} : <span className="text-ink">{f.format}</span>
+      </p>
+      <p className="mt-3 text-[30px] font-bold leading-tight tracking-[-0.03em] text-ink sm:text-[34px]">{f.price}</p>
+      <h3 className="mt-7 text-[15.5px] font-bold text-ink">{c.modules}</h3>
+      <ul className="mt-3 grid gap-2">
+        {modules.map((m) => (
+          <li key={m} className="flex gap-3 text-[15.5px] leading-relaxed text-body">
+            <span aria-hidden className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-electric" />
+            {m}
+          </li>
+        ))}
+      </ul>
+      <button type="button" onClick={() => open("demande-formation", f.id)} className={pilule("electric", "mt-8")}>
+        <PiluleInner>{demande.enroll}</PiluleInner>
+      </button>
+      <Link href="/formations" className="mt-5 inline-flex items-center gap-2 text-[14px] font-bold text-electric hover:text-navy">
         <span className="underline decoration-2 underline-offset-[6px]">{formations.cta}</span>
         <ArrowRight className="h-4 w-4" />
       </Link>
@@ -347,11 +360,11 @@ function FormationList({ focus }: { focus?: string }) {
         <article
           key={f.id}
           data-item={f.id}
-          className={`rounded-2xl bg-white p-6 shadow-card transition-shadow ${focus === f.id ? "ring-2 ring-electric" : ""}`}
+          className={`rounded-[22px] bg-soft p-6 transition-shadow ${focus === f.id ? "ring-2 ring-electric" : ""}`}
         >
           <h3 className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[19px] font-extrabold leading-tight tracking-[-0.02em] text-ink">
             {f.name}
-            {f.tag && <span className="rounded-full bg-frost px-3 py-1 text-[12px] font-bold tracking-normal text-electric">{f.tag}</span>}
+            {f.tag && <span className="rounded-full bg-white px-3 py-1 text-[12px] font-bold tracking-normal text-electric">{f.tag}</span>}
           </h3>
           <dl className="mt-4 grid gap-3 text-[14.5px] sm:grid-cols-[132px_1fr] sm:gap-x-5">
             {!f.tag && (

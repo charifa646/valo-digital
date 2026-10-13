@@ -4,11 +4,21 @@ import { confiance, type ClientLogo } from "@/lib/content";
 import { Monogram } from "@/components/brand/Logo";
 import { Chiffres } from "./Chiffres";
 
-/** One client's logo on its white card, the logo kept whole whatever its shape. */
+/**
+ * One client's logo, kept whole whatever its shape: in grey and a little faded on the page itself, with no card behind
+ * (14 October 2026, Charifa: « mettre le logo en gris, ou enlever les backgrounds derrière le logo »), its colours coming
+ * back under the hand. The light parts of a logo melt into the page (`mix-blend-multiply`).
+ */
 export function LogoTile({ logo, hidden = false, className = "" }: { logo: ClientLogo; hidden?: boolean; className?: string }) {
   return (
-    <span className={`relative block overflow-hidden rounded-[4px] border border-hair bg-white ${className}`}>
-      <Image src={logo.src} alt={hidden ? "" : logo.name || "Client de VALO DIGITAL"} fill sizes="160px" className="object-contain p-2.5 sm:p-3.5" />
+    <span className={`group/logo relative block ${className}`}>
+      <Image
+        src={logo.src}
+        alt={hidden ? "" : logo.name || "Client de VALO DIGITAL"}
+        fill
+        sizes="160px"
+        className="object-contain p-2 opacity-60 mix-blend-multiply grayscale transition duration-500 group-hover/logo:opacity-100 group-hover/logo:grayscale-0 sm:p-3"
+      />
     </span>
   );
 }

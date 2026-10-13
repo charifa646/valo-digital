@@ -18,7 +18,9 @@ const config: Config = {
         navy: "#071F78",
         night: "#040B52",
         abyss: "#02062E",
-        ink: "#0B1233",
+        // the ink, between black and night blue (14 October 2026, Charifa: « le noir que tu utilises, j'aime pas. J'ai pas dit
+        // de prendre du bleu nuit non plus, trouve un équilibre »): a deep slate blue, 13 to 1 on white. Was #0B1233.
+        ink: "#1E2944",
         // softened on 12 October 2026 (« un rendu premium »): 5.6 to 1 on the page, 5.1 on the light blue cards, still easy to read
         body: "#5A6379",
         line: "#DCE3F5",
@@ -29,6 +31,14 @@ const config: Config = {
         hair: "#E6EAF3",
         mute: "#8A93A6",
         soft: "#F1F3F9",
+      },
+      // lighter weights everywhere (14 October 2026, Charifa: « j'aime pas quand la police est trop grasse », after her
+      // ChatGPT mock-up): Montserrat is variable, so each name keeps its rank but weighs less
+      fontWeight: {
+        medium: "470",
+        semibold: "560",
+        bold: "620",
+        extrabold: "680",
       },
       fontFamily: {
         // if the font's variable ever goes missing, the line still falls back to a sans-serif, never to the browser's serif
