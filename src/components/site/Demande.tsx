@@ -53,13 +53,15 @@ export function DemandeChoix({ onPick }: { onPick: (kind: DemandeKind) => void }
 type Values = { choice: string; situation: string; project: string; name: string; business: string; phone: string; email: string; site: string };
 type Errors = Partial<Record<keyof Values, string>>;
 
-// underlined fields rather than boxes (Charifa's ChatGPT mock-up, 14 October 2026); the line thickens in blue on focus
+// Fields on the ChatGPT mock-up's underline (14 October 2026), but filled in a light blue with a fine blue line under them
+// (Charifa, 14 October 2026: « comme tout est en blanc, on ne sait pas où remplir », « il faut casser la neutralité du
+// blanc »): the visitor sees at once where to write. On focus the field turns white, its line deepens and a soft halo shows.
 const field =
-  "block w-full rounded-none border-0 border-b border-[#CBD3EC] bg-transparent px-0.5 py-3 text-[16px] font-medium text-ink transition placeholder:font-normal placeholder:text-mute/90 focus:border-electric focus:shadow-[0_1px_0_0_#0714D8] focus:outline-none focus:ring-0 aria-[invalid=true]:border-[#C62828]";
+  "block w-full rounded-t-[10px] rounded-b-none border-0 border-b-2 border-[#B9C7F2] bg-[#EEF3FF] px-3.5 py-3 text-[16px] font-medium text-ink transition placeholder:font-normal placeholder:text-mute/90 hover:bg-[#E8EEFF] focus:border-electric focus:bg-white focus:shadow-[0_8px_24px_-14px_rgba(7,20,216,.55)] focus:outline-none focus:ring-0 aria-[invalid=true]:border-[#C62828]";
 
 function Label({ htmlFor, children }: { htmlFor?: string; children: ReactNode }) {
   return (
-    <label htmlFor={htmlFor} className="mb-2 block text-[14px] font-semibold text-ink">
+    <label htmlFor={htmlFor} className="mb-2 block text-[14px] font-semibold text-electric">
       {children}
     </label>
   );
@@ -216,13 +218,13 @@ export function DemandeForm({
           </select>
           <div
             aria-hidden
-            className={`${field} pr-12 text-[17px] leading-snug peer-hover:border-electric/40 peer-focus-visible:border-electric peer-focus-visible:shadow-[0_1px_0_0_#0714D8] ${
+            className={`${field} pr-12 text-[17px] leading-snug peer-hover:bg-[#E8EEFF] peer-focus-visible:border-electric peer-focus-visible:bg-white peer-focus-visible:shadow-[0_8px_24px_-14px_rgba(7,20,216,.55)] ${
               errors.choice ? "border-[#C62828]" : ""
             } ${picked ? "" : "font-normal text-mute/90"}`}
           >
             {picked?.label ?? demande.pick}
           </div>
-          <ChevronDown className="pointer-events-none absolute right-1 top-1/2 h-5 w-5 -translate-y-1/2 text-ink" />
+          <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-electric" />
         </div>
         {picked?.price && (
           <p className="mt-2 text-[13.5px] font-semibold text-body">
@@ -233,12 +235,12 @@ export function DemandeForm({
       </div>
 
       <fieldset aria-describedby={errors.situation ? id("situation-error") : undefined}>
-        <legend className="mb-3 text-[14px] font-semibold text-ink">{t.situation}</legend>
+        <legend className="mb-3 text-[14px] font-semibold text-electric">{t.situation}</legend>
         <div className="flex flex-wrap gap-2.5">
           {t.situations.map((s, i) => (
             <label
               key={s}
-              className="group flex cursor-pointer items-center rounded-full border border-hair bg-white px-4 py-2.5 text-[14px] font-semibold leading-snug text-ink transition hover:border-electric/40 has-[:checked]:border-night has-[:checked]:bg-night has-[:checked]:text-white has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-electric/20"
+              className="group flex cursor-pointer items-center rounded-full border border-[#B9C7F2] bg-[#EEF3FF] px-4 py-2.5 text-[14px] font-semibold leading-snug text-ink transition hover:border-electric/50 hover:bg-[#E3EBFF] has-[:checked]:border-night has-[:checked]:bg-night has-[:checked]:text-white has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-electric/20"
             >
               <input
                 id={i === 0 ? id("situation") : undefined}
