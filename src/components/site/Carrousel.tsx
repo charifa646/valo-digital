@@ -146,7 +146,10 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
                 ) : (
                   <span />
                 )}
-                <span aria-hidden className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white text-night transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                {/* `carte-signe`: when the card comes on screen, a ring of light leaves the button once and its arrow nudges
+                    twice towards the corner, so the visitor sees the card opens (Charifa, 14 October 2026: « on ne sait
+                    pas qu'il faut cliquer », her choice « signe à l'arrivée »). Once only, never in a loop */}
+                <span aria-hidden className="carte-signe relative grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white text-night transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
                   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M7 17 17 7M8 7h9v9" />
                   </svg>

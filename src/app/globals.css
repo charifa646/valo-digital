@@ -1516,6 +1516,39 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
     opacity: 0;
   }
 }
+/* the sign of a carousel card on its arrival (`Carrousel.tsx`): one ring of light, the arrow nudging twice */
+.carte-signe::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  pointer-events: none;
+}
+[data-in] .carte-signe::after {
+  animation: ping-ring 1.1s var(--ease) calc(var(--d, 0s) + 0.7s) 1 both;
+}
+[data-in] .carte-signe > svg {
+  animation: signe-fleche 1.3s ease-in-out calc(var(--d, 0s) + 0.7s) 1 both;
+}
+@keyframes signe-fleche {
+  0%,
+  44%,
+  100% {
+    transform: none;
+  }
+  20%,
+  66% {
+    transform: translate(3px, -3px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-in] .carte-signe::after,
+  [data-in] .carte-signe > svg {
+    animation: none;
+  }
+}
 @keyframes dash {
   to {
     stroke-dashoffset: -40;
