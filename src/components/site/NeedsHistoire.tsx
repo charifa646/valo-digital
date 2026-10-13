@@ -87,7 +87,7 @@ export function NeedsHistoire({ premium = false }: { premium?: boolean } = {}) {
   return (
     // no large faded word behind the title any more (13 October 2026: fewer words behind the page); the verbs set as words
     <section id="besoin" aria-labelledby="besoin-title" className={`paper grain histoire-doux relative isolate ${premium ? "histoire-premium" : ""}`}>
-      <div className="gutter mx-auto max-w-page pb-20 pt-16 lg:pb-28 lg:pt-20">
+      <div className="gutter mx-auto max-w-page pb-20 pt-16 lg:pb-28 lg:pt-24">
         <div className="text-center">
           <h2 id="besoin-title" data-reveal="words" className="h2 balance mx-auto max-w-[18ch] text-ink">
             <Words>{needs.title}</Words>

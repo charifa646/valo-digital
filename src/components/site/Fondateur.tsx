@@ -3,7 +3,6 @@ import type { CSSProperties } from "react";
 import { fondateur } from "@/lib/content";
 import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
-import { Suite } from "@/components/ui/Suite";
 import { PhotoZoom } from "@/components/ui/PhotoZoom";
 
 /**
@@ -18,7 +17,7 @@ export function Fondateur({ premium = false }: { premium?: boolean } = {}) {
   const text = "max-w-[38rem] space-y-5 text-[16.5px] font-medium leading-[1.75] text-body sm:text-[17px]";
   return (
     <section id="fondateur" aria-labelledby="fondateur-title" className="paper grain relative isolate bg-ice">
-      <div className="gutter mx-auto grid max-w-page gap-x-20 pb-24 pt-16 [grid-template-areas:'head'_'photo'_'letter'] lg:grid-cols-[0.8fr_1.2fr] lg:grid-rows-[auto_1fr] lg:items-start lg:pb-32 lg:pt-24 lg:[grid-template-areas:'photo_head'_'photo_letter']">
+      <div className="gutter mx-auto grid max-w-page gap-x-20 pb-24 pt-16 [grid-template-areas:'head'_'photo'_'letter'] lg:grid-cols-[0.8fr_1.2fr] lg:grid-rows-[auto_1fr] lg:items-start lg:pb-32 lg:pt-28 lg:[grid-template-areas:'photo_head'_'photo_letter']">
         <div className="[grid-area:head]">
           <h2 id="fondateur-title" data-reveal="rule" className="tag">
             {fondateur.label}
@@ -59,27 +58,17 @@ export function Fondateur({ premium = false }: { premium?: boolean } = {}) {
         </div>
 
         <div className="mt-10 [grid-area:letter] lg:mt-10">
+          {/* no blur any more (13 October 2026, Charifa: « enlève le flou »): the first two paragraphs whole, then the button
+              to the rest of the letter */}
           <div data-reveal style={{ ["--d" as string]: "0.2s" } as CSSProperties} className={text}>
             <p className="pretty">{first}</p>
+            <p className="pretty">{rest[0]}</p>
           </div>
-          <Suite
-            text
-            doux
-            className="mt-5 h-[82px] sm:h-[92px]"
-            action={
-              <Link href="/a-propos#mot" className={btn("electric")}>
-                <BtnInner>{fondateur.cta}</BtnInner>
-              </Link>
-            }
-          >
-            <div className={text}>
-              {rest.slice(0, 2).map((p) => (
-                <p key={p.slice(0, 24)} className="pretty">
-                  {p}
-                </p>
-              ))}
-            </div>
-          </Suite>
+          <div className="mt-8">
+            <Link href="/a-propos#mot" className={btn("electric")}>
+              <BtnInner>{fondateur.cta}</BtnInner>
+            </Link>
+          </div>
         </div>
       </div>
     </section>

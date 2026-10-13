@@ -811,14 +811,15 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 }
 /* the roundness of the sheet's corners, shared with the stage that tucks under its lower corners */
 :root {
-  /* less round (Charifa, 12 October 2026: « la section arrondie du footer est trop arrondie »): it was 26 to 56 px */
-  --feuille-r: clamp(14px, 1.6vw, 24px);
+  /* square (Charifa, 14 October 2026: « enlève l'arrondi, j'aime pas »): it was 26 to 56 px, then 14 to 24 px. Kept as a
+     variable at 0px (a unit, for the calculations that use it) so the stage tucked under the sheet needs no change */
+  --feuille-r: 0px;
 }
+/* no soft shadow cast above the sheet any more (« enlève le flou »): the sheet's edge is a clean line */
 .feuille {
   position: relative;
   z-index: 2;
   border-radius: var(--feuille-r) var(--feuille-r) 0 0;
-  box-shadow: 0 -30px 60px -30px rgba(2, 6, 46, 0.55);
 }
 
 /* a link whose line draws itself under the mouse, from the left */
@@ -1213,6 +1214,9 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   transform-origin: 0 100%;
   transform: rotate(calc((1 - var(--p, 1)) * 30deg));
 }
+/* the rhythm between the homepage's parts (14 October 2026, Charifa: more room, a page that breathes): measured at
+   110 to 225 px between the contents of two sections, now about 208 px on computers and 144 px on phones, the same
+   everywhere (the site she sent as a model leaves 184 and 116). Each section's own top and bottom padding sets it. */
 @media (max-width: 639px) {
   /* a little lower since 13 October 2026, so the homepage is shorter on phones */
   .histoire-feuille {

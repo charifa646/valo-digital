@@ -185,7 +185,8 @@ function Liste() {
               <span className="hidden text-right lg:block">
                 <PrixLigne price={f.price} />
               </span>
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-soft text-electric transition duration-300 group-hover:bg-electric group-hover:text-white lg:h-11 lg:w-11">
+              {/* the arrow in a ring of the page's blue, visible before the hand comes, filled when it does */}
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-white text-electric ring-1 ring-electric/35 transition duration-300 group-hover:bg-electric group-hover:text-white group-hover:ring-electric lg:h-11 lg:w-11">
                 <ArrowUpRight className="h-4 w-4" />
               </span>
             </button>
@@ -215,7 +216,7 @@ export function Formations({ variante = "actuel", grand = false }: { variante?: 
   if (variante === "liste") {
     return (
       <section id="formations" aria-labelledby="formations-title" className="paper relative bg-white">
-        <div className="gutter mx-auto max-w-page pb-20 pt-24 lg:pb-28 lg:pt-32">
+        <div className="gutter mx-auto max-w-page pb-16 pt-16 lg:pb-28 lg:pt-24">
           {grand && <GrandTitre id="formations-title">{formations.grand}</GrandTitre>}
           <div className={`max-w-[40rem] ${grand ? "mt-8 lg:mt-12" : ""}`}>
             {(() => {
@@ -238,10 +239,10 @@ export function Formations({ variante = "actuel", grand = false }: { variante?: 
             </p>
           </div>
           <Liste />
-          <div className="mt-8 lg:mt-10">
-            <Link href="/formations" className="group inline-flex items-center gap-2 text-[15px] font-semibold text-electric">
-              {formations.cta}
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          {/* a real button, as the others on the page (14 October 2026, Charifa: the buttons must be seen as buttons) */}
+          <div className="mt-10 lg:mt-12">
+            <Link href="/formations" className={btn("electric")}>
+              <BtnInner>{formations.cta}</BtnInner>
             </Link>
           </div>
         </div>
@@ -250,7 +251,7 @@ export function Formations({ variante = "actuel", grand = false }: { variante?: 
   }
   return (
     <section id="formations" aria-labelledby="formations-title" className="paper halo-tr relative bg-white">
-      <div className="gutter mx-auto max-w-page pb-20 pt-24 lg:pb-28 lg:pt-32">
+      <div className="gutter mx-auto max-w-page pb-16 pt-16 lg:pb-28 lg:pt-24">
         <GrandTitre id="formations-title">{formations.grand}</GrandTitre>
         <div className="mt-8 max-w-[40rem] lg:mt-12">
           <h3 data-reveal="words" className="h2 balance text-ink">
