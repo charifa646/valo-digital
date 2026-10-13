@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { prestations, type Offer } from "@/lib/content";
@@ -17,11 +18,23 @@ import { Pilotage } from "@/components/previews/Pilotage";
 
 const previews: Record<string, () => JSX.Element> = { reseaux: Calendrier, publicite: Campagnes, video: Montage, direction: Pilotage };
 
+/**
+ * The premium pass (13 October 2026): real photos of VALO's team in place of the small windows drawn in code, which
+ * Charifa's design skill counts among the surest signs of a page made by a machine. `pos` keeps the faces in the frame.
+ * The right pictures would be VALO's own work (a real calendar, a real campaign, a shoot): to be supplied by VALO.
+ */
+const photos: Record<string, { src: string; pos: string }> = {
+  reseaux: { src: "/images/apropos/equipe-trio.webp", pos: "50% 28%" },
+  publicite: { src: "/images/apropos/equipe-casquettes.webp", pos: "50% 38%" },
+  video: { src: "/images/apropos/equipe-bleu.webp", pos: "50% 30%" },
+  direction: { src: "/images/terrain/forum-du-digital.webp", pos: "50% 35%" },
+};
+
 /** Two rows, the wide card changing sides. */
 const spans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7"];
 
 /** `still`: drawn under the glimpse of the homepage, without its button; `anchor`: on the page of all the services, where the menu leads to each offer. */
-function OfferCard({ o, i, still = false, anchor = false, bleu = false }: { o: Offer; i: number; still?: boolean; anchor?: boolean; bleu?: boolean }) {
+function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium = false }: { o: Offer; i: number; still?: boolean; anchor?: boolean; bleu?: boolean; premium?: boolean }) {
   const { open } = useSheet();
   const Preview = previews[o.id];
   const lead = o.id === "direction"; // the complete offer, in blue
@@ -43,15 +56,29 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false }: { o: O
       data-pulse={anchor || undefined}
       data-reveal="wipe"
       style={{ ["--d" as string]: `${(i % 2) * 0.14}s` } as CSSProperties}
-      className={`flex flex-col overflow-hidden rounded-2xl ${spans[i]} ${
+      className={`flex flex-col overflow-hidden ${premium ? "rounded-lg" : "rounded-2xl"} ${spans[i]} ${
         lead
-          ? // on the blue section the complete offer turns night blue, so it stands out from the ground
+          ? premium
+            ? "bg-night text-white ring-1 ring-white/15"
+            : // on the blue section the complete offer turns night blue, so it stands out from the ground
             bleu
             ? "bg-[linear-gradient(160deg,#16239A_0%,#040B52_60%,#02062E_100%)] text-white ring-1 ring-white/15"
             : "bg-[linear-gradient(160deg,#3551FF_0%,#0714D8_46%,#0A12A8_100%)] text-white"
           : `border border-hair bg-white text-ink ${bleu ? "border-white shadow-[0_30px_60px_-30px_rgba(2,6,46,.6)]" : ""}`
       }`}
     >
+      {premium ? (
+        <div aria-hidden className="relative m-2 mb-0 h-[262px] overflow-hidden rounded-md bg-soft">
+          <Image
+            src={photos[o.id]?.src ?? photos.reseaux.src}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 640px, 92vw"
+            className="object-cover transition duration-700 [transition-timing-function:var(--ease)] group-hover:scale-[1.03]"
+            style={{ objectPosition: photos[o.id]?.pos ?? "50% 50%" }}
+          />
+        </div>
+      ) : (
       <div
         aria-hidden
         // the window plays only while on screen, and never under the glimpse's blur (`data-still`)
@@ -60,6 +87,7 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false }: { o: O
       >
         <Preview />
       </div>
+      )}
       <div className="flex flex-1 flex-col px-6 pb-6 pt-5 sm:px-7 sm:pb-7">
         <h3 className="text-[19px] font-bold leading-snug tracking-[-0.02em] sm:text-[21px]">{o.name}</h3>
         <p className={`pretty mt-2 max-w-[34rem] text-[14.5px] font-medium leading-relaxed ${lead ? "text-white/75" : "text-body"}`}>{o.text}</p>
@@ -88,7 +116,7 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false }: { o: O
  * (Charifa, 7 October 2026: the homepage says less, and the visitor sees there is more). `full`: that page, every
  * offer whole.
  */
-export function Prestations({ full = false, bleu = false }: { full?: boolean; bleu?: boolean }) {
+export function Prestations({ full = false, bleu = false, premium = false }: { full?: boolean; bleu?: boolean; premium?: boolean }) {
   const offers = prestations.offers;
   return (
     <section
@@ -127,7 +155,7 @@ export function Prestations({ full = false, bleu = false }: { full?: boolean; bl
 
         <div className="mt-10 grid gap-4 lg:mt-14 lg:grid-cols-12 lg:gap-5">
           {(full ? offers : offers.slice(0, 2)).map((o, i) => (
-            <OfferCard key={o.id} o={o} i={i} anchor={full} bleu={bleu} />
+            <OfferCard key={o.id} o={o} i={i} anchor={full} bleu={bleu} premium={premium} />
           ))}
         </div>
 
@@ -142,7 +170,7 @@ export function Prestations({ full = false, bleu = false }: { full?: boolean; bl
           >
             <div className="grid gap-4 lg:grid-cols-12 lg:gap-5">
               {offers.slice(2).map((o, i) => (
-                <OfferCard key={o.id} o={o} i={i + 2} still bleu={bleu} />
+                <OfferCard key={o.id} o={o} i={i + 2} still bleu={bleu} premium={premium} />
               ))}
             </div>
           </Suite>

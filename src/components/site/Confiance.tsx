@@ -77,7 +77,8 @@ function Mur() {
  * in its rings, the sentence, the clients' logos in two rows going opposite
  * ways, then the three key figures (`Chiffres.tsx`) and their field photos.
  */
-export function Confiance() {
+/** `premium`: the figures as a light bento (`Chiffres premium`), without the photo wall nor the page turning night blue. */
+export function Confiance({ premium = false }: { premium?: boolean } = {}) {
   const logos = confiance.logos;
   if (!logos.length) return null;
   const half = Math.ceil(logos.length / 2);
@@ -109,8 +110,8 @@ export function Confiance() {
 
       <div className="gutter mx-auto mt-12 max-w-page lg:mt-16">
         <div className="relative">
-          <Mur />
-          <Chiffres className="relative z-[1]" />
+          {!premium && <Mur />}
+          <Chiffres premium={premium} className="relative z-[1]" />
         </div>
       </div>
     </section>

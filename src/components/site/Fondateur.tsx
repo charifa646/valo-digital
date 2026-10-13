@@ -12,7 +12,8 @@ import { PhotoZoom } from "@/components/ui/PhotoZoom";
  * beside him. Since 7 October 2026 the homepage shows its first paragraph, then the next ones through a blur that
  * fades out, and « En savoir plus » opens the whole letter on the « À propos » page (#mot). On phones the greeting comes first, then the portrait, then the letter.
  */
-export function Fondateur() {
+/** `premium` (13 October 2026): the portrait with the same soft corners as the rest of the premium page. */
+export function Fondateur({ premium = false }: { premium?: boolean } = {}) {
   const [first, ...rest] = fondateur.letter;
   const text = "max-w-[38rem] space-y-5 text-[16.5px] font-medium leading-[1.75] text-body sm:text-[17px]";
   return (
@@ -39,7 +40,7 @@ export function Fondateur() {
               width={900}
               height={1166}
               sizes="(min-width: 1024px) 400px, (min-width: 640px) 400px, 92vw"
-              className="aspect-[900/1166] w-full rounded-2xl bg-[#6b3a1c]"
+              className={`aspect-[900/1166] w-full ${premium ? "rounded-lg" : "rounded-2xl"} bg-[#6b3a1c]`}
             />
             {/* his name and his titles, the way the catalogue signs the letter */}
             <figcaption data-reveal className="mt-7">

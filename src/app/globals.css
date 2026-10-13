@@ -2762,3 +2762,38 @@ html .demo-scene .demo-seg i {
 .grand-titre-clair .contour {
   --trait: #ffffff;
 }
+
+/* the premium pass (13 October 2026, /apercu/premium): the « besoin » cards with softer corners, their verb set as a
+   word (« Apprendre ») in a lighter weight, larger since lowercase letters take less room */
+.histoire-premium .histoire-feuille,
+.histoire-premium .histoire-fond {
+  --hr: 10px;
+}
+.histoire-premium .histoire-verbe {
+  font-size: min(calc((100cqw - var(--place)) / 6.1), 11rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  text-transform: lowercase;
+}
+.histoire-premium .histoire-verbe::first-letter {
+  text-transform: uppercase;
+}
+
+/* the premium list of trainings: the photo beside the hand (its place in --x and --y, written by Formations.tsx) */
+.liste-apercu {
+  opacity: 0;
+  transform: translate3d(var(--x, 0px), var(--y, 0px), 0) scale(0.92);
+  transition:
+    opacity 0.3s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.liste-apercu[data-on] {
+  opacity: 1;
+  transform: translate3d(var(--x, 0px), var(--y, 0px), 0) scale(1);
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .liste-apercu {
+    display: none !important;
+  }
+}

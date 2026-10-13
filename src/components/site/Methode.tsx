@@ -30,10 +30,14 @@ const stairs = [
  * point à un autre » on 11 October, was shown « de larges arcs en pointillés qui sautent d'un bord de l'écran à
  * l'autre » on 12 October and chose them.
  */
-export function Methode() {
+/**
+ * `premium` (13 October 2026): the same staircase and curve without the large faded word behind the title, without
+ * the large numbers on the stairs (the verbs above them name the steps) nor the yellow arrow, and with softer corners.
+ */
+export function Methode({ premium = false }: { premium?: boolean } = {}) {
   return (
     <section id="methode" aria-labelledby="methode-title" className="paper relative bg-white">
-      <Filigrane word={methode.filigrane} className="-left-[0.04em] top-[0.15em] md:-right-[0.06em] md:left-auto" />
+      {!premium && <Filigrane word={methode.filigrane} className="-left-[0.04em] top-[0.15em] md:-right-[0.06em] md:left-auto" />}
       <div className="gutter mx-auto max-w-page pb-14 pt-24 lg:pb-20 lg:pt-32">
         <div className="max-w-[40rem]">
           <h2 id="methode-title" data-reveal="words" className="h2 text-ink">
@@ -89,16 +93,18 @@ export function Methode() {
                   <div className={`relative flex items-end p-5 ${stairs[i].h}`}>
                     <span
                       aria-hidden
-                      className={`stair absolute inset-0 rounded-t-2xl ${stairs[i].fill}`}
+                      className={`stair absolute inset-0 ${premium ? "rounded-t-lg" : "rounded-t-2xl"} ${stairs[i].fill}`}
                       style={{ transitionDelay: `${i * 0.2}s` } as CSSProperties}
                     />
-                    <span
-                      className={`stair-text relative text-[68px] font-bold leading-none tracking-[-0.05em] ${stairs[i].ink}`}
-                      style={{ transitionDelay: `${0.3 + i * 0.2}s` } as CSSProperties}
-                    >
-                      {s.n}
-                    </span>
-                    {i === stairs.length - 1 && (
+                    {!premium && (
+                      <span
+                        className={`stair-text relative text-[68px] font-bold leading-none tracking-[-0.05em] ${stairs[i].ink}`}
+                        style={{ transitionDelay: `${0.3 + i * 0.2}s` } as CSSProperties}
+                      >
+                        {s.n}
+                      </span>
+                    )}
+                    {!premium && i === stairs.length - 1 && (
                       <span
                         aria-hidden
                         className="stair-text absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-sun text-navy"

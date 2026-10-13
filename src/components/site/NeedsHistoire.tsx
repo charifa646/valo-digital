@@ -19,6 +19,17 @@ const feuilles = [
 ];
 
 /**
+ * The premium pass (13 October 2026): no full yellow card, the charte's blues only (electric, night, navy, the light
+ * blue), the yellow kept for small touches elsewhere on the page.
+ */
+const feuillesPremium = [
+  { fond: "#0714D8", texte: "#ffffff", doux: "rgba(255,255,255,.82)" },
+  { fond: "#040B52", texte: "#ffffff", doux: "rgba(255,255,255,.78)" },
+  { fond: "#071F78", texte: "#ffffff", doux: "rgba(255,255,255,.8)" },
+  { fond: "#E7EDFF", texte: "#071F78", doux: "#5A6379" },
+];
+
+/**
  * « De quoi avez-vous besoin aujourd'hui ? » as a story, after the « story scroll » component Charifa sent on 12
  * October 2026 (« je m'étais trompé, voici le code des cartes »), at the hidden address /apercu/besoin/histoire: the four
  * doors are four large cards, one on the other. Each card stays where it is, under the header, while the next comes up
@@ -28,7 +39,11 @@ const feuilles = [
  * library for it. With « reduce motion » the cards are simply one under the other. Each card is the whole door: it
  * glides to its section or opens its offer in the panel, as before.
  */
-export function NeedsHistoire() {
+/**
+ * `premium`: the same story without its numbers nor the large faded word behind the title, the verbs set as words
+ * (« Apprendre ») rather than in capitals, softer corners and the cards in blues only (`.histoire-premium` in globals.css).
+ */
+export function NeedsHistoire({ premium = false }: { premium?: boolean } = {}) {
   const pile = useRef<HTMLDivElement>(null);
   const { open } = useSheet();
 
@@ -71,8 +86,8 @@ export function NeedsHistoire() {
   }, []);
 
   return (
-    <section id="besoin" aria-labelledby="besoin-title" className="paper grain relative isolate">
-      <Filigrane word={needs.filigrane} className="left-1/2 top-[0.02em] -translate-x-1/2" />
+    <section id="besoin" aria-labelledby="besoin-title" className={`paper grain relative isolate ${premium ? "histoire-premium" : ""}`}>
+      {!premium && <Filigrane word={needs.filigrane} className="left-1/2 top-[0.02em] -translate-x-1/2" />}
       <div className="gutter mx-auto max-w-page pb-20 pt-16 lg:pb-28 lg:pt-20">
         <div className="text-center">
           <h2 id="besoin-title" data-reveal="words" className="h2 balance mx-auto max-w-[18ch] text-ink">
@@ -82,7 +97,7 @@ export function NeedsHistoire() {
 
         <div ref={pile} className="histoire mt-8 lg:mt-14">
           {needs.doors.map((d, i) => {
-            const f = feuilles[i % feuilles.length];
+            const f = (premium ? feuillesPremium : feuilles)[i % feuilles.length];
             return (
               <div key={d.id} data-feuille className="histoire-feuille" style={{ zIndex: i + 1 }}>
                 <div className="histoire-fond" style={{ background: f.fond, color: f.texte, ["--doux" as string]: f.doux } as CSSProperties}>
@@ -91,10 +106,12 @@ export function NeedsHistoire() {
                     onOpen={panels.has(d.target) ? () => open(d.target as DetailId) : undefined}
                     className="group flex h-full flex-col gap-5 p-6 sm:p-8 lg:p-10"
                   >
-                    <span className="flex items-center justify-between">
-                      <span aria-hidden className="text-[13px] font-bold tabular-nums tracking-[0.12em]">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
+                    <span className={`flex items-center ${premium ? "justify-end" : "justify-between"}`}>
+                      {!premium && (
+                        <span aria-hidden className="text-[13px] font-bold tabular-nums tracking-[0.12em]">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                      )}
                       <span
                         aria-hidden
                         className="histoire-cercle grid h-10 w-10 place-items-center rounded-full transition-transform duration-500 group-hover:rotate-45 lg:h-12 lg:w-12"

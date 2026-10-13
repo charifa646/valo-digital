@@ -21,7 +21,10 @@ import { Teintes } from "@/components/site/Teintes";
  * of its hero (`/apercu/...`) share this composition: only the hero changes. `scene`: the order demo on a blue stage, shown
  * at /apercu/demo; `sansCadre`: with the phone's frame reduced to a fine rim, at /apercu/demo/sans-cadre; `Besoin`: the
  * cards of « De quoi avez-vous besoin » with the dithered band of the foot, at /apercu/besoin; `menuBleu`: the menu in blue;
- * `servicesBleu`: the services on a band of electric blue, at /apercu/services-bleu.
+ * `servicesBleu`: the services on a band of electric blue, at /apercu/services-bleu. `formationsVariante`: the trainings
+ * as cards (`actuel`), cards with a badge (`etiquette`, /apercu/formations-cartes) or an editorial list (`liste`).
+ * `premium`: the premium pass of 13 October 2026 (/apercu/premium): each part's premium variant, and no page changing
+ * colour (`Teintes`).
  */
 export function Accueil({
   Hero,
@@ -30,6 +33,8 @@ export function Accueil({
   sansCadre = false,
   menuBleu = false,
   servicesBleu = false,
+  formationsVariante = "actuel",
+  premium = false,
 }: {
   Hero: ComponentType;
   Besoin?: ComponentType;
@@ -37,6 +42,8 @@ export function Accueil({
   sansCadre?: boolean;
   menuBleu?: boolean;
   servicesBleu?: boolean;
+  formationsVariante?: "actuel" | "etiquette" | "liste";
+  premium?: boolean;
 }) {
   return (
     <ScrollProvider>
@@ -44,16 +51,16 @@ export function Accueil({
         <Header bleu={menuBleu} />
         <main id="contenu">
           <Hero />
-          <Confiance />
+          <Confiance premium={premium} />
           <Besoin />
-          <Prestations bleu={servicesBleu} />
-          <Formations />
+          <Prestations bleu={servicesBleu} premium={premium} />
+          <Formations variante={formationsVariante} />
           <DemoCommande scene={scene} sansCadre={sansCadre} />
-          <Methode />
-          <Fondateur />
+          <Methode premium={premium} />
+          <Fondateur premium={premium} />
         </main>
         <Final />
-        <Teintes />
+        {!premium && <Teintes />}
       </SheetProvider>
     </ScrollProvider>
   );
