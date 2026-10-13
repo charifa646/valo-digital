@@ -37,7 +37,7 @@ export function Segmented({ items, active = 0 }: { items: string[]; active?: num
   return (
     <span className="inline-flex rounded-[7px] bg-soft p-[2px] text-[9.5px] font-semibold">
       {items.map((t, i) => (
-        <span key={t} className={`rounded-[5px] px-2 py-[3px] ${i === active ? "bg-white text-ink shadow-[0_1px_2px_rgba(11,18,51,.1)]" : "text-mute"}`}>
+        <span key={t} className={`rounded-[5px] px-2 py-[3px] ${i === active ? "bg-white text-ink shadow-[0_1px_2px_rgba(16, 52, 74,.1)]" : "text-mute"}`}>
           {t}
         </span>
       ))}
@@ -73,8 +73,8 @@ export function Curseur({ className = "", style, children }: { className?: strin
   return (
     <span data-anim className={`pointer-events-none absolute left-0 top-0 z-20 block h-4 w-4 ${className}`} style={style}>
       {children}
-      <svg viewBox="0 0 16 16" className="relative block h-4 w-4 drop-shadow-[0_2px_3px_rgba(11,18,51,.35)]" aria-hidden>
-        <path d="M1.5 1.2v11.6l3.1-3 2.1 4.7 2.1-.9-2.1-4.6h4.4z" fill="#0B1233" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" />
+      <svg viewBox="0 0 16 16" className="relative block h-4 w-4 drop-shadow-[0_2px_3px_rgba(16, 52, 74,.35)]" aria-hidden>
+        <path d="M1.5 1.2v11.6l3.1-3 2.1 4.7 2.1-.9-2.1-4.6h4.4z" fill="#10344a" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" />
       </svg>
     </span>
   );

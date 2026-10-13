@@ -123,7 +123,7 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
             apple
               ? "aspect-[3/4.4] w-[78vw] max-w-[380px] rounded-[30px] sm:w-[340px]"
               : "aspect-[4/5] w-[74vw] max-w-[340px] rounded-[24px] sm:w-[300px]"
-          } bg-night shadow-[0_30px_60px_-34px_rgba(4,11,82,.7)]`}
+          } bg-night shadow-[0_30px_60px_-34px_rgba(17, 54, 76,.7)]`}
         >
           {!apple && (
             <Image
@@ -152,8 +152,8 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
                   className="object-cover transition duration-700 [transition-timing-function:var(--ease)] group-hover:scale-[1.05]"
                   style={{ objectPosition: it.pos ?? "50% 35%" }}
                 />
-                <span aria-hidden className="absolute inset-x-0 top-0 h-[32%] bg-[linear-gradient(180deg,#040B52_0%,rgba(4,11,82,.5)_45%,transparent_100%)]" />
-                <span aria-hidden className="absolute inset-x-0 bottom-0 h-[32%] bg-[linear-gradient(0deg,rgba(4,11,82,.6)_0%,transparent_100%)]" />
+                <span aria-hidden className="absolute inset-x-0 top-0 h-[32%] bg-[linear-gradient(180deg,#11364c_0%,rgba(17, 54, 76,.5)_45%,transparent_100%)]" />
+                <span aria-hidden className="absolute inset-x-0 bottom-0 h-[32%] bg-[linear-gradient(0deg,rgba(17, 54, 76,.6)_0%,transparent_100%)]" />
                 {/* the price in plain white and the way in, in electric blue: both read at a glance */}
                 <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5 sm:p-6">
                   {it.price ? (
@@ -164,7 +164,7 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
                   {/* `carte-signe`: when the card comes on screen, a ring of light leaves the button once and its arrow nudges
                       twice towards the corner, so the visitor sees the card opens (Charifa, 14 October 2026: « on ne sait
                       pas qu'il faut cliquer », her choice « signe à l'arrivée »). Once only, never in a loop */}
-                  <span aria-hidden className="carte-signe relative grid h-12 w-12 shrink-0 place-items-center rounded-full bg-electric text-white shadow-[0_10px_24px_-10px_rgba(7,20,216,.9)] transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                  <span aria-hidden className="carte-signe relative grid h-12 w-12 shrink-0 place-items-center rounded-full bg-electric text-white shadow-[0_10px_24px_-10px_rgba(15, 111, 208,.9)] transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
                     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M7 17 17 7M8 7h9v9" />
                     </svg>
@@ -174,7 +174,7 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
             </span>
           ) : (
             <>
-              <span aria-hidden className="absolute inset-x-0 bottom-0 h-[70%] bg-[linear-gradient(0deg,rgba(4,11,82,.92)_0%,rgba(4,11,82,.55)_45%,transparent_100%)]" />
+              <span aria-hidden className="absolute inset-x-0 bottom-0 h-[70%] bg-[linear-gradient(0deg,rgba(17, 54, 76,.92)_0%,rgba(17, 54, 76,.55)_45%,transparent_100%)]" />
               <span className="absolute inset-x-0 bottom-0 p-6">
                 {it.label && <span className="mb-2.5 block text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">{it.label}</span>}
                 <span className="block text-[21px] font-semibold leading-[1.15] tracking-[-0.025em] text-white">{it.title}</span>

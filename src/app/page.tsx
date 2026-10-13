@@ -1,5 +1,5 @@
 import { Accueil } from "@/components/site/Accueil";
-import { HeroEventail } from "@/components/site/HeroEventail";
+import { HeroCiel } from "@/components/site/HeroCiel";
 import { BesoinVolets } from "@/components/site/BesoinVolets";
 
 /**
@@ -12,10 +12,12 @@ import { BesoinVolets } from "@/components/site/BesoinVolets";
  * 14 October 2026: « De quoi avez-vous besoin » as the editorial list with a photo following the cursor (her « version D »
  * of /apercu/propositions; the two photo doors before it stay in `NeedsPortes.tsx`), and the services and the trainings
  * each in a carousel of tall photo cards (« j'aime beaucoup les carousels »).
+ *
+ * 14 October 2026: the top « ciel », version A (her choice), drawn from the code of her ChatGPT mock-up; the éventail
+ * top before it is kept at /apercu/eventail.
  */
-const Haut = () => <HeroEventail formes carres titre="selection" />;
 const Besoin = () => <BesoinVolets look="liste" id="besoin" />;
 
 export default function Page() {
-  return <Accueil Hero={Haut} Besoin={Besoin} scene sansCadre servicesBleu servicesCarrousel formationsVariante="carrousel" />;
+  return <Accueil Hero={HeroCiel} Besoin={Besoin} scene sansCadre servicesBleu servicesCarrousel formationsVariante="carrousel" />;
 }

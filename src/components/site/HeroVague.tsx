@@ -50,7 +50,7 @@ export function HeroVague() {
     <section id="top" className="relative overflow-hidden pb-6 [--u:0.6px] sm:[--u:0.86px] lg:[--u:1.04px]">
       <div
         data-dark
-        className="on-dark relative isolate bg-[radial-gradient(110%_80%_at_50%_0%,#3551FF_0%,#0714D8_52%,#0510A8_100%)] pb-[calc(290*var(--u)+44px)] text-white sm:pb-[calc(290*var(--u)+56px)]"
+        className="on-dark relative isolate bg-[radial-gradient(110%_80%_at_50%_0%,#3f9ae8_0%,#0f6fd0_52%,#0c2a3c_100%)] pb-[calc(290*var(--u)+44px)] text-white sm:pb-[calc(290*var(--u)+56px)]"
       >
         <div aria-hidden className="light-lines-white" />
         <div className="relative mx-auto max-w-page px-5 pt-[118px] text-center sm:pt-[132px] lg:pt-[140px]">
@@ -88,7 +88,7 @@ export function HeroVague() {
         {/* the blue disc inside the drop */}
         <span
           aria-hidden
-          className="absolute left-[calc(132*var(--u))] top-[calc(32*var(--u))] h-[calc(336*var(--u))] w-[calc(336*var(--u))] rounded-full bg-[radial-gradient(circle_at_50%_28%,#6F86FF_0%,#3551FF_45%,#0714D8_100%)] shadow-[0_30px_60px_-30px_rgba(7,20,216,.6),inset_0_0_0_1px_rgba(255,255,255,.35)]"
+          className="absolute left-[calc(132*var(--u))] top-[calc(32*var(--u))] h-[calc(336*var(--u))] w-[calc(336*var(--u))] rounded-full bg-[radial-gradient(circle_at_50%_28%,#6F86FF_0%,#3f9ae8_45%,#0f6fd0_100%)] shadow-[0_30px_60px_-30px_rgba(15, 111, 208,.6),inset_0_0_0_1px_rgba(255,255,255,.35)]"
         />
 
         {/* the woman: cut by the circle, except her head, which comes out above it */}
@@ -103,7 +103,7 @@ export function HeroVague() {
             height={1089}
             priority
             sizes="(min-width: 1024px) 560px, (min-width: 640px) 470px, 330px"
-            className="absolute left-[-0.4%] top-0 h-auto w-[160%] max-w-none [filter:drop-shadow(0_10px_18px_rgba(4,11,82,.28))]"
+            className="absolute left-[-0.4%] top-0 h-auto w-[160%] max-w-none [filter:drop-shadow(0_10px_18px_rgba(17, 54, 76,.28))]"
           />
         </div>
 
@@ -113,7 +113,7 @@ export function HeroVague() {
             return (
               <li key={t} className={`absolute ${spots[i]}`}>
                 <div className="pop-in" style={{ ["--d" as string]: `${0.8 + i * 0.1}s` } as CSSProperties}>
-                  <div className="float flex items-center gap-2 rounded-[9px] bg-white py-1.5 pl-1.5 pr-3 shadow-[0_18px_40px_-18px_rgba(4,11,82,.55)] sm:gap-2.5 sm:rounded-[10px] sm:py-2.5 sm:pl-2.5 sm:pr-4">
+                  <div className="float flex items-center gap-2 rounded-[9px] bg-white py-1.5 pl-1.5 pr-3 shadow-[0_18px_40px_-18px_rgba(17, 54, 76,.55)] sm:gap-2.5 sm:rounded-[10px] sm:py-2.5 sm:pl-2.5 sm:pr-4">
                     <span className="grid h-7 w-7 place-items-center rounded-[7px] bg-electric text-white sm:h-9 sm:w-9 sm:rounded-[8px]">
                       <Icon className="h-[15px] w-[15px] sm:h-[18px] sm:w-[18px]" />
                     </span>

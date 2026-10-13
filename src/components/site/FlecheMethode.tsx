@@ -76,13 +76,13 @@ export function FlecheMethode() {
                   strokeLinecap="round"
                 />
               </mask>
-              <path d={h.line} mask={`url(#fleche-arc-${i})`} fill="none" stroke="#0714D8" strokeWidth="2.75" strokeLinecap="round" strokeDasharray="0.1 8.5" />
+              <path d={h.line} mask={`url(#fleche-arc-${i})`} fill="none" stroke="#0f6fd0" strokeWidth="2.75" strokeLinecap="round" strokeDasharray="0.1 8.5" />
               <path
                 d={h.head}
                 className="curve-dot"
                 style={{ transitionDelay: `${delay + 0.95}s` }}
                 fill="none"
-                stroke="#0714D8"
+                stroke="#0f6fd0"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"

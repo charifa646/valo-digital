@@ -9,7 +9,7 @@ import { Words } from "@/components/ui/Words";
 import { BtnInner, btn } from "@/components/ui/Action";
 import { ArrowUpRight } from "@/components/ui/Icons";
 
-const lit = "bg-[linear-gradient(160deg,#3551FF_0%,#0714D8_52%,#0A12A8_100%)] shadow-[0_22px_40px_-26px_rgba(7,20,216,.45)]";
+const lit = "bg-[linear-gradient(160deg,#3f9ae8_0%,#0f6fd0_52%,#0b5db4_100%)] shadow-[0_22px_40px_-26px_rgba(15, 111, 208,.45)]";
 
 type DoorProps = {
   to: string;

@@ -50,7 +50,7 @@ export function Final() {
   ];
   return (
     <div className="feuille bg-white">
-      <section id="contact" aria-labelledby="contact-title" className="bg-[#EEF2FB]">
+      <section id="contact" aria-labelledby="contact-title" className="bg-[#eaf3f9]">
         <div className="gutter mx-auto grid max-w-page gap-14 py-20 sm:py-24 lg:grid-cols-12 lg:gap-12 lg:py-28">
           <div className="lg:col-span-6">
             <p className="flex items-center gap-3 text-[11.5px] font-semibold uppercase tracking-[0.2em] text-ink">
@@ -69,15 +69,15 @@ export function Final() {
               </span>
               <span className="block text-electric">
                 <Words from={count(line1)}>{line2}</Words>
-                <Eclat className="ml-4 hidden h-[0.62em] w-[0.62em] -translate-y-[0.08em] align-middle text-[#7FA0F5] sm:inline-block" />
+                <Eclat className="ml-4 hidden h-[0.62em] w-[0.62em] -translate-y-[0.08em] align-middle text-[#7fb0e0] sm:inline-block" />
               </span>
             </h2>
             <p data-reveal style={{ ["--d" as string]: "0.3s" } as CSSProperties} className="pretty mt-8 max-w-[28rem] text-[16.5px] font-medium leading-relaxed text-body">
               {final.text}
             </p>
-            <ul data-reveal style={{ ["--d" as string]: "0.45s" } as CSSProperties} className="mt-10 border-t border-[#CFD8EE]">
+            <ul data-reveal style={{ ["--d" as string]: "0.45s" } as CSSProperties} className="mt-10 border-t border-[#cddde8]">
               {contacts.map((c) => (
-                <li key={c.href} className="border-b border-[#CFD8EE]">
+                <li key={c.href} className="border-b border-[#cddde8]">
                   <a
                     href={c.href}
                     {...(c.ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
@@ -94,7 +94,7 @@ export function Final() {
           </div>
 
           <div data-reveal style={{ ["--d" as string]: "0.2s" } as CSSProperties} className="lg:col-span-6 lg:col-start-7 lg:self-end">
-            <div className="rounded-[28px] bg-white p-6 shadow-[0_30px_80px_-40px_rgba(4,11,82,.35)] ring-1 ring-[#DCE3F4] sm:p-9">
+            <div className="rounded-[28px] bg-white p-6 shadow-[0_30px_80px_-40px_rgba(17, 54, 76,.35)] ring-1 ring-[#dbe7ef] sm:p-9">
               <p className="text-[11.5px] font-semibold uppercase tracking-[0.2em] text-body">{demande.label}</p>
               <p className="mt-4 text-[clamp(1.6rem,1.2rem+1.2vw,2.2rem)] font-semibold leading-tight tracking-[-0.03em] text-ink">{demande.title}</p>
               <PortesDemande className="mt-7" />
@@ -126,8 +126,8 @@ export function Final() {
           </Anchor>
 
           <div aria-hidden className="mt-10 flex items-center justify-between gap-6 overflow-hidden sm:mt-14">
-            <span className="select-none text-[5.4rem] font-extralight sm:text-[clamp(7rem,1.5rem+21vw,21rem)] leading-[0.78] tracking-[-0.05em] text-[#C5D2F2]">{nom}</span>
-            <Etoile className="h-11 w-11 shrink-0 text-[#8EA8F2] sm:h-[clamp(3rem,1rem+6vw,7rem)] sm:w-[clamp(3rem,1rem+6vw,7rem)]" />
+            <span className="select-none text-[5.4rem] font-extralight sm:text-[clamp(7rem,1.5rem+21vw,21rem)] leading-[0.78] tracking-[-0.05em] text-[#c3d6e4]">{nom}</span>
+            <Etoile className="h-11 w-11 shrink-0 text-[#8fb4d6] sm:h-[clamp(3rem,1rem+6vw,7rem)] sm:w-[clamp(3rem,1rem+6vw,7rem)]" />
           </div>
 
           <div className="mt-10 grid gap-3 border-t border-hair py-6 text-[11.5px] font-medium uppercase tracking-[0.14em] text-mute sm:mt-14 sm:grid-cols-3 sm:items-center">
@@ -135,7 +135,7 @@ export function Final() {
             <p className="sm:text-center">{contact.address}</p>
             <Link
               href="/mentions-legales"
-              className="justify-self-start text-[12.5px] normal-case tracking-normal text-body underline decoration-[#9AA6C8] underline-offset-[6px] transition hover:text-electric sm:justify-self-end"
+              className="justify-self-start text-[12.5px] normal-case tracking-normal text-body underline decoration-[#9fb4c1] underline-offset-[6px] transition hover:text-electric sm:justify-self-end"
             >
               {footer.legal}
             </Link>

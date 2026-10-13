@@ -61,7 +61,7 @@ function Card({ f, still = false, etiquette = false }: { f: Formation; still?: b
           className="object-cover transition duration-700 [transition-timing-function:var(--ease)] group-hover:scale-[1.04]"
         />
         <span
-          className={`absolute left-2.5 top-2.5 inline-flex max-w-[calc(100%-1.25rem)] rounded-[10px] px-2.5 py-1.5 text-[10.5px] font-bold leading-tight shadow-[0_1px_6px_rgba(11,18,51,.14)] sm:left-3 sm:top-3 sm:max-w-[calc(100%-1.5rem)] sm:rounded-full sm:py-1 sm:text-[11px] sm:leading-none ${f.tag ? "bg-sun text-navy" : "bg-white text-navy"}`}
+          className={`absolute left-2.5 top-2.5 inline-flex max-w-[calc(100%-1.25rem)] rounded-[10px] px-2.5 py-1.5 text-[10.5px] font-bold leading-tight shadow-[0_1px_6px_rgba(16, 52, 74,.14)] sm:left-3 sm:top-3 sm:max-w-[calc(100%-1.5rem)] sm:rounded-full sm:py-1 sm:text-[11px] sm:leading-none ${f.tag ? "bg-sun text-navy" : "bg-white text-navy"}`}
         >
           {f.format}
         </span>

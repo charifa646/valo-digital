@@ -91,10 +91,10 @@ export function Scene() {
     <div data-dark className="on-dark relative isolate z-[2] text-white">
       {/* the sheet, which lifts off the stage at the end */}
       <div ref={curtain} className="feuille feuille-rideau">
-        <div className="relative overflow-hidden rounded-[inherit] bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_55%,#0712B0_100%)]">
+        <div className="relative overflow-hidden rounded-[inherit] bg-[linear-gradient(180deg,#0f6fd0_0%,#0A15C2_55%,#0712B0_100%)]">
           <div
             aria-hidden
-            className="absolute right-[-12%] top-[-18%] -z-10 h-[680px] w-[680px] rounded-full bg-[radial-gradient(closest-side,rgba(143,163,255,.32),transparent)]"
+            className="absolute right-[-12%] top-[-18%] -z-10 h-[680px] w-[680px] rounded-full bg-[radial-gradient(closest-side,rgba(150, 196, 236,.32),transparent)]"
           />
           <section id="contact" aria-labelledby="contact-title" className="gutter relative mx-auto max-w-page pt-12 sm:pt-16 lg:pt-20">
             <h2 id="contact-title" data-reveal="words" className="text-[clamp(2.65rem,0.6rem+5.6vw,6.1rem)] font-medium leading-[0.98] tracking-[-0.045em]">

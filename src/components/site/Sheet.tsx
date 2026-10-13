@@ -211,7 +211,7 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
         data-sheet
         aria-labelledby="sheet-title"
         data-lenis-prevent
-        className="relative max-h-[calc(100svh-24px)] w-full max-w-[640px] overflow-y-auto overscroll-contain rounded-[28px] bg-white shadow-[0_40px_120px_-30px_rgba(2,6,46,.7)] sm:max-h-[calc(100svh-48px)]"
+        className="relative max-h-[calc(100svh-24px)] w-full max-w-[640px] overflow-y-auto overscroll-contain rounded-[28px] bg-white shadow-[0_40px_120px_-30px_rgba(11, 37, 54,.7)] sm:max-h-[calc(100svh-48px)]"
         initial={hidden}
         animate={shown}
         exit={hidden}
@@ -224,7 +224,7 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
             type="button"
             onClick={onClose}
             aria-label="Fermer"
-            className="mr-4 mt-4 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white text-ink shadow-[0_6px_20px_-8px_rgba(2,6,46,.45)] ring-1 ring-hair transition hover:bg-night hover:text-white sm:mr-5 sm:mt-5"
+            className="mr-4 mt-4 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white text-ink shadow-[0_6px_20px_-8px_rgba(11, 37, 54,.45)] ring-1 ring-hair transition hover:bg-night hover:text-white sm:mr-5 sm:mt-5"
           >
             <Close className="h-5 w-5" />
           </button>

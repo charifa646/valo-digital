@@ -46,8 +46,8 @@ export function GoInner({ children, ring = "" }: { children: ReactNode; ring?: s
  */
 export function pilule(tone: "electric" | "night" | "white" = "electric", extra = "") {
   const tones = {
-    electric: "bg-electric text-white shadow-[0_18px_40px_-20px_rgba(7,20,216,.75)] hover:bg-deep",
-    night: "bg-night text-white shadow-[0_18px_40px_-22px_rgba(4,11,82,.8)] hover:bg-[#0A1670]",
+    electric: "bg-electric text-white shadow-[0_18px_40px_-20px_rgba(15, 111, 208,.75)] hover:bg-deep",
+    night: "bg-night text-white shadow-[0_18px_40px_-22px_rgba(17, 54, 76,.8)] hover:bg-[#0A1670]",
     white: "bg-white text-ink ring-1 ring-hair hover:ring-electric/50",
   };
   return `group flex w-full items-center justify-between gap-4 rounded-full px-6 py-[16px] text-left text-[15px] font-semibold leading-tight tracking-[-0.01em] transition duration-300 active:scale-[.985] disabled:opacity-70 sm:px-7 sm:py-[17px] sm:text-[17px] ${tones[tone]} ${extra}`;

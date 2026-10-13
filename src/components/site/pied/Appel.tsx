@@ -39,10 +39,10 @@ function Bande() {
  */
 export function Appel() {
   return (
-    <div data-dark className="feuille on-dark isolate overflow-hidden bg-[linear-gradient(180deg,#0714D8_0%,#0A15C2_45%,#050E78_100%)] text-white">
+    <div data-dark className="feuille on-dark isolate overflow-hidden bg-[linear-gradient(180deg,#0f6fd0_0%,#0A15C2_45%,#050E78_100%)] text-white">
       <div
         aria-hidden
-        className="absolute right-[-10%] top-[-12%] -z-10 h-[680px] w-[680px] rounded-full bg-[radial-gradient(closest-side,rgba(143,163,255,.35),transparent)]"
+        className="absolute right-[-10%] top-[-12%] -z-10 h-[680px] w-[680px] rounded-full bg-[radial-gradient(closest-side,rgba(150, 196, 236,.35),transparent)]"
       />
       <section
         id="contact"
@@ -68,7 +68,7 @@ export function Appel() {
         <div data-reveal="zoom" className="relative mx-auto -mb-px w-full max-w-[520px] origin-bottom self-end lg:col-span-5 lg:mr-0">
           <div
             aria-hidden
-            className="absolute bottom-[4%] left-1/2 h-[80%] w-[90%] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(232,238,255,.45),rgba(143,163,255,.18)_60%,transparent)]"
+            className="absolute bottom-[4%] left-1/2 h-[80%] w-[90%] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(232,238,255,.45),rgba(150, 196, 236,.18)_60%,transparent)]"
           />
           <Image
             src="/images/v3/valentin-assis.webp"

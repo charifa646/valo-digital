@@ -39,8 +39,8 @@ html.lenis body {
 }
 
 body {
-  background: #f4f7ff;
-  color: #1e2944;
+  background: #f0f6fa;
+  color: #10344a;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -48,11 +48,11 @@ body {
 
 ::selection {
   background: #fdec05;
-  color: #071f78;
+  color: #174863;
 }
 
 :focus-visible {
-  outline: 2.5px solid #3551ff;
+  outline: 2.5px solid #3f9ae8;
   outline-offset: 3px;
 }
 .on-dark :focus-visible,
@@ -116,7 +116,7 @@ html {
   /* the quiet one, on light sections: a light blue pill with blue words, the arrow in its blue circle (no longer
      white on white, where it was not seen as a button) */
   .btn-ghost {
-    @apply border border-electric/15 bg-frost text-electric hover:border-electric/35 hover:bg-[#DCE4FF];
+    @apply border border-electric/15 bg-frost text-electric hover:border-electric/35 hover:bg-[#d6e7f3];
   }
   .btn-ghost .dot {
     @apply bg-electric text-white;
@@ -152,7 +152,7 @@ html {
     border: 1px solid rgba(255, 255, 255, 0.85);
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.9) inset,
-      0 24px 50px -26px rgba(7, 20, 216, 0.35);
+      0 24px 50px -26px rgba(15, 111, 208, 0.35);
   }
   .glass-dark {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05));
@@ -163,14 +163,14 @@ html {
   }
   /* the menu in blue (`Header bleu`): electric glass, and night blue glass over the dark parts of the page */
   .glass-bleu {
-    background: linear-gradient(180deg, rgba(62, 90, 255, 0.95), rgba(7, 20, 216, 0.95));
+    background: linear-gradient(180deg, rgba(62, 140, 225, 0.95), rgba(15, 111, 208, 0.95));
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.38) inset,
-      0 24px 50px -22px rgba(7, 20, 216, 0.7);
+      0 24px 50px -22px rgba(15, 111, 208, 0.7);
   }
   .glass-bleu-nuit {
-    background: linear-gradient(180deg, rgba(22, 38, 160, 0.92), rgba(4, 11, 82, 0.94));
+    background: linear-gradient(180deg, rgba(22, 38, 160, 0.92), rgba(17, 54, 76, 0.94));
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.22) inset,
@@ -183,8 +183,10 @@ html {
   }
 
   /* section titles: medium weight, calm and airy */
+  /* section titles in the hand of Charifa's ChatGPT mock-up (14 October 2026, carte blanche): capitals, a middle weight,
+     tight, the words in colour in the glacier's sky blue; her words as written, only their case set by the style */
   .h2 {
-    @apply text-[clamp(2rem,1.35rem+2.2vw,3rem)] font-medium leading-[1.1] tracking-[-0.035em];
+    @apply text-[clamp(1.8rem,1.2rem+2.1vw,2.7rem)] font-semibold uppercase leading-[1.12] tracking-[-0.035em];
   }
   /* a section's name, only where it is the section's own title (« Mot du fondateur », « Mon parcours digital »): small
      bold capitals and nothing after them, as Wpromote does. No fading line any more, and no name above the other
@@ -518,13 +520,13 @@ html {
   }
 }
 .halo-tl {
-  --halo: radial-gradient(40% 52% at 0% 0%, rgba(76, 96, 255, 0.085), transparent 70%);
+  --halo: radial-gradient(40% 52% at 0% 0%, rgba(63, 140, 220, 0.085), transparent 70%);
 }
 .halo-tr {
-  --halo: radial-gradient(40% 52% at 100% 0%, rgba(76, 96, 255, 0.085), transparent 70%);
+  --halo: radial-gradient(40% 52% at 100% 0%, rgba(63, 140, 220, 0.085), transparent 70%);
 }
 .halo-bl {
-  --halo: radial-gradient(40% 52% at 0% 100%, rgba(76, 96, 255, 0.085), transparent 70%);
+  --halo: radial-gradient(40% 52% at 0% 100%, rgba(63, 140, 220, 0.085), transparent 70%);
 }
 
 /* a word of its section, very large and very pale, fading out (« BESOIN », « MÉTHODE »): two on the site, no more */
@@ -536,7 +538,7 @@ html {
   pointer-events: none;
 }
 .filigrane-doux > span {
-  color: rgba(7, 20, 216, 0.03) !important;
+  color: rgba(15, 111, 208, 0.03) !important;
 }
 .filigrane > span {
   position: absolute;
@@ -545,7 +547,7 @@ html {
   font-weight: 600;
   line-height: 0.8;
   letter-spacing: -0.05em;
-  color: rgba(7, 20, 216, 0.05);
+  color: rgba(15, 111, 208, 0.05);
   -webkit-mask-image: linear-gradient(180deg, #000 20%, transparent 92%);
   mask-image: linear-gradient(180deg, #000 20%, transparent 92%);
 }
@@ -610,10 +612,10 @@ html {
   --teinte-texte: 0s linear 0.34s;
 }
 html[data-teinte="nuit"] {
-  --teinte: #040b52;
+  --teinte: #11364c;
 }
 html[data-teinte="bleu"] {
-  --teinte: #0610ae;
+  --teinte: #1a5e9e;
 }
 html[data-teintes] body,
 html[data-teintes] #contenu > section {
@@ -628,7 +630,7 @@ html[data-teinte] #contenu > section {
    plain colour to another. From « transparent », it darkened over the page's own fade, twice as fast, and the words,
    still dark, fell to 1.2 contrast (11 October 2026) */
 html[data-teintes]:not([data-teinte]) #contenu > section:not([class*="bg-"]) {
-  background-color: #f4f7ff;
+  background-color: #f0f6fa;
 }
 /* the blue band takes the flat blue of the page, so no edge shows between them: its gradient cannot fade into a flat
    colour, so a flat layer fades in over it, under its words */
@@ -637,7 +639,7 @@ html[data-teintes]:not([data-teinte]) #contenu > section:not([class*="bg-"]) {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: #0610ae;
+  background: #1a5e9e;
   opacity: 0;
   transition: opacity var(--teinte-temps) var(--teinte-ease);
   pointer-events: none;
@@ -747,7 +749,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   transform: translate3d(calc(var(--drift, 0) * -2.5%), 0, 0);
 }
 .contour {
-  --trait: #0714d8;
+  --trait: #0f6fd0;
   font-family: var(--font-contour, var(--font-montserrat, Montserrat)), system-ui, sans-serif;
   color: transparent;
   -webkit-text-fill-color: transparent;
@@ -793,7 +795,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   position: fixed;
   inset: 0;
   z-index: 1;
-  background: #02062e;
+  background: #0b2536;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -854,9 +856,9 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   margin-top: calc(-1 * var(--feuille-r));
   height: var(--box);
   overflow: hidden;
-  box-shadow: 0 2px 0 #02062e;
+  box-shadow: 0 2px 0 #0b2536;
   background:
-    radial-gradient(55% 70% at 50% 8%, rgba(53, 81, 255, 0.55), transparent 70%), radial-gradient(120% 90% at 50% 0%, #0a16a8 0%, #040b52 48%, #02062e 100%);
+    radial-gradient(55% 70% at 50% 8%, rgba(63, 154, 232, 0.55), transparent 70%), radial-gradient(120% 90% at 50% 0%, #0a16a8 0%, #11364c 48%, #0b2536 100%);
 }
 @media (max-width: 639px) {
   .stage {
@@ -886,7 +888,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   position: absolute;
   inset: 0;
   z-index: 4;
-  background: #02062e;
+  background: #0b2536;
   opacity: calc((1 - var(--light)) * 0.7);
   pointer-events: none;
 }
@@ -910,7 +912,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   margin-inline: -0.1em;
   display: inline-block;
   color: transparent;
-  background: linear-gradient(180deg, #ffffff 0%, #e7edff 40%, #9fb1ff 78%, #5c74ff 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #e3eff8 40%, #9fc4e8 78%, #4f8fd8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   opacity: calc(0.15 + var(--rise) * 0.85);
@@ -932,7 +934,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   transition: opacity 0.5s var(--ease);
 }
 .stage-glow .stage-letter {
-  background: linear-gradient(120deg, #fdec05 0%, #ffffff 45%, #8fa3ff 100%);
+  background: linear-gradient(120deg, #fdec05 0%, #ffffff 45%, #8fbfe8 100%);
   -webkit-background-clip: text;
   background-clip: text;
 }
@@ -949,7 +951,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   width: calc(var(--man) * 1.5);
   height: calc(var(--u) * 14);
   transform: translate(-50%, -50%);
-  background: radial-gradient(closest-side, rgba(143, 163, 255, 0.4), transparent);
+  background: radial-gradient(closest-side, rgba(150, 196, 236, 0.4), transparent);
   opacity: var(--light);
 }
 @media (max-width: 639px) {
@@ -977,7 +979,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 .feuille-rideau {
   border-radius: var(--feuille-r);
   box-shadow:
-    0 -30px 60px -30px rgba(2, 6, 46, 0.55),
+    0 -30px 60px -30px rgba(11, 37, 54, 0.55),
     0 40px 70px -24px rgba(0, 0, 0, 0.6);
 }
 
@@ -998,28 +1000,28 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
    other feet (`pied/Liens.tsx`) take these variables and fall back to white on blue where there are none. */
 .pied-trame {
   --pied-fond: #ffffff;
-  --pied-texte: #0b1233;
+  --pied-texte: #10344a;
   --pied-doux: #5a6379;
   --pied-sourd: #667085;
-  --pied-menu: #0b1233;
-  --pied-survol: #0714d8;
+  --pied-menu: #10344a;
+  --pied-survol: #0f6fd0;
   --pied-trait: #e6eaf3;
-  --pied-accent: #0714d8;
-  --pied-mot: #0714d8;
+  --pied-accent: #0f6fd0;
+  --pied-mot: #0f6fd0;
   background: var(--pied-fond);
   color: var(--pied-texte);
 }
 /* the night one, the foot of every page since 12 October 2026: light grey words rather than pure white (« pour un
    meilleur rendu épuré et premium »), white only under the pointer */
 .pied-trame[data-ton="nuit"] {
-  --pied-fond: #040b52;
+  --pied-fond: #11364c;
   --pied-texte: #dfe3f0;
   --pied-doux: rgba(223, 227, 240, 0.72);
   --pied-sourd: rgba(223, 227, 240, 0.5);
   --pied-menu: rgba(223, 227, 240, 0.8);
   --pied-survol: #ffffff;
   --pied-trait: rgba(255, 255, 255, 0.14);
-  --pied-accent: #3551ff;
+  --pied-accent: #3f9ae8;
   --pied-mot: #fdec05;
 }
 .pied-texte {
@@ -1149,7 +1151,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 .df-carte {
   --df-h: 112px;
   --pied-fond: #ffffff;
-  --pied-accent: #0714d8;
+  --pied-accent: #0f6fd0;
 }
 @media (min-width: 640px) {
   .df-carte {
@@ -1347,13 +1349,13 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   inset: 0;
   pointer-events: none;
   background:
-    repeating-linear-gradient(90deg, rgba(126, 146, 255, 0) 0 30px, rgba(126, 146, 255, 0.2) 38px, rgba(126, 146, 255, 0) 46px),
+    repeating-linear-gradient(90deg, rgba(126, 180, 230, 0) 0 30px, rgba(126, 180, 230, 0.2) 38px, rgba(126, 180, 230, 0) 46px),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0) 0 70px, rgba(255, 255, 255, 0.07) 80px, rgba(255, 255, 255, 0) 92px);
   -webkit-mask-image: radial-gradient(90% 75% at 50% 100%, #000 30%, transparent 78%);
   mask-image: radial-gradient(90% 75% at 50% 100%, #000 30%, transparent 78%);
 }
 .dots {
-  background-image: radial-gradient(rgba(7, 20, 216, 0.16) 1.1px, transparent 1.3px);
+  background-image: radial-gradient(rgba(15, 111, 208, 0.16) 1.1px, transparent 1.3px);
   background-size: 22px 22px;
 }
 .dots-dark {
@@ -1600,10 +1602,10 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 }
 @keyframes target-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(53, 81, 255, 0.55);
+    box-shadow: 0 0 0 0 rgba(63, 154, 232, 0.55);
   }
   100% {
-    box-shadow: 0 0 0 26px rgba(53, 81, 255, 0);
+    box-shadow: 0 0 0 26px rgba(63, 154, 232, 0);
   }
 }
 .is-target[data-pulse] {
@@ -1717,15 +1719,15 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   border-radius: 52px;
   background: linear-gradient(150deg, #20285c 0%, #0b1033 45%, #05081c 100%);
   box-shadow:
-    0 0 0 1px rgba(143, 163, 255, 0.28) inset,
-    0 60px 100px -50px rgba(2, 6, 46, 0.6),
-    0 34px 70px -34px rgba(7, 20, 216, 0.4);
+    0 0 0 1px rgba(150, 196, 236, 0.28) inset,
+    0 60px 100px -50px rgba(11, 37, 54, 0.6),
+    0 34px 70px -34px rgba(15, 111, 208, 0.4);
 }
 .sans-cadre .demo-frame {
   padding: 2px;
   border-radius: 38px;
   background: linear-gradient(150deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.28));
-  box-shadow: 0 50px 80px -40px rgba(2, 6, 46, 0.75);
+  box-shadow: 0 50px 80px -40px rgba(11, 37, 54, 0.75);
 }
 .demo-screen {
   position: relative;
@@ -1761,14 +1763,14 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   aspect-ratio: 1;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(closest-side, rgba(53, 81, 255, 0.2), rgba(53, 81, 255, 0.07) 55%, transparent);
+  background: radial-gradient(closest-side, rgba(63, 154, 232, 0.2), rgba(63, 154, 232, 0.07) 55%, transparent);
   pointer-events: none;
 }
 .demo-dim {
   position: absolute;
   inset: 0;
   z-index: 20;
-  background: rgba(2, 6, 46, 0.55);
+  background: rgba(11, 37, 54, 0.55);
   opacity: 0;
   transition: opacity 0.45s ease;
 }
@@ -1783,8 +1785,8 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   display: flex;
   flex-direction: column;
   border-radius: 4px 4px 0 0;
-  background: #f4f7ff;
-  box-shadow: 0 -30px 80px -20px rgba(2, 6, 46, 0.6);
+  background: #f0f6fa;
+  box-shadow: 0 -30px 80px -20px rgba(11, 37, 54, 0.6);
   transform: translate3d(0, 104%, 0);
   transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1804,7 +1806,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   background: #fff;
   box-shadow:
     0 0 0 1px #e6eaf3,
-    0 24px 48px -20px rgba(11, 18, 51, 0.35);
+    0 24px 48px -20px rgba(16, 52, 74, 0.35);
   opacity: 0;
   transform: translate3d(0, -6px, 0);
   transition:
@@ -1855,12 +1857,12 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 }
 .demo-finger span {
   border: 2px solid rgba(255, 255, 255, 0.95);
-  background: rgba(11, 18, 51, 0.3);
-  box-shadow: 0 10px 24px -6px rgba(2, 6, 46, 0.5);
+  background: rgba(16, 52, 74, 0.3);
+  box-shadow: 0 10px 24px -6px rgba(11, 37, 54, 0.5);
 }
 .demo-finger::after {
   content: "";
-  border: 2px solid rgba(7, 20, 216, 0.6);
+  border: 2px solid rgba(15, 111, 208, 0.6);
   opacity: 0;
 }
 .demo-finger[data-tap] span {
@@ -1890,7 +1892,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   height: 1.1em;
   margin-left: 1px;
   vertical-align: -0.18em;
-  background: #0714d8;
+  background: #0f6fd0;
   animation: demo-blink 1s steps(1) infinite;
 }
 @keyframes demo-blink {
@@ -1904,7 +1906,7 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   width: 0;
   height: 9px;
   border-radius: 9px;
-  background: rgba(11, 18, 51, 0.16);
+  background: rgba(16, 52, 74, 0.16);
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s);
 }
 .demo-bar[data-on] {
@@ -1934,12 +1936,12 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
   height: 3px;
   overflow: hidden;
   border-radius: 3px;
-  background: rgba(7, 20, 216, 0.14);
+  background: rgba(15, 111, 208, 0.14);
 }
 .demo-seg i {
   position: absolute;
   inset: 0;
-  background: #0714d8;
+  background: #0f6fd0;
   transform: scaleX(0);
   transform-origin: 0 50%;
 }
@@ -2137,7 +2139,7 @@ html[data-teinte="nuit"] .logos-rangs[data-reveal][data-in] {
 
 /* each word: deep navy at the top of the letters, electric blue at their foot (the glow of the pill under them) */
 .titre-mots {
-  background: linear-gradient(180deg, #0b1233 0%, #0b1233 46%, #0714d8 100%);
+  background: linear-gradient(180deg, #10344a 0%, #10344a 46%, #0f6fd0 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -2151,19 +2153,19 @@ html[data-teinte="nuit"] .logos-rangs[data-reveal][data-in] {
   padding: 0.1em 0.4em 0.14em;
   border-radius: 9999px;
   transform: rotate(-2.4deg);
-  background: linear-gradient(100deg, #0714d8 0%, #3551ff 100%);
+  background: linear-gradient(100deg, #0f6fd0 0%, #3f9ae8 100%);
   color: #fff;
   box-shadow:
-    0 0 0 0.045em rgba(143, 163, 255, 0.5) inset,
-    0 0 0.6em 0.02em rgba(53, 81, 255, 0.5),
-    0 0.28em 1.2em 0 rgba(7, 20, 216, 0.3);
+    0 0 0 0.045em rgba(150, 196, 236, 0.5) inset,
+    0 0 0.6em 0.02em rgba(63, 154, 232, 0.5),
+    0 0.28em 1.2em 0 rgba(15, 111, 208, 0.3);
   font-size: 0.78em;
   white-space: nowrap;
 }
 /* the light behind the pill breathes: opacity only, and only while the hero is on screen */
 .titre-halo {
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(53, 81, 255, 0.28), rgba(53, 81, 255, 0.1) 55%, transparent);
+  background: radial-gradient(closest-side, rgba(63, 154, 232, 0.28), rgba(63, 154, 232, 0.1) 55%, transparent);
   animation: titre-halo 4.6s ease-in-out infinite;
 }
 @keyframes titre-halo {
@@ -2193,7 +2195,7 @@ html[data-teinte="nuit"] .logos-rangs[data-reveal][data-in] {
   justify-content: center;
   padding: 30px 0 88px;
   border-radius: 24px;
-  background: radial-gradient(55% 40% at 50% 42%, rgba(53, 81, 255, 0.3), transparent 70%), linear-gradient(170deg, #07115c 0%, #040b52 45%, #02062e 100%);
+  background: radial-gradient(55% 40% at 50% 42%, rgba(63, 154, 232, 0.3), transparent 70%), linear-gradient(170deg, #07115c 0%, #11364c 45%, #0b2536 100%);
 }
 /* on a phone the card stays tall: the screen of the order has to be read */
 @media (min-width: 768px) {
@@ -2273,7 +2275,7 @@ html[data-teinte="nuit"] .logos-rangs[data-reveal][data-in] {
   transition: box-shadow var(--teinte-temps) var(--teinte-ease);
 }
 html[data-teinte] .demo-scene {
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 40px 90px -50px rgba(83, 110, 255, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 40px 90px -50px rgba(83, 150, 230, 0.55);
 }
 html .demo-scene .demo-seg {
   height: 2px;
@@ -2305,7 +2307,7 @@ html .demo-scene .demo-seg i {
   padding-bottom: 0.06em;
 }
 .eventail-lueur {
-  background: radial-gradient(closest-side, rgba(53, 81, 255, 0.2), rgba(143, 163, 255, 0.1) 55%, transparent);
+  background: radial-gradient(closest-side, rgba(63, 154, 232, 0.2), rgba(150, 196, 236, 0.1) 55%, transparent);
 }
 /* the scene is drawn at 1000 by 560 px and scaled to the screen. No mask on the whole scene: it made it be drawn again at
    each frame (50 ms a frame on a slowed phone, 12 October 2026); the outer cards fade on their own */
@@ -2439,7 +2441,7 @@ html .demo-scene .demo-seg i {
 }
 /* the line of trades under the button: electric blue icons */
 .eventail-metiers .glyphe {
-  color: #0714d8;
+  color: #0f6fd0;
 }
 
 /* ------------------------------------------------------------------ */
@@ -2470,7 +2472,7 @@ html .demo-scene .demo-seg i {
   /* glass more than ball: a light on its top left, a soft rim of light on its lower right, the edge melting away */
   background:
     radial-gradient(circle at 70% 76%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 22%),
-    radial-gradient(circle at 32% 27%, rgba(255, 255, 255, 0.92) 0%, rgba(224, 233, 255, 0.78) 12%, rgba(170, 192, 255, 0.55) 30%, rgba(110, 142, 255, 0.46) 48%, rgba(66, 98, 250, 0.42) 60%, rgba(66, 98, 250, 0.2) 66%, rgba(66, 98, 250, 0.06) 70%, rgba(66, 98, 250, 0) 72%);
+    radial-gradient(circle at 32% 27%, rgba(255, 255, 255, 0.92) 0%, rgba(224, 233, 255, 0.78) 12%, rgba(170, 205, 240, 0.55) 30%, rgba(110, 170, 235, 0.46) 48%, rgba(66, 98, 250, 0.42) 60%, rgba(66, 98, 250, 0.2) 66%, rgba(66, 98, 250, 0.06) 70%, rgba(66, 98, 250, 0) 72%);
   filter: blur(var(--flou, 0px));
   opacity: var(--o, 1);
 }
@@ -2508,8 +2510,8 @@ html .demo-scene .demo-seg i {
   --c: 44px;
   position: absolute;
   background-image:
-    linear-gradient(rgba(7, 20, 216, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(7, 20, 216, 0.09) 1px, transparent 1px);
+    linear-gradient(rgba(15, 111, 208, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 111, 208, 0.09) 1px, transparent 1px);
   background-size: var(--c) var(--c);
   -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent 100%);
   mask-image: radial-gradient(closest-side, #000 30%, transparent 100%);
@@ -2520,7 +2522,7 @@ html .demo-scene .demo-seg i {
   top: calc(var(--y) * var(--c) + 1px);
   width: calc(var(--c) - 1px);
   height: calc(var(--c) - 1px);
-  background: rgba(53, 81, 255, var(--a, 0.14));
+  background: rgba(63, 154, 232, var(--a, 0.14));
   filter: blur(var(--f, 0px));
 }
 /* on a phone the top keeps its title, its phone, its fan and its labels, without the grid, the squares and the glass
@@ -2560,7 +2562,7 @@ html .demo-scene .demo-seg i {
    in one of three ways (`HeroEventail titre`, /apercu/titre/…). The effects play once, when the title arrives. */
 .titre-leger {
   font-weight: 500;
-  color: #071f78;
+  color: #174863;
   letter-spacing: -0.03em;
 }
 .titre-leger > span:last-child {
@@ -2580,7 +2582,7 @@ html .demo-scene .demo-seg i {
 }
 /* the words in electric blue, a hand-drawn yellow line under them, drawn from the left */
 .titre-trait {
-  color: #0714d8;
+  color: #0f6fd0;
 }
 .titre-trait-svg {
   position: absolute;
@@ -2606,7 +2608,7 @@ html .demo-scene .demo-seg i {
 }
 /* the words in the blues of the charte, a light passing through them now and then */
 .titre-brillance {
-  background: linear-gradient(100deg, #0714d8 0%, #3551ff 35%, #9fb4ff 47%, #3551ff 59%, #0714d8 100%) 100% 0 / 250% 100%;
+  background: linear-gradient(100deg, #0f6fd0 0%, #3f9ae8 35%, #9fc4e8 47%, #3f9ae8 59%, #0f6fd0 100%) 100% 0 / 250% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -2647,9 +2649,9 @@ html .demo-scene .demo-seg i {
   white-space: nowrap;
   padding: 6px 11px 6px 10px;
   border-radius: 2px 9px 9px 9px;
-  background: var(--c, #0714d8);
+  background: var(--c, #0f6fd0);
   color: var(--ct, #ffffff);
-  box-shadow: 0 10px 22px -12px rgba(4, 11, 82, 0.6);
+  box-shadow: 0 10px 22px -12px rgba(17, 54, 76, 0.6);
   font-size: 13.5px;
   font-weight: 600;
   line-height: 1.15;
@@ -2661,7 +2663,7 @@ html .demo-scene .demo-seg i {
   top: -15px;
   width: 18px;
   height: 18px;
-  filter: drop-shadow(0 2px 3px rgba(4, 11, 82, 0.28));
+  filter: drop-shadow(0 2px 3px rgba(17, 54, 76, 0.28));
 }
 /* where the labels stand in the scene (1000 px wide); on a phone only its middle shows, so they come in close to the
    phone, over the edges of the cards around it */
@@ -2717,7 +2719,7 @@ html .demo-scene .demo-seg i {
 .titre-doux {
   font-weight: 480;
   /* the same ink as the rest of the site since 14 October 2026 */
-  color: #1e2944;
+  color: #10344a;
   letter-spacing: -0.03em;
 }
 .titre-selection {
@@ -2726,7 +2728,7 @@ html .demo-scene .demo-seg i {
   padding: 0 0.1em 0.04em;
 }
 .titre-selection-mots {
-  background: linear-gradient(95deg, #0714d8 0%, #2f4cff 50%, #6b80ff 100%);
+  background: linear-gradient(95deg, #0f6fd0 0%, #2a7fd6 50%, #5f9be0 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -2739,7 +2741,7 @@ html .demo-scene .demo-seg i {
   right: 0;
   bottom: -0.02em;
   height: 2px;
-  background: #3551ff;
+  background: #3f9ae8;
   transform-origin: 0 50%;
   animation: selection-ligne 0.9s cubic-bezier(0.65, 0, 0.35, 1) 1.1s both;
 }
@@ -2752,7 +2754,7 @@ html .demo-scene .demo-seg i {
   height: 9px;
   margin-top: -4.5px;
   border-radius: 50%;
-  background: #3551ff;
+  background: #3f9ae8;
   box-shadow: 0 0 0 2px #fff;
 }
 .titre-selection-ligne::before {
@@ -2767,7 +2769,7 @@ html .demo-scene .demo-seg i {
   top: 0.08em;
   bottom: 0.14em;
   width: 2px;
-  background: #3551ff;
+  background: #3f9ae8;
   animation: selection-curseur 1.1s steps(1) 2s 4 both;
 }
 .titre-selection-curseur::before,
@@ -2779,7 +2781,7 @@ html .demo-scene .demo-seg i {
   height: 8px;
   margin-left: -4px;
   border-radius: 50%;
-  background: #3551ff;
+  background: #3f9ae8;
   box-shadow: 0 0 0 2px #fff;
 }
 .titre-selection-curseur::before {
@@ -2811,11 +2813,13 @@ html .demo-scene .demo-seg i {
 
 /* the services in blue (`Prestations bleu`, /apercu/services-bleu, 13 October 2026): a band of the charte's electric blue,
    deeper than the first « besoin » card just above it, lit from the top left, white cards on it */
+/* the services' band: since 14 October 2026 the glacier's night blue, as the dark part of Charifa's mock-up (« le bleu est
+   trop bleu »), with a soft light from the top left; the ice-blue cards stand out on it */
 .services-bleu {
   background:
-    radial-gradient(60% 50% at 12% 0%, rgba(110, 140, 255, 0.45), transparent 70%),
-    radial-gradient(50% 45% at 100% 100%, rgba(2, 6, 46, 0.45), transparent 70%),
-    linear-gradient(180deg, #0a18d0 0%, #0714d8 40%, #0510a8 100%);
+    radial-gradient(60% 50% at 12% 0%, rgba(120, 180, 230, 0.28), transparent 70%),
+    radial-gradient(50% 45% at 100% 100%, rgba(11, 37, 54, 0.5), transparent 70%),
+    linear-gradient(180deg, #14405a 0%, #11364c 45%, #0c2a3c 100%);
 }
 .grand-titre-clair .contour {
   --trait: #ffffff;
@@ -3241,7 +3245,7 @@ html .demo-scene .demo-seg i {
   width: 30%;
   height: 173px;
   padding-top: 32px;
-  background: #f4f7ff;
+  background: #f0f6fa;
 }
 .ciel-aile-gauche {
   left: 0;

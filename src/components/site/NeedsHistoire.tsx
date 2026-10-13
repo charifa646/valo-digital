@@ -11,10 +11,10 @@ import { ArrowUpRight } from "@/components/ui/Icons";
 
 /** One colour of the client's charte for each card: the electric blue, the night blue, the yellow, the light blue. */
 const feuilles = [
-  { fond: "#0714D8", texte: "#ffffff", doux: "rgba(255,255,255,.82)" },
-  { fond: "#040B52", texte: "#ffffff", doux: "rgba(255,255,255,.78)" },
-  { fond: "#FDEC05", texte: "#0B1233", doux: "rgba(11,18,51,.78)" },
-  { fond: "#E7EDFF", texte: "#071F78", doux: "#5A6379" },
+  { fond: "#0f6fd0", texte: "#ffffff", doux: "rgba(255,255,255,.82)" },
+  { fond: "#11364c", texte: "#ffffff", doux: "rgba(255,255,255,.78)" },
+  { fond: "#FDEC05", texte: "#10344a", doux: "rgba(16, 52, 74,.78)" },
+  { fond: "#e3eff8", texte: "#174863", doux: "#5A6379" },
 ];
 
 /**
@@ -22,10 +22,10 @@ const feuilles = [
  * blue), the yellow kept for small touches elsewhere on the page.
  */
 const feuillesPremium = [
-  { fond: "#0714D8", texte: "#ffffff", doux: "rgba(255,255,255,.82)" },
-  { fond: "#040B52", texte: "#ffffff", doux: "rgba(255,255,255,.78)" },
-  { fond: "#071F78", texte: "#ffffff", doux: "rgba(255,255,255,.8)" },
-  { fond: "#E7EDFF", texte: "#071F78", doux: "#5A6379" },
+  { fond: "#0f6fd0", texte: "#ffffff", doux: "rgba(255,255,255,.82)" },
+  { fond: "#11364c", texte: "#ffffff", doux: "rgba(255,255,255,.78)" },
+  { fond: "#174863", texte: "#ffffff", doux: "rgba(255,255,255,.8)" },
+  { fond: "#e3eff8", texte: "#174863", doux: "#5A6379" },
 ];
 
 /**

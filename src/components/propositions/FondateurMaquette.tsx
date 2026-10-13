@@ -24,7 +24,7 @@ export function FondateurMaquette() {
       <div className="gutter mx-auto grid max-w-page items-center gap-14 py-20 lg:grid-cols-12 lg:gap-16 lg:py-28">
         <div className="relative mx-auto w-full max-w-[420px] lg:col-span-5">
           <span aria-hidden className="absolute inset-0 translate-x-4 translate-y-5 rotate-[3deg] rounded-[30px] bg-[#E3EAFB]" />
-          <figure data-reveal="photo" className="relative -rotate-[2deg] overflow-hidden rounded-[30px] bg-[#6b3a1c] shadow-[0_40px_80px_-40px_rgba(4,11,82,.6)]">
+          <figure data-reveal="photo" className="relative -rotate-[2deg] overflow-hidden rounded-[30px] bg-[#6b3a1c] shadow-[0_40px_80px_-40px_rgba(17, 54, 76,.6)]">
             <Image
               src="/images/v3/valentin-montre.webp"
               alt={`${fondateur.name}, ${fondateur.roles[2]}`}

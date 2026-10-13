@@ -60,7 +60,7 @@ export function Calendrier() {
           return (
             <div
               key={p.day}
-              className={`border-r border-hair px-1.5 pb-3 pt-2 last:border-r-0 @[440px]:px-2 ${i === 0 || i === 4 ? "hidden @[440px]:block" : ""} ${i === today ? "bg-[#F7F9FF]" : ""} ${i === 3 ? "border-r-0 @[440px]:border-r" : ""}`}
+              className={`border-r border-hair px-1.5 pb-3 pt-2 last:border-r-0 @[440px]:px-2 ${i === 0 || i === 4 ? "hidden @[440px]:block" : ""} ${i === today ? "bg-[#f5f9fc]" : ""} ${i === 3 ? "border-r-0 @[440px]:border-r" : ""}`}
             >
               <p className="flex items-center gap-1.5 px-0.5 text-[9px] font-semibold uppercase tracking-[0.04em] text-mute">
                 {p.day}
@@ -75,7 +75,7 @@ export function Calendrier() {
                 {live && (
                   <span
                     data-anim
-                    className={`absolute inset-0 grid place-items-center rounded-[7px] border border-dashed border-[#D3DAEA] bg-[#FAFBFF] ${s.slot}`}
+                    className={`absolute inset-0 grid place-items-center rounded-[7px] border border-dashed border-[#D3DAEA] bg-[#f8fbfd] ${s.slot}`}
                   >
                     <span className="grid h-5 w-5 place-items-center rounded-[6px] bg-soft text-mute">
                       <IconPlus className="h-3 w-3" stroke={2.2} aria-hidden />
@@ -84,7 +84,7 @@ export function Calendrier() {
                 )}
                 <div
                   data-anim={live || undefined}
-                  className={`rounded-[7px] border border-hair bg-white p-1 shadow-[0_1px_2px_rgba(11,18,51,.05)] ${live ? `relative ${s.card}` : ""}`}
+                  className={`rounded-[7px] border border-hair bg-white p-1 shadow-[0_1px_2px_rgba(16, 52, 74,.05)] ${live ? `relative ${s.card}` : ""}`}
                 >
                   <div className="relative aspect-[4/3] overflow-hidden rounded-[4px] bg-soft">
                     <Image

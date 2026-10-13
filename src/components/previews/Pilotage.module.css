@@ -49,8 +49,8 @@
   inset: -4px;
   z-index: -1;
   border-radius: 9999px;
-  background: rgba(7, 20, 216, 0.14);
-  box-shadow: inset 0 0 0 1px rgba(7, 20, 216, 0.28);
+  background: rgba(15, 111, 208, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(15, 111, 208, 0.28);
   opacity: 0;
   animation: halo 3.5s infinite both;
   animation-delay: 3.2s;
@@ -78,7 +78,7 @@
  * Same clock as the halo, so the line and its label pulse as one.
  */
 .glow {
-  background: linear-gradient(90deg, rgba(7, 20, 216, 0), rgba(7, 20, 216, 0.16), rgba(7, 20, 216, 0));
+  background: linear-gradient(90deg, rgba(15, 111, 208, 0), rgba(15, 111, 208, 0.16), rgba(15, 111, 208, 0));
   opacity: 0;
   animation: glow 3.5s infinite both;
   animation-delay: 3.2s;

@@ -23,9 +23,9 @@ export function Pourquoi() {
           {/* the words always sit on dark blue: evenly on phones, from the left on larger screens */}
           <div
             aria-hidden
-            className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(4,11,82,.86)_0%,rgba(4,11,82,.8)_60%,rgba(4,11,82,.55)_100%)] md:bg-[linear-gradient(90deg,rgba(4,11,82,.92)_0%,rgba(4,11,82,.78)_38%,rgba(4,11,82,.25)_75%,rgba(4,11,82,.1)_100%)]"
+            className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(17, 54, 76,.86)_0%,rgba(17, 54, 76,.8)_60%,rgba(17, 54, 76,.55)_100%)] md:bg-[linear-gradient(90deg,rgba(17, 54, 76,.92)_0%,rgba(17, 54, 76,.78)_38%,rgba(17, 54, 76,.25)_75%,rgba(17, 54, 76,.1)_100%)]"
           />
-          <div aria-hidden className="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t from-[rgba(4,11,82,.55)] to-transparent" />
+          <div aria-hidden className="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t from-[rgba(17, 54, 76,.55)] to-transparent" />
           <div className="max-w-[36rem] px-6 pb-28 pt-14 sm:px-12 sm:pb-36 sm:pt-20 lg:px-16 lg:pb-44 lg:pt-24">
             <h2 id="pourquoi-title" data-reveal="words" className="h2 balance" style={{ ["--d" as string]: "0.3s" } as CSSProperties}>
               <Words>{pourquoi.title}</Words>

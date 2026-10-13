@@ -44,7 +44,7 @@ export function Solutions() {
                 style={{ ["--d" as string]: `${i * 0.12}s` } as CSSProperties}
                 className={`group relative rounded-2xl p-6 transition duration-300 sm:p-7 lg:p-8 ${
                   lead
-                    ? "bg-[linear-gradient(160deg,#3551FF_0%,#0714D8_50%,#0A12A8_100%)] text-white shadow-[0_24px_48px_-28px_rgba(7,20,216,.55)]"
+                    ? "bg-[linear-gradient(160deg,#3f9ae8_0%,#0f6fd0_50%,#0b5db4_100%)] text-white shadow-[0_24px_48px_-28px_rgba(15, 111, 208,.55)]"
                     : "border border-hair bg-white text-ink hover:border-electric/25 hover:shadow-panel"
                 }`}
               >

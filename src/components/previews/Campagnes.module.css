@@ -64,7 +64,7 @@
   height: 16px;
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 0 0 1px rgba(7, 20, 216, 0.3);
+  box-shadow: 0 0 0 1px rgba(15, 111, 208, 0.3);
   opacity: 0;
   animation: click 9s infinite both;
 }

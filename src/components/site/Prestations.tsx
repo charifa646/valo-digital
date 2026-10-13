@@ -81,15 +81,15 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
       style={{ ["--d" as string]: `${(rail ? Math.min(i, 3) : i % 2) * 0.14}s` } as CSSProperties}
       className={`flex flex-col overflow-hidden ${glisse ? "w-[86%] shrink-0 snap-start sm:w-[62%] lg:w-auto" : ""} ${rail ? "w-[76vw] max-w-[380px] shrink-0 snap-start sm:w-[360px] lg:w-[372px]" : spans[i]} ${premium ? "rounded-lg" : "rounded-2xl"} ${
         glace
-          ? "bg-[#E8EEFF] text-ink ring-1 ring-white/70 shadow-[0_30px_60px_-30px_rgba(2,6,46,.6)]"
+          ? "bg-[#e6f0f7] text-ink ring-1 ring-white/70 shadow-[0_30px_60px_-30px_rgba(11, 37, 54,.6)]"
           : sombre
           ? premium
             ? "bg-night text-white ring-1 ring-white/15"
             : // on the blue section the complete offer turns night blue, so it stands out from the ground
             bleu
-            ? "bg-[linear-gradient(160deg,#16239A_0%,#040B52_60%,#02062E_100%)] text-white ring-1 ring-white/15"
-            : "bg-[linear-gradient(160deg,#3551FF_0%,#0714D8_46%,#0A12A8_100%)] text-white"
-          : `border border-hair bg-white text-ink ${bleu ? "border-white shadow-[0_30px_60px_-30px_rgba(2,6,46,.6)]" : ""}`
+            ? "bg-[linear-gradient(160deg,#1d4f73_0%,#11364c_60%,#0b2536_100%)] text-white ring-1 ring-white/15"
+            : "bg-[linear-gradient(160deg,#3f9ae8_0%,#0f6fd0_46%,#0b5db4_100%)] text-white"
+          : `border border-hair bg-white text-ink ${bleu ? "border-white shadow-[0_30px_60px_-30px_rgba(11, 37, 54,.6)]" : ""}`
       }`}
     >
       {premium ? (
@@ -108,7 +108,7 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
         aria-hidden
         // the window plays only while on screen, and never under the glimpse's blur (`data-still`)
         data-still={still || undefined}
-        className={`@container relative overflow-hidden ${rail ? "h-[196px] px-3 pt-4 sm:h-[214px] sm:px-4" : "h-[262px] px-4 pt-5 sm:px-6 sm:pt-6"} ${still ? "" : "play-when-in"} ${lead ? "" : `m-2 mb-0 rounded-[4px] ${glace ? "bg-white" : "bg-[linear-gradient(180deg,#EDF1FF_0%,#F6F8FF_100%)]"}`}`}
+        className={`@container relative overflow-hidden ${rail ? "h-[196px] px-3 pt-4 sm:h-[214px] sm:px-4" : "h-[262px] px-4 pt-5 sm:px-6 sm:pt-6"} ${still ? "" : "play-when-in"} ${lead ? "" : `m-2 mb-0 rounded-[4px] ${glace ? "bg-white" : "bg-[linear-gradient(180deg,#eaf3f9_0%,#f5f9fc_100%)]"}`}`}
       >
         {/* in the carousel the window is lower and its little scene drawn a little smaller, so the card stays short
             (Charifa, 14 October 2026: « la partie verticale, c'est trop long ») */}
