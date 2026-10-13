@@ -11,6 +11,7 @@ import { ArrowUpRight } from "@/components/ui/Icons";
 import { Suite } from "@/components/ui/Suite";
 import { GrandTitre } from "@/components/ui/GrandTitre";
 import { formationPhotos } from "@/lib/photos";
+import { Carrousel } from "./Carrousel";
 
 export { formationPhotos };
 
@@ -210,10 +211,11 @@ function Liste() {
 }
 
 /** `grand`: the list under the very large « Nos formations », which fills as it comes (the homepage, 13 October 2026). */
-export function Formations({ variante = "actuel", grand = false }: { variante?: "actuel" | "etiquette" | "liste"; grand?: boolean } = {}) {
+export function Formations({ variante = "actuel", grand = false }: { variante?: "actuel" | "etiquette" | "liste" | "carrousel"; grand?: boolean } = {}) {
   const items = formations.items;
+  const { open } = useSheet();
   const etiquette = variante === "etiquette";
-  if (variante === "liste") {
+  if (variante === "liste" || variante === "carrousel") {
     return (
       <section id="formations" aria-labelledby="formations-title" className="paper relative bg-white">
         <div className="gutter mx-auto max-w-page pb-16 pt-16 lg:pb-28 lg:pt-24">
@@ -238,7 +240,24 @@ export function Formations({ variante = "actuel", grand = false }: { variante?: 
               {formations.lead}
             </p>
           </div>
-          <Liste />
+          {variante === "carrousel" ? (
+            <div className="mt-10 lg:mt-14">
+              <Carrousel
+                label={formations.grand}
+                items={items.map((f) => ({
+                  id: f.id,
+                  img: `/images/formations/${formationPhotos[f.id] ?? f.id}.webp`,
+                  label: f.format,
+                  title: f.name,
+                  text: f.modules,
+                  price: f.price,
+                  onOpen: () => open("formations", f.id),
+                }))}
+              />
+            </div>
+          ) : (
+            <Liste />
+          )}
           {/* a real button, as the others on the page (14 October 2026, Charifa: the buttons must be seen as buttons) */}
           <div className="mt-10 lg:mt-12">
             <Link href="/formations" className={btn("electric")}>

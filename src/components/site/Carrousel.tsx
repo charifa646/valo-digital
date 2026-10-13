@@ -1,0 +1,165 @@
+"use client";
+
+import Image from "next/image";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+
+/**
+ * A carousel of image cards, for the services (four) and the trainings (eight), after the models Charifa pointed to on
+ * 21st.dev (14 October 2026: « les carousels, le minimum c'est 3 », « des modèles de carousels super stylés »). Their code
+ * needs her personal 21st.dev key, which never goes in this public repository, so they are redrawn here from their previews,
+ * in VALO's palette, with no library: the row scrolls natively (finger, trackpad, mouse wheel), snaps card by card, and two
+ * round arrows move it one card at a time; a thin bar shows where the visitor is. Two looks:
+ * - `apple`, after Aceternity's « Apple Cards Carousel » (Manu Arora): tall cards, the photo full-bleed, a dark veil at the
+ *   top with the small label and the title in white, the price in a glass pill at the foot;
+ * - `galerie`, after Shadcnblocks' « Gallery with image cards »: cards a little less tall, the photo full-bleed, the words at
+ *   the foot over a dark veil, a short sentence and the price, the arrows above the row.
+ * A card opens its details in the window in the middle of the screen (`onOpen`). `bleu`: on the services' band of electric
+ * blue, the bar that shows the progress turns white (in electric blue it vanished into the band).
+ */
+export type CarteCarrousel = { id: string; img: string; pos?: string; label: string; title: string; text?: string; price?: string; onOpen: () => void };
+
+function Fleche({ dir }: { dir: "g" | "d" }) {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      {dir === "g" ? <path d="M15 5l-7 7 7 7" /> : <path d="M9 5l7 7-7 7" />}
+    </svg>
+  );
+}
+
+export function Carrousel({ items, look = "apple", label, bleu = false }: { items: CarteCarrousel[]; look?: "apple" | "galerie"; label: string; bleu?: boolean }) {
+  const rail = useRef<HTMLDivElement>(null);
+  const [p, setP] = useState(0);
+  const [bouts, setBouts] = useState({ debut: true, fin: false });
+
+  useEffect(() => {
+    const el = rail.current;
+    if (!el) return;
+    let frame = 0;
+    const lire = () => {
+      frame = 0;
+      const max = el.scrollWidth - el.clientWidth;
+      setP(max > 0 ? el.scrollLeft / max : 0);
+      setBouts({ debut: el.scrollLeft < 8, fin: el.scrollLeft > max - 8 });
+    };
+    const soon = () => {
+      if (!frame) frame = requestAnimationFrame(lire);
+    };
+    lire();
+    el.addEventListener("scroll", soon, { passive: true });
+    window.addEventListener("resize", soon);
+    return () => {
+      el.removeEventListener("scroll", soon);
+      window.removeEventListener("resize", soon);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  const avancer = (sens: 1 | -1) => {
+    const el = rail.current;
+    const carte = el?.querySelector<HTMLElement>("[data-carte-rail]");
+    if (!el || !carte) return;
+    el.scrollBy({ left: sens * (carte.offsetWidth + 16), behavior: "smooth" });
+  };
+
+  const fleches = (
+    <div className="flex items-center gap-2.5">
+      {(["g", "d"] as const).map((d) => (
+        <button
+          key={d}
+          type="button"
+          onClick={() => avancer(d === "g" ? -1 : 1)}
+          disabled={d === "g" ? bouts.debut : bouts.fin}
+          aria-label={d === "g" ? "Précédent" : "Suivant"}
+          className={`grid h-12 w-12 place-items-center rounded-full bg-white text-ink ring-1 transition hover:bg-night hover:text-white hover:ring-night disabled:pointer-events-none ${bleu ? "ring-white/40 disabled:opacity-45" : "ring-hair disabled:opacity-35"}`}
+        >
+          <Fleche dir={d} />
+        </button>
+      ))}
+    </div>
+  );
+
+  const apple = look === "apple";
+  return (
+    <div role="region" aria-roledescription="carrousel" aria-label={label}>
+      {!apple && <div className="mb-6 flex justify-end">{fleches}</div>}
+      <div
+        ref={rail}
+        data-lenis-prevent-wheel
+        className="-mx-[var(--gutter)] flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-4 overflow-x-auto px-[var(--gutter)] pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {items.map((it, i) => (
+          <button
+            key={it.id}
+            type="button"
+            data-carte-rail
+            onClick={it.onOpen}
+            aria-haspopup="dialog"
+            data-reveal="photo"
+            style={{ ["--d" as string]: `${Math.min(i, 4) * 0.08}s` } as CSSProperties}
+            className={`group relative shrink-0 snap-start overflow-hidden text-left ${
+              apple
+                ? "aspect-[3/4.4] w-[78vw] max-w-[380px] rounded-[30px] sm:w-[340px]"
+                : "aspect-[4/5] w-[74vw] max-w-[340px] rounded-[24px] sm:w-[300px]"
+            } bg-night shadow-[0_30px_60px_-34px_rgba(4,11,82,.7)]`}
+          >
+            <Image
+              src={it.img}
+              alt=""
+              fill
+              sizes="(min-width: 640px) 380px, 80vw"
+              className="object-cover transition duration-700 [transition-timing-function:var(--ease)] group-hover:scale-[1.05]"
+              style={{ objectPosition: it.pos ?? "50% 40%" }}
+            />
+            {apple ? (
+              <>
+                <span aria-hidden className="absolute inset-x-0 top-0 h-[55%] bg-[linear-gradient(180deg,rgba(4,11,82,.82)_0%,rgba(4,11,82,.35)_55%,transparent_100%)]" />
+                <span className="absolute inset-x-0 top-0 p-6 sm:p-7">
+                  {it.label && <span className="mb-3 block text-[11.5px] font-semibold uppercase tracking-[0.18em] text-white/75">{it.label}</span>}
+                  <span className="block text-[24px] font-semibold leading-[1.12] tracking-[-0.03em] text-white sm:text-[27px]">{it.title}</span>
+                </span>
+                <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5 sm:p-6">
+                  {it.price ? (
+                    <span className="rounded-full bg-white/15 px-4 py-2 text-[13px] font-semibold text-white ring-1 ring-white/25 backdrop-blur-md">{it.price}</span>
+                  ) : (
+                    <span />
+                  )}
+                  <span aria-hidden className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white text-night transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M7 17 17 7M8 7h9v9" />
+                    </svg>
+                  </span>
+                </span>
+              </>
+            ) : (
+              <>
+                <span aria-hidden className="absolute inset-x-0 bottom-0 h-[70%] bg-[linear-gradient(0deg,rgba(4,11,82,.92)_0%,rgba(4,11,82,.55)_45%,transparent_100%)]" />
+                <span className="absolute inset-x-0 bottom-0 p-6">
+                  {it.label && <span className="mb-2.5 block text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">{it.label}</span>}
+                  <span className="block text-[21px] font-semibold leading-[1.15] tracking-[-0.025em] text-white">{it.title}</span>
+                  {it.text && <span className="mt-2 line-clamp-2 block text-[14px] leading-snug text-white/75">{it.text}</span>}
+                  <span className="mt-4 flex items-center justify-between gap-3 border-t border-white/20 pt-4">
+                    <span className="text-[13.5px] font-semibold text-white">{it.price}</span>
+                    <span aria-hidden className="text-white transition duration-300 group-hover:translate-x-1">
+                      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                    </span>
+                  </span>
+                </span>
+              </>
+            )}
+          </button>
+        ))}
+      </div>
+      <div className="mt-7 flex items-center gap-6">
+        <span aria-hidden className={`relative h-[3px] flex-1 overflow-hidden rounded-full ${bleu ? "bg-white/25" : "bg-hair"}`}>
+          <span
+            className={`absolute inset-y-0 left-0 rounded-full transition-[width] duration-200 ${bleu ? "bg-white" : "bg-electric"}`}
+            style={{ width: `${Math.max(14, Math.round(p * 100))}%` }}
+          />
+        </span>
+        {apple && fleches}
+      </div>
+    </div>
+  );
+}

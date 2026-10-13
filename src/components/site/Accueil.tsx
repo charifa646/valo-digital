@@ -33,6 +33,7 @@ export function Accueil({
   sansCadre = false,
   menuBleu = false,
   servicesBleu = false,
+  servicesCarrousel = false,
   formationsVariante = "actuel",
   premium = false,
 }: {
@@ -42,7 +43,8 @@ export function Accueil({
   sansCadre?: boolean;
   menuBleu?: boolean;
   servicesBleu?: boolean;
-  formationsVariante?: "actuel" | "etiquette" | "liste";
+  servicesCarrousel?: boolean;
+  formationsVariante?: "actuel" | "etiquette" | "liste" | "carrousel";
   premium?: boolean;
 }) {
   return (
@@ -53,7 +55,7 @@ export function Accueil({
           <Hero />
           <Confiance premium={premium} />
           <Besoin />
-          <Prestations bleu={servicesBleu} premium={premium} />
+          <Prestations bleu={servicesBleu} premium={premium} carrousel={servicesCarrousel} />
           <Formations variante={formationsVariante} grand={!premium} />
           <DemoCommande scene={scene} sansCadre={sansCadre} />
           <Methode premium={premium} />

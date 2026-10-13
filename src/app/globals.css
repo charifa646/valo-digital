@@ -2805,3 +2805,12 @@ html .demo-scene .demo-seg i {
     display: none !important;
   }
 }
+
+/* a little smaller section titles, shown on /apercu/propositions (14 October 2026, Charifa: « est-ce qu'on va pas réduire la
+   taille des titres ? ») */
+.titres-reduits .h2 {
+  font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem);
+}
+.titres-reduits .grand-titre-ligne {
+  font-size: min(11cqw, 7.25rem);
+}

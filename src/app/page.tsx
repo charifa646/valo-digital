@@ -1,19 +1,21 @@
 import { Accueil } from "@/components/site/Accueil";
 import { HeroEventail } from "@/components/site/HeroEventail";
-import { NeedsPortes } from "@/components/site/NeedsPortes";
+import { BesoinVolets } from "@/components/site/BesoinVolets";
 
 /**
  * The homepage: the composition of `Accueil.tsx` under « l'éventail » (Charifa's choice of 12 October 2026, in place of
- * the light orbit, kept at /apercu/orbite), with the cards of « De quoi avez-vous besoin » as a story scroll (her code
- * of the same day; the index before it is kept at /apercu/besoin/index, the dithered cards at /apercu/besoin), and the
- * order demo on its dark stage with the phone's fine rim (`scene sansCadre`, her choice « le 3 » of 12 October 2026). Its
- * top has the thrown shapes and the squares, and the title selected as in a design tool (her choice of 13 October 2026;
- * the italic in plain blue on dots is kept at /apercu/eventail). The services stand on a band of electric blue (her
- * choice of 13 October 2026, `servicesBleu`).
+ * the light orbit, kept at /apercu/orbite), and the order demo on its dark stage with the phone's fine rim (`scene
+ * sansCadre`, her choice « le 3 » of 12 October 2026). Its top has the thrown shapes and the squares, and the title
+ * selected as in a design tool (her choice of 13 October 2026; the italic in plain blue on dots is kept at
+ * /apercu/eventail). The services stand on a band of electric blue (her choice of 13 October 2026, `servicesBleu`).
+ *
+ * 14 October 2026: « De quoi avez-vous besoin » as the editorial list with a photo following the cursor (her « version D »
+ * of /apercu/propositions; the two photo doors before it stay in `NeedsPortes.tsx`), and the services and the trainings
+ * each in a carousel of tall photo cards (« j'aime beaucoup les carousels »).
  */
 const Haut = () => <HeroEventail formes carres titre="selection" />;
+const Besoin = () => <BesoinVolets look="liste" id="besoin" />;
 
 export default function Page() {
-  // the trainings as a list under « Nos formations » (13 October 2026, from the premium pass)
-  return <Accueil Hero={Haut} Besoin={NeedsPortes} scene sansCadre servicesBleu formationsVariante="liste" />;
+  return <Accueil Hero={Haut} Besoin={Besoin} scene sansCadre servicesBleu servicesCarrousel formationsVariante="carrousel" />;
 }

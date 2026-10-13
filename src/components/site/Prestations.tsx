@@ -10,6 +10,7 @@ import { BtnInner, btn } from "@/components/ui/Action";
 import { Price } from "@/components/ui/Price";
 import { Words } from "@/components/ui/Words";
 import { GrandTitre } from "@/components/ui/GrandTitre";
+import { Carrousel } from "./Carrousel";
 import { Calendrier } from "@/components/previews/Calendrier";
 import { Campagnes } from "@/components/previews/Campagnes";
 import { Montage } from "@/components/previews/Montage";
@@ -27,6 +28,17 @@ const photos: Record<string, { src: string; pos: string }> = {
   publicite: { src: "/images/apropos/equipe-casquettes.webp", pos: "50% 38%" },
   video: { src: "/images/apropos/equipe-bleu.webp", pos: "50% 30%" },
   direction: { src: "/images/terrain/forum-du-digital.webp", pos: "50% 35%" },
+};
+
+/**
+ * The photo of each service in the homepage's carousel (14 October 2026): VALO's own team, so the services never show the
+ * trainings' photos (Charifa: « tu as mélangé les cartes de service avec les cartes de formation »).
+ */
+export const photoService: Record<string, { img: string; pos?: string }> = {
+  reseaux: { img: "/images/apropos/equipe-casquettes.webp", pos: "50% 35%" },
+  publicite: { img: "/images/apropos/equipe-bleu.webp", pos: "50% 30%" },
+  video: { img: "/images/apropos/equipe-trio.webp", pos: "50% 28%" },
+  direction: { img: "/images/apropos/valentin-gilet.webp", pos: "50% 22%" },
 };
 
 /** Two rows, the wide card changing sides. */
@@ -116,8 +128,11 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
  * (Charifa, 7 October 2026: the homepage says less, and the visitor sees there is more). `full`: that page, every
  * offer whole.
  */
-export function Prestations({ full = false, bleu = false, premium = false }: { full?: boolean; bleu?: boolean; premium?: boolean }) {
+/** `carrousel`: on the homepage, the four offers in the carousel of tall photo cards (14 October 2026, Charifa: « les
+ * carousels, le minimum c'est 3 », « j'aime beaucoup les carousels »), each opening its details in the window. */
+export function Prestations({ full = false, bleu = false, premium = false, carrousel = false }: { full?: boolean; bleu?: boolean; premium?: boolean; carrousel?: boolean }) {
   const offers = prestations.offers;
+  const { open } = useSheet();
   return (
     <section
       id="prestations"
@@ -153,20 +168,41 @@ export function Prestations({ full = false, bleu = false, premium = false }: { f
           </p>
         </div>
 
+        {carrousel && !full ? (
+          <div className="mt-10 lg:mt-14">
+            <Carrousel
+              label={prestations.grand}
+              bleu={bleu}
+              items={offers.map((o) => ({
+                id: o.id,
+                img: photoService[o.id]?.img ?? photoService.reseaux.img,
+                pos: photoService[o.id]?.pos,
+                label: "",
+                title: o.name,
+                text: o.text,
+                price: `${o.price}${o.note && o.note.startsWith("/") ? ` ${o.note}` : ""}`,
+                onOpen: () => (o.sheet ? open(o.sheet) : open("demande-prestation", "responsable")),
+              }))}
+            />
+          </div>
+        ) : (
+          <>
         {/* on the homepage the first offers whole, then the button to all of them, and no blurred row under them any more
-            (13 October 2026, Charifa: « le flou au niveau des services, c'est trop »); on phones and tablets the cards slide
-            under the finger, the next one showing at the edge */}
-        <div
-          className={
-            full
-              ? "mt-10 grid gap-4 lg:mt-14 lg:grid-cols-12 lg:gap-5"
-              : "-mx-[var(--gutter)] mt-10 flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-3 overflow-x-auto px-[var(--gutter)] pb-3 [scrollbar-width:none] lg:mx-0 lg:mt-14 lg:grid lg:grid-cols-12 lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0 [&::-webkit-scrollbar]:hidden"
-          }
-        >
-          {(full ? offers : offers.slice(0, 2)).map((o, i) => (
-            <OfferCard key={o.id} o={o} i={i} anchor={full} bleu={bleu} premium={premium} glisse={!full} />
-          ))}
-        </div>
+              (13 October 2026, Charifa: « le flou au niveau des services, c'est trop »); on phones and tablets the cards slide
+              under the finger, the next one showing at the edge */}
+          <div
+            className={
+              full
+                ? "mt-10 grid gap-4 lg:mt-14 lg:grid-cols-12 lg:gap-5"
+                : "-mx-[var(--gutter)] mt-10 flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-3 overflow-x-auto px-[var(--gutter)] pb-3 [scrollbar-width:none] lg:mx-0 lg:mt-14 lg:grid lg:grid-cols-12 lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0 [&::-webkit-scrollbar]:hidden"
+            }
+          >
+            {(full ? offers : offers.slice(0, 2)).map((o, i) => (
+              <OfferCard key={o.id} o={o} i={i} anchor={full} bleu={bleu} premium={premium} glisse={!full} />
+            ))}
+          </div>
+          </>
+        )}
 
         {!full && (
           <div className="mt-8 flex justify-center lg:mt-12">
