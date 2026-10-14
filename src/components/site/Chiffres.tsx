@@ -12,7 +12,9 @@ import { Counter } from "@/components/ui/Counter";
  * `premium` (the premium pass of 13 October 2026, at /apercu/premium): the same words in a light bento that belongs to
  * the page instead of a dark block laid on it: the title and its sentence over a real photo of a VALO training, the
  * first two figures in white cells with a fine border, the third across a cell in the charte's electric blue, the one
- * coloured moment of the section. The title keeps its words; only its capitals are set as a sentence. `teinte`: the page
+ * coloured moment of the section. The title keeps its words; only its capitals are set as a sentence. `teinte` (since 14 October 2026:
+ * « on a dark band », the blue one of « À propos »): the first two figures stand on it in white, with a yellow « + » and a fine
+ * white line under them (they had white cells, Charifa had them taken away, and dark figures on the blue were not visible). Formerly `teinte`: the page
  * still turns night blue while it holds the screen (on the homepage since 13 October 2026, Charifa: keep the change of
  * colour), the light cells standing out on it.
  */
@@ -47,18 +49,18 @@ export function Chiffres({ className = "", premium = false, teinte = false }: { 
                 // the first two figures stand on the page with no card behind them, a fine line under the row separating them from the
                 // budget in blue (14 October 2026, Charifa: « enlève le background, fais une ligne entre la rangée et le budget »)
                 className={`flex min-h-[150px] flex-col justify-between p-5 sm:min-h-[190px] sm:p-8 lg:min-h-[230px] ${
-                  fort ? "col-span-2 mt-1 rounded-lg bg-electric text-white sm:mt-2" : "border-b border-[#CDD5F0] pl-1 sm:pl-2"
+                  fort ? "col-span-2 mt-1 rounded-lg bg-electric text-white sm:mt-2" : `border-b pl-1 sm:pl-2 ${teinte ? "border-white/30" : "border-[#CDD5F0]"}`
                 }`}
               >
                 {/* the ink set on the figure, inside its white cell: when the page turns night blue, the page's rule turns
                     every dark text white except inside a white cell (the cell itself would have turned it white on white) */}
-                <p className={`whitespace-nowrap text-[clamp(2rem,1.2rem+3.6vw,4.6rem)] font-light leading-none tracking-[-0.045em] tabular-nums ${fort ? "" : "text-ink"}`}>
-                  <span className={fort ? "text-sun" : "text-electric"}>{f.prefix}</span>
+                <p className={`whitespace-nowrap text-[clamp(2rem,1.2rem+3.6vw,4.6rem)] font-light leading-none tracking-[-0.045em] tabular-nums ${fort ? "" : teinte ? "text-white" : "text-ink"}`}>
+                  <span className={fort || teinte ? "text-sun" : "text-electric"}>{f.prefix}</span>
                   <Counter value={f.value.slice(f.prefix.length)} to={f.count} suffix={f.suffix} />
                 </p>
-                <p className={`mt-5 text-[14px] font-medium leading-snug sm:mt-6 sm:text-[14.5px] ${fort ? "text-white/85" : "text-body"}`}>
+                <p className={`mt-5 text-[14px] font-medium leading-snug sm:mt-6 sm:text-[14.5px] ${fort || teinte ? "text-white/85" : "text-body"}`}>
                   {f.caption}
-                  {f.note && <span className={`block whitespace-nowrap ${fort ? "text-white/60" : "text-mute"}`}>{f.note}</span>}
+                  {f.note && <span className={`block whitespace-nowrap ${fort || teinte ? "text-white/60" : "text-mute"}`}>{f.note}</span>}
                 </p>
               </li>
             );

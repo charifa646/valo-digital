@@ -20,11 +20,20 @@ export function Teintes() {
     let frame = 0;
     let current: HTMLElement | undefined;
     let zone: Element[] = [];
+    let zoneDe: HTMLElement | undefined;
+    // the part that holds the colour and the two sections before and after it (two, not one: on « À propos » the sections are short and
+    // a screen shows several)
     const setZone = (mark: HTMLElement | undefined) => {
       zone.forEach((z) => z.removeAttribute("data-teinte-on"));
       const part = mark?.closest("#contenu > section");
-      zone = part ? [part.previousElementSibling, part, part.nextElementSibling].filter((z): z is Element => !!z) : [];
+      zone = [];
+      if (part) {
+        const all = Array.from(part.parentElement!.children).filter((e) => e.matches("section"));
+        const i = all.indexOf(part);
+        zone = all.slice(Math.max(0, i - 2), i + 3);
+      }
       zone.forEach((z) => z.setAttribute("data-teinte-on", ""));
+      zoneDe = mark;
     };
     const update = () => {
       frame = 0;
@@ -37,8 +46,10 @@ export function Teintes() {
       };
       if (!current || !holds(current, margin)) current = marks.find((m) => holds(m, -margin));
       const t = current?.dataset.teinte;
+      // the zone follows the part, not only the colour: going from one blue part to the next blue one changes no colour but
+      // the words of the new part still have to turn light (Charifa, 14 October 2026: the figures of « À propos » were dark on the blue)
+      if (zoneDe !== (t ? current : undefined)) setZone(t ? current : undefined);
       if (root.dataset.teinte === t) return;
-      setZone(t ? current : undefined);
       if (t) root.dataset.teinte = t;
       else delete root.dataset.teinte;
       window.dispatchEvent(new Event("teinte"));

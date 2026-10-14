@@ -31,3 +31,16 @@ export function pageMeta({ path, title, description, ogTitle }: { path: string; 
     twitter: { card: "summary_large_image", title: ogTitle ?? title, description, images: [partage.url] },
   };
 }
+
+/** The amount in F CFA written in a price (« 75 000 F CFA », « À partir de 150 000 F CFA / mois »), as a number, or nothing for
+ * « Tarif selon format ». For the structured data: never a price that VALO did not write. */
+export function montantXof(prix: string): number | undefined {
+  const m = prix.match(/(\d[\d\s\u00a0\u202f]*)\s*F\s*CFA/i);
+  return m ? Number(m[1].replace(/\D/g, "")) : undefined;
+}
+
+/** A page's structured data as a script tag's content. */
+export const ldJson = (data: object) => JSON.stringify(data).replace(/</g, "\\u003c");
+
+/** The host the site answers on, without its scheme: what the robots header and the www redirect compare with. */
+export const SITE_HOST = new URL(SITE_URL).host;

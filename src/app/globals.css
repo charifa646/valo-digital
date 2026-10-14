@@ -647,6 +647,9 @@ html[data-teintes]:not([data-teinte]) #contenu > section:not([class*="bg-"]) {
 html[data-teinte] [data-teinte-plat]::before {
   opacity: 1;
 }
+/* A card is a white block INSIDE a section: a section that is itself white (« Compétences », « Nos formations ») turns with the page,
+   so it is not counted as a card (`#contenu section [class~="bg-white"]`; Charifa, 14 October 2026: the title « Entre autres
+   compétences » stayed dark on the blue). */
 /* the words of the page, not those of the cards, the coloured parts or the buttons. Classes are named here by
    attribute (`[class~=…]`): Tailwind rewrites a rule that names one of its classes, copying it for each @apply.
    Only in the parts on screen when the colour comes (`data-teinte-on`, set by `Teintes.tsx` on the part that holds the
@@ -663,7 +666,7 @@ html[data-teintes]
 #contenu
   > section[data-teinte-on]
   :is([class~="text-ink"], h2, h3):not(
-    :is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte], [class*="bg-[linear-gradient"]) *,
+    :is([data-dark], #contenu section [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte], [class*="bg-[linear-gradient"]) *,
     [class~="text-electric"],
     [class~="tag"]
   ) {
@@ -671,25 +674,25 @@ html[data-teintes]
 }
 #contenu
   > section[data-teinte-on]
-  [class~="text-body"]:not(:is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *) {
+  [class~="text-body"]:not(:is([data-dark], #contenu section [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *) {
   color: rgba(255, 255, 255, 0.75);
 }
 #contenu
   > section[data-teinte-on]
-  [class~="text-mute"]:not(:is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *) {
+  [class~="text-mute"]:not(:is([data-dark], #contenu section [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *) {
   color: rgba(255, 255, 255, 0.55);
 }
 #contenu
   > section[data-teinte-on]
   :is([class~="text-electric"], [class~="tag"]):not(
-    :is([data-dark], [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *,
+    :is([data-dark], #contenu section [class~="bg-white"], [class~="bg-frost"], [class~="btn"], article, [data-carte]) *,
     [class~="btn"]
   ) {
   color: #fdec05;
 }
 #contenu
   > section[data-teinte-on]
-  [class~="border-hair"]:not(:is([data-dark], [class~="bg-white"], article, [data-carte]) *, [class~="bg-white"], [data-carte]) {
+  [class~="border-hair"]:not(:is([data-dark], #contenu section [class~="bg-white"], article, [data-carte]) *, #contenu section [class~="bg-white"], [data-carte]) {
   border-color: rgba(255, 255, 255, 0.18);
 }
 html[data-teinte] #contenu .filigrane > span {
