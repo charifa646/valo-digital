@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { figures, figuresBloc, formations, hero, needs, prestations } from "@/lib/content";
 import { DemandeButton, useSheet } from "./Sheet";
 import { Anchor } from "./Scroll";
@@ -70,10 +70,17 @@ export function HeroCiel({ ordre = "titre" }: { ordre?: "titre" | "image" }) {
       {titreHaut && (
         <h1 id="ciel-titre" className="ciel-mot">
           <span className="ciel-mot-gauche blur-in">{first}</span>{" "}
-          {/* the signature (Charifa, 14 October 2026): the italic is written from left to right, takes a slow glint of light, and a
-              hand-drawn yellow stroke is traced under it */}
+          {/* the signature (Charifa, 14 October 2026): the italic comes in word by word, a slow glint of light crosses it, and a
+              hand-drawn yellow stroke is traced under it. Word by word, never revealed by a moving mask: a mask stopped half way
+              on a busy phone and left « levier de crois » cut (Charifa: « c'est arrêté à crois ») */}
           <span className="ciel-mot-droite">
-            <span className="ciel-ecrit">{second}</span>
+            {second.split(" ").map((w, i) => (
+              <span key={i}>
+                <span className="ciel-ecrit" style={{ ["--d" as string]: `${0.55 + i * 0.18}s` } as CSSProperties}>
+                  {w}
+                </span>{" "}
+              </span>
+            ))}
           </span>
         </h1>
       )}
