@@ -195,6 +195,7 @@ export function Prestations({ full = false, bleu = false, premium = false, carro
                   pos: photo?.pos,
                   label: "",
                   title: o.name,
+                  text: o.text,
                   prix: <Price price={o.price} note={o.note} size="sm" />,
                   visuel: photo ? undefined : (
                     <div className="[zoom:0.8] sm:[zoom:0.84]">

@@ -134,7 +134,7 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
           style={{ ["--d" as string]: `${Math.min(i, 4) * 0.08}s` } as CSSProperties}
           className={`group relative shrink-0 snap-start overflow-hidden text-left ${
             apple
-              ? "aspect-[3/4.3] w-[76vw] max-w-[360px] rounded-[26px] sm:w-[320px]"
+              ? "w-[78vw] max-w-[360px] rounded-[26px] sm:w-[330px]"
               : "aspect-[4/5] w-[74vw] max-w-[340px] rounded-[24px] sm:w-[300px]"
           } ${apple ? "border border-[#D6DEFB] bg-[#E8EEFF] shadow-[0_24px_50px_-30px_rgba(4,11,82,.35)]" : "bg-night shadow-[0_30px_60px_-34px_rgba(4,11,82,.7)]"}`}
         >
@@ -149,10 +149,10 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
             />
           )}
           {apple ? (
-            <span className="absolute inset-0 flex flex-col">
+            <span className="relative flex h-full flex-col">
               {/* the photo alone at the top, clean, no veil and no words on it; the words under it on white (14 October
                   2026, Charifa: neither the title on the photo nor the night-blue band fading into it, « pas beau ») */}
-              <span className={`relative m-2 mb-0 block min-h-0 flex-[1.25] overflow-hidden rounded-[20px] ${it.visuel ? "@container play-when-in bg-white px-3 pt-4 sm:px-4" : "bg-frost"}`}>
+              <span className={`relative m-2 mb-0 block h-[190px] shrink-0 overflow-hidden rounded-[20px] sm:h-[204px] ${it.visuel ? "@container play-when-in bg-white px-3 pt-4 sm:px-4" : "bg-frost"}`}>
                 {it.visuel ? (
                   <span aria-hidden className="block">{it.visuel}</span>
                 ) : (
@@ -169,6 +169,9 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
               <span className="flex flex-1 flex-col px-5 pb-5 pt-4 sm:px-6 sm:pb-6">
                 {it.label && <span className="block text-[10.5px] font-semibold uppercase tracking-[0.18em] text-electric">{it.label}</span>}
                 <span className="mt-2 block text-[18px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink sm:text-[19px]">{it.title}</span>
+                {/* VALO's own description of the offer or of the training, whole (14 October 2026, Charifa: « il faut le remettre »,
+                    the description had gone when the cards were redrawn) */}
+                {it.text && <span className="mt-2 block text-[13.5px] font-medium leading-[1.55] text-body">{it.text}</span>}
                 <span className="mt-auto flex items-center justify-between gap-3 pt-4">
                   {it.prix ? <span className="text-ink">{it.prix}</span> : it.price ? <span className="text-[16px] font-bold tracking-[-0.01em] text-ink">{it.price}</span> : <span />}
                   {/* `carte-signe`: when the card comes on screen, a ring leaves the button once and its arrow nudges twice
