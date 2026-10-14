@@ -105,6 +105,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Aller au contenu
         </a>
         {children}
+        {/* what is already on the first screen comes in at once, without waiting for the JavaScript to start (14 October 2026, SEO:
+            on a middle-range phone « À propos » showed its first paragraph after 8.4 s and « Services » after 3.7 s, because every
+            text waited for the page's script; Google measures that moment). Two frames after the first paint, so the soft fade
+            still plays. The page's own observer takes over for the rest. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "requestAnimationFrame(function(){requestAnimationFrame(function(){var h=innerHeight*0.92;document.querySelectorAll('[data-reveal],[data-words]').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<h&&r.bottom>0)e.setAttribute('data-in','')})})})",
+          }}
+        />
         <RevealObserver />
         <Transitions />
         <Aimants />
