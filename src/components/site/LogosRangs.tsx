@@ -14,14 +14,14 @@ export function LogosRangs({ className = "", children }: { className?: string; c
   useEffect(() => {
     const el = box.current;
     if (!el || !("IntersectionObserver" in window)) return setPret(true);
-    // when the band is a quarter of a screen away, or as soon as the visitor starts to scroll (the band is then a few
+    // when the band is a tenth of a screen away, or as soon as the visitor starts to scroll (the band is then a few
     // hundred pixels from view and the logos have the time to arrive)
     const montrer = () => {
       setPret(true);
       io.disconnect();
       removeEventListener("scroll", montrer);
     };
-    const io = new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && montrer(), { rootMargin: "0px 0px 25% 0px" });
+    const io = new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && montrer(), { rootMargin: "0px 0px 10% 0px" });
     io.observe(el);
     addEventListener("scroll", montrer, { passive: true, once: true });
     return () => {
