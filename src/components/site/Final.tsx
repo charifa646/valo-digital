@@ -130,7 +130,7 @@ export function Final() {
             <Etoile className="h-11 w-11 shrink-0 text-[#8EA8F2] sm:h-[clamp(3rem,1rem+6vw,7rem)] sm:w-[clamp(3rem,1rem+6vw,7rem)]" />
           </div>
 
-          <div className="mt-10 grid gap-3 border-t border-hair py-6 text-[11.5px] font-medium uppercase tracking-[0.14em] text-mute sm:mt-14 sm:grid-cols-3 sm:items-center">
+          <div className="mt-10 grid gap-3 border-t border-hair py-6 text-[11.5px] font-medium uppercase tracking-[0.14em] text-[#626c82] sm:mt-14 sm:grid-cols-3 sm:items-center">
             <p>{footer.copyright}</p>
             <p className="sm:text-center">{contact.address}</p>
             <Link

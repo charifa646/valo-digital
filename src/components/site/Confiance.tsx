@@ -3,22 +3,26 @@ import type { CSSProperties } from "react";
 import { confiance, type ClientLogo } from "@/lib/content";
 import { Monogram } from "@/components/brand/Logo";
 import { Chiffres } from "./Chiffres";
+import { LogosRangs } from "./LogosRangs";
 
 /**
  * One client's logo, kept whole whatever its shape, in its own colours and with no card behind (14 October 2026: first in
  * grey, then back in colour at the client's request, « ça sert de preuve sociale, il ne faut pas le cacher »). The light
  * parts of a logo melt into the page (`mix-blend-multiply`), so no white square shows around it.
  */
-export function LogoTile({ logo, hidden = false, className = "", sizes = "(min-width: 640px) 128px, 112px" }: { logo: ClientLogo; hidden?: boolean; className?: string; sizes?: string }) {
+export function LogoTile({ logo, hidden = false, className = "", sizes = "108px", eager = false }: { logo: ClientLogo; hidden?: boolean; className?: string; sizes?: string; eager?: boolean }) {
   return (
     <span className={`group/logo relative block ${className}`}>
       <Image
         src={logo.src}
         alt={hidden ? "" : logo.name || "Client de VALO DIGITAL"}
         fill
-        // light: 37 of them come with the page (about 1 MB at their first size, 14 October 2026)
+        // eager: the band draws them only when it is about to be seen, and the ones passing outside the screen never reach the lazy distance
+        loading={eager ? "eager" : undefined}
+        // light: 37 of them come with the page (about 1 MB at their first size, 14 October 2026); drawn about 108 px wide,
+        // so a phone at 1.75 asks for the 192 px file (28 KB instead of 46), a very sharp screen for the 256 px one
         sizes={sizes}
-        quality={72}
+        quality={65}
         className="object-contain p-2 mix-blend-multiply sm:p-3"
       />
     </span>
@@ -32,7 +36,7 @@ function Row({ logos, reverse = false }: { logos: ClientLogo[]; reverse?: boolea
     <ul className={`logos-track flex w-max ${reverse ? "logos-reverse" : ""}`}>
       {row.map((l, i) => (
         <li key={i} aria-hidden={i >= logos.length || undefined} className="shrink-0 pr-3 sm:pr-4">
-          <LogoTile logo={l} hidden={i >= logos.length} className="h-[72px] w-[124px] sm:h-[78px] sm:w-[140px]" />
+          <LogoTile logo={l} hidden={i >= logos.length} eager className="h-[72px] w-[124px] sm:h-[78px] sm:w-[140px]" />
         </li>
       ))}
     </ul>
@@ -111,14 +115,10 @@ export function Confiance({ premium = false }: { premium?: boolean } = {}) {
         {confiance.title}
       </h2>
 
-      <div
-        data-reveal
-        data-preload
-        className="logos-rangs play-when-in relative mt-8 grid gap-3 [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] sm:gap-4 lg:mt-10"
-      >
+      <LogosRangs className="logos-rangs play-when-in relative mt-8 grid gap-3 [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] sm:gap-4 lg:mt-10">
         <Row logos={logos.slice(0, half)} />
         <Row logos={logos.slice(half)} reverse />
-      </div>
+      </LogosRangs>
 
       <div className="gutter mx-auto mt-12 max-w-page lg:mt-16">
         <div className="relative">

@@ -92,6 +92,7 @@ export function HeroCiel({ ordre = "titre" }: { ordre?: "titre" | "image" }) {
         width={1060}
         height={1254}
         priority
+        quality={64}
         sizes="(max-width: 600px) 92vw, 520px"
         className="ciel-femme"
       />
