@@ -70,7 +70,11 @@ export function HeroCiel({ ordre = "titre" }: { ordre?: "titre" | "image" }) {
       {titreHaut && (
         <h1 id="ciel-titre" className="ciel-mot">
           <span className="ciel-mot-gauche blur-in">{first}</span>{" "}
-          <span className="ciel-mot-droite blur-in">{second}</span>
+          {/* the signature (Charifa, 14 October 2026): the italic is written from left to right, takes a slow glint of light, and a
+              hand-drawn yellow stroke is traced under it */}
+          <span className="ciel-mot-droite">
+            <span className="ciel-ecrit">{second}</span>
+          </span>
         </h1>
       )}
       <p className="ciel-kicker fade-in">{hero.tags.join(" · ")}</p>

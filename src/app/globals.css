@@ -1628,6 +1628,10 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 .js .play-when-in:not([data-play]) .ciel-bouton::before {
   animation-play-state: paused;
 }
+/* the italic of the title: its writing always runs (first of the two animations), only the glint waits for the screen */
+.js .play-when-in:not([data-play]) .ciel-ecrit {
+  animation-play-state: running, paused;
+}
 /* the windows of the offers drawn under the homepage's blur stay still */
 [data-still] [data-anim] {
   animation: none !important;
@@ -2922,7 +2926,9 @@ html .demo-scene .demo-seg i {
   gap: 15px;
   /* larger on a computer (Charifa, 14 October 2026: « augmenter la taille du titre ou de l'image »), the two halves kept clear of her head */
   font-size: clamp(48px, 4.9vw, 78px);
-  font-weight: 300;
+  /* a little heavier than the mock-up's light 300, still fine (Charifa, 14 October 2026: « légèrement augmenter le gras, tout en
+     restant élégant ») */
+  font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.055em;
   color: var(--ink-ciel);
@@ -2943,6 +2949,59 @@ html .demo-scene .demo-seg i {
   line-height: 1;
   letter-spacing: -0.02em;
   color: #0714d8;
+  position: relative;
+  padding-bottom: 0.2em;
+}
+/* the italic: written left to right as the page arrives, then a glint of light crosses it now and then */
+.ciel-ecrit {
+  display: inline-block;
+  color: #0714d8;
+  animation: ciel-ecrit 1.6s var(--ease) 0.5s both;
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .ciel-ecrit {
+    background: linear-gradient(100deg, #0714d8 0%, #0714d8 38%, #5f7bff 50%, #0714d8 62%, #0714d8 100%) 120% 0 / 260% 100% no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation:
+      ciel-ecrit 1.6s var(--ease) 0.5s both,
+      ciel-reflet 8s ease-in-out 3s infinite;
+  }
+}
+@keyframes ciel-ecrit {
+  from {
+    clip-path: inset(-12% 100% -12% 0);
+  }
+  to {
+    clip-path: inset(-12% -6% -12% 0);
+  }
+}
+@keyframes ciel-reflet {
+  0%,
+  55% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -20% 0;
+  }
+}
+/* the hand-drawn stroke under it, traced after the words are written */
+.ciel-mot-droite::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 82%;
+  height: 0.2em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'%3E%3Cpath d='M4 13C60 4 130 4 200 9S280 14 296 6' fill='none' stroke='%23FDEC05' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+  clip-path: inset(0 100% 0 0);
+  animation: ciel-trait-signe 1.1s var(--ease) 1.7s both;
+}
+@keyframes ciel-trait-signe {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
 }
 .ciel-kicker {
   position: absolute;
@@ -3784,8 +3843,14 @@ html .demo-scene .demo-seg i {
     max-width: none;
     text-align: center;
   }
+  .ciel-mot-droite::after {
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 74%;
+  }
   .ciel-kicker {
-    top: 192px;
+    top: 202px;
     left: 5%;
     right: 5%;
     text-align: center;
@@ -4000,7 +4065,7 @@ html .demo-scene .demo-seg i {
     font-size: 7.4vw;
   }
   .ciel-kicker {
-    top: 182px;
+    top: 192px;
     font-size: 5px;
   }
   .ciel-femme {
@@ -4105,8 +4170,13 @@ html .demo-scene .demo-seg i {
   }
   .ciel-bouton::before,
   .ciel-bouton .ciel-fleche,
-  .ciel-liens-trait circle {
+  .ciel-liens-trait circle,
+  .ciel-ecrit {
     animation: none;
+  }
+  .ciel-mot-droite::after {
+    animation: none;
+    clip-path: none;
   }
 }
 
