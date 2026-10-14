@@ -10,7 +10,7 @@ import { BtnInner, btn } from "@/components/ui/Action";
 import { Price } from "@/components/ui/Price";
 import { Words } from "@/components/ui/Words";
 import { GrandTitre } from "@/components/ui/GrandTitre";
-import { Rail } from "./Carrousel";
+import { Carrousel } from "./Carrousel";
 import { Calendrier } from "@/components/previews/Calendrier";
 import { Campagnes } from "@/components/previews/Campagnes";
 import { Montage } from "@/components/previews/Montage";
@@ -43,12 +43,12 @@ export const photoService: Record<string, { img: string; pos?: string }> = {
 };
 
 /**
- * A real photo in the window of a card of the homepage's carousel, in place of its drawn scene (14 October 2026, Charifa:
- * « j'aime pas ce que tu as dessiné, choisis une des photos que je t'ai envoyées »). Only the video offer for now; the
- * other cards keep their animated windows. The photo is a young woman filming herself on her phone.
+ * A photo in the window of a card of the homepage's carousel, in place of its drawn scene (14 October 2026, Charifa: « c'était
+ * la carte responsable marketing qui devait être remplacée par l'image de la fille »): the responsible's card. The photo is a
+ * young woman smiling at her phone; the other cards keep their animated windows.
  */
 const photoCarte: Record<string, { src: string; pos: string }> = {
-  video: { src: "/images/services/video.webp", pos: "50% 30%" },
+  direction: { src: "/images/services/direction.webp", pos: "50% 30%" },
 };
 
 /** Two rows, the wide card changing sides. */
@@ -56,21 +56,12 @@ const spans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7
 
 /** `still`: drawn under the glimpse of the homepage, without its button; `anchor`: on the page of all the services, where the menu leads to each offer. */
 /** `glisse`: one card of the row that slides under the finger on phones and tablets (the homepage, 13 October 2026). */
-/** `rail`: one card of the services' carousel on the homepage, on every screen (14 October 2026). */
-/**
- * `ton`, in the carousel on the blue band (14 October 2026, Charifa: « le blanc est trop blanc, ça ne met pas en valeur la
- * rangée, c'est difficile à lire »): `glace`, the cards in a pale ice blue with their little window in white; `nuit`, every
- * card in night blue like the complete offer, the window kept light.
- */
-type Ton = "blanc" | "glace" | "nuit";
-function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium = false, glisse = false, rail = false, ton = "blanc" }: { o: Offer; i: number; still?: boolean; anchor?: boolean; bleu?: boolean; premium?: boolean; glisse?: boolean; rail?: boolean; ton?: Ton }) {
+function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium = false, glisse = false }: { o: Offer; i: number; still?: boolean; anchor?: boolean; bleu?: boolean; premium?: boolean; glisse?: boolean }) {
   const { open } = useSheet();
   const Preview = previews[o.id];
   const lead = o.id === "direction"; // the complete offer, in blue
-  const sombre = lead || (rail && ton === "nuit");
-  const glace = rail && ton === "glace" && !lead;
   const link = `group/link inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-[13.5px] font-semibold transition duration-300 ${
-    sombre || glace
+    lead
       ? "border-white bg-white text-electric hover:border-sun hover:bg-sun hover:text-navy"
       : "border-electric/15 bg-frost text-electric hover:border-electric hover:bg-electric hover:text-white"
   }`;
@@ -86,12 +77,9 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
       id={anchor ? o.id : undefined}
       data-pulse={anchor || undefined}
       data-reveal="wipe"
-      data-carte-rail={rail || undefined}
-      style={{ ["--d" as string]: `${(rail ? Math.min(i, 3) : i % 2) * 0.14}s` } as CSSProperties}
-      className={`flex flex-col overflow-hidden ${glisse ? "w-[86%] shrink-0 snap-start sm:w-[62%] lg:w-auto" : ""} ${rail ? "w-[76vw] max-w-[380px] shrink-0 snap-start sm:w-[360px] lg:w-[372px]" : spans[i]} ${premium ? "rounded-lg" : "rounded-2xl"} ${
-        glace
-          ? "bg-[#E8EEFF] text-ink ring-1 ring-white/70 shadow-[0_30px_60px_-30px_rgba(2,6,46,.6)]"
-          : sombre
+      style={{ ["--d" as string]: `${(i % 2) * 0.14}s` } as CSSProperties}
+      className={`flex flex-col overflow-hidden ${glisse ? "w-[86%] shrink-0 snap-start sm:w-[62%] lg:w-auto" : ""} ${spans[i]} ${premium ? "rounded-lg" : "rounded-2xl"} ${
+        lead
           ? premium
             ? "bg-night text-white ring-1 ring-white/15"
             : // on the blue section the complete offer turns night blue, so it stands out from the ground
@@ -117,33 +105,16 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
         aria-hidden
         // the window plays only while on screen, and never under the glimpse's blur (`data-still`)
         data-still={still || undefined}
-        className={`@container relative overflow-hidden ${rail ? "h-[196px] px-3 pt-4 sm:h-[214px] sm:px-4" : "h-[262px] px-4 pt-5 sm:px-6 sm:pt-6"} ${still ? "" : "play-when-in"} ${lead ? "" : `m-2 mb-0 rounded-[4px] ${glace ? "bg-white" : "bg-[linear-gradient(180deg,#EDF1FF_0%,#F6F8FF_100%)]"}`}`}
+        className={`@container relative h-[262px] overflow-hidden px-4 pt-5 sm:px-6 sm:pt-6 ${still ? "" : "play-when-in"} ${lead ? "" : "m-2 mb-0 rounded-[4px] bg-[linear-gradient(180deg,#EDF1FF_0%,#F6F8FF_100%)]"}`}
       >
-        {/* in the carousel the window is lower and its little scene drawn a little smaller, so the card stays short
-            (Charifa, 14 October 2026: « la partie verticale, c'est trop long ») */}
-        {rail && photoCarte[o.id] ? (
-          <Image
-            src={photoCarte[o.id].src}
-            alt=""
-            fill
-            sizes="(min-width: 640px) 360px, 76vw"
-            className="object-cover"
-            style={{ objectPosition: photoCarte[o.id].pos }}
-          />
-        ) : rail ? (
-          <div className="[zoom:0.8] sm:[zoom:0.84]">
-            <Preview />
-          </div>
-        ) : (
-          <Preview />
-        )}
+        <Preview />
       </div>
       )}
-      <div className={`flex flex-1 flex-col ${rail ? "px-5 pb-5 pt-4 sm:px-6 sm:pb-6" : "px-6 pb-6 pt-5 sm:px-7 sm:pb-7"}`}>
-        <h3 className={`font-semibold leading-snug tracking-[-0.02em] ${rail ? "text-[18px] sm:text-[19px]" : "text-[19px] sm:text-[21px]"}`}>{o.name}</h3>
-        <p className={`pretty max-w-[34rem] font-medium leading-relaxed ${rail ? "mt-1.5 text-[14px]" : "mt-2 text-[14.5px]"} ${sombre ? "text-white/75" : "text-body"}`}>{o.text}</p>
-        <div className={`mt-auto flex flex-wrap items-end justify-between gap-x-6 ${rail ? "gap-y-3 pt-4" : "gap-y-4 pt-6"}`}>
-          <Price price={o.price} note={o.note} light={sombre} />
+      <div className="flex flex-1 flex-col px-6 pb-6 pt-5 sm:px-7 sm:pb-7">
+        <h3 className="text-[19px] font-semibold leading-snug tracking-[-0.02em] sm:text-[21px]">{o.name}</h3>
+        <p className={`pretty mt-2 max-w-[34rem] text-[14.5px] font-medium leading-relaxed ${lead ? "text-white/75" : "text-body"}`}>{o.text}</p>
+        <div className="mt-auto flex flex-wrap items-end justify-between gap-x-6 gap-y-4 pt-6">
+          <Price price={o.price} note={o.note} light={lead} />
           {still ? (
             <span className={link}>{label}</span>
           ) : o.sheet ? (
@@ -169,7 +140,7 @@ function OfferCard({ o, i, still = false, anchor = false, bleu = false, premium 
  */
 /** `carrousel`: on the homepage, the four offers in the carousel of tall photo cards (14 October 2026, Charifa: « les
  * carousels, le minimum c'est 3 », « j'aime beaucoup les carousels »), each opening its details in the window. */
-export function Prestations({ full = false, bleu = false, premium = false, carrousel = false, ton = "glace" }: { full?: boolean; bleu?: boolean; premium?: boolean; carrousel?: boolean; ton?: Ton }) {
+export function Prestations({ full = false, bleu = false, premium = false, carrousel = false }: { full?: boolean; bleu?: boolean; premium?: boolean; carrousel?: boolean }) {
   const offers = prestations.offers;
   const { open } = useSheet();
   return (
@@ -209,11 +180,31 @@ export function Prestations({ full = false, bleu = false, premium = false, carro
 
         {carrousel && !full ? (
           <div className="mt-10 lg:mt-14">
-            <Rail label={prestations.grand} bleu={bleu}>
-              {offers.map((o, i) => (
-                <OfferCard key={o.id} o={o} i={i} bleu={bleu} rail ton={ton} />
-              ))}
-            </Rail>
+            {/* the same cards as the trainings' (14 October 2026, Charifa: « fais même chose que pour la section formations, même
+                rendu »): the window on top (the offer's little animated scene, or a photo for the responsible), then its name,
+                its price and the round button */}
+            <Carrousel
+              label={prestations.grand}
+              bleu={bleu}
+              items={offers.map((o) => {
+                const Preview = previews[o.id];
+                const photo = photoCarte[o.id];
+                return {
+                  id: o.id,
+                  img: photo?.src ?? "",
+                  pos: photo?.pos,
+                  label: "",
+                  title: o.name,
+                  prix: <Price price={o.price} note={o.note} size="sm" />,
+                  visuel: photo ? undefined : (
+                    <div className="[zoom:0.8] sm:[zoom:0.84]">
+                      <Preview />
+                    </div>
+                  ),
+                  onOpen: () => (o.sheet ? open(o.sheet) : open("demande-prestation", "responsable")),
+                };
+              })}
+            />
           </div>
         ) : (
           <>

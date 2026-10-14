@@ -162,10 +162,9 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
   const kind: DemandeKind | null = id === "demande-prestation" ? "prestation" : id === "demande-formation" ? "formation" : null;
   const eyebrow = isDemande(id) ? demande.label : id === "formations" ? formations.label : fromPrestations(id) ? prestations.label : solutions.label;
   const one = id === "formations" && state.focus ? formations.items.find((f) => f.id === state.focus) : undefined;
+  // the form keeps one question as its title; the answer is the switch inside it (14 October 2026, Charifa: the form was confusing)
   const title = isDemande(id)
-    ? kind
-      ? demande[kind].title
-      : demande.title
+    ? demande.title
     : id === "formations"
       ? (one?.name ?? formations.title.join(" "))
       : details[id as DetailId].title;
@@ -180,7 +179,7 @@ function Panel({ state, onClose }: { state: NonNullable<State>; onClose: () => v
         kind={kind}
         preset={state.focus}
         onSwitch={(k) => open(`demande-${k}`, undefined, state.back)}
-        onBack={state.back ? () => open("demande") : state.from ? () => open(state.from!.id, state.from!.focus) : undefined}
+        onBack={state.from ? () => open(state.from!.id, state.from!.focus) : undefined}
         onClose={onClose}
       />
     );

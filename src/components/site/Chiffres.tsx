@@ -44,8 +44,10 @@ export function Chiffres({ className = "", premium = false, teinte = false }: { 
               <li
                 key={f.label}
                 style={{ ["--d" as string]: `${0.1 + i * 0.12}s` } as CSSProperties}
-                className={`flex min-h-[150px] flex-col justify-between rounded-lg p-5 sm:min-h-[190px] sm:p-8 lg:min-h-[230px] ${
-                  fort ? "col-span-2 bg-electric text-white" : "border border-hair bg-white"
+                // the first two figures stand on the page with no card behind them, a fine line under the row separating them from the
+                // budget in blue (14 October 2026, Charifa: « enlève le background, fais une ligne entre la rangée et le budget »)
+                className={`flex min-h-[150px] flex-col justify-between p-5 sm:min-h-[190px] sm:p-8 lg:min-h-[230px] ${
+                  fort ? "col-span-2 mt-1 rounded-lg bg-electric text-white sm:mt-2" : "border-b border-[#CDD5F0] pl-1 sm:pl-2"
                 }`}
               >
                 {/* the ink set on the figure, inside its white cell: when the page turns night blue, the page's rule turns

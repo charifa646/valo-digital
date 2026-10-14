@@ -35,7 +35,7 @@ export function BesoinVolets({ look = "volets", id }: { look?: "volets" | "liste
   const doors = portes.map((p) => ({ ...p, d: needs.doors.find((x) => x.id === p.id)! }));
 
   return (
-    <section id={id} aria-labelledby={`besoin-${look}`} className="paper grain relative isolate">
+    <section id={id} aria-labelledby={`besoin-${look}`} className="paper relative isolate bg-white">
       <div className="gutter mx-auto max-w-page pb-20 pt-16 lg:pb-28 lg:pt-24">
         <h2 id={`besoin-${look}`} data-reveal="words" className={`h2 balance text-ink ${look === "volets" ? "mx-auto max-w-[18ch] text-center" : "max-w-[18ch]"}`}>
           <Words>{needs.title}</Words>

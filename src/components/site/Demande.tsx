@@ -46,6 +46,39 @@ export function Portes({ onPick, active, className = "", compact = false }: { on
   );
 }
 
+/**
+ * Inside a form, the choice between a service and a training as two segments of one switch (14 October 2026, Charifa: « j'aime
+ * pas l'UI du form, ça prête à confusion »: the two large tiles came back above the fields, the dark one repeating the
+ * window's title). One question above (« Que souhaitez-vous ? »), two answers side by side, the chosen one filled in blue with a
+ * tick, the other white with an empty circle.
+ */
+function Choix({ kind, onPick }: { kind: DemandeKind; onPick: (kind: DemandeKind) => void }) {
+  return (
+    <div role="radiogroup" aria-label={demande.title} className="grid grid-cols-2 gap-2.5">
+      {demande.choices.map((c) => {
+        const on = c.kind === kind;
+        return (
+          <button
+            key={c.kind}
+            type="button"
+            role="radio"
+            aria-checked={on}
+            onClick={() => onPick(c.kind)}
+            className={`flex min-h-[64px] items-center gap-3 rounded-[14px] px-3.5 py-3 text-left text-[14px] font-semibold leading-snug tracking-[-0.01em] transition duration-300 sm:px-4 sm:text-[15px] ${
+              on ? "bg-electric text-white shadow-[0_12px_26px_-14px_rgba(7,20,216,.8)]" : "bg-white text-ink ring-1 ring-[#B9C7F2] hover:ring-electric"
+            }`}
+          >
+            <span aria-hidden className={`grid h-6 w-6 shrink-0 place-items-center rounded-full ${on ? "bg-white text-electric" : "ring-2 ring-[#B9C7F2]"}`}>
+              {on && <Check className="h-3.5 w-3.5" />}
+            </span>
+            {c.title}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export function DemandeChoix({ onPick }: { onPick: (kind: DemandeKind) => void }) {
   return <Portes onPick={onPick} />;
 }
@@ -193,7 +226,7 @@ export function DemandeForm({
         </button>
       )}
 
-      {onSwitch && <Portes compact active={kind} onPick={(k) => k !== kind && onSwitch(k)} />}
+      {onSwitch && <Choix kind={kind} onPick={(k) => k !== kind && onSwitch(k)} />}
 
       <div>
         <Label htmlFor={id("choice")}>{t.choice}</Label>
@@ -218,13 +251,16 @@ export function DemandeForm({
           </select>
           <div
             aria-hidden
-            className={`${field} pr-12 text-[17px] leading-snug peer-hover:bg-[#E8EEFF] peer-focus-visible:border-electric peer-focus-visible:bg-white peer-focus-visible:shadow-[0_8px_24px_-14px_rgba(7,20,216,.55)] ${
+            className={`${field} pr-14 text-[16.5px] leading-snug peer-hover:bg-[#E8EEFF] peer-focus-visible:border-electric peer-focus-visible:bg-white peer-focus-visible:shadow-[0_8px_24px_-14px_rgba(7,20,216,.55)] ${
               errors.choice ? "border-[#C62828]" : ""
-            } ${picked ? "" : "font-normal text-mute/90"}`}
+            } ${picked ? "" : "font-medium text-body"}`}
           >
             {picked?.label ?? demande.pick}
           </div>
-          <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-electric" />
+          {/* the round arrow says it is a list one taps */}
+          <span aria-hidden className="pointer-events-none absolute right-2.5 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-electric text-white">
+            <ChevronDown className="h-4 w-4" />
+          </span>
         </div>
         {picked?.price && (
           <p className="mt-2 text-[13.5px] font-semibold text-body">
@@ -240,8 +276,11 @@ export function DemandeForm({
           {t.situations.map((s, i) => (
             <label
               key={s}
-              className="group flex cursor-pointer items-center rounded-full border border-[#B9C7F2] bg-[#EEF3FF] px-4 py-2.5 text-[14px] font-semibold leading-snug text-ink transition hover:border-electric/50 hover:bg-[#E3EBFF] has-[:checked]:border-night has-[:checked]:bg-night has-[:checked]:text-white has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-electric/20"
+              className="group flex cursor-pointer items-center gap-2.5 rounded-full border border-[#B9C7F2] bg-white py-2 pl-2.5 pr-4 text-[14px] font-semibold leading-snug text-ink transition hover:border-electric has-[:checked]:border-electric has-[:checked]:bg-electric has-[:checked]:text-white has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-electric/20"
             >
+              <span aria-hidden className="grid h-5 w-5 shrink-0 place-items-center rounded-full ring-2 ring-[#B9C7F2] group-has-[:checked]:bg-white group-has-[:checked]:text-electric group-has-[:checked]:ring-white">
+                <Check className="hidden h-3 w-3 group-has-[:checked]:block" />
+              </span>
               <input
                 id={i === 0 ? id("situation") : undefined}
                 type="radio"
@@ -361,7 +400,7 @@ export function DemandeForm({
             .
           </p>
         )}
-        <button type="submit" disabled={status === "sending"} className={pilule("night")}>
+        <button type="submit" disabled={status === "sending"} className={pilule("electric")}>
           <PiluleInner>{status === "sending" ? demande.sending : t.submit}</PiluleInner>
         </button>
         <p className="text-[13px] font-medium leading-relaxed text-mute">{demande.privacy}</p>

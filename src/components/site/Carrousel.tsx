@@ -16,7 +16,20 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
  * A card opens its details in the window in the middle of the screen (`onOpen`). `bleu`: on the services' band of electric
  * blue, the bar that shows the progress turns white (in electric blue it vanished into the band).
  */
-export type CarteCarrousel = { id: string; img: string; pos?: string; label: string; title: string; text?: string; price?: string; onOpen: () => void };
+export type CarteCarrousel = {
+  id: string;
+  img: string;
+  pos?: string;
+  label: string;
+  title: string;
+  text?: string;
+  price?: string;
+  /** the price as a node (« À partir de » small, the amount large), in place of `price` */
+  prix?: ReactNode;
+  /** a drawn, animated window in place of the photo (the services' own scenes) */
+  visuel?: ReactNode;
+  onOpen: () => void;
+};
 
 function Fleche({ dir }: { dir: "g" | "d" }) {
   return (
@@ -89,7 +102,7 @@ export function Rail({ label, bleu = false, flechesEnHaut = false, children }: {
       <div
         ref={rail}
         data-lenis-prevent-wheel
-        className="-mx-[var(--gutter)] flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-4 overflow-x-auto px-[var(--gutter)] pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="-mx-[var(--gutter)] flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-4 overflow-x-auto px-[var(--gutter)] pb-10 -mb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {children}
       </div>
@@ -123,7 +136,7 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
             apple
               ? "aspect-[3/4.3] w-[76vw] max-w-[360px] rounded-[26px] sm:w-[320px]"
               : "aspect-[4/5] w-[74vw] max-w-[340px] rounded-[24px] sm:w-[300px]"
-          } ${apple ? "border border-hair bg-white shadow-[0_24px_50px_-30px_rgba(4,11,82,.35)]" : "bg-night shadow-[0_30px_60px_-34px_rgba(4,11,82,.7)]"}`}
+          } ${apple ? "border border-[#D6DEFB] bg-[#E8EEFF] shadow-[0_24px_50px_-30px_rgba(4,11,82,.35)]" : "bg-night shadow-[0_30px_60px_-34px_rgba(4,11,82,.7)]"}`}
         >
           {!apple && (
             <Image
@@ -139,21 +152,25 @@ export function Carrousel({ items, look = "apple", label, bleu = false }: { item
             <span className="absolute inset-0 flex flex-col">
               {/* the photo alone at the top, clean, no veil and no words on it; the words under it on white (14 October
                   2026, Charifa: neither the title on the photo nor the night-blue band fading into it, « pas beau ») */}
-              <span className="relative m-2 mb-0 block min-h-0 flex-[1.25] overflow-hidden rounded-[20px] bg-frost">
-                <Image
-                  src={it.img}
-                  alt=""
-                  fill
-                  sizes="(min-width: 640px) 380px, 80vw"
-                  className="object-cover transition duration-700 [transition-timing-function:var(--ease)] group-hover:scale-[1.04]"
-                  style={{ objectPosition: it.pos ?? "50% 30%" }}
-                />
+              <span className={`relative m-2 mb-0 block min-h-0 flex-[1.25] overflow-hidden rounded-[20px] ${it.visuel ? "@container play-when-in bg-white px-3 pt-4 sm:px-4" : "bg-frost"}`}>
+                {it.visuel ? (
+                  <span aria-hidden className="block">{it.visuel}</span>
+                ) : (
+                  <Image
+                    src={it.img}
+                    alt=""
+                    fill
+                    sizes="(min-width: 640px) 380px, 80vw"
+                    className="object-cover transition duration-700 [transition-timing-function:var(--ease)] group-hover:scale-[1.04]"
+                    style={{ objectPosition: it.pos ?? "50% 30%" }}
+                  />
+                )}
               </span>
               <span className="flex flex-1 flex-col px-5 pb-5 pt-4 sm:px-6 sm:pb-6">
                 {it.label && <span className="block text-[10.5px] font-semibold uppercase tracking-[0.18em] text-electric">{it.label}</span>}
                 <span className="mt-2 block text-[18px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink sm:text-[19px]">{it.title}</span>
                 <span className="mt-auto flex items-center justify-between gap-3 pt-4">
-                  {it.price ? <span className="text-[16px] font-bold tracking-[-0.01em] text-ink">{it.price}</span> : <span />}
+                  {it.prix ? <span className="text-ink">{it.prix}</span> : it.price ? <span className="text-[16px] font-bold tracking-[-0.01em] text-ink">{it.price}</span> : <span />}
                   {/* `carte-signe`: when the card comes on screen, a ring leaves the button once and its arrow nudges twice
                       towards the corner, so the visitor sees the card opens (Charifa, 14 October 2026, « signe à
                       l'arrivée »). Once only, never in a loop */}

@@ -40,7 +40,9 @@ export function Fondateur({ premium = false }: { premium?: boolean } = {}) {
         </div>
 
         <div className="mt-10 [grid-area:photo] lg:mt-0">
-          <figure className="relative mx-auto w-full max-w-[520px] lg:mx-0">
+          {/* the mock-up's effect (14 October 2026, Charifa: « applique l'effet de l'image de GPT à notre image »): the portrait turned a
+                little to the left, a solid block of pale blue offset behind it as a second frame */}
+          <figure className="relative mx-auto w-full max-w-[520px] -rotate-2 lg:mx-0">
             {/* Valentin's portrait, chosen by Charifa on 8 October 2026, zooming out as it comes up; large since 14 October */}
             <PhotoZoom
               src="/images/v3/valentin-montre.webp"
@@ -48,10 +50,10 @@ export function Fondateur({ premium = false }: { premium?: boolean } = {}) {
               width={900}
               height={1166}
               sizes="(min-width: 1024px) 520px, 92vw"
-              className={`aspect-[900/1166] w-full ${premium ? "rounded-lg" : "rounded-[28px]"} bg-[#6b3a1c]`}
+              className={`aspect-[900/1166] w-full shadow-[12px_12px_0_#CAD6F8] sm:shadow-[18px_18px_0_#CAD6F8] ${premium ? "rounded-lg" : "rounded-[24px]"} bg-[#6b3a1c]`}
             />
             {/* his name and his titles, the way the catalogue signs the letter, on the foot of the portrait */}
-            <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 rounded-b-[28px] bg-[linear-gradient(0deg,rgba(4,11,82,.92)_0%,rgba(4,11,82,.6)_55%,transparent_100%)] px-6 pb-6 pt-20 text-white sm:px-8 sm:pb-8">
+            <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 rounded-b-[24px] bg-[linear-gradient(0deg,rgba(4,11,82,.92)_0%,rgba(4,11,82,.6)_55%,transparent_100%)] px-6 pb-6 pt-20 text-white sm:px-8 sm:pb-8">
               <span className="block text-[19px] font-semibold leading-snug tracking-[-0.02em]">{fondateur.name}</span>
               <span aria-hidden className="mt-3 block h-[3px] w-10 rounded-full bg-sun" />
               <span className="mt-3 block text-[14px] leading-snug text-white/80">{fondateur.roles.join(" · ")}</span>

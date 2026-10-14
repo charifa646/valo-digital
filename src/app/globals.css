@@ -1624,7 +1624,8 @@ html[data-teinte] [data-anneaux][data-reveal][data-in] {
 }
 /* the endless motions (the shapes and squares of the top, the title's cursor, the logos going by) stop while their part
    is off screen: they kept the phone drawing at every frame all the way down the page (14 October 2026) */
-.js .play-when-in:not([data-play]) :is(.float, .carres > i.vit, .titre-selection-curseur, .logos-track) {
+.js .play-when-in:not([data-play]) :is(.float, .carres > i.vit, .titre-selection-curseur, .logos-track, .ciel-femme, .ciel-bouton .ciel-fleche, .ciel-liens-trait circle),
+.js .play-when-in:not([data-play]) .ciel-bouton::before {
   animation-play-state: paused;
 }
 /* the windows of the offers drawn under the homepage's blur stay still */
@@ -2919,7 +2920,8 @@ html .demo-scene .demo-seg i {
   justify-content: space-between;
   align-items: flex-start;
   gap: 15px;
-  font-size: clamp(40px, 3.6vw, 58px);
+  /* larger on a computer (Charifa, 14 October 2026: « augmenter la taille du titre ou de l'image »), the two halves kept clear of her head */
+  font-size: clamp(48px, 4.9vw, 78px);
   font-weight: 300;
   line-height: 1.05;
   letter-spacing: -0.055em;
@@ -2927,7 +2929,7 @@ html .demo-scene .demo-seg i {
 }
 .ciel-mot-gauche {
   display: block;
-  max-width: 9.6em;
+  max-width: 7.4em;
   text-wrap: balance;
 }
 .ciel-mot-droite {
@@ -2954,11 +2956,11 @@ html .demo-scene .demo-seg i {
 }
 .ciel-femme {
   position: absolute;
-  top: 172px;
+  top: 158px;
   left: 50%;
   z-index: 2;
-  width: 520px;
-  height: 550px;
+  width: 580px;
+  height: 614px;
   object-fit: contain;
   object-position: center top;
   transform: translateX(calc(-50% + var(--scene-x, 0px))) translateY(var(--scene-y, 0px));
@@ -2967,7 +2969,22 @@ html .demo-scene .demo-seg i {
   filter: drop-shadow(-18px 18px 30px #0714d81f);
   pointer-events: none;
   transition: transform 0.6s ease-out;
-  animation: fade-in 1.2s var(--ease) 0.2s both;
+  /* she comes in, then keeps breathing: a slow rise and fall, and a hair of growth (Charifa, 14 October 2026: « elle reste plate
+     après apparition »); the individual `translate` and `scale` leave the pointer's `transform` alone */
+  animation:
+    fade-in 1.2s var(--ease) 0.2s both,
+    ciel-respire 7s ease-in-out 1.6s infinite;
+}
+@keyframes ciel-respire {
+  0%,
+  100% {
+    translate: 0 0;
+    scale: 1;
+  }
+  50% {
+    translate: 0 -10px;
+    scale: 1.012;
+  }
 }
 .ciel-liens-trait {
   position: absolute;
@@ -3210,6 +3227,57 @@ html .demo-scene .demo-seg i {
 .ciel-bouton .ciel-fleche {
   font-size: 19px;
 }
+/* the button lives (Charifa, 14 October 2026: « anime son bouton »): a ring of light leaves it every three seconds and its arrow
+   slides towards the corner; the dot on the line pulses the same way, and everything stops while the top is off screen */
+.ciel-bouton {
+  position: relative;
+}
+.ciel-bouton::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: ciel-pouls 3s ease-out 2.4s infinite;
+}
+@keyframes ciel-pouls {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.65);
+  }
+  65%,
+  100% {
+    box-shadow: 0 0 0 22px rgba(255, 255, 255, 0);
+  }
+}
+.ciel-bouton .ciel-fleche {
+  animation: ciel-glisse 3s ease-in-out 2.4s infinite;
+}
+@keyframes ciel-glisse {
+  0%,
+  55%,
+  100% {
+    translate: 0 0;
+  }
+  75% {
+    translate: 4px -4px;
+  }
+}
+.ciel-liens-trait circle:last-of-type {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ciel-point 3.2s ease-out 2.4s infinite;
+}
+@keyframes ciel-point {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  80%,
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
 .ciel-titre-bas {
   margin-top: 25px;
   font-size: clamp(22px, 2.5vw, 35px);
@@ -3321,20 +3389,20 @@ html .demo-scene .demo-seg i {
   top: 112px;
 }
 .ciel-b .ciel-femme {
-  top: 140px;
-  height: 582px;
+  top: 132px;
+  height: 614px;
 }
 @media (min-width: 1600px) {
   .ciel {
     height: 895px;
   }
   .ciel-mot {
-    font-size: 62px;
+    font-size: 84px;
   }
   .ciel-femme {
-    height: 584px;
-    width: 550px;
-    top: 170px;
+    height: 656px;
+    width: 620px;
+    top: 150px;
   }
   .ciel-centre {
     top: 681px;
@@ -3361,7 +3429,7 @@ html .demo-scene .demo-seg i {
   }
   .ciel-mot {
     top: 92px;
-    font-size: 3.9vw;
+    font-size: 4.9vw;
   }
   .ciel-kicker {
     top: 245px;
@@ -3369,9 +3437,9 @@ html .demo-scene .demo-seg i {
     letter-spacing: 1.5px;
   }
   .ciel-femme {
-    width: 450px;
-    height: 493px;
-    top: 168px;
+    width: 480px;
+    height: 526px;
+    top: 160px;
   }
   .ciel-b .ciel-femme {
     top: 140px;
@@ -4033,6 +4101,12 @@ html .demo-scene .demo-seg i {
   .ciel-femme {
     transform: translateX(-50%);
     transition: none;
+    animation: none;
+  }
+  .ciel-bouton::before,
+  .ciel-bouton .ciel-fleche,
+  .ciel-liens-trait circle {
+    animation: none;
   }
 }
 
