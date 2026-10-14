@@ -36,6 +36,26 @@ export async function POST(req: Request) {
   if (!choice || !situation || !name || !project || (kind === "prestation" && !business)) return refused();
   if (phone.replace(/\D/g, "").length < 8 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return refused();
 
+  // robots: Cloudflare Turnstile, when its secret key is set in Vercel (TURNSTILE_SECRET_KEY, never in this code); the token the
+  // form sends has to be one Cloudflare confirms. Without the key the form works as before.
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (secret) {
+    const token = clip(b.cfToken, 4096);
+    if (!token) return refused();
+    const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim();
+    try {
+      const v = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        body: new URLSearchParams({ secret, response: token, ...(ip ? { remoteip: ip } : {}) }),
+        cache: "no-store",
+      });
+      const verdict = (await v.json().catch(() => null)) as { success?: boolean } | null;
+      if (verdict?.success !== true) return refused();
+    } catch {
+      return NextResponse.json({ ok: false }, { status: 502 });
+    }
+  }
+
   const row = {
     type: kind === "prestation" ? "Prestation" : "Formation",
     date: new Date().toISOString(),

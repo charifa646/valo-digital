@@ -83,6 +83,34 @@ export function DemandeChoix({ onPick }: { onPick: (kind: DemandeKind) => void }
   return <Portes onPick={onPick} />;
 }
 
+/**
+ * Cloudflare Turnstile, the check that keeps robots from filling the form (14 October 2026, Charifa: « je veux pas que quelqu'un de
+ * malfaisant utilise des robots »): free, no cookie, nearly always invisible. It is only loaded when a form opens, never with the
+ * page, and only if its public key is set (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, in Vercel's settings); without it the form works as
+ * before. Its answer, a token the server checks with Cloudflare (`/api/demande`), travels with the request.
+ */
+const TURNSTILE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+type TurnstileApi = { render: (el: HTMLElement, o: Record<string, unknown>) => string; reset: (id?: string) => void; remove: (id?: string) => void };
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi;
+  }
+}
+let turnstileScript: Promise<void> | undefined;
+const loadTurnstile = () =>
+  (turnstileScript ??= new Promise<void>((resolve, reject) => {
+    if (window.turnstile) return resolve();
+    const s = document.createElement("script");
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    s.async = true;
+    s.onload = () => resolve();
+    s.onerror = () => {
+      turnstileScript = undefined;
+      reject(new Error("turnstile"));
+    };
+    document.head.appendChild(s);
+  }));
+
 type Values = { choice: string; situation: string; project: string; name: string; business: string; phone: string; email: string; site: string };
 type Errors = Partial<Record<keyof Values, string>>;
 
@@ -143,6 +171,33 @@ export function DemandeForm({
   });
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
+  const cfBox = useRef<HTMLDivElement>(null);
+  const cfWidget = useRef<string>();
+  const cfToken = useRef("");
+
+  // the check starts as the form opens; the visitor is only asked something if Cloudflare doubts them
+  useEffect(() => {
+    if (!TURNSTILE_KEY || !cfBox.current) return;
+    let gone = false;
+    loadTurnstile()
+      .then(() => {
+        if (gone || !cfBox.current || !window.turnstile) return;
+        cfWidget.current = window.turnstile.render(cfBox.current, {
+          sitekey: TURNSTILE_KEY,
+          appearance: "interaction-only",
+          language: "fr",
+          callback: (t: string) => (cfToken.current = t),
+          "expired-callback": () => (cfToken.current = ""),
+          "error-callback": () => (cfToken.current = ""),
+        });
+      })
+      .catch(() => {});
+    return () => {
+      gone = true;
+      if (cfWidget.current) window.turnstile?.remove(cfWidget.current);
+      cfWidget.current = undefined;
+    };
+  }, []);
 
   useEffect(() => {
     shownAt.current = Date.now();
@@ -176,16 +231,21 @@ export function DemandeForm({
       return;
     }
     setStatus("sending");
+    // the check is nearly always done by now; if not, give it a few seconds
+    for (let i = 0; TURNSTILE_KEY && !cfToken.current && i < 80; i++) await new Promise((r) => setTimeout(r, 100));
     try {
       const r = await fetch("/api/demande", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kind, ...v, page: location.pathname, t: Date.now() - shownAt.current }),
+        body: JSON.stringify({ kind, ...v, page: location.pathname, t: Date.now() - shownAt.current, cfToken: cfToken.current }),
       });
       if (!r.ok) throw new Error(String(r.status));
       setStatus("sent");
     } catch {
       setStatus("failed");
+      // a token works once: ask Cloudflare for another before the next try
+      cfToken.current = "";
+      if (cfWidget.current) window.turnstile?.reset(cfWidget.current);
     }
   };
 
@@ -389,6 +449,9 @@ export function DemandeForm({
         <label htmlFor={id("site")}>Site</label>
         <input id={id("site")} type="text" tabIndex={-1} autoComplete="off" value={v.site} onChange={(e) => set("site")(e.target.value)} />
       </div>
+
+      {/* where Cloudflare's check shows, only if it needs the visitor; empty and without height otherwise */}
+      <div ref={cfBox} />
 
       <div className="grid gap-3">
         {status === "failed" && (
