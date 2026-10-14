@@ -2,16 +2,17 @@
 /**
  * Checks what a search engine sees on the site, from outside, page by page (14 October 2026).
  *
- *   node scripts/verifier-seo.mjs                          the real address (https://valodigitalbf.com)
+ *   node scripts/verifier-seo.mjs                          the real address (https://www.valodigitalbf.com)
  *   node scripts/verifier-seo.mjs https://valo-digital.vercel.app
  *
  * Reads `robots.txt` first: if it closes the site (« Disallow: / »), it expects every page to say `noindex`; if it opens the
  * site, it expects `index, follow`, a canonical address on this very address, the sitemap, one H1, a title and a
  * description of a sensible length, a share picture that answers, valid structured data. On the real address it also checks
- * that `www.` redirects, that `http` goes to `https`, and that the provisional address is marked `noindex`.
+ * that the other form of the domain (with or without « www ») redirects here, that `http` goes to `https`, and that the
+ * provisional address is marked `noindex`.
  * Needs Node 18 or later; nothing is installed; it only reads.
  */
-const base = (process.argv[2] || "https://valodigitalbf.com").replace(/\/$/, "");
+const base = (process.argv[2] || "https://www.valodigitalbf.com").replace(/\/$/, "");
 const url = new URL(base);
 const pages = ["/", "/services", "/formations", "/a-propos", "/mentions-legales"];
 let echecs = 0;
@@ -107,11 +108,12 @@ for (const path of pages) {
 if (url.hostname !== "localhost" && !url.hostname.endsWith(".vercel.app")) {
   console.log("\nRedirections");
   try {
-    const r = await get(`https://www.${url.hostname}/formations?essai=1`);
-    verifie(r.status === 308 || r.status === 301, `www redirige (${r.status})`, `www ne redirige pas (${r.status})`);
+    const autre = url.hostname.startsWith("www.") ? url.hostname.slice(4) : `www.${url.hostname}`;
+    const r = await get(`https://${autre}/formations?essai=1`);
+    verifie(r.status === 308 || r.status === 301, `${autre} redirige (${r.status})`, `${autre} ne redirige pas (${r.status})`);
     verifie((r.headers.get("location") || "").startsWith(base), `vers ${r.headers.get("location")}`, `vers « ${r.headers.get("location")} » au lieu de ${base}`);
   } catch (e) {
-    ko("www injoignable : " + e.message);
+    ko("l'autre forme du domaine est injoignable : " + e.message);
   }
   try {
     const r = await get(`http://${url.hostname}/`);

@@ -5,12 +5,15 @@ import { SITE_HOST } from "@/lib/site";
  * One address for the search engines (14 October 2026). `SITE_HOST` is the site's own address, the one `SITE_URL` names
  * (src/lib/site.ts): on any other address (the provisional valo-digital.vercel.app, the previews of each branch) the answer
  * carries `X-Robots-Tag: noindex`, so that once the site is open to search engines Google never lists the same pages
- * twice; and `www.` goes to the address without it, with a permanent redirect (308), the form's POST included.
+ * twice; and the other form of the domain (with or without « www ») goes to `SITE_HOST`, with a permanent redirect (308),
+ * the form's POST included.
  */
+const AUTRE_HOTE = SITE_HOST.startsWith("www.") ? SITE_HOST.slice(4) : `www.${SITE_HOST}`;
+
 export function middleware(req: NextRequest) {
   const host = (req.headers.get("host") ?? "").split(":")[0].toLowerCase();
 
-  if (host === `www.${SITE_HOST}`) {
+  if (host === AUTRE_HOTE && !host.endsWith(".vercel.app")) {
     const url = req.nextUrl.clone();
     url.host = SITE_HOST;
     url.port = "";

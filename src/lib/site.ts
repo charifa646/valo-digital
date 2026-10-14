@@ -5,13 +5,15 @@ import type { Metadata } from "next";
  * faut commencer les référencements »). `SITE_URL` is the absolute address that canonical links, the sitemap, shared links
  * and the structured data use; `INDEXABLE` says whether search engines may list the site.
  *
- * TO GO LIVE, once https://valodigitalbf.com answers over https (its two DNS lines set in Cloudflare, the domain added in
- * Vercel): set `SITE_URL` to "https://valodigitalbf.com" and `INDEXABLE` to true, in this file and nowhere else. Until
- * then the site is still the Vercel address and stays out of search engines, so that Google never lists the provisional
- * address and then the real one as two copies.
+ * Opened on 14 October 2026 (Charifa: « le domaine est installé, ouvre le site »). The address the site answers on is
+ * https://www.valodigitalbf.com: in Vercel's settings the address without « www » redirects to it (308), so it is the one
+ * named here, and `src/middleware.ts` sends the other form to it too, in the same direction (never the opposite, which
+ * would make the two redirects chase each other). If ever the address without « www » were chosen in Vercel instead,
+ * `SITE_URL` follows, in this file and nowhere else. The provisional valo-digital.vercel.app stays out of search engines
+ * (`X-Robots-Tag: noindex`), so that Google never lists the same pages twice.
  */
-export const SITE_URL = "https://valo-digital.vercel.app";
-export const INDEXABLE = false;
+export const SITE_URL = "https://www.valodigitalbf.com";
+export const INDEXABLE = true;
 
 export const SITE_NAME = "VALO DIGITAL";
 
